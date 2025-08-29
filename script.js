@@ -198,7 +198,19 @@ function autoForceRefresh() {
 
 // 检测服务器版本并强制刷新
 function checkServerVersion() {
-    fetch('/version.txt?t=' + Date.now()) // 防止缓存
+    // 检查是否已经检测过，避免重复检测
+    var lastCheck = localStorage.getItem('last_version_check');
+    var currentTime = Date.now();
+    
+    // 如果距离上次检查不到5分钟，跳过检测
+    if (lastCheck && (currentTime - parseInt(lastCheck)) < 5 * 60 * 1000) {
+        console.log('距离上次版本检查不到5分钟，跳过检测');
+        return;
+    }
+    
+    localStorage.setItem('last_version_check', currentTime);
+    
+    fetch('/version.txt?t=' + currentTime) // 防止缓存
         .then(res => res.text())
         .then(serverVersion => {
             serverVersion = serverVersion.trim(); // 去除可能的空格
@@ -236,8 +248,8 @@ document.addEventListener('DOMContentLoaded', function() {
         autoForceRefresh();
     }
     
-    // 检测服务器版本
-    checkServerVersion();
+    // 检测服务器版本（只在必要时）
+    setTimeout(checkServerVersion, 2000); // 延迟2秒检测，避免页面加载时立即检测
     
     initializeNavigation();
     initializeFilters();
