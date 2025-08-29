@@ -1,4 +1,4 @@
-const CACHE_NAME = "fs-database-cache-v202508291545";
+const CACHE_NAME = "fs-database-cache-v202508291555";
 const urlsToCache = [
   '/',
   '/index.html',

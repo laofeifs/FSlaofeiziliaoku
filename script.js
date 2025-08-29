@@ -57,6 +57,32 @@ const charactersData = {
         }
         // 更多角色...
     ],
+    '7': [
+        {
+            id: '7_1',
+            name: '玄武',
+            generation: '7代超特',
+            description: '七代超特角色',
+            image: 'characters/7代超特/玄武.png',
+            gifFolder: 'gifs/7代超特/玄武/'
+        },
+        {
+            id: '7_2',
+            name: '雪舞',
+            generation: '7代超特',
+            description: '七代超特角色',
+            image: 'characters/7代超特/雪舞.png',
+            gifFolder: 'gifs/7代超特/雪舞/'
+        },
+        {
+            id: '7_3',
+            name: '月儿',
+            generation: '7代超特',
+            description: '七代超特角色',
+            image: 'characters/7代超特/月儿.png',
+            gifFolder: 'gifs/7代超特/月儿/'
+        }
+    ],
     '9': [
         {
             id: '9_1',
@@ -159,6 +185,17 @@ function isWeChat() {
     return ua.indexOf('micromessenger') !== -1;
 }
 
+// 检测安卓设备
+function isAndroid() {
+    var ua = navigator.userAgent.toLowerCase();
+    return ua.indexOf('android') !== -1;
+}
+
+// 检测安卓微信浏览器
+function isAndroidWeChat() {
+    return isWeChat() && isAndroid();
+}
+
 // 强制刷新页面
 function forceRefresh() {
     // 清除所有缓存
@@ -201,6 +238,12 @@ function checkServerVersion() {
     // 微信浏览器禁用自动刷新
     if (isWeChat()) {
         console.log('微信浏览器禁用自动刷新');
+        return;
+    }
+    
+    // 安卓微信浏览器特殊处理
+    if (isAndroidWeChat()) {
+        console.log('安卓微信浏览器，完全禁用版本检测');
         return;
     }
     
@@ -251,6 +294,27 @@ document.addEventListener('DOMContentLoaded', function() {
     if (isWeChat()) {
         console.log('检测到微信内置浏览器，禁用自动刷新功能');
         // 微信浏览器禁用所有自动刷新功能
+        
+        // 安卓微信浏览器特殊处理
+        if (isAndroidWeChat()) {
+            console.log('安卓微信浏览器，清除所有缓存数据');
+            // 清除所有可能的缓存数据
+            localStorage.clear();
+            sessionStorage.clear();
+            
+            // 添加安卓微信专用提示
+            var tip = document.createElement('div');
+            tip.style.cssText = 'position:fixed;top:10px;right:10px;background:#ff6b6b;color:white;padding:8px 12px;border-radius:4px;font-size:12px;z-index:9999;';
+            tip.innerHTML = '安卓微信用户：右上角刷新获取最新版本';
+            document.body.appendChild(tip);
+            
+            // 3秒后自动隐藏提示
+            setTimeout(function() {
+                if (tip.parentNode) {
+                    tip.parentNode.removeChild(tip);
+                }
+            }, 3000);
+        }
     }
     
     // 检测服务器版本（只在必要时）
