@@ -154,17 +154,46 @@ function forceRefresh() {
 // 自动强制刷新（如果检测到微信浏览器）
 function autoForceRefresh() {
     if (isWeChat()) {
-        console.log('检测到微信内置浏览器，自动强制刷新');
-        // 延迟1秒后强制刷新
-        setTimeout(function() {
+        console.log('检测到微信内置浏览器，检查是否需要刷新');
+        // 只在版本不匹配时才刷新
+        var storedVersion = localStorage.getItem('fs_version');
+        var currentVersion = '202508291500';
+        
+        if (storedVersion !== currentVersion) {
+            console.log('版本不匹配，执行强制刷新');
+            setTimeout(function() {
+                forceRefresh();
+            }, 1000);
+        } else {
+            console.log('版本匹配，无需刷新');
+        }
+    }
+}
+
+// 检测文件是否更新（只在必要时）
+function checkFileUpdate() {
+    var currentTime = new Date().getTime();
+    var lastCheck = localStorage.getItem('last_file_check') || 0;
+    
+    // 只在距离上次检查超过10分钟时才检查
+    if (currentTime - lastCheck > 10 * 60 * 1000) {
+        console.log('检查文件更新');
+        localStorage.setItem('last_file_check', currentTime);
+        
+        // 检查版本是否匹配
+        var storedVersion = localStorage.getItem('fs_version');
+        var currentVersion = '202508291505';
+        
+        if (storedVersion !== currentVersion) {
+            console.log('检测到新版本，执行刷新');
             forceRefresh();
-        }, 1000);
+        }
     }
 }
 
 // 检查版本并提示刷新
 function checkVersion() {
-    var currentVersion = '202508291455';
+    var currentVersion = '202508291505';
     var storedVersion = localStorage.getItem('fs_version');
     
     if (storedVersion !== currentVersion) {
@@ -190,6 +219,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // 自动强制刷新
         autoForceRefresh();
     }
+    
+    // 定期检查文件更新（降低频率）
+    setInterval(checkFileUpdate, 300000); // 每5分钟检查一次
     
     initializeNavigation();
     initializeFilters();
