@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>老非FS资料库 - 新版本</title>
+    <link rel="stylesheet" href="styles.css?v=2.1">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- 头部区域 -->
+    <header class="header">
+        <div class="header-content">
+            <h1 class="main-title">街头篮球资料库</h1>
+            <div class="title-underline"></div>
+            <div class="header-bottom">
+                <p class="powered-by">Powered by 老非</p>
+                <div class="contact-tag">
+                    <i class="fas fa-comments"></i>
+                    <span>laofei90186</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容区域 -->
+    <main class="main-content">
+        <!-- 主导航按钮 -->
+        <div class="nav-container">
+            <div class="nav-buttons">
+                <button class="nav-btn active" data-section="characters">
+                    <span>超特角色介绍</span>
+                </button>
+                <button class="nav-btn" data-section="ranking">
+                    <i class="fas fa-trophy"></i>
+                    <span>职业排名</span>
+                </button>
+                <button class="nav-btn" data-section="skills">
+                    <span>实用技巧</span>
+                </button>
+                <button class="nav-btn" data-section="events">
+                    <span>活动</span>
+                </button>
+                <button class="nav-btn" data-section="account">
+                    <span>FS账号</span>
+                </button>
+                <button class="nav-btn" data-section="admin">
+                    <span>管理端</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 角色代次筛选按钮 -->
+        <div class="filter-container">
+            <div class="filter-buttons">
+                <button class="filter-btn" data-generation="1">
+                    <i class="fas fa-bolt"></i>
+                    <span>1代超特</span>
+                </button>
+                <button class="filter-btn" data-generation="2">
+                    <i class="fas fa-bolt"></i>
+                    <span>2代超特</span>
+                </button>
+                <button class="filter-btn" data-generation="3">
+                    <i class="fas fa-bolt"></i>
+                    <span>3代超特</span>
+                </button>
+                <button class="filter-btn" data-generation="3.5">
+                    <i class="fas fa-bolt"></i>
+                    <span>3.5代超特</span>
+                </button>
+                <button class="filter-btn" data-generation="4">
+                    <i class="fas fa-bolt"></i>
+                    <span>4代超特</span>
+                </button>
+                <button class="filter-btn" data-generation="4.5">
+                    <i class="fas fa-bolt"></i>
+                    <span>4.5代超特</span>
+                </button>
+                <button class="filter-btn" data-generation="5">
+                    <i class="fas fa-bolt"></i>
+                    <span>5代超特</span>
+                </button>
+                <button class="filter-btn" data-generation="5.5">
+                    <i class="fas fa-bolt"></i>
+                    <span>5.5代超特</span>
+                </button>
+                <button class="filter-btn" data-generation="6">
+                    <i class="fas fa-bolt"></i>
+                    <span>6代超特</span>
+                </button>
+                <button class="filter-btn" data-generation="6.5">
+                    <i class="fas fa-bolt"></i>
+                    <span>6.5代超特</span>
+                </button>
+                <button class="filter-btn" data-generation="7">
+                    <i class="fas fa-bolt"></i>
+                    <span>7代超特</span>
+                </button>
+                <button class="filter-btn" data-generation="7.5">
+                    <i class="fas fa-bolt"></i>
+                    <span>7.5代超特</span>
+                </button>
+                <button class="filter-btn" data-generation="8">
+                    <i class="fas fa-bolt"></i>
+                    <span>8代超特</span>
+                </button>
+                <button class="filter-btn active" data-generation="9">
+                    <i class="fas fa-bolt"></i>
+                    <span>9代超特</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 刷新提示 -->
+        <div id="refresh-tip" class="refresh-tip" style="display: none;">
+            <p>检测到新版本，请下拉刷新页面</p>
+        </div>
+        
+        <!-- 内容显示区域 -->
+        <div class="content-area">
+            <div id="characters-section" class="content-section active">
+                <h2>超特角色介绍</h2>
+                <div class="characters-grid" id="characters-grid">
+                    <!-- 角色卡片将在这里动态生成 -->
+                </div>
+            </div>
+
+            <div id="ranking-section" class="content-section">
+                <h2>职业排名</h2>
+                <p>职业排名内容将在这里显示</p>
+            </div>
+
+            <div id="skills-section" class="content-section">
+                <h2>实用技巧</h2>
+                <p>实用技巧内容将在这里显示</p>
+            </div>
+
+            <div id="events-section" class="content-section">
+                <h2>活动</h2>
+                <p>活动内容将在这里显示</p>
+            </div>
+
+            <div id="account-section" class="content-section">
+                <h2>FS账号</h2>
+                <p>FS账号内容将在这里显示</p>
+            </div>
+
+            <div id="admin-section" class="content-section">
+                <h2>管理端</h2>
+                <p>管理端内容将在这里显示</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js?v=2.1"></script>
+</body>
+</html>
