@@ -131,33 +131,7 @@ const charactersData = {
             generation: '8代超特',
             description: '八代超特角色',
             image: 'characters/8代超特/奥丁.png',
-            actions: [
-                { name: '不看人传球', gif: 'gifs/8代超特/奥丁/不看人传球.gif' },
-                { name: '大手冒', gif: 'gifs/8代超特/奥丁/大手冒.gif' },
-                { name: '地板', gif: 'gifs/8代超特/奥丁/地板.gif' },
-                { name: '快速起来', gif: 'gifs/8代超特/奥丁/快速起来.gif' },
-                { name: '篮板', gif: 'gifs/8代超特/奥丁/篮板.gif' },
-                { name: '抢断', gif: 'gifs/8代超特/奥丁/抢断.gif' },
-                { name: '小手冒', gif: 'gifs/8代超特/奥丁/小手冒.gif' },
-                { name: '中手冒', gif: 'gifs/8代超特/奥丁/中手冒.gif' },
-                { name: 'A分球', gif: 'gifs/8代超特/奥丁/A分球.gif' },
-                { name: 'A近扣', gif: 'gifs/8代超特/奥丁/A近扣.gif' },
-                { name: 'A近上', gif: 'gifs/8代超特/奥丁/A近上.gif' },
-                { name: 'A篮板', gif: 'gifs/8代超特/奥丁/A篮板.gif' },
-                { name: 'A三分', gif: 'gifs/8代超特/奥丁/A三分.gif' },
-                { name: 'A远扣', gif: 'gifs/8代超特/奥丁/A远扣.gif' },
-                { name: 'A远上', gif: 'gifs/8代超特/奥丁/A远上.gif' },
-                { name: 'A中投', gif: 'gifs/8代超特/奥丁/A中投.gif' },
-                { name: 'B分球', gif: 'gifs/8代超特/奥丁/B分球.gif' },
-                { name: 'B近扣', gif: 'gifs/8代超特/奥丁/B近扣.gif' },
-                { name: 'B近上', gif: 'gifs/8代超特/奥丁/B近上.gif' },
-                { name: 'B篮板', gif: 'gifs/8代超特/奥丁/B篮板.gif' },
-                { name: 'B三分', gif: 'gifs/8代超特/奥丁/B三分.gif' },
-                { name: 'B远扣', gif: 'gifs/8代超特/奥丁/B远扣.gif' },
-                { name: 'B远上', gif: 'gifs/8代超特/奥丁/B远上.gif' },
-                { name: 'B中投', gif: 'gifs/8代超特/奥丁/B中投.gif' },
-                { name: 'X', gif: 'gifs/8代超特/奥丁/X.gif' }
-            ]
+            gifFolder: 'gifs/8代超特/奥丁/'
         },
         {
             id: '8_2',
@@ -165,33 +139,7 @@ const charactersData = {
             generation: '8代超特',
             description: '八代超特角色',
             image: 'characters/8代超特/月神.png',
-            actions: [
-                { name: '不看人传球', gif: 'gifs/8代超特/月神/不看人传球.gif' },
-                { name: '大手冒', gif: 'gifs/8代超特/月神/大手冒.gif' },
-                { name: '地板', gif: 'gifs/8代超特/月神/地板.gif' },
-                { name: '快速起来', gif: 'gifs/8代超特/月神/快速起来.gif' },
-                { name: '篮板', gif: 'gifs/8代超特/月神/篮板.gif' },
-                { name: '抢断', gif: 'gifs/8代超特/月神/抢断.gif' },
-                { name: '小手冒', gif: 'gifs/8代超特/月神/小手冒.gif' },
-                { name: '中手冒', gif: 'gifs/8代超特/月神/中手冒.gif' },
-                { name: 'A分球', gif: 'gifs/8代超特/月神/A分球.gif' },
-                { name: 'A近扣', gif: 'gifs/8代超特/月神/A近扣.gif' },
-                { name: 'A近上', gif: 'gifs/8代超特/月神/A近上.gif' },
-                { name: 'A篮板', gif: 'gifs/8代超特/月神/A篮板.gif' },
-                { name: 'A三分', gif: 'gifs/8代超特/月神/A三分.gif' },
-                { name: 'A远扣', gif: 'gifs/8代超特/月神/A远扣.gif' },
-                { name: 'A远上', gif: 'gifs/8代超特/月神/A远上.gif' },
-                { name: 'A中投', gif: 'gifs/8代超特/月神/A中投.gif' },
-                { name: 'B分球', gif: 'gifs/8代超特/月神/B分球.gif' },
-                { name: 'B近扣', gif: 'gifs/8代超特/月神/B近扣.gif' },
-                { name: 'B近上', gif: 'gifs/8代超特/月神/B近上.gif' },
-                { name: 'B篮板', gif: 'gifs/8代超特/月神/B篮板.gif' },
-                { name: 'B三分', gif: 'gifs/8代超特/月神/B三分.gif' },
-                { name: 'B远扣', gif: 'gifs/8代超特/月神/B远扣.gif' },
-                { name: 'B远上', gif: 'gifs/8代超特/月神/B远上.gif' },
-                { name: 'B中投', gif: 'gifs/8代超特/月神/B中投.gif' },
-                { name: 'X', gif: 'gifs/8代超特/月神/X.gif' }
-            ]
+            gifFolder: 'gifs/8代超特/月神/'
         },
         {
             id: '8_3',
@@ -199,33 +147,7 @@ const charactersData = {
             generation: '8代超特',
             description: '八代超特角色',
             image: 'characters/8代超特/哈托尔.png',
-            actions: [
-                { name: '不看人传球', gif: 'gifs/8代超特/哈托尔/不看人传球.gif' },
-                { name: '大手冒', gif: 'gifs/8代超特/哈托尔/大手冒.gif' },
-                { name: '地板', gif: 'gifs/8代超特/哈托尔/地板.gif' },
-                { name: '快速起来', gif: 'gifs/8代超特/哈托尔/快速起来.gif' },
-                { name: '篮板', gif: 'gifs/8代超特/哈托尔/篮板.gif' },
-                { name: '抢断', gif: 'gifs/8代超特/哈托尔/抢断.gif' },
-                { name: '小手冒', gif: 'gifs/8代超特/哈托尔/小手冒.gif' },
-                { name: '中手冒', gif: 'gifs/8代超特/哈托尔/中手冒.gif' },
-                { name: 'A分球', gif: 'gifs/8代超特/哈托尔/A分球.gif' },
-                { name: 'A近扣', gif: 'gifs/8代超特/哈托尔/A近扣.gif' },
-                { name: 'A近上', gif: 'gifs/8代超特/哈托尔/A近上.gif' },
-                { name: 'A篮板', gif: 'gifs/8代超特/哈托尔/A篮板.gif' },
-                { name: 'A三分', gif: 'gifs/8代超特/哈托尔/A三分.gif' },
-                { name: 'A远扣', gif: 'gifs/8代超特/哈托尔/A远扣.gif' },
-                { name: 'A远上', gif: 'gifs/8代超特/哈托尔/A远上.gif' },
-                { name: 'A中投', gif: 'gifs/8代超特/哈托尔/A中投.gif' },
-                { name: 'B分球', gif: 'gifs/8代超特/哈托尔/B分球.gif' },
-                { name: 'B近扣', gif: 'gifs/8代超特/哈托尔/B近扣.gif' },
-                { name: 'B近上', gif: 'gifs/8代超特/哈托尔/B近上.gif' },
-                { name: 'B篮板', gif: 'gifs/8代超特/哈托尔/B篮板.gif' },
-                { name: 'B三分', gif: 'gifs/8代超特/哈托尔/B三分.gif' },
-                { name: 'B远扣', gif: 'gifs/8代超特/哈托尔/B远扣.gif' },
-                { name: 'B远上', gif: 'gifs/8代超特/哈托尔/B远上.gif' },
-                { name: 'B中投', gif: 'gifs/8代超特/哈托尔/B中投.gif' },
-                { name: 'X', gif: 'gifs/8代超特/哈托尔/X.gif' }
-            ]
+            gifFolder: 'gifs/8代超特/哈托尔/'
         }
     ]
     // 其他代次的角色数据...
@@ -410,6 +332,7 @@ function createCharacterCard(character) {
     // 构建动作按钮HTML
     let actionsHtml = '';
     if (character.actions && character.actions.length > 0) {
+        // 9代超特使用预设动作列表
         actionsHtml = `
             <div class="character-actions">
                 <h4>动作技能</h4>
@@ -420,6 +343,21 @@ function createCharacterCard(character) {
                             <span>${action.name}</span>
                         </button>
                     `).join('')}
+                </div>
+                <div class="action-preview">
+                    <div class="gif-container" id="gif-${character.id}">
+                        <p>点击上方动作按钮查看GIF</p>
+                    </div>
+                </div>
+            </div>
+        `;
+    } else if (character.gifFolder) {
+        // 8代超特使用动态读取GIF文件
+        actionsHtml = `
+            <div class="character-actions">
+                <h4>动作技能</h4>
+                <div class="action-buttons" id="actions-${character.id}">
+                    <p>正在加载动作...</p>
                 </div>
                 <div class="action-preview">
                     <div class="gif-container" id="gif-${character.id}">
@@ -444,7 +382,7 @@ function createCharacterCard(character) {
     
     // 添加动作按钮事件监听
     if (character.actions && character.actions.length > 0) {
-        // 使用更兼容的方式添加事件监听
+        // 9代超特使用预设动作列表
         var actionButtons = card.querySelectorAll('.action-btn');
         var gifContainer = card.querySelector('#gif-' + character.id);
         
@@ -465,6 +403,9 @@ function createCharacterCard(character) {
                 };
             })(actionButtons[i]);
         }
+    } else if (character.gifFolder) {
+        // 8代超特动态加载GIF文件
+        loadGifFiles(character.gifFolder, character.id, card);
     }
     
     return card;
@@ -529,10 +470,144 @@ function isValidFileType(file, allowedTypes = ['jpg', 'jpeg', 'png', 'gif', 'mp4
     return allowedTypes.includes(extension);
 }
 
+// 动态加载GIF文件
+function loadGifFiles(folder, characterId, card) {
+    // 从COS文件夹中动态读取GIF文件
+    // 使用fetch请求获取文件夹内容
+    var cosUrl = COS_CONFIG.Domain + '/' + folder;
+    
+    // 由于无法直接获取COS文件列表，我们使用一个通用的方法
+    // 尝试加载常见的GIF文件，如果存在就显示
+    var commonGifFiles = [
+        'X.gif',
+        '不看人传球.gif',
+        '中手冒.gif',
+        '分球.gif',
+        '地板.gif',
+        '大手冒.gif',
+        '小手冒.gif',
+        '抢断.gif',
+        '篮板.gif',
+        '间接进攻手.gif',
+        '阳三分.gif',
+        '阳中投.gif',
+        '阳近上.gif',
+        '阳近扣.gif',
+        '阳远上.gif',
+        '阳远扣.gif',
+        '阴三分.gif',
+        '阴中投.gif',
+        '阴近上.gif',
+        '阴近扣.gif',
+        '阴远上.gif',
+        '阴远扣.gif',
+        '快速起来.gif',
+        'A分球.gif',
+        'A近扣.gif',
+        'A近上.gif',
+        'A篮板.gif',
+        'A三分.gif',
+        'A远扣.gif',
+        'A远上.gif',
+        'A中投.gif',
+        'B分球.gif',
+        'B近扣.gif',
+        'B近上.gif',
+        'B篮板.gif',
+        'B三分.gif',
+        'B远扣.gif',
+        'B远上.gif',
+        'B中投.gif'
+    ];
+    
+    var actionButtonsContainer = card.querySelector('#actions-' + characterId);
+    var gifContainer = card.querySelector('#gif-' + characterId);
+    
+    // 动态检测GIF文件是否存在
+    var buttonsHtml = '';
+    var validGifFiles = [];
+    
+    // 检查每个GIF文件是否存在
+    function checkGifFile(file, index) {
+        var gifUrl = COS_CONFIG.Domain + '/' + folder + file;
+        var img = new Image();
+        
+        img.onload = function() {
+            // 文件存在，添加到按钮列表
+            validGifFiles.push(file);
+            if (validGifFiles.length === commonGifFiles.length) {
+                // 所有文件检查完成，创建按钮
+                createButtons();
+            }
+        };
+        
+        img.onerror = function() {
+            // 文件不存在，跳过
+            if (index === commonGifFiles.length - 1) {
+                // 最后一个文件检查完成，创建按钮
+                createButtons();
+            }
+        };
+        
+        img.src = gifUrl;
+    }
+    
+    // 创建按钮的函数
+    function createButtons() {
+        if (validGifFiles.length === 0) {
+            actionButtonsContainer.innerHTML = '<p>未找到动作文件</p>';
+            return;
+        }
+        
+        validGifFiles.forEach(function(file) {
+            var actionName = file.replace('.gif', '');
+            var gifUrl = COS_CONFIG.Domain + '/' + folder + file;
+            
+            buttonsHtml += `
+                <button class="action-btn" data-gif="${gifUrl}">
+                    <i class="fas fa-play"></i>
+                    <span>${actionName}</span>
+                </button>
+            `;
+        });
+        
+        actionButtonsContainer.innerHTML = buttonsHtml;
+        addButtonEvents();
+    }
+    
+    // 开始检查文件
+    commonGifFiles.forEach(function(file, index) {
+        checkGifFile(file, index);
+    });
+    
+    // 添加按钮事件监听的函数
+    function addButtonEvents() {
+        var actionButtons = actionButtonsContainer.querySelectorAll('.action-btn');
+        for (var i = 0; i < actionButtons.length; i++) {
+            (function(button) {
+                button.onclick = function() {
+                    // 移除所有按钮的激活状态
+                    for (var j = 0; j < actionButtons.length; j++) {
+                        actionButtons[j].classList.remove('active');
+                    }
+                    // 添加当前按钮的激活状态
+                    this.classList.add('active');
+                    
+                    // 显示对应的GIF
+                    var gifUrl = this.getAttribute('data-gif');
+                    var actionName = this.querySelector('span').textContent;
+                    gifContainer.innerHTML = '<img src="' + gifUrl + '" alt="' + actionName + '" class="action-gif"><p class="action-name">' + actionName + '</p>';
+                };
+            })(actionButtons[i]);
+        }
+    }
+}
+
 // 导出函数供外部使用
 window.FSDataLibrary = {
     loadCharacters,
     uploadToCOS,
     getCOSFileList,
+    loadGifFiles,
     COS_CONFIG
 };
