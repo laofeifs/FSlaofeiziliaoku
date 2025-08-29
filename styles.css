@@ -371,6 +371,18 @@ body {
     margin-top: 8px;
 }
 
+/* 刷新提示 */
+.refresh-tip {
+    background: #fef3c7;
+    border: 1px solid #f59e0b;
+    color: #92400e;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
 
 
 /* 响应式设计 */
