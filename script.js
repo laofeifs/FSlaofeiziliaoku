@@ -123,6 +123,110 @@ const charactersData = {
                 { name: 'X', gif: 'gifs/9代超特/罗卡/X.gif' }
             ]
         }
+    ],
+    '8': [
+        {
+            id: '8_1',
+            name: '奥丁',
+            generation: '8代超特',
+            description: '八代超特角色',
+            image: 'characters/8代超特/奥丁.png',
+            actions: [
+                { name: '不看人传球', gif: 'gifs/8代超特/奥丁/不看人传球.gif' },
+                { name: '大手冒', gif: 'gifs/8代超特/奥丁/大手冒.gif' },
+                { name: '地板', gif: 'gifs/8代超特/奥丁/地板.gif' },
+                { name: '快速起来', gif: 'gifs/8代超特/奥丁/快速起来.gif' },
+                { name: '篮板', gif: 'gifs/8代超特/奥丁/篮板.gif' },
+                { name: '抢断', gif: 'gifs/8代超特/奥丁/抢断.gif' },
+                { name: '小手冒', gif: 'gifs/8代超特/奥丁/小手冒.gif' },
+                { name: '中手冒', gif: 'gifs/8代超特/奥丁/中手冒.gif' },
+                { name: 'A分球', gif: 'gifs/8代超特/奥丁/A分球.gif' },
+                { name: 'A近扣', gif: 'gifs/8代超特/奥丁/A近扣.gif' },
+                { name: 'A近上', gif: 'gifs/8代超特/奥丁/A近上.gif' },
+                { name: 'A篮板', gif: 'gifs/8代超特/奥丁/A篮板.gif' },
+                { name: 'A三分', gif: 'gifs/8代超特/奥丁/A三分.gif' },
+                { name: 'A远扣', gif: 'gifs/8代超特/奥丁/A远扣.gif' },
+                { name: 'A远上', gif: 'gifs/8代超特/奥丁/A远上.gif' },
+                { name: 'A中投', gif: 'gifs/8代超特/奥丁/A中投.gif' },
+                { name: 'B分球', gif: 'gifs/8代超特/奥丁/B分球.gif' },
+                { name: 'B近扣', gif: 'gifs/8代超特/奥丁/B近扣.gif' },
+                { name: 'B近上', gif: 'gifs/8代超特/奥丁/B近上.gif' },
+                { name: 'B篮板', gif: 'gifs/8代超特/奥丁/B篮板.gif' },
+                { name: 'B三分', gif: 'gifs/8代超特/奥丁/B三分.gif' },
+                { name: 'B远扣', gif: 'gifs/8代超特/奥丁/B远扣.gif' },
+                { name: 'B远上', gif: 'gifs/8代超特/奥丁/B远上.gif' },
+                { name: 'B中投', gif: 'gifs/8代超特/奥丁/B中投.gif' },
+                { name: 'X', gif: 'gifs/8代超特/奥丁/X.gif' }
+            ]
+        },
+        {
+            id: '8_2',
+            name: '月神',
+            generation: '8代超特',
+            description: '八代超特角色',
+            image: 'characters/8代超特/月神.png',
+            actions: [
+                { name: '不看人传球', gif: 'gifs/8代超特/月神/不看人传球.gif' },
+                { name: '大手冒', gif: 'gifs/8代超特/月神/大手冒.gif' },
+                { name: '地板', gif: 'gifs/8代超特/月神/地板.gif' },
+                { name: '快速起来', gif: 'gifs/8代超特/月神/快速起来.gif' },
+                { name: '篮板', gif: 'gifs/8代超特/月神/篮板.gif' },
+                { name: '抢断', gif: 'gifs/8代超特/月神/抢断.gif' },
+                { name: '小手冒', gif: 'gifs/8代超特/月神/小手冒.gif' },
+                { name: '中手冒', gif: 'gifs/8代超特/月神/中手冒.gif' },
+                { name: 'A分球', gif: 'gifs/8代超特/月神/A分球.gif' },
+                { name: 'A近扣', gif: 'gifs/8代超特/月神/A近扣.gif' },
+                { name: 'A近上', gif: 'gifs/8代超特/月神/A近上.gif' },
+                { name: 'A篮板', gif: 'gifs/8代超特/月神/A篮板.gif' },
+                { name: 'A三分', gif: 'gifs/8代超特/月神/A三分.gif' },
+                { name: 'A远扣', gif: 'gifs/8代超特/月神/A远扣.gif' },
+                { name: 'A远上', gif: 'gifs/8代超特/月神/A远上.gif' },
+                { name: 'A中投', gif: 'gifs/8代超特/月神/A中投.gif' },
+                { name: 'B分球', gif: 'gifs/8代超特/月神/B分球.gif' },
+                { name: 'B近扣', gif: 'gifs/8代超特/月神/B近扣.gif' },
+                { name: 'B近上', gif: 'gifs/8代超特/月神/B近上.gif' },
+                { name: 'B篮板', gif: 'gifs/8代超特/月神/B篮板.gif' },
+                { name: 'B三分', gif: 'gifs/8代超特/月神/B三分.gif' },
+                { name: 'B远扣', gif: 'gifs/8代超特/月神/B远扣.gif' },
+                { name: 'B远上', gif: 'gifs/8代超特/月神/B远上.gif' },
+                { name: 'B中投', gif: 'gifs/8代超特/月神/B中投.gif' },
+                { name: 'X', gif: 'gifs/8代超特/月神/X.gif' }
+            ]
+        },
+        {
+            id: '8_3',
+            name: '哈托尔',
+            generation: '8代超特',
+            description: '八代超特角色',
+            image: 'characters/8代超特/哈托尔.png',
+            actions: [
+                { name: '不看人传球', gif: 'gifs/8代超特/哈托尔/不看人传球.gif' },
+                { name: '大手冒', gif: 'gifs/8代超特/哈托尔/大手冒.gif' },
+                { name: '地板', gif: 'gifs/8代超特/哈托尔/地板.gif' },
+                { name: '快速起来', gif: 'gifs/8代超特/哈托尔/快速起来.gif' },
+                { name: '篮板', gif: 'gifs/8代超特/哈托尔/篮板.gif' },
+                { name: '抢断', gif: 'gifs/8代超特/哈托尔/抢断.gif' },
+                { name: '小手冒', gif: 'gifs/8代超特/哈托尔/小手冒.gif' },
+                { name: '中手冒', gif: 'gifs/8代超特/哈托尔/中手冒.gif' },
+                { name: 'A分球', gif: 'gifs/8代超特/哈托尔/A分球.gif' },
+                { name: 'A近扣', gif: 'gifs/8代超特/哈托尔/A近扣.gif' },
+                { name: 'A近上', gif: 'gifs/8代超特/哈托尔/A近上.gif' },
+                { name: 'A篮板', gif: 'gifs/8代超特/哈托尔/A篮板.gif' },
+                { name: 'A三分', gif: 'gifs/8代超特/哈托尔/A三分.gif' },
+                { name: 'A远扣', gif: 'gifs/8代超特/哈托尔/A远扣.gif' },
+                { name: 'A远上', gif: 'gifs/8代超特/哈托尔/A远上.gif' },
+                { name: 'A中投', gif: 'gifs/8代超特/哈托尔/A中投.gif' },
+                { name: 'B分球', gif: 'gifs/8代超特/哈托尔/B分球.gif' },
+                { name: 'B近扣', gif: 'gifs/8代超特/哈托尔/B近扣.gif' },
+                { name: 'B近上', gif: 'gifs/8代超特/哈托尔/B近上.gif' },
+                { name: 'B篮板', gif: 'gifs/8代超特/哈托尔/B篮板.gif' },
+                { name: 'B三分', gif: 'gifs/8代超特/哈托尔/B三分.gif' },
+                { name: 'B远扣', gif: 'gifs/8代超特/哈托尔/B远扣.gif' },
+                { name: 'B远上', gif: 'gifs/8代超特/哈托尔/B远上.gif' },
+                { name: 'B中投', gif: 'gifs/8代超特/哈托尔/B中投.gif' },
+                { name: 'X', gif: 'gifs/8代超特/哈托尔/X.gif' }
+            ]
+        }
     ]
     // 其他代次的角色数据...
 };
@@ -170,42 +274,32 @@ function autoForceRefresh() {
     }
 }
 
-// 检测文件是否更新（只在必要时）
-function checkFileUpdate() {
-    var currentTime = new Date().getTime();
-    var lastCheck = localStorage.getItem('last_file_check') || 0;
-    
-    // 只在距离上次检查超过10分钟时才检查
-    if (currentTime - lastCheck > 10 * 60 * 1000) {
-        console.log('检查文件更新');
-        localStorage.setItem('last_file_check', currentTime);
-        
-        // 检查版本是否匹配
-        var storedVersion = localStorage.getItem('fs_version');
-        var currentVersion = '202508291505';
-        
-        if (storedVersion !== currentVersion) {
-            console.log('检测到新版本，执行刷新');
-            forceRefresh();
-        }
-    }
+// 检测服务器版本并强制刷新
+function checkServerVersion() {
+    fetch('/version.txt?t=' + Date.now()) // 防止缓存
+        .then(res => res.text())
+        .then(serverVersion => {
+            serverVersion = serverVersion.trim(); // 去除可能的空格
+            let localVersion = localStorage.getItem('site_version');
+            console.log('服务器版本:', serverVersion, '本地版本:', localVersion);
+            
+            if (localVersion !== serverVersion) {
+                console.log('检测到新版本，执行强制刷新');
+                localStorage.setItem('site_version', serverVersion);
+                location.reload(true); // 只在版本不同才刷新
+            } else {
+                console.log('版本匹配，无需刷新');
+            }
+        })
+        .catch(error => {
+            console.log('版本检测失败:', error);
+        });
 }
 
-// 检查版本并提示刷新
+// 检查版本并提示刷新（简化版）
 function checkVersion() {
-    var currentVersion = '202508291505';
-    var storedVersion = localStorage.getItem('fs_version');
-    
-    if (storedVersion !== currentVersion) {
-        localStorage.setItem('fs_version', currentVersion);
-        
-        // 显示刷新提示
-        var refreshTip = document.getElementById('refresh-tip');
-        if (refreshTip) {
-            refreshTip.style.display = 'block';
-            refreshTip.innerHTML = '<p>检测到新版本，请下拉刷新页面或点击<a href="javascript:forceRefresh()" style="color: #dc2626; text-decoration: underline;">这里强制刷新</a></p>';
-        }
-    }
+    // 版本检查现在由checkServerVersion()处理
+    console.log('版本检查已移至服务器检测');
 }
 
 // 页面加载完成后初始化
@@ -220,8 +314,8 @@ document.addEventListener('DOMContentLoaded', function() {
         autoForceRefresh();
     }
     
-    // 定期检查文件更新（降低频率）
-    setInterval(checkFileUpdate, 300000); // 每5分钟检查一次
+    // 检测服务器版本
+    checkServerVersion();
     
     initializeNavigation();
     initializeFilters();
