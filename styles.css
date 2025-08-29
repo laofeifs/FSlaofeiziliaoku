@@ -358,13 +358,12 @@ body {
 }
 
 .action-gif {
-    max-width: 100%;
+    width: 100%;
     max-height: 250px;
-    width: auto;
     height: auto;
     border-radius: 6px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    object-fit: contain;
+    object-fit: cover;
 }
 
 .action-name {
@@ -442,6 +441,7 @@ body {
     
     .action-gif {
         max-height: 180px;
+        width: 100%;
     }
 }
 
