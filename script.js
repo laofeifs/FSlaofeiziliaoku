@@ -10,7 +10,7 @@ const COS_CONFIG = {
 };
 
 // 当前选中的代次
-let currentGeneration = '5';
+let currentGeneration = '9';
 
 // 角色数据示例（你可以根据实际情况修改）
 const charactersData = {
@@ -127,8 +127,20 @@ const charactersData = {
     // 其他代次的角色数据...
 };
 
+// 检测微信内置浏览器
+function isWeChat() {
+    var ua = navigator.userAgent.toLowerCase();
+    return ua.indexOf('micromessenger') !== -1;
+}
+
 // 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', function() {
+    // 微信浏览器兼容性处理
+    if (isWeChat()) {
+        console.log('检测到微信内置浏览器');
+        // 可以在这里添加微信特定的处理逻辑
+    }
+    
     initializeNavigation();
     initializeFilters();
     loadCharacters(currentGeneration);
@@ -256,26 +268,27 @@ function createCharacterCard(character) {
     
     // 添加动作按钮事件监听
     if (character.actions && character.actions.length > 0) {
-        setTimeout(() => {
-            const actionButtons = card.querySelectorAll('.action-btn');
-            const gifContainer = card.querySelector(`#gif-${character.id}`);
-            
-            actionButtons.forEach(button => {
-                button.addEventListener('click', function() {
+        // 使用更兼容的方式添加事件监听
+        var actionButtons = card.querySelectorAll('.action-btn');
+        var gifContainer = card.querySelector('#gif-' + character.id);
+        
+        for (var i = 0; i < actionButtons.length; i++) {
+            (function(button) {
+                button.onclick = function() {
                     // 移除所有按钮的激活状态
-                    actionButtons.forEach(btn => btn.classList.remove('active'));
+                    for (var j = 0; j < actionButtons.length; j++) {
+                        actionButtons[j].classList.remove('active');
+                    }
                     // 添加当前按钮的激活状态
                     this.classList.add('active');
                     
                     // 显示对应的GIF
-                    const gifUrl = this.getAttribute('data-gif');
-                    gifContainer.innerHTML = `
-                        <img src="${gifUrl}" alt="${this.querySelector('span').textContent}" class="action-gif">
-                        <p class="action-name">${this.querySelector('span').textContent}</p>
-                    `;
-                });
-            });
-        }, 100);
+                    var gifUrl = this.getAttribute('data-gif');
+                    var actionName = this.querySelector('span').textContent;
+                    gifContainer.innerHTML = '<img src="' + gifUrl + '" alt="' + actionName + '" class="action-gif"><p class="action-name">' + actionName + '</p>';
+                };
+            })(actionButtons[i]);
+        }
     }
     
     return card;
