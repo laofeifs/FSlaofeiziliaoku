@@ -424,8 +424,35 @@ function switchSection(sectionName) {
         
         // 检测是否在微信浏览器中
         if (isWeChat()) {
-            // 微信内置浏览器直接跳转
-            window.location.href = weidianUrl;
+            // 微信内置浏览器使用多种跳转方式
+            try {
+                // 方式1：直接跳转
+                window.location.href = weidianUrl;
+            } catch (e) {
+                console.log('直接跳转失败，尝试其他方式');
+                try {
+                    // 方式2：使用location.replace
+                    window.location.replace(weidianUrl);
+                } catch (e2) {
+                    console.log('replace跳转失败，尝试assign');
+                    try {
+                        // 方式3：使用location.assign
+                        window.location.assign(weidianUrl);
+                    } catch (e3) {
+                        console.log('所有跳转方式失败，显示提示');
+                        // 方式4：显示提示让用户手动点击
+                        var tip = document.createElement('div');
+                        tip.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#22c55e;color:white;padding:20px;border-radius:8px;font-size:16px;z-index:10000;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.3);';
+                        tip.innerHTML = `
+                            <p style="margin:0 0 15px 0;">点击下方链接跳转到微店</p>
+                            <a href="${weidianUrl}" style="color:white;text-decoration:underline;font-weight:bold;">老非街头篮球账号微店</a>
+                            <br><br>
+                            <button onclick="this.parentElement.remove()" style="background:white;color:#22c55e;border:none;padding:8px 16px;border-radius:4px;cursor:pointer;">关闭</button>
+                        `;
+                        document.body.appendChild(tip);
+                    }
+                }
+            }
         } else {
             // 外置浏览器打开新窗口
             window.open(weidianUrl, '_blank');
