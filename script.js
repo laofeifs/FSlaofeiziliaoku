@@ -220,7 +220,7 @@ function autoForceRefresh() {
         console.log('检测到微信内置浏览器，检查是否需要刷新');
         // 只在版本不匹配时才刷新
         var storedVersion = localStorage.getItem('fs_version');
-        var currentVersion = '202508291600';
+        var currentVersion = '202508291605';
         
         if (storedVersion !== currentVersion) {
             console.log('版本不匹配，执行强制刷新');
@@ -289,6 +289,46 @@ function checkVersion() {
 document.addEventListener('DOMContentLoaded', function() {
     // 检查版本并提示刷新
     checkVersion();
+    
+    // 手机端强制刷新检测
+    var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (isMobile) {
+        console.log('检测到移动设备，检查是否需要强制刷新');
+        var lastMobileCheck = localStorage.getItem('mobile_last_check');
+        var currentTime = Date.now();
+        
+        // 如果距离上次检查超过1分钟，执行强制刷新
+        if (!lastMobileCheck || (currentTime - parseInt(lastMobileCheck)) > 60 * 1000) {
+            console.log('移动设备强制刷新检查');
+            localStorage.setItem('mobile_last_check', currentTime);
+            
+            // 清除所有缓存
+            if ('caches' in window) {
+                caches.keys().then(function(names) {
+                    for (let name of names) {
+                        caches.delete(name);
+                    }
+                });
+            }
+            
+            // 清除localStorage
+            localStorage.clear();
+            sessionStorage.clear();
+            
+            // 显示刷新提示
+            var mobileTip = document.createElement('div');
+            mobileTip.style.cssText = 'position:fixed;top:10px;left:10px;right:10px;background:#ff6b6b;color:white;padding:12px;border-radius:8px;font-size:14px;z-index:9999;text-align:center;';
+            mobileTip.innerHTML = '📱 移动端检测到更新，请下拉刷新页面获取最新内容';
+            document.body.appendChild(mobileTip);
+            
+            // 10秒后自动隐藏提示
+            setTimeout(function() {
+                if (mobileTip.parentNode) {
+                    mobileTip.parentNode.removeChild(mobileTip);
+                }
+            }, 10000);
+        }
+    }
     
     // 微信浏览器兼容性处理
     if (isWeChat()) {

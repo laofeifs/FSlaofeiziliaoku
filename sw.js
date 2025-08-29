@@ -1,4 +1,4 @@
-const CACHE_NAME = "fs-database-cache-v202508291600";
+const CACHE_NAME = "fs-database-cache-v202508291605";
 const urlsToCache = [
   '/',
   '/index.html',
@@ -39,6 +39,26 @@ self.addEventListener('fetch', event => {
   if (event.request.url.includes('version.txt')) {
     event.respondWith(
       fetch(event.request).catch(() => {
+        return caches.match(event.request);
+      })
+    );
+    return;
+  }
+  
+  // 对于script.js文件，总是从网络获取最新版本
+  if (event.request.url.includes('script.js')) {
+    event.respondWith(
+      fetch(event.request).then(response => {
+        // 如果网络请求成功，更新缓存
+        if (response.status === 200) {
+          const responseClone = response.clone();
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, responseClone);
+          });
+        }
+        return response;
+      }).catch(() => {
+        // 网络失败时使用缓存
         return caches.match(event.request);
       })
     );
