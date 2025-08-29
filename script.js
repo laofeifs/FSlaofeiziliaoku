@@ -56,6 +56,73 @@ const charactersData = {
             image: 'characters/5gen/character5.jpg'
         }
         // 更多角色...
+    ],
+    '9': [
+        {
+            id: '9_1',
+            name: '亚琪/亚克',
+            generation: '9代超特',
+            description: '九代超特角色，共用一套动作',
+            image: 'characters/9gen/yaqiyake.png',
+            actions: [
+                { name: '不看人传球', gif: 'gifs/9gen/yaqiyake/不看人传球.gif' },
+                { name: '大手冒', gif: 'gifs/9gen/yaqiyake/大手冒.gif' },
+                { name: '地板', gif: 'gifs/9gen/yaqiyake/地板.gif' },
+                { name: '快速起来', gif: 'gifs/9gen/yaqiyake/快速起来.gif' },
+                { name: '篮板', gif: 'gifs/9gen/yaqiyake/篮板.gif' },
+                { name: '抢断', gif: 'gifs/9gen/yaqiyake/抢断.gif' },
+                { name: '小手冒', gif: 'gifs/9gen/yaqiyake/小手冒.gif' },
+                { name: '中手冒', gif: 'gifs/9gen/yaqiyake/中手冒.gif' },
+                { name: 'A分球', gif: 'gifs/9gen/yaqiyake/A分球.gif' },
+                { name: 'A近扣', gif: 'gifs/9gen/yaqiyake/A近扣.gif' },
+                { name: 'A近上', gif: 'gifs/9gen/yaqiyake/A近上.gif' },
+                { name: 'A篮板', gif: 'gifs/9gen/yaqiyake/A篮板.gif' },
+                { name: 'A三分', gif: 'gifs/9gen/yaqiyake/A三分.gif' },
+                { name: 'A远扣', gif: 'gifs/9gen/yaqiyake/A远扣.gif' },
+                { name: 'A远上', gif: 'gifs/9gen/yaqiyake/A远上.gif' },
+                { name: 'A中投', gif: 'gifs/9gen/yaqiyake/A中投.gif' },
+                { name: 'B分球', gif: 'gifs/9gen/yaqiyake/B分球.gif' },
+                { name: 'B近扣', gif: 'gifs/9gen/yaqiyake/B近扣.gif' },
+                { name: 'B近上', gif: 'gifs/9gen/yaqiyake/B近上.gif' },
+                { name: 'B篮板', gif: 'gifs/9gen/yaqiyake/B篮板.gif' },
+                { name: 'B三分', gif: 'gifs/9gen/yaqiyake/B三分.gif' },
+                { name: 'B远扣', gif: 'gifs/9gen/yaqiyake/B远扣.gif' },
+                { name: 'B远上', gif: 'gifs/9gen/yaqiyake/B远上.gif' },
+                { name: 'B中投', gif: 'gifs/9gen/yaqiyake/B中投.gif' },
+                { name: 'X', gif: 'gifs/9gen/yaqiyake/X.gif' }
+            ]
+        },
+        {
+            id: '9_2',
+            name: '罗卡',
+            generation: '9代超特',
+            description: '九代超特角色',
+            image: 'characters/9gen/luoka.png',
+            actions: [
+                { name: '不看人传球', gif: 'gifs/9gen/luoka/不看人传球.gif' },
+                { name: '大手冒', gif: 'gifs/9gen/luoka/大手冒.gif' },
+                { name: '地板', gif: 'gifs/9gen/luoka/地板.gif' },
+                { name: '小手冒', gif: 'gifs/9gen/luoka/小手冒.gif' },
+                { name: '中手冒', gif: 'gifs/9gen/luoka/中手冒.gif' },
+                { name: 'A分球', gif: 'gifs/9gen/luoka/A分球.gif' },
+                { name: 'A近扣', gif: 'gifs/9gen/luoka/A近扣.gif' },
+                { name: 'A近上', gif: 'gifs/9gen/luoka/A近上.gif' },
+                { name: 'A篮板', gif: 'gifs/9gen/luoka/A篮板.gif' },
+                { name: 'A三分', gif: 'gifs/9gen/luoka/A三分.gif' },
+                { name: 'A远扣', gif: 'gifs/9gen/luoka/A远扣.gif' },
+                { name: 'A远上', gif: 'gifs/9gen/luoka/A远上.gif' },
+                { name: 'A中投', gif: 'gifs/9gen/luoka/A中投.gif' },
+                { name: 'B分球', gif: 'gifs/9gen/luoka/B分球.gif' },
+                { name: 'B近扣', gif: 'gifs/9gen/luoka/B近扣.gif' },
+                { name: 'B近上', gif: 'gifs/9gen/luoka/B近上.gif' },
+                { name: 'B篮板', gif: 'gifs/9gen/luoka/B篮板.gif' },
+                { name: 'B三分', gif: 'gifs/9gen/luoka/B三分.gif' },
+                { name: 'B远扣', gif: 'gifs/9gen/luoka/B远扣.gif' },
+                { name: 'B远上', gif: 'gifs/9gen/luoka/B远上.gif' },
+                { name: 'B中投', gif: 'gifs/9gen/luoka/B中投.gif' },
+                { name: 'X', gif: 'gifs/9gen/luoka/X.gif' }
+            ]
+        }
     ]
     // 其他代次的角色数据...
 };
@@ -152,6 +219,29 @@ function createCharacterCard(character) {
     // 构建图片URL（使用腾讯云COS）
     const imageUrl = character.image ? `${COS_CONFIG.Domain}/${character.image}` : '';
     
+    // 构建动作按钮HTML
+    let actionsHtml = '';
+    if (character.actions && character.actions.length > 0) {
+        actionsHtml = `
+            <div class="character-actions">
+                <h4>动作技能</h4>
+                <div class="action-buttons">
+                    ${character.actions.map(action => `
+                        <button class="action-btn" data-gif="${COS_CONFIG.Domain}/${action.gif}">
+                            <i class="fas fa-play"></i>
+                            <span>${action.name}</span>
+                        </button>
+                    `).join('')}
+                </div>
+                <div class="action-preview">
+                    <div class="gif-container" id="gif-${character.id}">
+                        <p>点击上方动作按钮查看GIF</p>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
     card.innerHTML = `
         <div class="character-image">
             ${imageUrl ? `<img src="${imageUrl}" alt="${character.name}" style="width: 100%; height: 100%; object-fit: cover;">` : '暂无图片'}
@@ -160,8 +250,33 @@ function createCharacterCard(character) {
             <h3 class="character-name">${character.name}</h3>
             <p class="character-generation">${character.generation}</p>
             <p class="character-description">${character.description}</p>
+            ${actionsHtml}
         </div>
     `;
+    
+    // 添加动作按钮事件监听
+    if (character.actions && character.actions.length > 0) {
+        setTimeout(() => {
+            const actionButtons = card.querySelectorAll('.action-btn');
+            const gifContainer = card.querySelector(`#gif-${character.id}`);
+            
+            actionButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // 移除所有按钮的激活状态
+                    actionButtons.forEach(btn => btn.classList.remove('active'));
+                    // 添加当前按钮的激活状态
+                    this.classList.add('active');
+                    
+                    // 显示对应的GIF
+                    const gifUrl = this.getAttribute('data-gif');
+                    gifContainer.innerHTML = `
+                        <img src="${gifUrl}" alt="${this.querySelector('span').textContent}" class="action-gif">
+                        <p class="action-name">${this.querySelector('span').textContent}</p>
+                    `;
+                });
+            });
+        }, 100);
+    }
     
     return card;
 }
