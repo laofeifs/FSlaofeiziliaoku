@@ -1,9 +1,9 @@
-const CACHE_NAME = "fs-database-cache-v202508291620";
+const CACHE_NAME = "fs-database-cache-v202508291630";
 const urlsToCache = [
   '/',
-  '/index.html',
-  '/styles.css',
-  '/script.js',
+  '/index.html?v=202508291625',
+  '/styles.css?v=202508291625',
+  '/script.js?v=202508291625',
   '/version.txt'
 ];
 

@@ -290,6 +290,87 @@ document.addEventListener('DOMContentLoaded', function() {
     // 检查版本并提示刷新
     checkVersion();
     
+    // 连接状态检测
+    var connectionCheckInterval;
+    var lastConnectionCheck = Date.now();
+    
+    // 检测网络连接状态
+    function checkConnection() {
+        var currentTime = Date.now();
+        
+        // 每30秒检查一次连接状态
+        if (currentTime - lastConnectionCheck > 30000) {
+            lastConnectionCheck = currentTime;
+            
+            // 尝试加载一个小的资源来检测连接
+            fetch('/version.txt?t=' + currentTime, { 
+                method: 'HEAD',
+                cache: 'no-cache'
+            })
+            .then(function(response) {
+                if (response.ok) {
+                    console.log('网络连接正常');
+                    // 清除连接错误提示
+                    var errorTip = document.getElementById('connection-error-tip');
+                    if (errorTip) {
+                        errorTip.remove();
+                    }
+                } else {
+                    throw new Error('网络响应异常');
+                }
+            })
+            .catch(function(error) {
+                console.log('网络连接异常:', error);
+                showConnectionError();
+            });
+        }
+    }
+    
+    // 显示连接错误提示
+    function showConnectionError() {
+        // 检查是否已经显示过提示
+        if (document.getElementById('connection-error-tip')) {
+            return;
+        }
+        
+        var errorTip = document.createElement('div');
+        errorTip.id = 'connection-error-tip';
+        errorTip.style.cssText = 'position:fixed;top:10px;left:10px;right:10px;background:#ff4757;color:white;padding:12px;border-radius:8px;font-size:14px;z-index:9999;text-align:center;';
+        errorTip.innerHTML = `
+            <div style="margin-bottom:8px;">⚠️ 网络连接异常，请检查网络后刷新页面</div>
+            <button onclick="location.reload(true)" style="background:white;color:#ff4757;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-size:12px;">刷新页面</button>
+            <button onclick="this.parentElement.remove()" style="background:transparent;color:white;border:1px solid white;padding:6px 12px;border-radius:4px;cursor:pointer;font-size:12px;margin-left:8px;">关闭</button>
+        `;
+        document.body.appendChild(errorTip);
+    }
+    
+    // 启动连接检测
+    connectionCheckInterval = setInterval(checkConnection, 30000); // 每30秒检查一次
+    
+    // 检查URL是否需要添加时间戳
+    function checkUrlTimestamp() {
+        var currentUrl = window.location.href;
+        var timestamp = '202508291625';
+        
+        // 如果URL中没有时间戳参数，添加时间戳并刷新
+        if (!currentUrl.includes('?v=')) {
+            var newUrl = currentUrl + (currentUrl.includes('?') ? '&' : '?') + 'v=' + timestamp;
+            console.log('添加时间戳参数:', newUrl);
+            window.location.href = newUrl;
+        }
+    }
+    
+    // 页面加载时检查URL时间戳
+    setTimeout(checkUrlTimestamp, 1000);
+    
+    // 页面可见性变化时重新检查连接
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+            console.log('页面重新可见，检查连接状态');
+            checkConnection();
+        }
+    });
+    
     // 手机端强制刷新检测
     var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     if (isMobile) {
@@ -391,6 +472,55 @@ function initializeNavigation() {
             
             // 切换内容区域
             const section = this.getAttribute('data-section');
+            
+            // 特殊处理FS账号跳转
+            if (section === 'account') {
+                console.log('检测到FS账号点击');
+                // 微店H5链接
+                var weidianUrl = 'https://k.youshop10.com/6HZaEV6N';
+                
+                // 检测是否在微信浏览器中
+                if (isWeChat()) {
+                    console.log('微信浏览器，尝试跳转微店');
+                    // 微信内置浏览器使用多种跳转方式
+                    try {
+                        // 方式1：直接跳转
+                        window.location.href = weidianUrl;
+                    } catch (e) {
+                        console.log('直接跳转失败，尝试其他方式');
+                        try {
+                            // 方式2：使用location.replace
+                            window.location.replace(weidianUrl);
+                        } catch (e2) {
+                            console.log('replace跳转失败，尝试assign');
+                            try {
+                                // 方式3：使用location.assign
+                                window.location.assign(weidianUrl);
+                            } catch (e3) {
+                                console.log('所有跳转方式失败，显示提示');
+                                // 方式4：显示提示让用户手动点击
+                                var tip = document.createElement('div');
+                                tip.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#22c55e;color:white;padding:20px;border-radius:8px;font-size:16px;z-index:10000;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.3);';
+                                tip.innerHTML = `
+                                    <p style="margin:0 0 15px 0;">点击下方链接跳转到微店</p>
+                                    <a href="${weidianUrl}" style="color:white;text-decoration:underline;font-weight:bold;">老非街头篮球账号微店</a>
+                                    <br><br>
+                                    <button onclick="this.parentElement.remove()" style="background:white;color:#22c55e;border:none;padding:8px 16px;border-radius:4px;cursor:pointer;">关闭</button>
+                                `;
+                                document.body.appendChild(tip);
+                            }
+                        }
+                    }
+                    return; // 阻止继续执行
+                } else {
+                    console.log('外置浏览器，新窗口打开微店');
+                    // 外置浏览器打开新窗口
+                    window.open(weidianUrl, '_blank');
+                    return; // 阻止继续执行
+                }
+            }
+            
+            // 其他导航正常切换
             switchSection(section);
         });
     });
@@ -416,50 +546,6 @@ function initializeFilters() {
 
 // 切换内容区域
 function switchSection(sectionName) {
-    // 特殊处理FS账号跳转
-    if (sectionName === 'account') {
-        // 微店H5链接
-        var weidianUrl = 'https://k.youshop10.com/6HZaEV6N'; // 老非街头篮球账号微店
-        console.log('跳转到微店:', weidianUrl);
-        
-        // 检测是否在微信浏览器中
-        if (isWeChat()) {
-            // 微信内置浏览器使用多种跳转方式
-            try {
-                // 方式1：直接跳转
-                window.location.href = weidianUrl;
-            } catch (e) {
-                console.log('直接跳转失败，尝试其他方式');
-                try {
-                    // 方式2：使用location.replace
-                    window.location.replace(weidianUrl);
-                } catch (e2) {
-                    console.log('replace跳转失败，尝试assign');
-                    try {
-                        // 方式3：使用location.assign
-                        window.location.assign(weidianUrl);
-                    } catch (e3) {
-                        console.log('所有跳转方式失败，显示提示');
-                        // 方式4：显示提示让用户手动点击
-                        var tip = document.createElement('div');
-                        tip.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#22c55e;color:white;padding:20px;border-radius:8px;font-size:16px;z-index:10000;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.3);';
-                        tip.innerHTML = `
-                            <p style="margin:0 0 15px 0;">点击下方链接跳转到微店</p>
-                            <a href="${weidianUrl}" style="color:white;text-decoration:underline;font-weight:bold;">老非街头篮球账号微店</a>
-                            <br><br>
-                            <button onclick="this.parentElement.remove()" style="background:white;color:#22c55e;border:none;padding:8px 16px;border-radius:4px;cursor:pointer;">关闭</button>
-                        `;
-                        document.body.appendChild(tip);
-                    }
-                }
-            }
-        } else {
-            // 外置浏览器打开新窗口
-            window.open(weidianUrl, '_blank');
-        }
-        return;
-    }
-    
     // 隐藏所有内容区域
     const sections = document.querySelectorAll('.content-section');
     sections.forEach(section => section.classList.remove('active'));
