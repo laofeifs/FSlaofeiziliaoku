@@ -133,8 +133,43 @@ function isWeChat() {
     return ua.indexOf('micromessenger') !== -1;
 }
 
+// 强制刷新页面
+function forceRefresh() {
+    // 清除所有缓存
+    if ('caches' in window) {
+        caches.keys().then(function(names) {
+            for (let name of names) {
+                caches.delete(name);
+            }
+        });
+    }
+    
+    // 强制重新加载
+    window.location.reload(true);
+}
+
+// 检查版本并提示刷新
+function checkVersion() {
+    var currentVersion = '1.2';
+    var storedVersion = localStorage.getItem('fs_version');
+    
+    if (storedVersion !== currentVersion) {
+        localStorage.setItem('fs_version', currentVersion);
+        
+        // 显示刷新提示
+        var refreshTip = document.getElementById('refresh-tip');
+        if (refreshTip) {
+            refreshTip.style.display = 'block';
+            refreshTip.innerHTML = '<p>检测到新版本，请下拉刷新页面或点击<a href="javascript:forceRefresh()" style="color: #dc2626; text-decoration: underline;">这里强制刷新</a></p>';
+        }
+    }
+}
+
 // 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', function() {
+    // 检查版本并提示刷新
+    checkVersion();
+    
     // 微信浏览器兼容性处理
     if (isWeChat()) {
         console.log('检测到微信内置浏览器');
