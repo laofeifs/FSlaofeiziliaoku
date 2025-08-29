@@ -198,6 +198,12 @@ function autoForceRefresh() {
 
 // 检测服务器版本并强制刷新
 function checkServerVersion() {
+    // 微信浏览器禁用自动刷新
+    if (isWeChat()) {
+        console.log('微信浏览器禁用自动刷新');
+        return;
+    }
+    
     // 检查是否已经检测过，避免重复检测
     var lastCheck = localStorage.getItem('last_version_check');
     var currentTime = Date.now();
@@ -243,9 +249,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 微信浏览器兼容性处理
     if (isWeChat()) {
-        console.log('检测到微信内置浏览器');
-        // 自动强制刷新
-        autoForceRefresh();
+        console.log('检测到微信内置浏览器，禁用自动刷新功能');
+        // 微信浏览器禁用所有自动刷新功能
     }
     
     // 检测服务器版本（只在必要时）
