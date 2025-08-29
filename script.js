@@ -144,13 +144,27 @@ function forceRefresh() {
         });
     }
     
+    // 清除localStorage
+    localStorage.clear();
+    
     // 强制重新加载
     window.location.reload(true);
 }
 
+// 自动强制刷新（如果检测到微信浏览器）
+function autoForceRefresh() {
+    if (isWeChat()) {
+        console.log('检测到微信内置浏览器，自动强制刷新');
+        // 延迟1秒后强制刷新
+        setTimeout(function() {
+            forceRefresh();
+        }, 1000);
+    }
+}
+
 // 检查版本并提示刷新
 function checkVersion() {
-    var currentVersion = '202508291450';
+    var currentVersion = '202508291455';
     var storedVersion = localStorage.getItem('fs_version');
     
     if (storedVersion !== currentVersion) {
@@ -173,7 +187,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // 微信浏览器兼容性处理
     if (isWeChat()) {
         console.log('检测到微信内置浏览器');
-        // 可以在这里添加微信特定的处理逻辑
+        // 自动强制刷新
+        autoForceRefresh();
     }
     
     initializeNavigation();
