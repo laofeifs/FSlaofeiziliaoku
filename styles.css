@@ -285,8 +285,8 @@ body {
 
 .action-buttons {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-    gap: 8px;
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    gap: 6px;
     margin-bottom: 15px;
 }
 
@@ -294,17 +294,17 @@ body {
     background: white;
     border: 1px solid #e5e7eb;
     color: #374151;
-    padding: 8px 12px;
+    padding: 6px 8px;
     border-radius: 6px;
     cursor: pointer;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     font-weight: 500;
     transition: all 0.2s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
-    min-height: 60px;
+    gap: 3px;
+    min-height: 50px;
     justify-content: center;
 }
 
@@ -331,7 +331,7 @@ body {
 }
 
 .action-btn span {
-    font-size: 0.7rem;
+    font-size: 0.6rem;
     text-align: center;
     line-height: 1.2;
 }
@@ -340,7 +340,7 @@ body {
     background: #f9fafb;
     border-radius: 8px;
     padding: 15px;
-    min-height: 120px;
+    min-height: 150px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -359,9 +359,12 @@ body {
 
 .action-gif {
     max-width: 100%;
-    max-height: 200px;
+    max-height: 250px;
+    width: auto;
+    height: auto;
     border-radius: 6px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    object-fit: contain;
 }
 
 .action-name {
@@ -418,27 +421,27 @@ body {
     }
     
     .action-buttons {
-        grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
-        gap: 6px;
+        grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+        gap: 4px;
     }
     
     .action-btn {
-        padding: 6px 8px;
-        font-size: 0.7rem;
-        min-height: 50px;
+        padding: 4px 6px;
+        font-size: 0.6rem;
+        min-height: 40px;
     }
     
     .action-btn span {
-        font-size: 0.6rem;
+        font-size: 0.5rem;
     }
     
     .action-preview {
-        min-height: 100px;
+        min-height: 120px;
         padding: 10px;
     }
     
     .action-gif {
-        max-height: 150px;
+        max-height: 180px;
     }
 }
 

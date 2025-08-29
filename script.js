@@ -150,7 +150,7 @@ function forceRefresh() {
 
 // 检查版本并提示刷新
 function checkVersion() {
-    var currentVersion = '202508291430';
+    var currentVersion = '202508291445';
     var storedVersion = localStorage.getItem('fs_version');
     
     if (storedVersion !== currentVersion) {
