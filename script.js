@@ -220,7 +220,7 @@ function autoForceRefresh() {
         console.log('检测到微信内置浏览器，检查是否需要刷新');
         // 只在版本不匹配时才刷新
         var storedVersion = localStorage.getItem('fs_version');
-        var currentVersion = '202508291500';
+        var currentVersion = '202508291600';
         
         if (storedVersion !== currentVersion) {
             console.log('版本不匹配，执行强制刷新');
@@ -315,6 +315,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }, 3000);
         }
+        
+        // 所有微信浏览器都显示刷新提示
+        var wechatTip = document.createElement('div');
+        wechatTip.style.cssText = 'position:fixed;top:50px;right:10px;background:#22c55e;color:white;padding:8px 12px;border-radius:4px;font-size:12px;z-index:9999;';
+        wechatTip.innerHTML = '微信用户：右上角刷新查看7代角色';
+        document.body.appendChild(wechatTip);
+        
+        // 5秒后自动隐藏提示
+        setTimeout(function() {
+            if (wechatTip.parentNode) {
+                wechatTip.parentNode.removeChild(wechatTip);
+            }
+        }, 5000);
     }
     
     // 检测服务器版本（只在必要时）
