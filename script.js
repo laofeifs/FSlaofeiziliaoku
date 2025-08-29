@@ -20,21 +20,21 @@ const charactersData = {
             name: '小芸',
             generation: '1代超特',
             description: '一代超特角色',
-            image: 'characters/1gen/xiaoyun.png'
+            image: 'characters/1代超特/小芸.png'
         },
         {
             id: '1_2',
             name: '雷龙',
             generation: '1代超特',
             description: '一代超特角色',
-            image: 'characters/1gen/leilong.png'
+            image: 'characters/1代超特/雷龙.png'
         },
         {
             id: '1_3',
             name: '蛇姬',
             generation: '1代超特',
             description: '一代超特角色',
-            image: 'characters/1gen/sheji.png'
+            image: 'characters/1代超特/蛇姬.png'
         }
     ],
     '2': [
@@ -150,7 +150,7 @@ function forceRefresh() {
 
 // 检查版本并提示刷新
 function checkVersion() {
-    var currentVersion = '2.1';
+    var currentVersion = '2.2';
     var storedVersion = localStorage.getItem('fs_version');
     
     if (storedVersion !== currentVersion) {
