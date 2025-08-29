@@ -416,6 +416,23 @@ function initializeFilters() {
 
 // 切换内容区域
 function switchSection(sectionName) {
+    // 特殊处理FS账号跳转
+    if (sectionName === 'account') {
+        // 微店H5链接
+        var weidianUrl = 'https://k.youshop10.com/6HZaEV6N'; // 老非街头篮球账号微店
+        console.log('跳转到微店:', weidianUrl);
+        
+        // 检测是否在微信浏览器中
+        if (isWeChat()) {
+            // 微信内置浏览器直接跳转
+            window.location.href = weidianUrl;
+        } else {
+            // 外置浏览器打开新窗口
+            window.open(weidianUrl, '_blank');
+        }
+        return;
+    }
+    
     // 隐藏所有内容区域
     const sections = document.querySelectorAll('.content-section');
     sections.forEach(section => section.classList.remove('active'));
