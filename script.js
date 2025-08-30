@@ -486,6 +486,23 @@ document.addEventListener('DOMContentLoaded', function() {
     // 检查版本并提示刷新
     checkVersion();
     
+    // 设备配置对象（提前定义）
+    var deviceConfig = {
+        isMobile: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
+        isApple: /iPad|iPhone|iPod/.test(navigator.userAgent),
+        isAndroid: /Android/i.test(navigator.userAgent),
+        isWeChat: /MicroMessenger/i.test(navigator.userAgent),
+        // 设备特定的配置
+        getConfig: function() {
+            return {
+                clearCache: !this.isApple, // 苹果设备不清除缓存
+                networkTimeout: this.isApple ? 15000 : 10000, // 苹果设备15秒超时
+                maxFailures: this.isApple ? 5 : 3, // 苹果设备5次失败才提示
+                checkInterval: this.isApple ? 600000 : 300000 // 苹果设备10分钟检测间隔
+            };
+        }
+    };
+    
     // 连接状态检测
     var connectionCheckInterval;
     var lastConnectionCheck = Date.now();
@@ -552,31 +569,16 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.appendChild(errorTip);
     }
     
-    // 延迟启动连接检测，避免页面加载时立即检测
-    setTimeout(function() {
-        connectionCheckInterval = setInterval(checkConnection, 600000); // 每10分钟检查一次
-    }, 10000); // 延迟10秒启动检测
+    // 暂时禁用网络检测，避免影响页面加载
+    // setTimeout(function() {
+    //     connectionCheckInterval = setInterval(checkConnection, 600000); // 每10分钟检查一次
+    // }, 10000); // 延迟10秒启动检测
     
 
     
 
     
-    // 设备配置对象
-    var deviceConfig = {
-        isMobile: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
-        isApple: /iPad|iPhone|iPod/.test(navigator.userAgent),
-        isAndroid: /Android/i.test(navigator.userAgent),
-        isWeChat: /MicroMessenger/i.test(navigator.userAgent),
-        // 设备特定的配置
-        getConfig: function() {
-            return {
-                clearCache: !this.isApple, // 苹果设备不清除缓存
-                networkTimeout: this.isApple ? 15000 : 10000, // 苹果设备15秒超时
-                maxFailures: this.isApple ? 5 : 3, // 苹果设备5次失败才提示
-                checkInterval: this.isApple ? 600000 : 300000 // 苹果设备10分钟检测间隔
-            };
-        }
-    };
+
     
     // 手机端强制刷新检测
     if (deviceConfig.isMobile) {
