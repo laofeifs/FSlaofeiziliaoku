@@ -388,18 +388,18 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.clear();
             sessionStorage.clear();
             
-            // 显示刷新提示
-            var mobileTip = document.createElement('div');
-            mobileTip.style.cssText = 'position:fixed;top:10px;left:10px;right:10px;background:#ff6b6b;color:white;padding:12px;border-radius:8px;font-size:14px;z-index:9999;text-align:center;';
-            mobileTip.innerHTML = '📱 移动端检测到更新，请下拉刷新页面获取最新内容';
-            document.body.appendChild(mobileTip);
+            // 移除移动端刷新提示
+            // var mobileTip = document.createElement('div');
+            // mobileTip.style.cssText = 'position:fixed;top:10px;left:10px;right:10px;background:#ff6b6b;color:white;padding:12px;border-radius:8px;font-size:14px;z-index:9999;text-align:center;';
+            // mobileTip.innerHTML = '📱 移动端检测到更新，请下拉刷新页面获取最新内容';
+            // document.body.appendChild(mobileTip);
             
             // 10秒后自动隐藏提示
-            setTimeout(function() {
-                if (mobileTip.parentNode) {
-                    mobileTip.parentNode.removeChild(mobileTip);
-                }
-            }, 10000);
+            // setTimeout(function() {
+            //     if (mobileTip.parentNode) {
+            //         mobileTip.parentNode.removeChild(mobileTip);
+            //     }
+            // }, 10000);
         }
     }
     
@@ -445,6 +445,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (filterContainer) {
         filterContainer.style.display = 'block';
     }
+    
+    // 初始化职业排名功能
+    initializeRanking();
 });
 
 // 初始化主导航
@@ -986,6 +989,46 @@ function loadGifFiles(folder, characterId, card) {
             })(actionButtons[i]);
         }
     }
+}
+
+// 初始化职业排名功能
+function initializeRanking() {
+    // 设置职业排名图片路径
+    const rankingImages = {
+        'c': `${COS_CONFIG.Domain}/ranking/C排名.png`,
+        'pf': `${COS_CONFIG.Domain}/ranking/PF排名.png`,
+        'pg': `${COS_CONFIG.Domain}/ranking/PG排名.png`
+    };
+    
+    // 加载图片
+    Object.keys(rankingImages).forEach(rankingType => {
+        const imgElement = document.getElementById(`${rankingType}-ranking-image`);
+        if (imgElement) {
+            imgElement.src = rankingImages[rankingType];
+            imgElement.onerror = function() {
+                this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7mnKzlm748L3RleHQ+Cjwvc3ZnPgo=';
+                this.alt = `${rankingType.toUpperCase()}排名 (图片加载失败)`;
+            };
+        }
+    });
+    
+    // 添加标签切换事件
+    const rankingTabs = document.querySelectorAll('.ranking-tab');
+    rankingTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            // 移除所有active状态
+            rankingTabs.forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.ranking-item').forEach(item => item.classList.remove('active'));
+            
+            // 添加当前active状态
+            this.classList.add('active');
+            const rankingType = this.getAttribute('data-ranking');
+            const targetItem = document.getElementById(`${rankingType}-ranking`);
+            if (targetItem) {
+                targetItem.classList.add('active');
+            }
+        });
+    });
 }
 
 // 导出函数供外部使用

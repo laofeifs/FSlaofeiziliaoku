@@ -64,6 +64,7 @@
                     <span>超特图鉴</span>
                 </button>
                 <button class="nav-btn active" data-section="characters">
+                    <i class="fas fa-running"></i>
                     <span>超特动作</span>
                 </button>
                 <button class="nav-btn" data-section="ranking">
@@ -145,10 +146,10 @@
             </div>
         </div>
 
-        <!-- 刷新提示 -->
-        <div id="refresh-tip" class="refresh-tip" style="display: none;">
+        <!-- 移除刷新提示 -->
+        <!-- <div id="refresh-tip" class="refresh-tip" style="display: none;">
             <p>检测到新版本，请下拉刷新页面</p>
-        </div>
+        </div> -->
         
         <!-- 内容显示区域 -->
         <div class="content-area">
@@ -168,7 +169,31 @@
 
             <div id="ranking-section" class="content-section">
                 <h2>职业排名</h2>
-                <p>职业排名内容将在这里显示</p>
+                <div class="ranking-tabs">
+                    <button class="ranking-tab active" data-ranking="c">
+                        <i class="fas fa-user"></i>
+                        <span>C排名</span>
+                    </button>
+                    <button class="ranking-tab" data-ranking="pf">
+                        <i class="fas fa-user"></i>
+                        <span>PF排名</span>
+                    </button>
+                    <button class="ranking-tab" data-ranking="pg">
+                        <i class="fas fa-user"></i>
+                        <span>PG排名</span>
+                    </button>
+                </div>
+                <div class="ranking-content">
+                    <div id="c-ranking" class="ranking-item active">
+                        <img src="" alt="C排名" class="ranking-image" id="c-ranking-image">
+                    </div>
+                    <div id="pf-ranking" class="ranking-item">
+                        <img src="" alt="PF排名" class="ranking-image" id="pf-ranking-image">
+                    </div>
+                    <div id="pg-ranking" class="ranking-item">
+                        <img src="" alt="PG排名" class="ranking-image" id="pg-ranking-image">
+                    </div>
+                </div>
             </div>
 
             <div id="skills-section" class="content-section">
