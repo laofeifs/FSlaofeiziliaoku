@@ -433,19 +433,37 @@ function checkVersion() {
 
 // 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', function() {
-
+    console.log('DOM加载完成');
     
-
-    
-
-    
-
-    
-
-    
-
-    
-
+    // iOS Safari特殊处理
+    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    if (isIOS) {
+        console.log('检测到iOS设备');
+        
+        // 添加iOS专用错误处理
+        window.addEventListener('error', function(e) {
+            console.error('iOS错误:', e.error);
+        });
+        
+        // 添加资源加载错误处理
+        window.addEventListener('load', function() {
+            console.log('iOS页面加载完成');
+            // 检查关键资源是否加载成功
+            var images = document.querySelectorAll('img');
+            for (var i = 0; i < images.length; i++) {
+                if (!images[i].complete) {
+                    console.warn('图片加载失败:', images[i].src);
+                }
+            }
+        });
+        
+        // 强制清除iOS缓存
+        if (window.navigator.standalone) {
+            console.log('iOS独立应用模式，清除缓存');
+            localStorage.clear();
+            sessionStorage.clear();
+        }
+    }
     
     // 微信浏览器兼容性处理
     if (isWeChat()) {
@@ -479,9 +497,18 @@ document.addEventListener('DOMContentLoaded', function() {
     // 简化初始化，只保留核心功能
     try {
         console.log('开始初始化页面功能');
+        
+        // 分步初始化，便于调试
+        console.log('1. 初始化导航');
         initializeNavigation();
+        
+        console.log('2. 初始化筛选');
         initializeFilters();
+        
+        console.log('3. 加载角色');
         loadCharacters(currentGeneration);
+        
+        console.log('4. 加载图鉴');
         loadGallery(currentGeneration);
         
         // 默认隐藏筛选按钮（因为默认是gallery页面）
@@ -490,11 +517,30 @@ document.addEventListener('DOMContentLoaded', function() {
             filterContainer.style.display = 'none';
         }
         
+        console.log('5. 初始化排名');
         // 初始化职业排名功能
         initializeRanking();
+        
         console.log('页面功能初始化完成');
+        
+        // iOS设备特殊检查
+        if (isIOS) {
+            setTimeout(function() {
+                console.log('iOS页面状态检查');
+                var contentSections = document.querySelectorAll('.content-section');
+                console.log('内容区域数量:', contentSections.length);
+                
+                for (var i = 0; i < contentSections.length; i++) {
+                    console.log('区域', i, ':', contentSections[i].id, '显示状态:', contentSections[i].style.display);
+                }
+            }, 2000);
+        }
     } catch (error) {
         console.error('页面初始化出错:', error);
+        // iOS设备显示错误信息
+        if (isIOS) {
+            alert('页面加载出错: ' + error.message);
+        }
     }
 });
 
@@ -597,8 +643,15 @@ function createCharacterCard(character) {
     const card = document.createElement('div');
     card.className = 'character-card';
     
-    // 构建图片URL（使用腾讯云COS）
-    const imageUrl = character.image ? `${COS_CONFIG.Domain}/${character.image}` : '';
+    // 构建图片URL（使用腾讯云COS，添加iOS兼容性）
+    var imageUrl = '';
+    if (character.image) {
+        imageUrl = COS_CONFIG.Domain + '/' + character.image;
+        // iOS设备添加时间戳避免缓存问题
+        if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+            imageUrl += '?t=' + new Date().getTime();
+        }
+    }
     
     // 构建动作按钮HTML
     let actionsHtml = '';
@@ -731,7 +784,19 @@ function handleImageLoad(img, characterName) {
 
 // 图片加载失败处理
 function handleImageError(img, characterName) {
-    console.log(`❌ ${characterName} 图片加载失败: ${img.src}`);
+    console.log('❌ ' + characterName + ' 图片加载失败: ' + img.src);
+    
+    // iOS设备特殊处理
+    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    if (isIOS) {
+        console.log('iOS设备图片加载失败，尝试重新加载');
+        // iOS设备尝试重新加载图片
+        setTimeout(function() {
+            if (img.src.indexOf('?t=') === -1) {
+                img.src = img.src + '?t=' + new Date().getTime();
+            }
+        }, 1000);
+    }
     
     // 设置默认图片
     img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7mnKzlm748L3RleHQ+Cjx0ZXh0IHg9IjEwMCIgeT0iMTIwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjwvc3ZnPgo=';
