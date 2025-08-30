@@ -13,7 +13,7 @@
     <meta http-equiv="Expires" content="">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:; img-src 'self' https: data: blob: *; connect-src 'self' https: *;">
     <title>老非FS资料库</title>
-    <link rel="stylesheet" href="styles.css?v=202508310100">
+    <link rel="stylesheet" href="styles.css?v=202508310200">
     <!-- 使用本地图标字体，避免CDN问题 -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous" referrerpolicy="no-referrer" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==">
     
@@ -21,7 +21,7 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js?v=202508310100')
+                navigator.serviceWorker.register('/sw.js?v=202508310200')
                     .then((registration) => {
                         console.log('Service Worker registered with scope:', registration.scope);
                         addDebugInfo('Service Worker注册成功: ' + registration.scope);
@@ -69,7 +69,11 @@
             <!-- 调试信息 -->
             <div id="debug-info" style="background: rgba(0,0,0,0.8); color: white; padding: 10px; margin: 10px; border-radius: 5px; font-size: 12px; display: none;">
                 <div id="debug-content">调试信息加载中...</div>
-                <button onclick="toggleDebug()" style="background: #007bff; color: white; border: none; padding: 5px 10px; border-radius: 3px; margin-top: 5px;">切换调试</button>
+                <div style="margin-top: 5px;">
+                    <button onclick="toggleDebug()" style="background: #007bff; color: white; border: none; padding: 5px 10px; border-radius: 3px; margin-right: 5px;">切换调试</button>
+                    <button onclick="checkCacheStatus()" style="background: #28a745; color: white; border: none; padding: 5px 10px; border-radius: 3px; margin-right: 5px;">检查缓存</button>
+                    <button onclick="clearAllCaches()" style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px;">清除缓存</button>
+                </div>
             </div>
             
             <!-- 微信浏览器提示 -->
@@ -480,7 +484,7 @@
         <img id="fullscreen-image" class="fullscreen-image" src="" alt="">
     </div>
 
-    <script src="script.js?v=202508310100"></script>
+    <script src="script.js?v=202508310200"></script>
     
     <!-- 微信浏览器特殊处理 -->
     <script>
@@ -731,6 +735,34 @@
                     resolve();
                 }
             });
+        }
+        
+        // 检查缓存状态
+        function checkCacheStatus() {
+            addDebugInfo('检查缓存状态');
+            if ('caches' in window) {
+                caches.keys().then(function(names) {
+                    addDebugInfo('当前缓存数量: ' + names.length);
+                    for (var i = 0; i < names.length; i++) {
+                        addDebugInfo('缓存: ' + names[i]);
+                        caches.open(names[i]).then(function(cache) {
+                            cache.keys().then(function(requests) {
+                                addDebugInfo('缓存内容数量: ' + requests.length);
+                            });
+                        });
+                    }
+                });
+            }
+            
+            // 检查Service Worker状态
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                    addDebugInfo('Service Worker数量: ' + registrations.length);
+                    for (var i = 0; i < registrations.length; i++) {
+                        addDebugInfo('SW状态: ' + (registrations[i].active ? 'active' : 'inactive'));
+                    }
+                });
+            }
         }
     </script>
 </body>
