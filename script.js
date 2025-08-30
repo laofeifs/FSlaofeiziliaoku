@@ -1309,11 +1309,12 @@ function loadGifFiles(folder, characterId, card) {
 
 // 初始化职业排名功能
 function initializeRanking() {
-    // 设置职业排名图片路径
+    // 设置职业排名图片路径（添加时间戳防止缓存）
+    const timestamp = new Date().getTime();
     const rankingImages = {
-        'c': `${COS_CONFIG.Domain}/ranking/C排名.png`,
-        'pf': `${COS_CONFIG.Domain}/ranking/PF排名.png`,
-        'pg': `${COS_CONFIG.Domain}/ranking/PG排名.png`
+        'c': `${COS_CONFIG.Domain}/ranking/C排名.png?v=${timestamp}`,
+        'pf': `${COS_CONFIG.Domain}/ranking/PF排名.png?v=${timestamp}`,
+        'pg': `${COS_CONFIG.Domain}/ranking/PG排名.png?v=${timestamp}`
     };
     
     // 加载图片

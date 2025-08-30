@@ -1091,28 +1091,30 @@ html {
     }
     
     .nav-buttons {
-        flex-direction: row; /* 保持水平排列 */
-        align-items: center;
-        justify-content: space-between; /* 平均分配空间 */
-        gap: 8px; /* 减少间距 */
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* 每行固定3个 */
+        gap: 8px;
         width: 100%;
     }
     
     .nav-btn {
-        flex: 1; /* 平均分配宽度 */
-        min-width: auto; /* 移除最小宽度限制 */
-        max-width: none; /* 移除最大宽度限制 */
-        padding: 15px 8px; /* 增加内边距 */
-        font-size: 1rem; /* 放大字体 */
-        gap: 6px; /* 增加图标和文字间距 */
+        width: 100%; /* 固定宽度 */
+        min-width: 0; /* 移除最小宽度限制 */
+        max-width: none;
+        padding: 12px 6px; /* 调整内边距 */
+        font-size: 0.9rem; /* 调整字体大小 */
+        gap: 4px; /* 减少图标和文字间距 */
+        text-align: center; /* 文字居中 */
+        justify-content: center;
     }
     
     .nav-btn i {
-        font-size: 1.2rem; /* 放大图标大小 */
+        font-size: 1rem; /* 调整图标大小 */
     }
     
     .nav-btn span {
         white-space: nowrap; /* 防止文字换行 */
+        text-align: center; /* 确保文字居中 */
     }
     
     .filter-buttons {
