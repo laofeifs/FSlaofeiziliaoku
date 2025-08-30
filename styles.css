@@ -158,6 +158,7 @@ html {
     padding: 20px;
     margin-bottom: 30px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: none; /* 默认隐藏筛选按钮 */
 }
 
 .filter-buttons {
@@ -231,8 +232,8 @@ html {
 /* 角色网格 */
 .characters-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
+    gap: 30px;
     margin-top: 20px;
 }
 
@@ -318,6 +319,9 @@ html {
     overflow: hidden;
     transition: all 0.3s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column; /* 改为垂直布局 */
+    padding: 20px;
 }
 
 .character-card:hover {
@@ -325,33 +329,60 @@ html {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
-.character-image {
+.character-header {
+    display: flex;
+    align-items: center; /* 垂直居中对齐 */
+    margin-bottom: 20px;
     width: 100%;
-    height: 200px;
-    object-fit: cover;
+}
+
+.character-image {
+    width: 240px; /* 放大3倍：80px * 3 = 240px */
+    height: 240px;
     background-color: #f3f4f6;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #9ca3af;
     font-size: 0.9rem;
+    overflow: hidden;
+    border-radius: 50%; /* 圆形头像 */
+    margin-right: 20px;
+    flex-shrink: 0; /* 防止头像被压缩 */
+    border: 4px solid #22c55e; /* 绿色边框 */
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2); /* 绿色阴影 */
+}
+
+.character-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center; /* 显示图片上半部分（头像区域） */
 }
 
 .character-info {
-    padding: 20px;
+    flex: 1; /* 占据剩余空间 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* 垂直居中 */
+    height: 240px; /* 与头像等高 */
 }
 
 .character-name {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #1f2937;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #22c55e; /* 绿色主题 */
     margin-bottom: 8px;
+    margin-top: 0;
+    text-shadow: 0 2px 4px rgba(34, 197, 94, 0.1);
 }
 
 .character-generation {
-    color: #6b7280;
-    font-size: 0.9rem;
-    margin-bottom: 12px;
+    color: #16a34a; /* 深绿色 */
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    margin-top: 0;
 }
 
 .character-description {
@@ -361,11 +392,17 @@ html {
     margin-bottom: 15px;
 }
 
+/* 动作容器 */
+.character-actions-container {
+    width: 100%;
+    margin-top: 20px;
+}
+
 /* 角色动作区域 */
 .character-actions {
-    margin-top: 20px;
-    border-top: 1px solid #e5e7eb;
-    padding-top: 15px;
+    border-top: 2px solid #22c55e; /* 绿色分割线 */
+    padding-top: 20px;
+    width: 100%; /* 全宽 */
 }
 
 .character-actions h4 {
@@ -377,9 +414,10 @@ html {
 
 .action-buttons {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
-    gap: 6px;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 8px;
     margin-bottom: 15px;
+    width: 100%; /* 全宽 */
 }
 
 .action-btn {
@@ -436,6 +474,7 @@ html {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%; /* 全宽 */
 }
 
 .gif-container {

@@ -440,8 +440,11 @@ document.addEventListener('DOMContentLoaded', function() {
     loadCharacters(currentGeneration);
     loadGallery(currentGeneration);
     
-    // 初始化懒加载
-    initLazyLoading();
+    // 默认显示筛选按钮（因为默认是characters页面）
+    const filterContainer = document.querySelector('.filter-container');
+    if (filterContainer) {
+        filterContainer.style.display = 'block';
+    }
 });
 
 // 初始化主导航
@@ -541,6 +544,16 @@ function switchSection(sectionName) {
     if (targetSection) {
         targetSection.classList.add('active');
     }
+    
+    // 控制筛选按钮的显示/隐藏
+    const filterContainer = document.querySelector('.filter-container');
+    if (sectionName === 'characters') {
+        // 只在"超特动作"页面显示筛选按钮
+        filterContainer.style.display = 'block';
+    } else {
+        // 其他页面隐藏筛选按钮
+        filterContainer.style.display = 'none';
+    }
 }
 
 // 加载角色数据
@@ -619,13 +632,16 @@ function createCharacterCard(character) {
     }
     
     card.innerHTML = `
-        <div class="character-image">
-            ${imageUrl ? `<img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7mnKzlm748L3RleHQ+Cjwvc3ZnPgo=" alt="${character.name}" loading="lazy" data-src="${imageUrl}" style="width: 100%; height: 100%; object-fit: cover;" onerror="handleImageError(this, '${character.name}')" onload="handleImageLoad(this, '${character.name}')">` : '暂无图片'}
+        <div class="character-header">
+            <div class="character-image">
+                ${imageUrl ? `<img src="${imageUrl}" alt="${character.name}" style="width: 100%; height: 100%; object-fit: cover;" onerror="handleImageError(this, '${character.name}')" onload="handleImageLoad(this, '${character.name}')">` : '暂无图片'}
+            </div>
+            <div class="character-info">
+                <h3 class="character-name">${character.name}</h3>
+                <p class="character-generation">${character.generation}</p>
+            </div>
         </div>
-        <div class="character-info">
-            <h3 class="character-name">${character.name}</h3>
-            <p class="character-generation">${character.generation}</p>
-            <p class="character-description">${character.description}</p>
+        <div class="character-actions-container">
             ${actionsHtml}
         </div>
     `;
@@ -684,7 +700,7 @@ function createGalleryCard() {
     
     card.innerHTML = `
         <div class="gallery-image-full">
-            ${imageUrl ? `<img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7mnKzlm748L3RleHQ+Cjwvc3ZnPgo=" alt="超特图鉴" loading="lazy" data-src="${imageUrl}" style="width: 100%; height: auto; object-fit: contain;" onerror="handleImageError(this, '超特图鉴')" onload="handleImageLoad(this, '超特图鉴')">` : '暂无图片'}
+            ${imageUrl ? `<img src="${imageUrl}" alt="超特图鉴" style="width: 100%; height: auto; object-fit: contain;" onerror="handleImageError(this, '超特图鉴')" onload="handleImageLoad(this, '超特图鉴')">` : '暂无图片'}
         </div>
         <div class="gallery-info">
             <h3 class="gallery-name">超特图鉴</h3>
@@ -728,12 +744,11 @@ function preventPullToRefresh() {
         }
     }, { passive: false });
     
-    // 阻止页面刷新
-    window.addEventListener('beforeunload', function(e) {
-        // 不显示确认对话框，直接阻止
-        e.preventDefault();
-        e.returnValue = '';
-    });
+    // 移除阻止页面刷新的代码
+    // window.addEventListener('beforeunload', function(e) {
+    //     e.preventDefault();
+    //     e.returnValue = '';
+    // });
     
     // 禁用右键菜单
     document.addEventListener('contextmenu', function(e) {
@@ -741,38 +756,7 @@ function preventPullToRefresh() {
     });
 }
 
-// 初始化懒加载
-function initLazyLoading() {
-    // 使用 Intersection Observer API
-    if ('IntersectionObserver' in window) {
-        const imageObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    if (img.dataset.src) {
-                        img.src = img.dataset.src;
-                        img.removeAttribute('data-src');
-                        observer.unobserve(img);
-                    }
-                }
-            });
-        }, {
-            rootMargin: '50px 0px', // 提前50px开始加载
-            threshold: 0.1
-        });
-        
-        // 观察所有懒加载图片
-        document.querySelectorAll('img[data-src]').forEach(img => {
-            imageObserver.observe(img);
-        });
-    } else {
-        // 降级处理：直接加载所有图片
-        document.querySelectorAll('img[data-src]').forEach(img => {
-            img.src = img.dataset.src;
-            img.removeAttribute('data-src');
-        });
-    }
-}
+
 
 // 显示COS帮助信息
 function showCOSHelp() {
