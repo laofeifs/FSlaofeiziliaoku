@@ -13,7 +13,7 @@
     <meta http-equiv="Expires" content="">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:; img-src 'self' https: data: blob: *; connect-src 'self' https: *;">
     <title>老非FS资料库</title>
-    <link rel="stylesheet" href="styles.css?v=202508310500">
+    <link rel="stylesheet" href="styles.css?v=202508310600">
     <!-- 使用本地图标字体，避免CDN问题 -->
     <!-- 使用国内CDN，提高访问速度 -->
     <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous" referrerpolicy="no-referrer">
@@ -22,7 +22,7 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js?v=202508310500')
+                navigator.serviceWorker.register('/sw.js?v=202508310600')
                     .then((registration) => {
                         console.log('Service Worker registered with scope:', registration.scope);
                         addDebugInfo('Service Worker注册成功: ' + registration.scope);
@@ -477,7 +477,7 @@
         <img id="fullscreen-image" class="fullscreen-image" src="" alt="">
     </div>
 
-    <script src="script.js?v=202508310500"></script>
+    <script src="script.js?v=202508310600"></script>
     
     <!-- 微信浏览器特殊处理 -->
     <script>
@@ -544,6 +544,49 @@
             // 执行强制清除缓存
             forceClearCache();
             
+            // 预加载关键资源
+            function preloadResources() {
+                addDebugInfo('开始预加载关键资源');
+                
+                // 预加载CSS
+                var cssLink = document.createElement('link');
+                cssLink.rel = 'preload';
+                cssLink.as = 'style';
+                cssLink.href = 'styles.css?v=202508310600';
+                document.head.appendChild(cssLink);
+                
+                // 预加载JS
+                var jsLink = document.createElement('link');
+                jsLink.rel = 'preload';
+                jsLink.as = 'script';
+                jsLink.href = 'script.js?v=202508310600';
+                document.head.appendChild(jsLink);
+                
+                // 预加载关键图片
+                var imageUrls = [
+                    'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/gallery/超特图鉴.png',
+                    'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/ranking/C排名.png'
+                ];
+                
+                for (var i = 0; i < imageUrls.length; i++) {
+                    var img = new Image();
+                    img.src = imageUrls[i] + '?v=' + Date.now();
+                    img.onload = function() {
+                        addDebugInfo('图片预加载成功: ' + this.src);
+                    };
+                    img.onerror = function() {
+                        addDebugInfo('图片预加载失败: ' + this.src);
+                    };
+                }
+                
+                addDebugInfo('预加载资源设置完成');
+            }
+            
+            // 新用户执行预加载
+            if (isNewUser) {
+                preloadResources();
+            }
+            
             // HTTPS强制检查
             if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
                 addDebugInfo('检测到非HTTPS协议，重定向到HTTPS');
@@ -568,25 +611,56 @@
                 console.log('微信浏览器检测到，应用特殊处理');
                 addDebugInfo('微信浏览器检测到，应用特殊处理');
                 
-                // 新用户特殊处理
-                if (isNewUser) {
-                    addDebugInfo('新用户微信浏览器特殊处理');
-                    // 延迟初始化，确保页面完全加载
-                    setTimeout(function() {
-                        if (typeof initializeNavigation === 'function') {
-                            initializeNavigation();
-                            addDebugInfo('新用户导航初始化完成');
-                        }
-                        if (typeof initializeFilters === 'function') {
-                            initializeFilters();
-                            addDebugInfo('新用户筛选器初始化完成');
-                        }
-                        if (typeof loadCharacters === 'function') {
-                            loadCharacters('9');
-                            addDebugInfo('新用户角色加载完成');
-                        }
-                    }, 2000);
+                            // 新用户特殊处理
+            if (isNewUser) {
+                addDebugInfo('新用户微信浏览器特殊处理');
+                // 延迟初始化，确保页面完全加载
+                setTimeout(function() {
+                    initializePageFunctions();
+                }, 2000);
+            }
+            
+            // 页面功能初始化函数
+            function initializePageFunctions() {
+                var success = true;
+                
+                if (typeof initializeNavigation === 'function') {
+                    try {
+                        initializeNavigation();
+                        addDebugInfo('导航初始化完成');
+                    } catch (e) {
+                        addDebugInfo('导航初始化失败: ' + e.message);
+                        success = false;
+                    }
                 }
+                
+                if (typeof initializeFilters === 'function') {
+                    try {
+                        initializeFilters();
+                        addDebugInfo('筛选器初始化完成');
+                    } catch (e) {
+                        addDebugInfo('筛选器初始化失败: ' + e.message);
+                        success = false;
+                    }
+                }
+                
+                if (typeof loadCharacters === 'function') {
+                    try {
+                        loadCharacters('9');
+                        addDebugInfo('角色加载完成');
+                    } catch (e) {
+                        addDebugInfo('角色加载失败: ' + e.message);
+                        success = false;
+                    }
+                }
+                
+                if (!success) {
+                    addDebugInfo('部分功能初始化失败，3秒后重试');
+                    setTimeout(function() {
+                        initializePageFunctions();
+                    }, 3000);
+                }
+            }
                 
                 // 执行CORS检查
                 setTimeout(function() {
@@ -654,6 +728,7 @@
             function checkPageContent() {
                 var contentSections = document.querySelectorAll('.content-section');
                 var hasContent = false;
+                var retryCount = parseInt(localStorage.getItem('retryCount') || '0');
                 
                 for (var i = 0; i < contentSections.length; i++) {
                     if (contentSections[i].children.length > 1) {
@@ -663,22 +738,30 @@
                 }
                 
                 if (!hasContent) {
-                    addDebugInfo('页面内容加载失败，可能是网络问题');
-                    // 新用户尝试重新初始化
-                    if (isNewUser) {
-                        addDebugInfo('新用户尝试重新初始化');
-                        if (typeof initializeNavigation === 'function') {
-                            initializeNavigation();
-                        }
-                        if (typeof initializeFilters === 'function') {
-                            initializeFilters();
-                        }
-                        if (typeof loadCharacters === 'function') {
-                            loadCharacters('9');
-                        }
+                    addDebugInfo('页面内容加载失败，重试次数: ' + retryCount);
+                    
+                    // 限制重试次数，避免无限循环
+                    if (retryCount < 3) {
+                        retryCount++;
+                        localStorage.setItem('retryCount', retryCount.toString());
+                        addDebugInfo('准备第' + retryCount + '次重试');
+                        
+                        // 延迟重试
+                        setTimeout(function() {
+                            addDebugInfo('执行第' + retryCount + '次重试');
+                            initializePageFunctions();
+                            checkPageContent();
+                        }, 2000);
+                    } else {
+                        addDebugInfo('重试次数已达上限，建议手动刷新');
+                        // 重置重试计数
+                        localStorage.removeItem('retryCount');
                     }
                 } else {
                     addDebugInfo('页面内容加载正常');
+                    // 重置重试计数
+                    localStorage.removeItem('retryCount');
+                    
                     if (isWeChat) {
                         setTimeout(function() {
                             console.log('内容区域数量:', contentSections.length);
