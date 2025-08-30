@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>老非FS资料库</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .header {
+            background-color: #1e3a5f;
+            color: white;
+            padding: 25px 0;
+            text-align: center;
+        }
+        .main-title {
+            font-size: 3.5rem;
+            margin: 0 0 10px 0;
+            color: #4ade80;
+        }
+        .title-underline {
+            width: 60px;
+            height: 3px;
+            background-color: #4ade80;
+            margin: 0 auto 10px;
+        }
+        .header-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        .powered-by {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        .contact-tag {
+            background-color: #22c55e;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        .refresh-tip {
+            margin-top: 10px;
+            padding: 6px 12px;
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            border-radius: 16px;
+            font-size: 0.8rem;
+            color: #ffc107;
+        }
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        .nav-container {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .nav-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+        .nav-btn {
+            background: white;
+            border: 1px solid #e5e7eb;
+            color: #374151;
+            padding: 12px 6px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        .nav-btn.active {
+            background-color: #22c55e;
+            color: white;
+            border-color: #22c55e;
+        }
+        .content-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .content-section:not(.active) {
+            display: none;
+        }
+        .gallery-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5rem;
+            }
+            .nav-buttons {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .nav-btn {
+                padding: 10px 4px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1 class="main-title">街头篮球资料库</h1>
+        <div class="title-underline"></div>
+        <div class="header-bottom">
+            <p class="powered-by">Powered by 老非</p>
+            <div class="contact-tag">laofei90186</div>
+        </div>
+        <div class="refresh-tip">点击右上角三个点➡️刷新获取最新版</div>
+    </header>
+
+    <main class="main-content">
+        <div class="nav-container">
+            <div class="nav-buttons">
+                <button class="nav-btn active" onclick="showSection('gallery')">超特图鉴</button>
+                <button class="nav-btn" onclick="showSection('characters')">超特动作</button>
+                <button class="nav-btn" onclick="showSection('ranking')">职业排名</button>
+                <button class="nav-btn" onclick="showSection('account')">FS账号</button>
+                <button class="nav-btn" onclick="showSection('courses')">老非课程</button>
+                <button class="nav-btn" onclick="showSection('skills')">实用技巧</button>
+            </div>
+        </div>
+
+        <div id="gallery-section" class="content-section active">
+            <h2>超特图鉴</h2>
+            <img src="https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/gallery/超特图鉴.png" alt="超特图鉴" class="gallery-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <p style="display:none; text-align:center; color:#666;">图鉴图片加载中...</p>
+        </div>
+
+        <div id="characters-section" class="content-section">
+            <h2>超特动作</h2>
+            <p>超特动作功能正在开发中...</p>
+        </div>
+
+        <div id="ranking-section" class="content-section">
+            <h2>职业排名</h2>
+            <p>职业排名功能正在开发中...</p>
+        </div>
+
+        <div id="account-section" class="content-section">
+            <h2>FS账号</h2>
+            <p>FS账号功能正在开发中...</p>
+        </div>
+
+        <div id="courses-section" class="content-section">
+            <h2>老非课程</h2>
+            <p>老非课程功能正在开发中...</p>
+        </div>
+
+        <div id="skills-section" class="content-section">
+            <h2>实用技巧</h2>
+            <p>实用技巧功能正在开发中...</p>
+        </div>
+    </main>
+
+    <script>
+        console.log('极简版页面开始加载');
+        
+        function showSection(sectionName) {
+            // 隐藏所有内容区域
+            var sections = document.querySelectorAll('.content-section');
+            for (var i = 0; i < sections.length; i++) {
+                sections[i].classList.remove('active');
+            }
+            
+            // 显示选中的内容区域
+            var targetSection = document.getElementById(sectionName + '-section');
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+            
+            // 更新按钮状态
+            var buttons = document.querySelectorAll('.nav-btn');
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove('active');
+            }
+            
+            // 找到对应的按钮并激活
+            for (var i = 0; i < buttons.length; i++) {
+                if (buttons[i].getAttribute('onclick').indexOf(sectionName) !== -1) {
+                    buttons[i].classList.add('active');
+                    break;
+                }
+            }
+        }
+        
+        // 页面加载完成
+        window.addEventListener('load', function() {
+            console.log('极简版页面加载完成');
+        });
+        
+        // 错误处理
+        window.addEventListener('error', function(e) {
+            console.error('页面错误:', e.error);
+        });
+    </script>
+</body>
+</html>
