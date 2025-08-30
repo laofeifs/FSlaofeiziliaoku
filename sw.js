@@ -1,5 +1,5 @@
 // Service Worker for 老非FS资料库
-const CACHE_VERSION = '202508311000';
+const CACHE_VERSION = '202508311400';
 const STATIC_CACHE = 'static-v' + CACHE_VERSION;
 const DYNAMIC_CACHE = 'dynamic-v' + CACHE_VERSION;
 

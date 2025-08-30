@@ -612,16 +612,23 @@ function switchSection(sectionName) {
 
 // 加载角色数据
 function loadCharacters(generation) {
+    console.log('开始加载角色数据，代次:', generation);
+    
     const charactersGrid = document.getElementById('characters-grid');
-    if (!charactersGrid) return;
+    if (!charactersGrid) {
+        console.error('找不到角色网格容器');
+        return;
+    }
     
     // 清空现有内容
     charactersGrid.innerHTML = '';
     
     // 获取当前代次的角色数据
     const characters = charactersData[generation] || [];
+    console.log('找到角色数量:', characters.length);
     
     if (characters.length === 0) {
+        console.warn('没有找到', generation, '代角色数据');
         charactersGrid.innerHTML = `
             <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #6b7280;">
                 <p>暂无${generation}代超特角色数据</p>
@@ -633,13 +640,18 @@ function loadCharacters(generation) {
     
     // 创建角色卡片
     characters.forEach(character => {
+        console.log('处理角色:', character.name, 'ID:', character.id);
         const characterCard = createCharacterCard(character);
         charactersGrid.appendChild(characterCard);
     });
+    
+    console.log('角色加载完成，代次:', generation);
 }
 
 // 创建角色卡片
 function createCharacterCard(character) {
+    console.log('创建角色卡片:', character.name, '图片路径:', character.image);
+    
     const card = document.createElement('div');
     card.className = 'character-card';
     
@@ -647,10 +659,15 @@ function createCharacterCard(character) {
     var imageUrl = '';
     if (character.image) {
         imageUrl = COS_CONFIG.Domain + '/' + character.image;
+        console.log('角色图片URL:', imageUrl);
+        
         // iOS设备添加时间戳避免缓存问题
         if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
             imageUrl += '?t=' + new Date().getTime();
+            console.log('iOS设备，添加时间戳后的URL:', imageUrl);
         }
+    } else {
+        console.warn('角色没有图片路径:', character.name);
     }
     
     // 构建动作按钮HTML
@@ -758,11 +775,15 @@ function loadGallery(generation) {
 
 // 创建图鉴卡片
 function createGalleryCard() {
+    console.log('创建图鉴卡片');
+    console.log('图鉴图片路径:', galleryData.image);
+    
     const card = document.createElement('div');
     card.className = 'gallery-card-full';
     
     // 构建图片URL（使用腾讯云COS）
     const imageUrl = galleryData.image ? `${COS_CONFIG.Domain}/${galleryData.image}` : '';
+    console.log('图鉴图片URL:', imageUrl);
     
     card.innerHTML = `
         <div class="gallery-image-full">
@@ -780,11 +801,15 @@ function createGalleryCard() {
 // 图片加载成功处理
 function handleImageLoad(img, characterName) {
     console.log(`✅ ${characterName} 图片加载成功`);
+    console.log(`图片URL: ${img.src}`);
+    console.log(`图片尺寸: ${img.naturalWidth} x ${img.naturalHeight}`);
 }
 
 // 图片加载失败处理
 function handleImageError(img, characterName) {
-    console.log('❌ ' + characterName + ' 图片加载失败: ' + img.src);
+    console.log('❌ ' + characterName + ' 图片加载失败');
+    console.log('失败URL: ' + img.src);
+    console.log('错误详情: 可能是文件不存在或网络问题');
     
     // iOS设备特殊处理
     var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -793,7 +818,9 @@ function handleImageError(img, characterName) {
         // iOS设备尝试重新加载图片
         setTimeout(function() {
             if (img.src.indexOf('?t=') === -1) {
-                img.src = img.src + '?t=' + new Date().getTime();
+                var retryUrl = img.src + '?t=' + new Date().getTime();
+                console.log('iOS重试URL:', retryUrl);
+                img.src = retryUrl;
             }
         }, 1000);
     }
@@ -925,9 +952,10 @@ function isValidFileType(file, allowedTypes = ['jpg', 'jpeg', 'png', 'gif', 'mp4
 
 // 动态加载GIF文件
 function loadGifFiles(folder, characterId, card) {
-    // 从COS文件夹中动态读取GIF文件
-    // 使用fetch请求获取文件夹内容
-    var cosUrl = COS_CONFIG.Domain + '/' + folder;
+    console.log('开始加载GIF文件:', characterId, '文件夹:', folder);
+    
+    // 确保文件夹路径正确（移除末尾斜杠，避免重复）
+    var cleanFolder = folder.replace(/\/$/, '');
     
     // 根据角色ID确定使用哪个GIF文件列表
     var commonGifFiles = [];
@@ -1150,31 +1178,46 @@ function loadGifFiles(folder, characterId, card) {
         ];
     }
     
+    console.log('GIF文件列表:', commonGifFiles);
+    
     var actionButtonsContainer = card.querySelector('#actions-' + characterId);
     var gifContainer = card.querySelector('#gif-' + characterId);
+    
+    if (!actionButtonsContainer || !gifContainer) {
+        console.error('找不到容器元素:', characterId);
+        return;
+    }
     
     // 动态检测GIF文件是否存在
     var buttonsHtml = '';
     var validGifFiles = [];
+    var checkedCount = 0;
     
     // 检查每个GIF文件是否存在
     function checkGifFile(file, index) {
-        var gifUrl = COS_CONFIG.Domain + '/' + folder + file;
+        // 正确构建URL路径
+        var gifUrl = COS_CONFIG.Domain + '/' + cleanFolder + '/' + file;
+        console.log('检查GIF文件:', gifUrl);
+        
         var img = new Image();
         
         img.onload = function() {
+            console.log('✅ GIF文件存在:', file);
             // 文件存在，添加到按钮列表
             validGifFiles.push(file);
-            if (validGifFiles.length === commonGifFiles.length) {
+            checkedCount++;
+            if (checkedCount === commonGifFiles.length) {
                 // 所有文件检查完成，创建按钮
                 createButtons();
             }
         };
         
         img.onerror = function() {
+            console.log('❌ GIF文件不存在:', file);
             // 文件不存在，跳过
-            if (index === commonGifFiles.length - 1) {
-                // 最后一个文件检查完成，创建按钮
+            checkedCount++;
+            if (checkedCount === commonGifFiles.length) {
+                // 所有文件检查完成，创建按钮
                 createButtons();
             }
         };
@@ -1184,14 +1227,16 @@ function loadGifFiles(folder, characterId, card) {
     
     // 创建按钮的函数
     function createButtons() {
+        console.log('创建按钮，有效文件数量:', validGifFiles.length);
+        
         if (validGifFiles.length === 0) {
-            actionButtonsContainer.innerHTML = '<p>未找到动作文件</p>';
+            actionButtonsContainer.innerHTML = '<p style="color: #999; text-align: center; padding: 20px;">未找到动作文件</p>';
             return;
         }
         
         validGifFiles.forEach(function(file) {
             var actionName = file.replace('.gif', '');
-            var gifUrl = COS_CONFIG.Domain + '/' + folder + file;
+            var gifUrl = COS_CONFIG.Domain + '/' + cleanFolder + '/' + file;
             
             buttonsHtml += `
                 <button class="action-btn" data-gif="${gifUrl}">
