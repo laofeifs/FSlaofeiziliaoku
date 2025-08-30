@@ -626,10 +626,10 @@ document.addEventListener('DOMContentLoaded', function() {
     loadCharacters(currentGeneration);
     loadGallery(currentGeneration);
     
-    // 默认显示筛选按钮（因为默认是characters页面）
+    // 默认隐藏筛选按钮（因为默认是gallery页面）
     const filterContainer = document.querySelector('.filter-container');
     if (filterContainer) {
-        filterContainer.style.display = 'block';
+        filterContainer.style.display = 'none';
     }
     
     // 初始化职业排名功能
