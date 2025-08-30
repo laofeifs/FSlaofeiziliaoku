@@ -1,16 +1,16 @@
 // Service Worker for 老非FS资料库
-const CACHE_VERSION = '202508310600';
+const CACHE_VERSION = '202508311000';
 const STATIC_CACHE = 'static-v' + CACHE_VERSION;
 const DYNAMIC_CACHE = 'dynamic-v' + CACHE_VERSION;
 
 // 需要缓存的静态资源（带版本号）
 const STATIC_FILES = [
-    '/',
-    '/index.html?v=' + CACHE_VERSION,
-    '/styles.css?v=' + CACHE_VERSION,
-    '/script.js?v=' + CACHE_VERSION,
-    '/version.txt',
-    '/sw.js?v=' + CACHE_VERSION,
+    './',
+    './index.html?v=' + CACHE_VERSION,
+    './styles.css?v=' + CACHE_VERSION,
+    './script.js?v=' + CACHE_VERSION,
+    './version.txt',
+    './sw.js?v=' + CACHE_VERSION,
     'https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0/css/all.min.css'
 ];
 

@@ -1421,6 +1421,8 @@ function openStore() {
     }
 }
 
+
+
 // 添加全屏显示的事件监听
 document.addEventListener('DOMContentLoaded', function() {
     const overlay = document.getElementById('fullscreen-overlay');

@@ -13,7 +13,7 @@
     <meta http-equiv="Expires" content="">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:; img-src 'self' https: data: blob: *; connect-src 'self' https: *;">
     <title>老非FS资料库</title>
-    <link rel="stylesheet" href="styles.css?v=202508310600">
+    <link rel="stylesheet" href="styles.css?v=202508311000">
     <!-- 使用本地图标字体，避免CDN问题 -->
     <!-- 使用国内CDN，提高访问速度 -->
     <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous" referrerpolicy="no-referrer">
@@ -22,7 +22,7 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js?v=202508310600')
+                navigator.serviceWorker.register('./sw.js?v=202508311000')
                     .then((registration) => {
                         console.log('Service Worker registered with scope:', registration.scope);
                         addDebugInfo('Service Worker注册成功: ' + registration.scope);
@@ -477,7 +477,7 @@
         <img id="fullscreen-image" class="fullscreen-image" src="" alt="">
     </div>
 
-    <script src="script.js?v=202508310600"></script>
+    <script src="script.js?v=202508311000"></script>
     
     <!-- 微信浏览器特殊处理 -->
     <script>
@@ -552,14 +552,14 @@
                 var cssLink = document.createElement('link');
                 cssLink.rel = 'preload';
                 cssLink.as = 'style';
-                cssLink.href = 'styles.css?v=202508310600';
+                cssLink.href = 'styles.css?v=202508311000';
                 document.head.appendChild(cssLink);
                 
                 // 预加载JS
                 var jsLink = document.createElement('link');
                 jsLink.rel = 'preload';
                 jsLink.as = 'script';
-                jsLink.href = 'script.js?v=202508310600';
+                jsLink.href = 'script.js?v=202508311000';
                 document.head.appendChild(jsLink);
                 
                 // 预加载关键图片
@@ -587,8 +587,8 @@
                 preloadResources();
             }
             
-            // HTTPS强制检查
-            if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
+            // HTTPS强制检查（仅对网络访问生效）
+            if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.protocol !== 'file:') {
                 addDebugInfo('检测到非HTTPS协议，重定向到HTTPS');
                 location.replace('https:' + location.href.substring(location.protocol.length));
                 return;
@@ -611,56 +611,56 @@
                 console.log('微信浏览器检测到，应用特殊处理');
                 addDebugInfo('微信浏览器检测到，应用特殊处理');
                 
-                            // 新用户特殊处理
-            if (isNewUser) {
-                addDebugInfo('新用户微信浏览器特殊处理');
-                // 延迟初始化，确保页面完全加载
-                setTimeout(function() {
-                    initializePageFunctions();
-                }, 2000);
-            }
-            
-            // 页面功能初始化函数
-            function initializePageFunctions() {
-                var success = true;
-                
-                if (typeof initializeNavigation === 'function') {
-                    try {
-                        initializeNavigation();
-                        addDebugInfo('导航初始化完成');
-                    } catch (e) {
-                        addDebugInfo('导航初始化失败: ' + e.message);
-                        success = false;
-                    }
-                }
-                
-                if (typeof initializeFilters === 'function') {
-                    try {
-                        initializeFilters();
-                        addDebugInfo('筛选器初始化完成');
-                    } catch (e) {
-                        addDebugInfo('筛选器初始化失败: ' + e.message);
-                        success = false;
-                    }
-                }
-                
-                if (typeof loadCharacters === 'function') {
-                    try {
-                        loadCharacters('9');
-                        addDebugInfo('角色加载完成');
-                    } catch (e) {
-                        addDebugInfo('角色加载失败: ' + e.message);
-                        success = false;
-                    }
-                }
-                
-                if (!success) {
-                    addDebugInfo('部分功能初始化失败，3秒后重试');
+                // 新用户特殊处理
+                if (isNewUser) {
+                    addDebugInfo('新用户微信浏览器特殊处理');
+                    // 延迟初始化，确保页面完全加载
                     setTimeout(function() {
                         initializePageFunctions();
-                    }, 3000);
+                    }, 2000);
                 }
-            }
+                
+                // 页面功能初始化函数
+                function initializePageFunctions() {
+                    var success = true;
+                    
+                    if (typeof initializeNavigation === 'function') {
+                        try {
+                            initializeNavigation();
+                            addDebugInfo('导航初始化完成');
+                        } catch (e) {
+                            addDebugInfo('导航初始化失败: ' + e.message);
+                            success = false;
+                        }
+                    }
+                    
+                    if (typeof initializeFilters === 'function') {
+                        try {
+                            initializeFilters();
+                            addDebugInfo('筛选器初始化完成');
+                        } catch (e) {
+                            addDebugInfo('筛选器初始化失败: ' + e.message);
+                            success = false;
+                        }
+                    }
+                    
+                    if (typeof loadCharacters === 'function') {
+                        try {
+                            loadCharacters('9');
+                            addDebugInfo('角色加载完成');
+                        } catch (e) {
+                            addDebugInfo('角色加载失败: ' + e.message);
+                            success = false;
+                        }
+                    }
+                    
+                    if (!success) {
+                        addDebugInfo('部分功能初始化失败，3秒后重试');
+                        setTimeout(function() {
+                            initializePageFunctions();
+                        }, 3000);
+                    }
+                }
                 
                 // 执行CORS检查
                 setTimeout(function() {
