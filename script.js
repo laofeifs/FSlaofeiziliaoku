@@ -494,15 +494,15 @@ document.addEventListener('DOMContentLoaded', function() {
     function checkConnection() {
         var currentTime = Date.now();
         
-        // 每2分钟检查一次连接状态（降低频率）
-        if (currentTime - lastConnectionCheck > 120000) {
+        // 每5分钟检查一次连接状态（进一步降低频率）
+        if (currentTime - lastConnectionCheck > 300000) {
             lastConnectionCheck = currentTime;
             
             // 尝试加载一个小的资源来检测连接
             fetch('/version.txt?t=' + currentTime, { 
                 method: 'HEAD',
                 cache: 'no-cache',
-                timeout: 5000 // 5秒超时
+                timeout: 10000 // 增加到10秒超时
             })
             .then(function(response) {
                 if (response.ok) {
@@ -512,14 +512,23 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (errorTip) {
                         errorTip.remove();
                     }
+                    // 重置失败计数
+                    localStorage.setItem('connection_fail_count', '0');
                 } else {
                     throw new Error('网络响应异常');
                 }
             })
             .catch(function(error) {
                 console.log('网络连接检测失败:', error);
-                // 不显示错误提示，只在控制台记录
-                // showConnectionError(); // 注释掉自动显示错误
+                // 只在连续失败3次后才显示错误提示
+                var failCount = parseInt(localStorage.getItem('connection_fail_count') || '0');
+                failCount++;
+                localStorage.setItem('connection_fail_count', failCount.toString());
+                
+                if (failCount >= 3) {
+                    console.log('连续3次网络检测失败，显示错误提示');
+                    showConnectionError();
+                }
             });
         }
     }
@@ -542,8 +551,10 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.appendChild(errorTip);
     }
     
-    // 启动连接检测（降低频率，避免频繁检测）
-    connectionCheckInterval = setInterval(checkConnection, 300000); // 每5分钟检查一次
+    // 延迟启动连接检测，避免页面加载时立即检测
+    setTimeout(function() {
+        connectionCheckInterval = setInterval(checkConnection, 600000); // 每10分钟检查一次
+    }, 10000); // 延迟10秒启动检测
     
 
     
