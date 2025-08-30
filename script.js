@@ -40,27 +40,161 @@ const charactersData = {
             generation: '1代超特',
             description: '一代超特角色',
             image: 'characters/1代超特/蛇姬.png'
-        }
+                }
     ],
     '2': [
         {
             id: '2_1',
-            name: '角色名称2',
+            name: '安杰拉',
             generation: '2代超特',
-            description: '这是2代超特的角色描述',
-            image: 'characters/2gen/character2.jpg'
-        }
-        // 更多角色...
-    ],
-    '5': [
+            description: '二代超特角色',
+            image: 'characters/2代超特/安杰拉.png',
+            gifFolder: 'gifs/2代超特/安杰拉/'
+        },
         {
-            id: '5_1',
-            name: '角色名称5',
-            generation: '5代超特',
-            description: '这是5代超特的角色描述',
-            image: 'characters/5gen/character5.jpg'
+            id: '2_2',
+            name: '沃顿',
+            generation: '2代超特',
+            description: '二代超特角色',
+            image: 'characters/2代超特/沃顿.png',
+            gifFolder: 'gifs/2代超特/沃顿/'
+        },
+        {
+            id: '2_3',
+            name: '莉莉斯',
+            generation: '2代超特',
+            description: '二代超特角色',
+            image: 'characters/2代超特/莉莉斯.png',
+            gifFolder: 'gifs/2代超特/莉莉斯/'
+        },
+        {
+            id: '2_4',
+            name: '路西法',
+            generation: '2代超特',
+            description: '二代超特角色',
+            image: 'characters/2代超特/路西法.png',
+            gifFolder: 'gifs/2代超特/路西法/'
         }
-        // 更多角色...
+    ],
+    '3': [
+        {
+            id: '3_1',
+            name: '凤凰',
+            generation: '3代超特',
+            description: '三代超特角色',
+            image: 'characters/3代超特/凤凰.png',
+            gifFolder: 'gifs/3代超特/凤凰/'
+        },
+        {
+            id: '3_2',
+            name: '白虎',
+            generation: '3代超特',
+            description: '三代超特角色',
+            image: 'characters/3代超特/白虎.png',
+            gifFolder: 'gifs/3代超特/白虎/'
+        },
+        {
+            id: '3_3',
+            name: '酒鬼',
+            generation: '3代超特',
+            description: '三代超特角色',
+            image: 'characters/3代超特/酒鬼.png',
+            gifFolder: 'gifs/3代超特/酒鬼/'
+        },
+        {
+            id: '3_4',
+            name: '麒麟',
+            generation: '3代超特',
+            description: '三代超特角色',
+            image: 'characters/3代超特/麒麟.png',
+            gifFolder: 'gifs/3代超特/麒麟/'
+        }
+    ],
+    '3_5': [
+        {
+            id: '3_5_1',
+            name: '悠夏',
+            generation: '3.5代超特',
+            description: '三点五代超特角色',
+            image: 'characters/3.5代超特/悠夏.png',
+            gifFolder: 'gifs/3.5代超特/悠夏/'
+        },
+        {
+            id: '3_5_2',
+            name: '托姆斯',
+            generation: '3.5代超特',
+            description: '三点五代超特角色',
+            image: 'characters/3.5代超特/托姆斯.png',
+            gifFolder: 'gifs/3.5代超特/托姆斯/'
+        },
+        {
+            id: '3_5_3',
+            name: '浩然',
+            generation: '3.5代超特',
+            description: '三点五代超特角色',
+            image: 'characters/3.5代超特/浩然.png',
+            gifFolder: 'gifs/3.5代超特/浩然/'
+        },
+        {
+            id: '3_5_4',
+            name: '芙熙',
+            generation: '3.5代超特',
+            description: '三点五代超特角色',
+            image: 'characters/3.5代超特/芙熙.png',
+            gifFolder: 'gifs/3.5代超特/芙熙/'
+        }
+    ],
+    '4': [
+        {
+            id: '4_1',
+            name: '丽雅',
+            generation: '4代超特',
+            description: '四代超特角色',
+            image: 'characters/4代超特/丽雅.png',
+            gifFolder: 'gifs/4代超特/丽雅/'
+        },
+        {
+            id: '4_2',
+            name: '狐狸',
+            generation: '4代超特',
+            description: '四代超特角色',
+            image: 'characters/4代超特/狐狸.png',
+            gifFolder: 'gifs/4代超特/狐狸/'
+        },
+        {
+            id: '4_3',
+            name: '玛丽',
+            generation: '4代超特',
+            description: '四代超特角色',
+            image: 'characters/4代超特/玛丽.png',
+            gifFolder: 'gifs/4代超特/玛丽/'
+        },
+        {
+            id: '4_4',
+            name: '雷鸣',
+            generation: '4代超特',
+            description: '四代超特角色',
+            image: 'characters/4代超特/雷鸣.png',
+            gifFolder: 'gifs/4代超特/雷鸣/'
+        },
+        {
+            id: '4_5',
+            name: '露美',
+            generation: '4代超特',
+            description: '四代超特角色',
+            image: 'characters/4代超特/露美.png',
+            gifFolder: 'gifs/4代超特/露美/'
+        }
+    ],
+    '4_5': [
+        {
+            id: '4_5_1',
+            name: '夏洛梅特',
+            generation: '4.5代超特',
+            description: '四点五代超特角色',
+            image: 'characters/4.5代超特/夏洛梅特.png',
+            gifFolder: 'gifs/4.5代超特/夏洛梅特/'
+        }
     ],
     '6': [
         {
@@ -867,8 +1001,23 @@ function loadGifFiles(folder, characterId, card) {
     // 根据角色ID确定使用哪个GIF文件列表
     var commonGifFiles = [];
     
-    // 5代超特特定GIF文件
-    if (characterId.includes('5_')) {
+    // 2代、3代、3.5代、4代、4.5代超特通用GIF文件
+    if (characterId.includes('2_') || characterId.includes('3_') || characterId.includes('4_')) {
+        commonGifFiles = [
+            'X.gif',
+            '三分.gif',
+            '中手冒.gif',
+            '中投.gif',
+            '大手冒.gif',
+            '小手冒.gif',
+            '抢断.gif',
+            '篮板.gif',
+            '近上.gif',
+            '近扣.gif',
+            '远上.gif',
+            '远扣.gif'
+        ];
+    } else if (characterId.includes('5_')) {
         if (characterId === '5_1') {
             // 艾达的GIF文件
             commonGifFiles = [
