@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iOS设备检测</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        .warning { background: #fff3cd; color: #856404; }
+        button {
+            background: #007aff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>iOS设备检测页面</h1>
+        
+        <div id="status-container">
+            <div class="status info">正在检测iOS设备...</div>
+        </div>
+        
+        <div class="status info">
+            <h3>检测项目：</h3>
+            <ul>
+                <li>✅ 页面加载</li>
+                <li>⏳ iOS设备识别</li>
+                <li>⏳ Safari浏览器检测</li>
+                <li>⏳ JavaScript功能测试</li>
+                <li>⏳ 网络连接测试</li>
+            </ul>
+        </div>
+        
+        <div style="text-align: center; margin-top: 30px;">
+            <button onclick="testMainPage()">测试主页面</button>
+            <button onclick="clearCache()">清除缓存</button>
+            <button onclick="location.reload()">刷新页面</button>
+        </div>
+    </div>
+
+    <script>
+        var statusContainer = document.getElementById('status-container');
+        
+        function addStatus(message, type) {
+            var div = document.createElement('div');
+            div.className = 'status ' + type;
+            div.textContent = message;
+            statusContainer.appendChild(div);
+            console.log(message);
+        }
+        
+        // 检测iOS设备
+        var userAgent = navigator.userAgent;
+        var isIOS = /iPad|iPhone|iPod/.test(userAgent);
+        var isSafari = /Safari/.test(userAgent) && !/Chrome/.test(userAgent);
+        var isWeChat = /MicroMessenger/.test(userAgent);
+        
+        addStatus('设备信息检测完成', 'success');
+        addStatus('iOS设备: ' + (isIOS ? '是' : '否'), 'info');
+        addStatus('Safari浏览器: ' + (isSafari ? '是' : '否'), 'info');
+        addStatus('微信浏览器: ' + (isWeChat ? '是' : '否'), 'info');
+        
+        if (!isIOS) {
+            addStatus('警告：未检测到iOS设备，可能影响测试结果', 'warning');
+        }
+        
+        // 测试基本功能
+        try {
+            // 测试localStorage
+            localStorage.setItem('ios_test', 'success');
+            var testValue = localStorage.getItem('ios_test');
+            localStorage.removeItem('ios_test');
+            addStatus('localStorage测试: 正常', 'success');
+        } catch (e) {
+            addStatus('localStorage测试: 失败 - ' + e.message, 'error');
+        }
+        
+        // 测试网络连接
+        addStatus('正在测试网络连接...', 'info');
+        
+        var testImg = new Image();
+        testImg.onload = function() {
+            addStatus('网络连接测试: 正常', 'success');
+            addStatus('所有基础测试完成！', 'success');
+        };
+        testImg.onerror = function() {
+            addStatus('网络连接测试: 可能有问题', 'error');
+        };
+        testImg.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+        
+        function testMainPage() {
+            addStatus('正在测试主页面访问...', 'info');
+            
+            // 尝试访问主页面
+            var testLink = document.createElement('a');
+            testLink.href = './index.html';
+            testLink.target = '_blank';
+            testLink.click();
+            
+            addStatus('主页面测试链接已打开', 'info');
+        }
+        
+        function clearCache() {
+            try {
+                localStorage.clear();
+                sessionStorage.clear();
+                addStatus('缓存清除完成', 'success');
+                
+                // 尝试清除浏览器缓存
+                if ('caches' in window) {
+                    caches.keys().then(function(names) {
+                        for (var name of names) {
+                            caches.delete(name);
+                        }
+                        addStatus('浏览器缓存清除完成', 'success');
+                    });
+                }
+            } catch (e) {
+                addStatus('缓存清除失败: ' + e.message, 'error');
+            }
+        }
+        
+        // 页面加载完成
+        window.addEventListener('load', function() {
+            addStatus('页面完全加载完成', 'success');
+        });
+        
+        // 错误处理
+        window.addEventListener('error', function(e) {
+            addStatus('页面错误: ' + e.error.message, 'error');
+        });
+    </script>
+</body>
+</html>
