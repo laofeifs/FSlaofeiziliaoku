@@ -654,7 +654,10 @@ function createCharacterCard(character) {
         
         for (var i = 0; i < actionButtons.length; i++) {
             (function(button) {
-                button.onclick = function() {
+                button.onclick = function(e) {
+                    e.preventDefault(); // 阻止默认行为
+                    e.stopPropagation(); // 阻止事件冒泡
+                    
                     // 移除所有按钮的激活状态
                     for (var j = 0; j < actionButtons.length; j++) {
                         actionButtons[j].classList.remove('active');
@@ -666,6 +669,8 @@ function createCharacterCard(character) {
                     var gifUrl = this.getAttribute('data-gif');
                     var actionName = this.querySelector('span').textContent;
                     gifContainer.innerHTML = '<img src="' + gifUrl + '" alt="' + actionName + '" class="action-gif"><p class="action-name">' + actionName + '</p>';
+                    
+                    return false; // 阻止页面滚动
                 };
             })(actionButtons[i]);
         }
@@ -960,7 +965,10 @@ function loadGifFiles(folder, characterId, card) {
         var actionButtons = actionButtonsContainer.querySelectorAll('.action-btn');
         for (var i = 0; i < actionButtons.length; i++) {
             (function(button) {
-                button.onclick = function() {
+                button.onclick = function(e) {
+                    e.preventDefault(); // 阻止默认行为
+                    e.stopPropagation(); // 阻止事件冒泡
+                    
                     // 移除所有按钮的激活状态
                     for (var j = 0; j < actionButtons.length; j++) {
                         actionButtons[j].classList.remove('active');
@@ -972,6 +980,8 @@ function loadGifFiles(folder, characterId, card) {
                     var gifUrl = this.getAttribute('data-gif');
                     var actionName = this.querySelector('span').textContent;
                     gifContainer.innerHTML = '<img src="' + gifUrl + '" alt="' + actionName + '" class="action-gif"><p class="action-name">' + actionName + '</p>';
+                    
+                    return false; // 阻止页面滚动
                 };
             })(actionButtons[i]);
         }

@@ -436,6 +436,10 @@ html {
     gap: 3px;
     min-height: 50px;
     justify-content: center;
+    user-select: none; /* 防止文本选择 */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 .action-btn:hover {
@@ -550,6 +554,37 @@ html {
         padding: 20px;
     }
     
+    /* 移动端头像和布局优化 */
+    .character-header {
+        flex-direction: column; /* 改为垂直布局 */
+        align-items: center;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+    
+    .character-image {
+        width: 120px; /* 移动端头像缩小 */
+        height: 120px;
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+    
+    .character-info {
+        height: auto; /* 自适应高度 */
+        justify-content: center;
+        text-align: center;
+    }
+    
+    .character-name {
+        font-size: 1.5rem; /* 移动端字体稍小 */
+        margin-bottom: 5px;
+    }
+    
+    .character-generation {
+        font-size: 1rem;
+        margin-bottom: 15px;
+    }
+    
     .action-buttons {
         grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
         gap: 4px;
@@ -573,6 +608,26 @@ html {
     .action-gif {
         max-height: 180px;
         width: 100%;
+    }
+}
+
+/* 中等屏幕响应式设计 */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .character-image {
+        width: 180px; /* 中等屏幕头像适中 */
+        height: 180px;
+    }
+    
+    .character-info {
+        height: 180px; /* 与头像等高 */
+    }
+    
+    .character-name {
+        font-size: 1.8rem;
+    }
+    
+    .character-generation {
+        font-size: 1rem;
     }
 }
 
