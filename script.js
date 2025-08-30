@@ -1006,9 +1006,14 @@ function initializeRanking() {
         if (imgElement) {
             imgElement.src = rankingImages[rankingType];
             imgElement.onerror = function() {
-                this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7mnKzlm748L3RleHQ+Cjwvc3ZnPgo=';
+                this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l5PSIxNCIgZmlsbD0iIzlDQTNBRiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPuacrOWbvjwvdGV4dD4KPC9zdmc+Cg==';
                 this.alt = `${rankingType.toUpperCase()}排名 (图片加载失败)`;
             };
+            
+            // 添加点击全屏显示功能
+            imgElement.addEventListener('click', function() {
+                showFullscreenImage(this.src, this.alt);
+            });
         }
     });
     
@@ -1030,6 +1035,51 @@ function initializeRanking() {
         });
     });
 }
+
+// 显示全屏图片
+function showFullscreenImage(src, alt) {
+    const overlay = document.getElementById('fullscreen-overlay');
+    const fullscreenImg = document.getElementById('fullscreen-image');
+    
+    if (overlay && fullscreenImg) {
+        fullscreenImg.src = src;
+        fullscreenImg.alt = alt;
+        overlay.style.display = 'flex';
+        
+        // 禁止页面滚动
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+// 关闭全屏显示
+function closeFullscreen() {
+    const overlay = document.getElementById('fullscreen-overlay');
+    if (overlay) {
+        overlay.style.display = 'none';
+        // 恢复页面滚动
+        document.body.style.overflow = 'auto';
+    }
+}
+
+// 添加全屏显示的事件监听
+document.addEventListener('DOMContentLoaded', function() {
+    const overlay = document.getElementById('fullscreen-overlay');
+    if (overlay) {
+        // 点击背景关闭全屏
+        overlay.addEventListener('click', function(e) {
+            if (e.target === overlay) {
+                closeFullscreen();
+            }
+        });
+        
+        // ESC键关闭全屏
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeFullscreen();
+            }
+        });
+    }
+});
 
 // 导出函数供外部使用
 window.FSDataLibrary = {
