@@ -6,7 +6,9 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta http-equiv="Cache-Control" content="public, max-age=3600">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <meta http-equiv="Pragma" content="">
     <meta http-equiv="Expires" content="">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:;">
@@ -452,6 +454,34 @@
         <img id="fullscreen-image" class="fullscreen-image" src="" alt="">
     </div>
 
-    <script src="script.js?v=202508292250"></script>
+    <script src="script.js?v=202508292310"></script>
+    
+    <!-- 微信浏览器特殊处理 -->
+    <script>
+        // 微信浏览器特殊处理
+        (function() {
+            var isWeChat = /MicroMessenger/i.test(navigator.userAgent);
+            var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+            
+            if (isWeChat) {
+                console.log('微信浏览器检测到，应用特殊处理');
+                
+                // 强制清除缓存
+                localStorage.clear();
+                sessionStorage.clear();
+                
+                // iOS微信特殊处理
+                if (isIOS) {
+                    console.log('iOS微信特殊处理');
+                    document.body.style.webkitOverflowScrolling = 'touch';
+                }
+                
+                // 微信JS-SDK准备
+                document.addEventListener('WeixinJSBridgeReady', function() {
+                    console.log('微信JS-SDK准备就绪');
+                });
+            }
+        })();
+    </script>
 </body>
 </html>
