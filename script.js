@@ -96,6 +96,24 @@ const charactersData = {
             gifFolder: 'gifs/6代超特/风雷/'
         }
     ],
+    '5': [
+        {
+            id: '5_1',
+            name: '艾达',
+            generation: '5代超特',
+            description: '五代超特角色',
+            image: 'characters/5代超特/艾达.png',
+            gifFolder: 'gifs/5代超特/艾达/'
+        },
+        {
+            id: '5_2',
+            name: '杰罗',
+            generation: '5代超特',
+            description: '五代超特角色',
+            image: 'characters/5代超特/杰罗.png',
+            gifFolder: 'gifs/5代超特/杰罗/'
+        }
+    ],
     '7': [
         {
             id: '7_1',
@@ -498,54 +516,7 @@ function initializeNavigation() {
             // 切换内容区域
             const section = this.getAttribute('data-section');
             
-            // 特殊处理FS账号跳转
-            if (section === 'account') {
-                console.log('检测到FS账号点击');
-                // 微店H5链接
-                var weidianUrl = 'https://k.youshop10.com/6HZaEV6N';
-                
-                // 检测是否在微信浏览器中
-                if (isWeChat()) {
-                    console.log('微信浏览器，尝试跳转微店');
-                    // 微信内置浏览器使用多种跳转方式
-                    try {
-                        // 方式1：直接跳转
-                        window.location.href = weidianUrl;
-                    } catch (e) {
-                        console.log('直接跳转失败，尝试其他方式');
-                        try {
-                            // 方式2：使用location.replace
-                            window.location.replace(weidianUrl);
-                        } catch (e2) {
-                            console.log('replace跳转失败，尝试assign');
-                            try {
-                                // 方式3：使用location.assign
-                                window.location.assign(weidianUrl);
-                            } catch (e3) {
-                                console.log('所有跳转方式失败，显示提示');
-                                // 方式4：显示提示让用户手动点击
-                                var tip = document.createElement('div');
-                                tip.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#22c55e;color:white;padding:20px;border-radius:8px;font-size:16px;z-index:10000;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.3);';
-                                tip.innerHTML = `
-                                    <p style="margin:0 0 15px 0;">点击下方链接跳转到微店</p>
-                                    <a href="${weidianUrl}" style="color:white;text-decoration:underline;font-weight:bold;">老非街头篮球账号微店</a>
-                                    <br><br>
-                                    <button onclick="this.parentElement.remove()" style="background:white;color:#22c55e;border:none;padding:8px 16px;border-radius:4px;cursor:pointer;">关闭</button>
-                                `;
-                                document.body.appendChild(tip);
-                            }
-                        }
-                    }
-                    return; // 阻止继续执行
-                } else {
-                    console.log('外置浏览器，新窗口打开微店');
-                    // 外置浏览器打开新窗口
-                    window.open(weidianUrl, '_blank');
-                    return; // 阻止继续执行
-                }
-            }
-            
-            // 其他导航正常切换
+            // 正常切换内容区域
             switchSection(section);
         });
     });
@@ -896,8 +867,45 @@ function loadGifFiles(folder, characterId, card) {
     // 根据角色ID确定使用哪个GIF文件列表
     var commonGifFiles = [];
     
-    // 6代超特特定GIF文件（双角色系统）
-    if (characterId.includes('6_')) {
+    // 5代超特特定GIF文件
+    if (characterId.includes('5_')) {
+        if (characterId === '5_1') {
+            // 艾达的GIF文件
+            commonGifFiles = [
+                'X.gif',
+                '三分.gif',
+                '中手冒.gif',
+                '中投.gif',
+                '大手冒.gif',
+                '小手冒.gif',
+                '抢断.gif',
+                '篮板.gif',
+                '近上.gif',
+                '近扣.gif',
+                '远上.gif',
+                '远扣.gif'
+            ];
+        } else if (characterId === '5_2') {
+            // 杰罗的GIF文件
+            commonGifFiles = [
+                'X.gif',
+                '中手.gif',
+                '中投.gif',
+                '分球.gif',
+                '地板.gif',
+                '大手冒.gif',
+                '小手冒.gif',
+                '快速跑传.gif',
+                '投篮.gif',
+                '灌篮盖帽.gif',
+                '篮板.gif',
+                '近上.gif',
+                '近扣.gif',
+                '远上.gif',
+                '远扣.gif'
+            ];
+        }
+    } else if (characterId.includes('6_')) {
         // 根据具体角色ID确定使用哪个双角色的GIF文件
         if (characterId === '6_1') {
             // 光暗双角色
@@ -1169,16 +1177,7 @@ function initializeRanking() {
                 this.alt = `${rankingType.toUpperCase()}排名 (图片加载失败)`;
             };
             
-            // 添加点击全屏显示功能（兼容移动端）
-            imgElement.addEventListener('click', function() {
-                showFullscreenImage(this.src, this.alt);
-            });
-            
-            // 添加触摸事件，兼容苹果手机
-            imgElement.addEventListener('touchstart', function(e) {
-                e.preventDefault();
-                showFullscreenImage(this.src, this.alt);
-            });
+
         }
     });
     
@@ -1249,6 +1248,95 @@ function closeFullscreen() {
         if (history.state && history.state.fullscreen) {
             history.back();
         }
+    }
+}
+
+// 打开课程链接
+function openCourse(url) {
+    // 检测是否在微信浏览器中
+    if (/MicroMessenger/i.test(navigator.userAgent)) {
+        // 微信浏览器中，尝试使用微信内置浏览器打开
+        window.location.href = url;
+    } else {
+        // 其他浏览器，直接打开
+        window.open(url, '_blank');
+    }
+}
+
+// 复制微信号
+function copyWechat() {
+    const wechatNumber = document.getElementById('wechat-number').textContent;
+    
+    // 尝试使用现代浏览器的 Clipboard API
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(wechatNumber).then(() => {
+            showCopySuccess();
+        }).catch(() => {
+            fallbackCopyTextToClipboard(wechatNumber);
+        });
+    } else {
+        // 降级方案
+        fallbackCopyTextToClipboard(wechatNumber);
+    }
+}
+
+// 降级复制方案
+function fallbackCopyTextToClipboard(text) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.top = "0";
+    textArea.style.left = "0";
+    textArea.style.position = "fixed";
+    textArea.style.opacity = "0";
+    
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+            showCopySuccess();
+        } else {
+            showCopyError();
+        }
+    } catch (err) {
+        showCopyError();
+    }
+    
+    document.body.removeChild(textArea);
+}
+
+// 显示复制成功提示
+function showCopySuccess() {
+    const copyBtn = document.querySelector('.copy-btn');
+    const originalText = copyBtn.innerHTML;
+    
+    copyBtn.innerHTML = '<i class="fas fa-check"></i><span>已复制</span>';
+    copyBtn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
+    
+    setTimeout(() => {
+        copyBtn.innerHTML = originalText;
+        copyBtn.style.background = 'linear-gradient(135deg, #3b82f6, #1d4ed8)';
+    }, 2000);
+}
+
+// 显示复制失败提示
+function showCopyError() {
+    alert('复制失败，请手动复制微信号：laofei90186');
+}
+
+// 打开店铺
+function openStore() {
+    const storeUrl = 'https://k.youshop10.com/6HZaEV6N';
+    
+    // 检测是否在微信浏览器中
+    if (/MicroMessenger/i.test(navigator.userAgent)) {
+        // 微信浏览器中，尝试使用微信内置浏览器打开
+        window.location.href = storeUrl;
+    } else {
+        // 其他浏览器，直接打开
+        window.open(storeUrl, '_blank');
     }
 }
 

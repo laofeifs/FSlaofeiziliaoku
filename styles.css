@@ -597,13 +597,7 @@ html {
     display: block;
 }
 
-.ranking-tip {
-    text-align: center;
-    color: #6b7280;
-    font-size: 0.9rem;
-    margin-bottom: 15px;
-    font-style: italic;
-}
+
 
 .ranking-image {
     width: 100%;
@@ -611,14 +605,11 @@ html {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     object-fit: contain;
-    cursor: pointer;
     transition: transform 0.2s ease;
-    /* 移除默认旋转，改为可控制 */
 }
 
 .ranking-image:hover {
-    transform: scale(1.02); /* 只放大，不旋转 */
-    cursor: pointer;
+    transform: scale(1.02); /* 轻微放大效果 */
 }
 
 
@@ -660,6 +651,390 @@ html {
     
     .fullscreen-overlay {
         padding: 0;
+    }
+}
+
+/* 课程样式 */
+.courses-container {
+    padding: 20px 0;
+}
+
+.course-category {
+    margin-bottom: 40px;
+}
+
+.course-category h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 20px;
+}
+
+.course-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    height: 130px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+.course-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #22c55e, #3b82f6, #f59e0b);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.course-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+    border-color: rgba(34, 197, 94, 0.2);
+}
+
+.course-card:hover::before {
+    opacity: 1;
+}
+
+.course-banner {
+    width: 220px;
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.course-banner::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    right: -40%;
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, rgba(255, 255, 0, 0.4) 0%, rgba(255, 255, 0, 0.1) 70%);
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite;
+}
+
+.course-banner::after {
+    content: '';
+    position: absolute;
+    bottom: -25%;
+    left: -25%;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(255, 255, 0, 0.3) 0%, rgba(255, 255, 0, 0.05) 70%);
+    border-radius: 50%;
+    animation: float 8s ease-in-out infinite reverse;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(180deg); }
+}
+
+.course-banner-content {
+    position: relative;
+    z-index: 2;
+    color: white;
+    text-align: center;
+    padding: 18px;
+    width: 100%;
+}
+
+.course-banner-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin-bottom: 6px;
+    line-height: 1.2;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.course-banner-subtitle {
+    font-size: 0.8rem;
+    opacity: 0.9;
+    margin-bottom: 8px;
+    line-height: 1.3;
+}
+
+.course-banner-desc {
+    font-size: 0.7rem;
+    opacity: 0.8;
+    line-height: 1.2;
+}
+
+.course-tag {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #3b82f6;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.course-info {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.course-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1f2937;
+    line-height: 1.5;
+    margin: 0;
+}
+
+
+
+/* FS账号页面样式 */
+.account-container {
+    padding: 20px 0;
+}
+
+.account-module {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.account-module:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.module-header {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: white;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.module-header i {
+    font-size: 1.5rem;
+}
+
+.module-header h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.module-content {
+    padding: 25px;
+}
+
+.service-desc, .store-desc {
+    color: #6b7280;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.contact-info {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.wechat-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.wechat-section label {
+    font-weight: 600;
+    color: #374151;
+    font-size: 1rem;
+}
+
+.wechat-display {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 8px 12px;
+    flex: 1;
+}
+
+#wechat-number {
+    font-family: 'Courier New', monospace;
+    font-weight: 600;
+    color: #1f2937;
+    font-size: 1rem;
+}
+
+.copy-btn {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+.copy-btn:hover {
+    background: linear-gradient(135deg, #1d4ed8, #1e40af);
+    transform: translateY(-1px);
+}
+
+.copy-btn:active {
+    transform: translateY(0);
+}
+
+.copy-tip {
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin: 0;
+    text-align: center;
+    font-style: italic;
+}
+
+.store-btn {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    width: 100%;
+    justify-content: center;
+}
+
+.store-btn:hover {
+    background: linear-gradient(135deg, #d97706, #b45309);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(245, 158, 11, 0.3);
+}
+
+.store-btn:active {
+    transform: translateY(0);
+}
+
+/* 移动端FS账号样式 */
+@media (max-width: 768px) {
+    .account-container {
+        padding: 15px 0;
+    }
+    
+    .module-header {
+        padding: 15px;
+    }
+    
+    .module-header h3 {
+        font-size: 1.1rem;
+    }
+    
+    .module-content {
+        padding: 20px;
+    }
+    
+    .wechat-section {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .wechat-display {
+        width: 100%;
+    }
+    
+    .store-btn {
+        padding: 12px 20px;
+        font-size: 1rem;
+    }
+}
+
+/* 移动端课程样式 */
+@media (max-width: 768px) {
+    .course-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .course-card {
+        height: auto;
+        flex-direction: column;
+    }
+    
+    .course-banner {
+        width: 100%;
+        height: 100px;
+    }
+    
+    .course-banner-content {
+        padding: 10px;
+    }
+    
+    .course-banner-title {
+        font-size: 1rem;
+    }
+    
+    .course-banner-subtitle {
+        font-size: 0.75rem;
+    }
+    
+    .course-banner-desc {
+        font-size: 0.65rem;
+    }
+    
+    .course-info {
+        padding: 12px;
+    }
+    
+    .course-title {
+        font-size: 0.9rem;
+    }
+    
+    .course-price {
+        font-size: 1.1rem;
     }
 }
 
