@@ -59,8 +59,12 @@
         <!-- 主导航按钮 -->
         <div class="nav-container">
             <div class="nav-buttons">
+                <button class="nav-btn" data-section="gallery">
+                    <i class="fas fa-images"></i>
+                    <span>超特图鉴</span>
+                </button>
                 <button class="nav-btn active" data-section="characters">
-                    <span>超特角色介绍</span>
+                    <span>超特动作一览</span>
                 </button>
                 <button class="nav-btn" data-section="ranking">
                     <i class="fas fa-trophy"></i>
@@ -148,8 +152,15 @@
         
         <!-- 内容显示区域 -->
         <div class="content-area">
+            <div id="gallery-section" class="content-section">
+                <h2>超特图鉴</h2>
+                <div class="gallery-grid" id="gallery-grid">
+                    <!-- 图鉴卡片将在这里动态生成 -->
+                </div>
+            </div>
+            
             <div id="characters-section" class="content-section active">
-                <h2>超特角色介绍</h2>
+                <h2>超特动作一览</h2>
                 <div class="characters-grid" id="characters-grid">
                     <!-- 角色卡片将在这里动态生成 -->
                 </div>

@@ -12,6 +12,11 @@ const COS_CONFIG = {
 // 当前选中的代次
 let currentGeneration = '9';
 
+// 图鉴数据 - 所有代数共用一张图片
+const galleryData = {
+    image: 'gallery/超特图鉴.png'
+};
+
 // 角色数据示例（你可以根据实际情况修改）
 const charactersData = {
     '1': [
@@ -452,6 +457,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeNavigation();
     initializeFilters();
     loadCharacters(currentGeneration);
+    loadGallery(currentGeneration);
 });
 
 // 初始化主导航
@@ -535,6 +541,7 @@ function initializeFilters() {
             // 更新当前代次并加载角色
             currentGeneration = this.getAttribute('data-generation');
             loadCharacters(currentGeneration);
+            loadGallery(currentGeneration);
         });
     });
 }
@@ -670,6 +677,40 @@ function createCharacterCard(character) {
     return card;
 }
 
+// 加载图鉴数据
+function loadGallery(generation) {
+    const galleryGrid = document.getElementById('gallery-grid');
+    if (!galleryGrid) return;
+    
+    // 清空现有内容
+    galleryGrid.innerHTML = '';
+    
+    // 创建图鉴卡片
+    const galleryCard = createGalleryCard();
+    galleryGrid.appendChild(galleryCard);
+}
+
+// 创建图鉴卡片
+function createGalleryCard() {
+    const card = document.createElement('div');
+    card.className = 'gallery-card-full';
+    
+    // 构建图片URL（使用腾讯云COS）
+    const imageUrl = galleryData.image ? `${COS_CONFIG.Domain}/${galleryData.image}` : '';
+    
+    card.innerHTML = `
+        <div class="gallery-image-full">
+            ${imageUrl ? `<img src="${imageUrl}" alt="超特图鉴" style="width: 100%; height: auto; object-fit: contain;" onerror="handleImageError(this, '超特图鉴')" onload="handleImageLoad(this, '超特图鉴')">` : '暂无图片'}
+        </div>
+        <div class="gallery-info">
+            <h3 class="gallery-name">超特图鉴</h3>
+            <p class="gallery-generation">所有代数角色一览</p>
+        </div>
+    `;
+    
+    return card;
+}
+
 // 图片加载成功处理
 function handleImageLoad(img, characterName) {
     console.log(`✅ ${characterName} 图片加载成功`);
@@ -682,25 +723,6 @@ function handleImageError(img, characterName) {
     // 设置默认图片
     img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7mnKzlm748L3RleHQ+Cjx0ZXh0IHg9IjEwMCIgeT0iMTIwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjwvc3ZnPgo=';
     img.alt = characterName + ' (图片加载失败)';
-    
-    // 显示错误提示
-    var errorTip = document.createElement('div');
-    errorTip.style.cssText = 'position:fixed;top:10px;left:50%;transform:translateX(-50%);background:#ff4757;color:white;padding:10px 15px;border-radius:6px;font-size:14px;z-index:10000;text-align:center;';
-    errorTip.innerHTML = `
-        <div style="margin-bottom:8px;">⚠️ COS访问受限 (451错误)</div>
-        <div style="font-size:12px;margin-bottom:8px;">角色: ${characterName}</div>
-        <div style="font-size:11px;opacity:0.9;margin-bottom:8px;">请检查COS存储桶权限设置</div>
-        <button onclick="showCOSHelp()" style="background:white;color:#ff4757;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-size:12px;margin-right:8px;">查看帮助</button>
-        <button onclick="this.parentElement.remove()" style="background:transparent;color:white;border:1px solid white;padding:6px 12px;border-radius:4px;cursor:pointer;font-size:12px;">关闭</button>
-    `;
-    document.body.appendChild(errorTip);
-    
-    // 10秒后自动隐藏
-    setTimeout(function() {
-        if (errorTip.parentNode) {
-            errorTip.remove();
-        }
-    }, 10000);
 }
 
 // 显示COS帮助信息
