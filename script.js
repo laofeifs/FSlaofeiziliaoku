@@ -62,6 +62,40 @@ const charactersData = {
         }
         // 更多角色...
     ],
+    '6': [
+        {
+            id: '6_1',
+            name: '光暗',
+            generation: '6代超特',
+            description: '光暗双属性角色',
+            image: 'characters/6代超特/光暗.png',
+            gifFolder: 'gifs/6代超特/光暗/'
+        },
+        {
+            id: '6_2',
+            name: '冰火',
+            generation: '6代超特',
+            description: '冰火双属性角色',
+            image: 'characters/6代超特/冰火.png',
+            gifFolder: 'gifs/6代超特/冰火/'
+        },
+        {
+            id: '6_3',
+            name: '钢铁剧毒',
+            generation: '6代超特',
+            description: '钢铁剧毒双属性角色',
+            image: 'characters/6代超特/钢铁剧毒.png',
+            gifFolder: 'gifs/6代超特/钢铁剧毒/'
+        },
+        {
+            id: '6_4',
+            name: '风雷',
+            generation: '6代超特',
+            description: '风雷双属性角色',
+            image: 'characters/6代超特/风雷.png',
+            gifFolder: 'gifs/6代超特/风雷/'
+        }
+    ],
     '7': [
         {
             id: '7_1',
@@ -859,49 +893,174 @@ function loadGifFiles(folder, characterId, card) {
     // 使用fetch请求获取文件夹内容
     var cosUrl = COS_CONFIG.Domain + '/' + folder;
     
-    // 由于无法直接获取COS文件列表，我们使用一个通用的方法
-    // 尝试加载常见的GIF文件，如果存在就显示
-    var commonGifFiles = [
-        'X.gif',
-        '不看人传球.gif',
-        '中手冒.gif',
-        '分球.gif',
-        '地板.gif',
-        '大手冒.gif',
-        '小手冒.gif',
-        '抢断.gif',
-        '篮板.gif',
-        '间接进攻手.gif',
-        '阳三分.gif',
-        '阳中投.gif',
-        '阳近上.gif',
-        '阳近扣.gif',
-        '阳远上.gif',
-        '阳远扣.gif',
-        '阴三分.gif',
-        '阴中投.gif',
-        '阴近上.gif',
-        '阴近扣.gif',
-        '阴远上.gif',
-        '阴远扣.gif',
-        '快速起来.gif',
-        'A分球.gif',
-        'A近扣.gif',
-        'A近上.gif',
-        'A篮板.gif',
-        'A三分.gif',
-        'A远扣.gif',
-        'A远上.gif',
-        'A中投.gif',
-        'B分球.gif',
-        'B近扣.gif',
-        'B近上.gif',
-        'B篮板.gif',
-        'B三分.gif',
-        'B远扣.gif',
-        'B远上.gif',
-        'B中投.gif'
-    ];
+    // 根据角色ID确定使用哪个GIF文件列表
+    var commonGifFiles = [];
+    
+    // 6代超特特定GIF文件（双角色系统）
+    if (characterId.includes('6_')) {
+        // 根据具体角色ID确定使用哪个双角色的GIF文件
+        if (characterId === '6_1') {
+            // 光暗双角色
+            commonGifFiles = [
+                '光X.gif',
+                '光三分.gif',
+                '光中手.gif',
+                '光中投.gif',
+                '光分球.gif',
+                '光地板.gif',
+                '光大手.gif',
+                '光小手.gif',
+                '光篮板.gif',
+                '光近上.gif',
+                '光近扣.gif',
+                '光远上.gif',
+                '光远扣.gif',
+                '暗X.gif',
+                '暗三分.gif',
+                '暗中手.gif',
+                '暗中投.gif',
+                '暗分球.gif',
+                '暗地板.gif',
+                '暗大手.gif',
+                '暗小手冒.gif',
+                '暗篮板.gif',
+                '暗近上.gif',
+                '暗近扣.gif',
+                '暗远上.gif',
+                '暗远扣.gif'
+            ];
+        } else if (characterId === '6_2') {
+            // 冰火双角色
+            commonGifFiles = [
+                '水X.gif',
+                '水三分.gif',
+                '水中投.gif',
+                '水分球.gif',
+                '水地板.gif',
+                '水大手冒.gif',
+                '水小手冒.gif',
+                '水篮板.gif',
+                '水近上.gif',
+                '水近扣.gif',
+                '水远上.gif',
+                '水远扣.gif',
+                '火X.gif',
+                '火三分.gif',
+                '火中投.gif',
+                '火分球.gif',
+                '火地板.gif',
+                '火大手冒.gif',
+                '火小手冒.gif',
+                '火篮板.gif',
+                '火近上.gif',
+                '火近扣.gif',
+                '火远上.gif',
+                '火远扣.gif'
+            ];
+        } else if (characterId === '6_3') {
+            // 钢铁剧毒双角色
+            commonGifFiles = [
+                '剧毒X.gif',
+                '剧毒三分.gif',
+                '剧毒中投.gif',
+                '剧毒分球.gif',
+                '剧毒地板.gif',
+                '剧毒大手冒.gif',
+                '剧毒小手冒.gif',
+                '剧毒小手哦冒.gif',
+                '剧毒篮板.gif',
+                '剧毒近上.gif',
+                '剧毒近扣.gif',
+                '剧毒远上.gif',
+                '剧毒远扣.gif',
+                '毒液中投.gif',
+                '钢铁X.gif',
+                '钢铁XX.gif',
+                '钢铁三分.gif',
+                '钢铁中投.gif',
+                '钢铁分球.gif',
+                '钢铁地板.gif',
+                '钢铁大手冒.gif',
+                '钢铁小手冒.gif',
+                '钢铁篮板.gif',
+                '钢铁近上.gif',
+                '钢铁近扣.gif',
+                '钢铁远上.gif',
+                '钢铁远扣.gif'
+            ];
+        } else if (characterId === '6_4') {
+            // 风雷双角色
+            commonGifFiles = [
+                '雷X.gif',
+                '雷三分.gif',
+                '雷中投.gif',
+                '雷分球.gif',
+                '雷地板.gif',
+                '雷大手冒.gif',
+                '雷小手冒.gif',
+                '雷篮板.gif',
+                '雷近上.gif',
+                '雷近扣.gif',
+                '雷远上.gif',
+                '雷远扣.gif',
+                '风X.gif',
+                '风三分.gif',
+                '风中投.gif',
+                '风分球.gif',
+                '风地板.gif',
+                '风大手冒.gif',
+                '风小手冒.gif',
+                '风篮板.gif',
+                '风近上.gif',
+                '风近扣.gif',
+                '风远上.gif',
+                '风远扣.gif'
+            ];
+        }
+    } else {
+        // 其他代数的通用GIF文件
+        commonGifFiles = [
+            'X.gif',
+            '不看人传球.gif',
+            '中手冒.gif',
+            '分球.gif',
+            '地板.gif',
+            '大手冒.gif',
+            '小手冒.gif',
+            '抢断.gif',
+            '篮板.gif',
+            '间接进攻手.gif',
+            '阳三分.gif',
+            '阳中投.gif',
+            '阳近上.gif',
+            '阳近扣.gif',
+            '阳远上.gif',
+            '阳远扣.gif',
+            '阴三分.gif',
+            '阴中投.gif',
+            '阴近上.gif',
+            '阴近扣.gif',
+            '阴远上.gif',
+            '阴远扣.gif',
+            '快速起来.gif',
+            'A分球.gif',
+            'A近扣.gif',
+            'A近上.gif',
+            'A篮板.gif',
+            'A三分.gif',
+            'A远扣.gif',
+            'A远上.gif',
+            'A中投.gif',
+            'B分球.gif',
+            'B近扣.gif',
+            'B近上.gif',
+            'B篮板.gif',
+            'B三分.gif',
+            'B远扣.gif',
+            'B远上.gif',
+            'B中投.gif'
+        ];
+    }
     
     var actionButtonsContainer = card.querySelector('#actions-' + characterId);
     var gifContainer = card.querySelector('#gif-' + characterId);
@@ -1055,6 +1214,9 @@ function showFullscreenImage(src, alt) {
         // 禁止页面滚动
         document.body.style.overflow = 'hidden';
         
+        // 添加历史记录，支持返回按钮
+        history.pushState({fullscreen: true}, '');
+        
         // 移动端特殊处理
         if (window.innerWidth <= 768) {
             // 强制竖屏显示
@@ -1062,6 +1224,13 @@ function showFullscreenImage(src, alt) {
             fullscreenImg.style.width = '100%';
             fullscreenImg.style.height = '100%';
             fullscreenImg.style.objectFit = 'contain';
+        }
+        
+        // 苹果手机特殊处理
+        if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+            // 添加更多触摸事件
+            overlay.style.webkitUserSelect = 'none';
+            overlay.style.userSelect = 'none';
         }
     }
 }
@@ -1073,6 +1242,11 @@ function closeFullscreen() {
         overlay.style.display = 'none';
         // 恢复页面滚动
         document.body.style.overflow = 'auto';
+        
+        // 移除历史记录
+        if (history.state && history.state.fullscreen) {
+            history.back();
+        }
     }
 }
 
@@ -1095,11 +1269,31 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
+        // 添加更多触摸事件处理，兼容苹果手机
+        overlay.addEventListener('touchend', function(e) {
+            if (e.target === overlay) {
+                e.preventDefault();
+                closeFullscreen();
+            }
+        });
+        
+        // 添加双击关闭功能
+        overlay.addEventListener('dblclick', function(e) {
+            if (e.target === overlay) {
+                closeFullscreen();
+            }
+        });
+        
         // ESC键关闭全屏
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closeFullscreen();
             }
+        });
+        
+        // 添加返回按钮监听（移动端）
+        window.addEventListener('popstate', function() {
+            closeFullscreen();
         });
     }
 });

@@ -613,10 +613,11 @@ html {
     object-fit: contain;
     cursor: pointer;
     transition: transform 0.2s ease;
+    transform: rotate(90deg); /* 顺时针旋转90度 */
 }
 
 .ranking-image:hover {
-    transform: scale(1.02);
+    transform: rotate(90deg) scale(1.02); /* 保持旋转的同时放大 */
 }
 
 /* 全屏显示样式 */
@@ -640,6 +641,7 @@ html {
     object-fit: contain;
     border-radius: 8px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transform: rotate(90deg); /* 全屏时也保持旋转 */
 }
 
 /* 移动端全屏显示优化 */
@@ -676,13 +678,13 @@ html {
         flex: 1; /* 平均分配宽度 */
         min-width: auto; /* 移除最小宽度限制 */
         max-width: none; /* 移除最大宽度限制 */
-        padding: 10px 6px; /* 减少内边距 */
-        font-size: 0.75rem; /* 稍微减小字体 */
-        gap: 4px; /* 减少图标和文字间距 */
+        padding: 15px 8px; /* 增加内边距 */
+        font-size: 1rem; /* 放大字体 */
+        gap: 6px; /* 增加图标和文字间距 */
     }
     
     .nav-btn i {
-        font-size: 0.8rem; /* 减小图标大小 */
+        font-size: 1.2rem; /* 放大图标大小 */
     }
     
     .nav-btn span {
@@ -798,16 +800,16 @@ html {
     
     /* 超小屏幕导航栏优化 */
     .nav-buttons {
-        gap: 4px; /* 进一步减少间距 */
+        gap: 6px; /* 增加间距 */
     }
     
     .nav-btn {
-        padding: 8px 4px; /* 进一步减少内边距 */
-        font-size: 0.7rem; /* 进一步减小字体 */
+        padding: 12px 6px; /* 增加内边距 */
+        font-size: 0.9rem; /* 放大字体 */
     }
     
     .nav-btn i {
-        font-size: 0.7rem; /* 进一步减小图标 */
+        font-size: 1rem; /* 放大图标 */
     }
     
     /* 移动端刷新提示优化 */
