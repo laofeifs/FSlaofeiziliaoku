@@ -964,9 +964,9 @@ html {
 /* 移动端FS账号样式 */
 @media (max-width: 768px) {
     .account-container {
-        padding: 10px 0;
+        padding: 5px 0;
         grid-template-columns: 1fr;
-        gap: 15px;
+        gap: 10px;
     }
     
     .account-module {
@@ -975,65 +975,66 @@ html {
     }
     
     .module-header {
-        padding: 12px 15px;
+        padding: 8px 12px;
     }
     
     .module-header i {
-        font-size: 1.2rem;
-    }
-    
-    .module-header h3 {
         font-size: 1rem;
     }
     
+    .module-header h3 {
+        font-size: 0.9rem;
+    }
+    
     .module-content {
-        padding: 15px;
+        padding: 10px 12px;
     }
     
     .service-desc, .store-desc {
-        font-size: 0.9rem;
-        margin-bottom: 15px;
+        font-size: 0.85rem;
+        margin-bottom: 10px;
+        line-height: 1.4;
     }
     
     .contact-info {
-        padding: 15px;
-        border-radius: 8px;
+        padding: 10px;
+        border-radius: 6px;
     }
     
     .wechat-section {
         flex-direction: column;
         align-items: flex-start;
-        gap: 8px;
-        margin-bottom: 12px;
+        gap: 6px;
+        margin-bottom: 8px;
     }
     
     .wechat-section label {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
     }
     
     .wechat-display {
         width: 100%;
-        padding: 6px 10px;
+        padding: 4px 8px;
     }
     
     #wechat-number {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
     }
     
     .copy-btn {
-        padding: 5px 10px;
-        font-size: 0.8rem;
+        padding: 4px 8px;
+        font-size: 0.75rem;
     }
     
     .copy-tip {
-        font-size: 0.8rem;
-        margin-top: 8px;
+        font-size: 0.75rem;
+        margin-top: 6px;
     }
     
     .store-btn {
-        padding: 10px 15px;
-        font-size: 0.95rem;
-        border-radius: 8px;
+        padding: 8px 12px;
+        font-size: 0.9rem;
+        border-radius: 6px;
     }
 }
 
