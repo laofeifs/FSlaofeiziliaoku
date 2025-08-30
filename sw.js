@@ -1,5 +1,5 @@
 // Service Worker for 老非FS资料库
-const CACHE_VERSION = '202508310200';
+const CACHE_VERSION = '202508310400';
 const STATIC_CACHE = 'static-v' + CACHE_VERSION;
 const DYNAMIC_CACHE = 'dynamic-v' + CACHE_VERSION;
 
@@ -11,7 +11,7 @@ const STATIC_FILES = [
     '/script.js?v=' + CACHE_VERSION,
     '/version.txt',
     '/sw.js?v=' + CACHE_VERSION,
-    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css'
+    'https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0/css/all.min.css'
 ];
 
 // 需要缓存的COS资源（带时间戳）

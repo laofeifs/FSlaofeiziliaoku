@@ -13,15 +13,16 @@
     <meta http-equiv="Expires" content="">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:; img-src 'self' https: data: blob: *; connect-src 'self' https: *;">
     <title>老非FS资料库</title>
-    <link rel="stylesheet" href="styles.css?v=202508310200">
+    <link rel="stylesheet" href="styles.css?v=202508310400">
     <!-- 使用本地图标字体，避免CDN问题 -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous" referrerpolicy="no-referrer" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==">
+    <!-- 使用国内CDN，提高访问速度 -->
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous" referrerpolicy="no-referrer">
     
     <!-- Service Worker 注册 -->
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js?v=202508310200')
+                navigator.serviceWorker.register('/sw.js?v=202508310400')
                     .then((registration) => {
                         console.log('Service Worker registered with scope:', registration.scope);
                         addDebugInfo('Service Worker注册成功: ' + registration.scope);
@@ -76,17 +77,9 @@
                 </div>
             </div>
             
-            <!-- 微信浏览器提示 -->
-            <div id="wechat-warning" style="background: linear-gradient(45deg, #ff6b6b, #ee5a52); color: white; padding: 15px; margin: 10px; border-radius: 10px; text-align: center; display: none;">
-                <h3 style="margin: 0 0 10px 0;">⚠️ 微信浏览器兼容性提示</h3>
-                <p style="margin: 0 0 10px 0; font-size: 14px;">如果页面无法正常显示，建议：</p>
-                <p style="margin: 0; font-size: 12px;">1. 点击右上角三个点 → 选择"在浏览器中打开"</p>
-                <p style="margin: 0; font-size: 12px;">2. 或使用Safari/Chrome浏览器直接访问</p>
-                <div style="margin-top: 10px;">
-                    <button onclick="forceRefresh()" style="background: #28a745; color: white; border: none; padding: 8px 16px; border-radius: 5px; margin-right: 10px; font-weight: bold;">强制刷新</button>
-                    <button onclick="hideWechatWarning()" style="background: white; color: #ff6b6b; border: none; padding: 8px 16px; border-radius: 5px; font-weight: bold;">我知道了</button>
-                </div>
-            </div>
+
+            
+
         </div>
     </header>
 
@@ -484,7 +477,7 @@
         <img id="fullscreen-image" class="fullscreen-image" src="" alt="">
     </div>
 
-    <script src="script.js?v=202508310200"></script>
+    <script src="script.js?v=202508310400"></script>
     
     <!-- 微信浏览器特殊处理 -->
     <script>
@@ -553,7 +546,7 @@
                 };
                 testImage.onerror = function() {
                     addDebugInfo('CORS检查失败 - 图片加载失败');
-                    showWechatWarning();
+                    // 移除微信警告提示
                 };
                 testImage.src = 'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/gallery/超特图鉴.png?v=' + new Date().getTime();
             }
@@ -562,10 +555,7 @@
                 console.log('微信浏览器检测到，应用特殊处理');
                 addDebugInfo('微信浏览器检测到，应用特殊处理');
                 
-                // 显示微信浏览器提示
-                setTimeout(function() {
-                    showWechatWarning();
-                }, 3000);
+                // 移除微信浏览器提示，避免影响用户体验
                 
                 // 执行CORS检查
                 setTimeout(function() {
@@ -577,10 +567,7 @@
                     console.log('iOS微信特殊处理');
                     addDebugInfo('iOS微信特殊处理');
                     document.body.style.webkitOverflowScrolling = 'touch';
-                    document.body.style.overflow = 'hidden';
-                    document.body.style.position = 'fixed';
-                    document.body.style.width = '100%';
-                    document.body.style.height = '100%';
+                    // 移除固定定位，保持正常滚动
                 }
                 
                 // 微信JS-SDK准备
@@ -617,37 +604,35 @@
                 console.log('页面加载完成');
                 addDebugInfo('页面完全加载完成');
                 
-                // 检查页面是否正常加载
-                setTimeout(function() {
-                    var contentSections = document.querySelectorAll('.content-section');
-                    var hasContent = false;
-                    
-                    for (var i = 0; i < contentSections.length; i++) {
-                        if (contentSections[i].children.length > 1) {
-                            hasContent = true;
-                            break;
-                        }
+                            // 检查页面是否正常加载
+            setTimeout(function() {
+                var contentSections = document.querySelectorAll('.content-section');
+                var hasContent = false;
+                
+                for (var i = 0; i < contentSections.length; i++) {
+                    if (contentSections[i].children.length > 1) {
+                        hasContent = true;
+                        break;
                     }
-                    
-                    if (!hasContent && isWeChat) {
-                        addDebugInfo('页面内容加载失败，尝试强制刷新');
-                        if (confirm('页面加载异常，是否强制刷新？')) {
-                            window.location.reload(true);
-                        }
-                    } else {
-                        addDebugInfo('页面内容加载正常');
-                        if (isWeChat) {
-                            setTimeout(function() {
-                                console.log('内容区域数量:', contentSections.length);
-                                addDebugInfo('内容区域数量: ' + contentSections.length);
-                                for (var i = 0; i < contentSections.length; i++) {
-                                    console.log('区域', i, ':', contentSections[i].id, '显示状态:', contentSections[i].style.display);
-                                    addDebugInfo('区域' + i + ': ' + contentSections[i].id + ' 显示状态: ' + contentSections[i].style.display);
-                                }
-                            }, 2000);
-                        }
+                }
+                
+                if (!hasContent) {
+                    addDebugInfo('页面内容加载失败，可能是网络问题');
+                    // 移除网络警告提示，避免影响用户体验
+                } else {
+                    addDebugInfo('页面内容加载正常');
+                    if (isWeChat) {
+                        setTimeout(function() {
+                            console.log('内容区域数量:', contentSections.length);
+                            addDebugInfo('内容区域数量: ' + contentSections.length);
+                            for (var i = 0; i < contentSections.length; i++) {
+                                console.log('区域', i, ':', contentSections[i].id, '显示状态:', contentSections[i].style.display);
+                                addDebugInfo('区域' + i + ': ' + contentSections[i].id + ' 显示状态: ' + contentSections[i].style.display);
+                            }
+                        }, 2000);
                     }
-                }, 3000);
+                }
+            }, 3000);
             });
         })();
         
@@ -670,21 +655,7 @@
             }
         }
         
-        function hideWechatWarning() {
-            var warning = document.getElementById('wechat-warning');
-            if (warning) {
-                warning.style.display = 'none';
-            }
-        }
-        
-        // 显示微信浏览器提示
-        function showWechatWarning() {
-            var warning = document.getElementById('wechat-warning');
-            if (warning) {
-                warning.style.display = 'block';
-                addDebugInfo('显示微信浏览器提示');
-            }
-        }
+
         
         function forceRefresh() {
             addDebugInfo('执行强制刷新');
