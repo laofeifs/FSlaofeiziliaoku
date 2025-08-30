@@ -15,27 +15,27 @@
     <link rel="stylesheet" href="styles.css?v=202508291625">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
-    <!-- Service Worker 注册 -->
+    <!-- Service Worker 暂时禁用，避免影响页面加载 -->
     <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js')
-        .then(registration => {
-          console.log('Service Worker 注册成功:', registration.scope);
-          
-          // 监听更新
-          registration.addEventListener('updatefound', () => {
-            console.log('检测到Service Worker更新');
-            const newWorker = registration.installing;
-            newWorker.addEventListener('statechange', () => {
-              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                console.log('新版本可用，提示用户刷新');
-                // 可以在这里显示更新提示
-              }
-            });
-          });
-        })
-        .catch(err => console.error('Service Worker 注册失败:', err));
-    }
+    // if ('serviceWorker' in navigator) {
+    //   navigator.serviceWorker.register('/sw.js')
+    //     .then(registration => {
+    //       console.log('Service Worker 注册成功:', registration.scope);
+    //       
+    //       // 监听更新
+    //       registration.addEventListener('updatefound', () => {
+    //         console.log('检测到Service Worker更新');
+    //         const newWorker = registration.installing;
+    //         newWorker.addEventListener('statechange', () => {
+    //           if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+    //             console.log('新版本可用，提示用户刷新');
+    //             // 可以在这里显示更新提示
+    //           }
+    //         });
+    //       });
+    //     })
+    //     .catch(err => console.error('Service Worker 注册失败:', err));
+    // }
     </script>
 </head>
 <body>

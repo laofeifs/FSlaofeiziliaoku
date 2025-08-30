@@ -433,11 +433,9 @@ function checkVersion() {
 
 // 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', function() {
-    // 禁用下拉刷新
-    preventPullToRefresh();
+
     
-    // 检查版本并提示刷新
-    checkVersion();
+
     
 
     
@@ -478,21 +476,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
     }
     
-
-    
-    initializeNavigation();
-    initializeFilters();
-    loadCharacters(currentGeneration);
-    loadGallery(currentGeneration);
-    
-    // 默认隐藏筛选按钮（因为默认是gallery页面）
-    const filterContainer = document.querySelector('.filter-container');
-    if (filterContainer) {
-        filterContainer.style.display = 'none';
+    // 简化初始化，只保留核心功能
+    try {
+        console.log('开始初始化页面功能');
+        initializeNavigation();
+        initializeFilters();
+        loadCharacters(currentGeneration);
+        loadGallery(currentGeneration);
+        
+        // 默认隐藏筛选按钮（因为默认是gallery页面）
+        const filterContainer = document.querySelector('.filter-container');
+        if (filterContainer) {
+            filterContainer.style.display = 'none';
+        }
+        
+        // 初始化职业排名功能
+        initializeRanking();
+        console.log('页面功能初始化完成');
+    } catch (error) {
+        console.error('页面初始化出错:', error);
     }
-    
-    // 初始化职业排名功能
-    initializeRanking();
 });
 
 // 初始化主导航
