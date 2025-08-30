@@ -1,5 +1,5 @@
 // 腾讯云COS配置
-const COS_CONFIG = {
+var COS_CONFIG = {
     // 这里需要你填入你的腾讯云COS配置信息
     SecretId: 'YOUR_SECRET_ID',
     SecretKey: 'YOUR_SECRET_KEY',
@@ -10,15 +10,15 @@ const COS_CONFIG = {
 };
 
 // 当前选中的代次
-let currentGeneration = '9';
+var currentGeneration = '9';
 
 // 图鉴数据 - 所有代数共用一张图片
-const galleryData = {
+var galleryData = {
     image: 'gallery/超特图鉴.png'
 };
 
 // 角色数据示例（你可以根据实际情况修改）
-const charactersData = {
+var charactersData = {
     '1': [
         {
             id: '1_1',
@@ -485,7 +485,7 @@ document.addEventListener('DOMContentLoaded', function() {
         loadGallery(currentGeneration);
         
         // 默认隐藏筛选按钮（因为默认是gallery页面）
-        const filterContainer = document.querySelector('.filter-container');
+        var filterContainer = document.querySelector('.filter-container');
         if (filterContainer) {
             filterContainer.style.display = 'none';
         }
@@ -500,32 +500,36 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // 初始化主导航
 function initializeNavigation() {
-    const navButtons = document.querySelectorAll('.nav-btn');
+    var navButtons = document.querySelectorAll('.nav-btn');
     
-    navButtons.forEach(button => {
-        button.addEventListener('click', function() {
+    for (var i = 0; i < navButtons.length; i++) {
+        navButtons[i].addEventListener('click', function() {
             // 移除所有活动状态
-            navButtons.forEach(btn => btn.classList.remove('active'));
+            for (var j = 0; j < navButtons.length; j++) {
+                navButtons[j].classList.remove('active');
+            }
             // 添加当前活动状态
             this.classList.add('active');
             
             // 切换内容区域
-            const section = this.getAttribute('data-section');
+            var section = this.getAttribute('data-section');
             
             // 正常切换内容区域
             switchSection(section);
         });
-    });
+    }
 }
 
 // 初始化筛选按钮
 function initializeFilters() {
-    const filterButtons = document.querySelectorAll('.filter-btn');
+    var filterButtons = document.querySelectorAll('.filter-btn');
     
-    filterButtons.forEach(button => {
-        button.addEventListener('click', function() {
+    for (var i = 0; i < filterButtons.length; i++) {
+        filterButtons[i].addEventListener('click', function() {
             // 移除所有活动状态
-            filterButtons.forEach(btn => btn.classList.remove('active'));
+            for (var j = 0; j < filterButtons.length; j++) {
+                filterButtons[j].classList.remove('active');
+            }
             // 添加当前活动状态
             this.classList.add('active');
             
@@ -534,7 +538,7 @@ function initializeFilters() {
             loadCharacters(currentGeneration);
             loadGallery(currentGeneration);
         });
-    });
+    }
 }
 
 // 切换内容区域
