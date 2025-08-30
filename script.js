@@ -424,56 +424,9 @@ function autoForceRefresh() {
     }
 }
 
-// 检测服务器版本并强制刷新
-function checkServerVersion() {
-    // 微信浏览器禁用自动刷新
-    if (isWeChat()) {
-        console.log('微信浏览器禁用自动刷新');
-        return;
-    }
-    
-    // 安卓微信浏览器特殊处理
-    if (isAndroidWeChat()) {
-        console.log('安卓微信浏览器，完全禁用版本检测');
-        return;
-    }
-    
-    // 检查是否已经检测过，避免重复检测
-    var lastCheck = localStorage.getItem('last_version_check');
-    var currentTime = Date.now();
-    
-    // 如果距离上次检查不到5分钟，跳过检测
-    if (lastCheck && (currentTime - parseInt(lastCheck)) < 5 * 60 * 1000) {
-        console.log('距离上次版本检查不到5分钟，跳过检测');
-        return;
-    }
-    
-    localStorage.setItem('last_version_check', currentTime);
-    
-    fetch('/version.txt?t=' + currentTime) // 防止缓存
-        .then(res => res.text())
-        .then(serverVersion => {
-            serverVersion = serverVersion.trim(); // 去除可能的空格
-            let localVersion = localStorage.getItem('site_version');
-            console.log('服务器版本:', serverVersion, '本地版本:', localVersion);
-            
-            if (localVersion !== serverVersion) {
-                console.log('检测到新版本，执行强制刷新');
-                localStorage.setItem('site_version', serverVersion);
-                // location.reload(true); // 注释掉自动刷新
-            } else {
-                console.log('版本匹配，无需刷新');
-            }
-        })
-        .catch(error => {
-            console.log('版本检测失败:', error);
-        });
-}
-
-// 检查版本并提示刷新（简化版）
+// 版本检查功能已移除，简化代码
 function checkVersion() {
-    // 版本检查现在由checkServerVersion()处理
-    console.log('版本检查已移至服务器检测');
+    console.log('版本检查功能已移除');
 }
 
 
@@ -486,93 +439,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 检查版本并提示刷新
     checkVersion();
     
-    // 设备配置对象（提前定义）
-    var deviceConfig = {
-        isMobile: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
-        isApple: /iPad|iPhone|iPod/.test(navigator.userAgent),
-        isAndroid: /Android/i.test(navigator.userAgent),
-        isWeChat: /MicroMessenger/i.test(navigator.userAgent),
-        // 设备特定的配置
-        getConfig: function() {
-            return {
-                clearCache: !this.isApple, // 苹果设备不清除缓存
-                networkTimeout: this.isApple ? 15000 : 10000, // 苹果设备15秒超时
-                maxFailures: this.isApple ? 5 : 3, // 苹果设备5次失败才提示
-                checkInterval: this.isApple ? 600000 : 300000 // 苹果设备10分钟检测间隔
-            };
-        }
-    };
-    
-    // 连接状态检测
-    var connectionCheckInterval;
-    var lastConnectionCheck = Date.now();
-    
-    // 检测网络连接状态
-    function checkConnection() {
-        var currentTime = Date.now();
-        var config = deviceConfig.getConfig();
-        
-        // 根据设备配置决定检测间隔
-        if (currentTime - lastConnectionCheck > config.checkInterval) {
-            lastConnectionCheck = currentTime;
-            
-            // 尝试加载一个小的资源来检测连接
-            fetch('/version.txt?t=' + currentTime, { 
-                method: 'HEAD',
-                cache: 'no-cache',
-                timeout: config.networkTimeout
-            })
-            .then(function(response) {
-                if (response.ok) {
-                    console.log('网络连接正常');
-                    // 清除连接错误提示
-                    var errorTip = document.getElementById('connection-error-tip');
-                    if (errorTip) {
-                        errorTip.remove();
-                    }
-                    // 重置失败计数
-                    localStorage.setItem('connection_fail_count', '0');
-                } else {
-                    throw new Error('网络响应异常');
-                }
-            })
-            .catch(function(error) {
-                console.log('网络连接检测失败:', error);
-                // 根据设备配置决定失败次数阈值
-                var failCount = parseInt(localStorage.getItem('connection_fail_count') || '0');
-                failCount++;
-                localStorage.setItem('connection_fail_count', failCount.toString());
-                
-                if (failCount >= config.maxFailures) {
-                    console.log('连续' + config.maxFailures + '次网络检测失败，显示错误提示');
-                    showConnectionError();
-                }
-            });
-        }
-    }
-    
-    // 显示连接错误提示
-    function showConnectionError() {
-        // 检查是否已经显示过提示
-        if (document.getElementById('connection-error-tip')) {
-            return;
-        }
-        
-        var errorTip = document.createElement('div');
-        errorTip.id = 'connection-error-tip';
-        errorTip.style.cssText = 'position:fixed;top:120px;left:10px;right:10px;background:#ff4757;color:white;padding:12px;border-radius:8px;font-size:14px;z-index:9999;text-align:center;';
-        errorTip.innerHTML = `
-            <div style="margin-bottom:8px;">⚠️ 网络连接异常，请检查网络后刷新页面</div>
-            <button onclick="console.log('手动刷新已禁用')" style="background:white;color:#ff4757;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-size:12px;">刷新页面</button>
-            <button onclick="this.parentElement.remove()" style="background:transparent;color:white;border:1px solid white;padding:6px 12px;border-radius:4px;cursor:pointer;font-size:12px;margin-left:8px;">关闭</button>
-        `;
-        document.body.appendChild(errorTip);
-    }
-    
-    // 暂时禁用网络检测，避免影响页面加载
-    // setTimeout(function() {
-    //     connectionCheckInterval = setInterval(checkConnection, 600000); // 每10分钟检查一次
-    // }, 10000); // 延迟10秒启动检测
+
     
 
     
@@ -580,52 +447,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
 
     
-    // 手机端强制刷新检测
-    if (deviceConfig.isMobile) {
-        console.log('检测到移动设备，检查是否需要强制刷新');
-        var lastMobileCheck = localStorage.getItem('mobile_last_check');
-        var currentTime = Date.now();
-        
-        // 如果距离上次检查超过1分钟，执行强制刷新
-        if (!lastMobileCheck || (currentTime - parseInt(lastMobileCheck)) > 60 * 1000) {
-            console.log('移动设备强制刷新检查');
-            localStorage.setItem('mobile_last_check', currentTime);
-            
-            var config = deviceConfig.getConfig();
-            
-            // 根据设备配置决定是否清除缓存
-            if (config.clearCache) {
-                console.log('清除缓存和存储数据');
-                // 清除所有缓存
-                if ('caches' in window) {
-                    caches.keys().then(function(names) {
-                        for (let name of names) {
-                            caches.delete(name);
-                        }
-                    });
-                }
-                
-                // 清除localStorage
-                localStorage.clear();
-                sessionStorage.clear();
-            } else {
-                console.log('设备配置：跳过缓存清除');
-            }
-            
-            // 移除移动端刷新提示
-            // var mobileTip = document.createElement('div');
-            // mobileTip.style.cssText = 'position:fixed;top:10px;left:10px;right:10px;background:#ff6b6b;color:white;padding:12px;border-radius:8px;font-size:14px;z-index:9999;text-align:center;';
-            // mobileTip.innerHTML = '📱 移动端检测到更新，请下拉刷新页面获取最新内容';
-            // document.body.appendChild(mobileTip);
-            
-            // 10秒后自动隐藏提示
-            // setTimeout(function() {
-            //     if (mobileTip.parentNode) {
-            //         mobileTip.parentNode.removeChild(mobileTip);
-            //     }
-            // }, 10000);
-        }
-    }
+
     
     // 微信浏览器兼容性处理
     if (isWeChat()) {
@@ -656,8 +478,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     }
     
-    // 检测服务器版本（只在必要时）
-    setTimeout(checkServerVersion, 2000); // 延迟2秒检测，避免页面加载时立即检测
+
     
     initializeNavigation();
     initializeFilters();
