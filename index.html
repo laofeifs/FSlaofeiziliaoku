@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -22,19 +22,24 @@
         .then(registration => {
           console.log('Service Worker 注册成功:', registration.scope);
           
-          // 监听更新
+          // 监听更新但不强制刷新
           registration.addEventListener('updatefound', () => {
             console.log('检测到Service Worker更新');
             const newWorker = registration.installing;
             newWorker.addEventListener('statechange', () => {
               if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                console.log('新版本可用，提示用户刷新');
-                // 可以在这里显示更新提示
+                console.log('🔄 有新版本，下次打开时加载');
+                // 不强制刷新，让用户下次访问时自动更新
               }
             });
           });
         })
         .catch(err => console.error('Service Worker 注册失败:', err));
+        
+      // 监听控制器变化
+      navigator.serviceWorker.addEventListener("controllerchange", () => {
+        console.log("🔄 有新版本，下次打开时加载");
+      });
     }
     </script>
 </head>

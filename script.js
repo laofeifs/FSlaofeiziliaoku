@@ -216,7 +216,7 @@ function forceRefresh() {
     localStorage.clear();
     
     // 强制重新加载
-    window.location.reload(true);
+                    // window.location.reload(true); // 注释掉自动刷新
 }
 
 // 自动强制刷新（如果检测到微信浏览器）
@@ -274,7 +274,7 @@ function checkServerVersion() {
             if (localVersion !== serverVersion) {
                 console.log('检测到新版本，执行强制刷新');
                 localStorage.setItem('site_version', serverVersion);
-                location.reload(true); // 只在版本不同才刷新
+                // location.reload(true); // 注释掉自动刷新
             } else {
                 console.log('版本匹配，无需刷新');
             }
@@ -294,6 +294,9 @@ function checkVersion() {
 
 // 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', function() {
+    // 禁用下拉刷新
+    preventPullToRefresh();
+    
     // 检查版本并提示刷新
     checkVersion();
     
@@ -344,43 +347,21 @@ document.addEventListener('DOMContentLoaded', function() {
         
         var errorTip = document.createElement('div');
         errorTip.id = 'connection-error-tip';
-        errorTip.style.cssText = 'position:fixed;top:10px;left:10px;right:10px;background:#ff4757;color:white;padding:12px;border-radius:8px;font-size:14px;z-index:9999;text-align:center;';
+        errorTip.style.cssText = 'position:fixed;top:120px;left:10px;right:10px;background:#ff4757;color:white;padding:12px;border-radius:8px;font-size:14px;z-index:9999;text-align:center;';
         errorTip.innerHTML = `
             <div style="margin-bottom:8px;">⚠️ 网络连接异常，请检查网络后刷新页面</div>
-            <button onclick="location.reload(true)" style="background:white;color:#ff4757;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-size:12px;">刷新页面</button>
+            <button onclick="console.log('手动刷新已禁用')" style="background:white;color:#ff4757;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-size:12px;">刷新页面</button>
             <button onclick="this.parentElement.remove()" style="background:transparent;color:white;border:1px solid white;padding:6px 12px;border-radius:4px;cursor:pointer;font-size:12px;margin-left:8px;">关闭</button>
         `;
         document.body.appendChild(errorTip);
     }
     
-    // 启动连接检测
-    connectionCheckInterval = setInterval(checkConnection, 120000); // 每2分钟检查一次
+    // 启动连接检测（降低频率，避免频繁检测）
+    connectionCheckInterval = setInterval(checkConnection, 300000); // 每5分钟检查一次
     
-    // 检查URL是否需要添加时间戳
-    function checkUrlTimestamp() {
-        var currentUrl = window.location.href;
-        var timestamp = '202508291625';
-        
-        // 如果URL中没有时间戳参数，添加时间戳并刷新
-        if (!currentUrl.includes('?v=')) {
-            var newUrl = currentUrl + (currentUrl.includes('?') ? '&' : '?') + 'v=' + timestamp;
-            console.log('添加时间戳参数:', newUrl);
-            window.location.href = newUrl;
-        }
-    }
+
     
-    // 页面加载时检查URL时间戳
-    setTimeout(checkUrlTimestamp, 1000);
-    
-    // 页面可见性变化时重新检查连接
-    document.addEventListener('visibilitychange', function() {
-        if (!document.hidden) {
-            console.log('页面重新可见，检查连接状态');
-            // 只在页面重新可见时检查，不显示错误提示
-            var currentTime = Date.now();
-            lastConnectionCheck = currentTime;
-        }
-    });
+
     
     // 手机端强制刷新检测
     var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -458,6 +439,9 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeFilters();
     loadCharacters(currentGeneration);
     loadGallery(currentGeneration);
+    
+    // 初始化懒加载
+    initLazyLoading();
 });
 
 // 初始化主导航
@@ -636,7 +620,7 @@ function createCharacterCard(character) {
     
     card.innerHTML = `
         <div class="character-image">
-            ${imageUrl ? `<img src="${imageUrl}" alt="${character.name}" style="width: 100%; height: 100%; object-fit: cover;" onerror="handleImageError(this, '${character.name}')" onload="handleImageLoad(this, '${character.name}')">` : '暂无图片'}
+            ${imageUrl ? `<img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7mnKzlm748L3RleHQ+Cjwvc3ZnPgo=" alt="${character.name}" loading="lazy" data-src="${imageUrl}" style="width: 100%; height: 100%; object-fit: cover;" onerror="handleImageError(this, '${character.name}')" onload="handleImageLoad(this, '${character.name}')">` : '暂无图片'}
         </div>
         <div class="character-info">
             <h3 class="character-name">${character.name}</h3>
@@ -700,7 +684,7 @@ function createGalleryCard() {
     
     card.innerHTML = `
         <div class="gallery-image-full">
-            ${imageUrl ? `<img src="${imageUrl}" alt="超特图鉴" style="width: 100%; height: auto; object-fit: contain;" onerror="handleImageError(this, '超特图鉴')" onload="handleImageLoad(this, '超特图鉴')">` : '暂无图片'}
+            ${imageUrl ? `<img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7mnKzlm748L3RleHQ+Cjwvc3ZnPgo=" alt="超特图鉴" loading="lazy" data-src="${imageUrl}" style="width: 100%; height: auto; object-fit: contain;" onerror="handleImageError(this, '超特图鉴')" onload="handleImageLoad(this, '超特图鉴')">` : '暂无图片'}
         </div>
         <div class="gallery-info">
             <h3 class="gallery-name">超特图鉴</h3>
@@ -723,6 +707,71 @@ function handleImageError(img, characterName) {
     // 设置默认图片
     img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7mnKzlm748L3RleHQ+Cjx0ZXh0IHg9IjEwMCIgeT0iMTIwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjwvc3ZnPgo=';
     img.alt = characterName + ' (图片加载失败)';
+}
+
+// 禁用下拉刷新
+function preventPullToRefresh() {
+    // 阻止触摸事件
+    let startY = 0;
+    let currentY = 0;
+    
+    document.addEventListener('touchstart', function(e) {
+        startY = e.touches[0].pageY;
+    }, { passive: false });
+    
+    document.addEventListener('touchmove', function(e) {
+        currentY = e.touches[0].pageY;
+        
+        // 如果是在页面顶部下拉，阻止默认行为
+        if (window.scrollY === 0 && currentY > startY) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+    
+    // 阻止页面刷新
+    window.addEventListener('beforeunload', function(e) {
+        // 不显示确认对话框，直接阻止
+        e.preventDefault();
+        e.returnValue = '';
+    });
+    
+    // 禁用右键菜单
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+    });
+}
+
+// 初始化懒加载
+function initLazyLoading() {
+    // 使用 Intersection Observer API
+    if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    if (img.dataset.src) {
+                        img.src = img.dataset.src;
+                        img.removeAttribute('data-src');
+                        observer.unobserve(img);
+                    }
+                }
+            });
+        }, {
+            rootMargin: '50px 0px', // 提前50px开始加载
+            threshold: 0.1
+        });
+        
+        // 观察所有懒加载图片
+        document.querySelectorAll('img[data-src]').forEach(img => {
+            imageObserver.observe(img);
+        });
+    } else {
+        // 降级处理：直接加载所有图片
+        document.querySelectorAll('img[data-src]').forEach(img => {
+            img.src = img.dataset.src;
+            img.removeAttribute('data-src');
+        });
+    }
 }
 
 // 显示COS帮助信息
