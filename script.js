@@ -493,16 +493,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // 检测网络连接状态
     function checkConnection() {
         var currentTime = Date.now();
+        var config = deviceConfig.getConfig();
         
-        // 每5分钟检查一次连接状态（进一步降低频率）
-        if (currentTime - lastConnectionCheck > 300000) {
+        // 根据设备配置决定检测间隔
+        if (currentTime - lastConnectionCheck > config.checkInterval) {
             lastConnectionCheck = currentTime;
             
             // 尝试加载一个小的资源来检测连接
             fetch('/version.txt?t=' + currentTime, { 
                 method: 'HEAD',
                 cache: 'no-cache',
-                timeout: 10000 // 增加到10秒超时
+                timeout: config.networkTimeout
             })
             .then(function(response) {
                 if (response.ok) {
@@ -520,13 +521,13 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(function(error) {
                 console.log('网络连接检测失败:', error);
-                // 只在连续失败3次后才显示错误提示
+                // 根据设备配置决定失败次数阈值
                 var failCount = parseInt(localStorage.getItem('connection_fail_count') || '0');
                 failCount++;
                 localStorage.setItem('connection_fail_count', failCount.toString());
                 
-                if (failCount >= 3) {
-                    console.log('连续3次网络检测失败，显示错误提示');
+                if (failCount >= config.maxFailures) {
+                    console.log('连续' + config.maxFailures + '次网络检测失败，显示错误提示');
                     showConnectionError();
                 }
             });
@@ -560,9 +561,25 @@ document.addEventListener('DOMContentLoaded', function() {
     
 
     
+    // 设备配置对象
+    var deviceConfig = {
+        isMobile: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
+        isApple: /iPad|iPhone|iPod/.test(navigator.userAgent),
+        isAndroid: /Android/i.test(navigator.userAgent),
+        isWeChat: /MicroMessenger/i.test(navigator.userAgent),
+        // 设备特定的配置
+        getConfig: function() {
+            return {
+                clearCache: !this.isApple, // 苹果设备不清除缓存
+                networkTimeout: this.isApple ? 15000 : 10000, // 苹果设备15秒超时
+                maxFailures: this.isApple ? 5 : 3, // 苹果设备5次失败才提示
+                checkInterval: this.isApple ? 600000 : 300000 // 苹果设备10分钟检测间隔
+            };
+        }
+    };
+    
     // 手机端强制刷新检测
-    var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    if (isMobile) {
+    if (deviceConfig.isMobile) {
         console.log('检测到移动设备，检查是否需要强制刷新');
         var lastMobileCheck = localStorage.getItem('mobile_last_check');
         var currentTime = Date.now();
@@ -572,18 +589,26 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('移动设备强制刷新检查');
             localStorage.setItem('mobile_last_check', currentTime);
             
-            // 清除所有缓存
-            if ('caches' in window) {
-                caches.keys().then(function(names) {
-                    for (let name of names) {
-                        caches.delete(name);
-                    }
-                });
-            }
+            var config = deviceConfig.getConfig();
             
-            // 清除localStorage
-            localStorage.clear();
-            sessionStorage.clear();
+            // 根据设备配置决定是否清除缓存
+            if (config.clearCache) {
+                console.log('清除缓存和存储数据');
+                // 清除所有缓存
+                if ('caches' in window) {
+                    caches.keys().then(function(names) {
+                        for (let name of names) {
+                            caches.delete(name);
+                        }
+                    });
+                }
+                
+                // 清除localStorage
+                localStorage.clear();
+                sessionStorage.clear();
+            } else {
+                console.log('设备配置：跳过缓存清除');
+            }
             
             // 移除移动端刷新提示
             // var mobileTip = document.createElement('div');
