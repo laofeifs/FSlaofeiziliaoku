@@ -13,7 +13,7 @@
     <meta http-equiv="Expires" content="">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:; img-src 'self' https: data: blob: *; connect-src 'self' https: *;">
     <title>老非FS资料库</title>
-    <link rel="stylesheet" href="styles.css?v=202508310400">
+    <link rel="stylesheet" href="styles.css?v=202508310500">
     <!-- 使用本地图标字体，避免CDN问题 -->
     <!-- 使用国内CDN，提高访问速度 -->
     <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous" referrerpolicy="no-referrer">
@@ -22,7 +22,7 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js?v=202508310400')
+                navigator.serviceWorker.register('/sw.js?v=202508310500')
                     .then((registration) => {
                         console.log('Service Worker registered with scope:', registration.scope);
                         addDebugInfo('Service Worker注册成功: ' + registration.scope);
@@ -477,7 +477,7 @@
         <img id="fullscreen-image" class="fullscreen-image" src="" alt="">
     </div>
 
-    <script src="script.js?v=202508310400"></script>
+    <script src="script.js?v=202508310500"></script>
     
     <!-- 微信浏览器特殊处理 -->
     <script>
@@ -485,12 +485,25 @@
         (function() {
             var isWeChat = /MicroMessenger/i.test(navigator.userAgent);
             var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+            var isNewUser = !localStorage.getItem('hasVisited');
             
-            console.log('浏览器检测:', '微信:', isWeChat, 'iOS:', isIOS);
-            addDebugInfo('浏览器检测: 微信=' + isWeChat + ', iOS=' + isIOS);
+            console.log('浏览器检测:', '微信:', isWeChat, 'iOS:', isIOS, '新用户:', isNewUser);
+            addDebugInfo('浏览器检测: 微信=' + isWeChat + ', iOS=' + isIOS + ', 新用户=' + isNewUser);
+            
+            // 标记用户已访问
+            if (isNewUser) {
+                localStorage.setItem('hasVisited', 'true');
+                addDebugInfo('新用户首次访问');
+            }
             
             // 强制清除缓存 - 更激进的方法
             function forceClearCache() {
+                // 新用户不清除缓存，避免影响首次加载
+                if (isNewUser) {
+                    addDebugInfo('新用户，跳过缓存清除');
+                    return;
+                }
+                
                 // 清除localStorage和sessionStorage
                 localStorage.clear();
                 sessionStorage.clear();
@@ -555,7 +568,25 @@
                 console.log('微信浏览器检测到，应用特殊处理');
                 addDebugInfo('微信浏览器检测到，应用特殊处理');
                 
-                // 移除微信浏览器提示，避免影响用户体验
+                // 新用户特殊处理
+                if (isNewUser) {
+                    addDebugInfo('新用户微信浏览器特殊处理');
+                    // 延迟初始化，确保页面完全加载
+                    setTimeout(function() {
+                        if (typeof initializeNavigation === 'function') {
+                            initializeNavigation();
+                            addDebugInfo('新用户导航初始化完成');
+                        }
+                        if (typeof initializeFilters === 'function') {
+                            initializeFilters();
+                            addDebugInfo('新用户筛选器初始化完成');
+                        }
+                        if (typeof loadCharacters === 'function') {
+                            loadCharacters('9');
+                            addDebugInfo('新用户角色加载完成');
+                        }
+                    }, 2000);
+                }
                 
                 // 执行CORS检查
                 setTimeout(function() {
@@ -599,13 +630,28 @@
                 }, 1000);
             }
             
-            // 页面加载完成后的处理
+                        // 页面加载完成后的处理
             window.addEventListener('load', function() {
                 console.log('页面加载完成');
                 addDebugInfo('页面完全加载完成');
                 
-                            // 检查页面是否正常加载
-            setTimeout(function() {
+                // 新用户特殊处理
+                if (isNewUser) {
+                    addDebugInfo('新用户页面加载完成，等待初始化');
+                    // 新用户给更多时间加载
+                    setTimeout(function() {
+                        checkPageContent();
+                    }, 4000);
+                } else {
+                    // 老用户正常检查
+                    setTimeout(function() {
+                        checkPageContent();
+                    }, 3000);
+                }
+            });
+            
+            // 检查页面内容函数
+            function checkPageContent() {
                 var contentSections = document.querySelectorAll('.content-section');
                 var hasContent = false;
                 
@@ -618,7 +664,19 @@
                 
                 if (!hasContent) {
                     addDebugInfo('页面内容加载失败，可能是网络问题');
-                    // 移除网络警告提示，避免影响用户体验
+                    // 新用户尝试重新初始化
+                    if (isNewUser) {
+                        addDebugInfo('新用户尝试重新初始化');
+                        if (typeof initializeNavigation === 'function') {
+                            initializeNavigation();
+                        }
+                        if (typeof initializeFilters === 'function') {
+                            initializeFilters();
+                        }
+                        if (typeof loadCharacters === 'function') {
+                            loadCharacters('9');
+                        }
+                    }
                 } else {
                     addDebugInfo('页面内容加载正常');
                     if (isWeChat) {
@@ -632,8 +690,7 @@
                         }, 2000);
                     }
                 }
-            }, 3000);
-            });
+            }
         })();
         
         // 调试功能
