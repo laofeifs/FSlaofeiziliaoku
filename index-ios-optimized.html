@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>老非FS资料库</title>
+    
+    <!-- iOS Safari优化 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    
+    <!-- 缓存控制 - iOS优化 -->
+    <meta http-equiv="Cache-Control" content="public, max-age=3600">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
+    <!-- 安全策略 - iOS优化 -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:; img-src 'self' https: data: blob:; connect-src 'self' https:;">
+    
+    <!-- 外部资源 - iOS优化 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous" referrerpolicy="no-referrer">
+    
+    <!-- 样式文件 -->
+    <link rel="stylesheet" href="styles.css?v=202508292255">
+</head>
+<body>
+    <!-- 头部区域 -->
+    <div class="header">
+        <h1 class="main-title">街头篮球资料库</h1>
+        <p class="subtitle">老非FS资料库 - 超特角色图鉴</p>
+        <div class="header-bottom">
+            <span class="powered-by">Powered by 老非</span>
+            <span class="powered-by">laofei90186</span>
+        </div>
+        
+        <!-- 刷新提示 - iOS优化 -->
+        <div class="refresh-tip-header">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span>点击右上角三个点➡️刷新获取最新版</span>
+        </div>
+        
+        <!-- 导航按钮 -->
+        <div class="nav-buttons">
+            <button class="nav-btn active" data-section="gallery">
+                <i class="fas fa-images"></i>
+                <span>超特图鉴</span>
+            </button>
+            <button class="nav-btn" data-section="characters">
+                <i class="fas fa-running"></i>
+                <span>超特动作</span>
+            </button>
+            <button class="nav-btn" data-section="ranking">
+                <i class="fas fa-trophy"></i>
+                <span>职业排名</span>
+            </button>
+            <button class="nav-btn" data-section="account">
+                <i class="fas fa-user-circle"></i>
+                <span>FS账号</span>
+            </button>
+            <button class="nav-btn" data-section="courses">
+                <i class="fas fa-graduation-cap"></i>
+                <span>老非课程</span>
+            </button>
+        </div>
+    </div>
+    
+    <!-- 主要内容区域 -->
+    <div class="content">
+        <!-- 筛选按钮容器 -->
+        <div class="filter-container">
+            <button class="filter-btn active" data-generation="9">9代</button>
+            <button class="filter-btn" data-generation="8">8代</button>
+            <button class="filter-btn" data-generation="7">7代</button>
+            <button class="filter-btn" data-generation="6">6代</button>
+            <button class="filter-btn" data-generation="5">5代</button>
+            <button class="filter-btn" data-generation="4_5">4.5代</button>
+            <button class="filter-btn" data-generation="4">4代</button>
+            <button class="filter-btn" data-generation="3_5">3.5代</button>
+            <button class="filter-btn" data-generation="3">3代</button>
+            <button class="filter-btn" data-generation="2">2代</button>
+            <button class="filter-btn" data-generation="1">1代</button>
+        </div>
+        
+        <!-- 超特图鉴 -->
+        <div id="gallery-section" class="content-section active">
+            <h2 class="section-title">超特图鉴</h2>
+            <div id="gallery-grid">
+                <!-- 图鉴内容将通过JavaScript动态生成 -->
+            </div>
+        </div>
+        
+        <!-- 超特动作 -->
+        <div id="characters-section" class="content-section">
+            <h2 class="section-title">超特动作</h2>
+            <div id="characters-grid">
+                <!-- 角色卡片将通过JavaScript动态生成 -->
+            </div>
+        </div>
+        
+        <!-- 职业排名 -->
+        <div id="ranking-section" class="content-section">
+            <h2 class="section-title">职业排名</h2>
+            <div class="ranking-tabs">
+                <button class="ranking-tab active" data-ranking="c">C排名</button>
+                <button class="ranking-tab" data-ranking="pf">PF排名</button>
+                <button class="ranking-tab" data-ranking="pg">PG排名</button>
+            </div>
+            <div class="ranking-content">
+                <div id="c-ranking" class="ranking-item active">
+                    <img id="c-ranking-image" class="ranking-image" alt="C排名" style="max-width: 100%; height: auto;">
+                </div>
+                <div id="pf-ranking" class="ranking-item">
+                    <img id="pf-ranking-image" class="ranking-image" alt="PF排名" style="max-width: 100%; height: auto;">
+                </div>
+                <div id="pg-ranking" class="ranking-item">
+                    <img id="pg-ranking-image" class="ranking-image" alt="PG排名" style="max-width: 100%; height: auto;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- FS账号 -->
+        <div id="account-section" class="content-section">
+            <div class="account-container">
+                <div class="account-module">
+                    <div class="module-header">
+                        <i class="fas fa-store"></i>
+                        <h3>查看老非FS账号店铺</h3>
+                    </div>
+                    <div class="module-content">
+                        <p class="store-desc">进入老非的微店查看账号</p>
+                        <button class="store-btn" onclick="openStore()">进入店铺</button>
+                    </div>
+                </div>
+                <div class="account-module">
+                    <div class="module-header">
+                        <i class="fas fa-user-cog"></i>
+                        <h3>老非帮选号+调试服务</h3>
+                    </div>
+                    <div class="module-content">
+                        <p class="service-desc">专业选号调试服务</p>
+                        <div class="contact-info">
+                            <div class="wechat-section">
+                                <label>微信号:</label>
+                                <div class="wechat-display">
+                                    <span id="wechat-number">laofei90186</span>
+                                    <button class="copy-btn" onclick="copyWechat()">复制</button>
+                                </div>
+                            </div>
+                            <div class="copy-tip" id="copy-tip" style="display: none;">微信号已复制到剪贴板</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 老非课程 -->
+        <div id="courses-section" class="content-section">
+            <h2 class="section-title">老非课程</h2>
+            <div class="courses-container">
+                <div class="course-category">
+                    <h3>适合内线的课程</h3>
+                    <div class="course-grid">
+                        <div class="course-card" onclick="openCourse('https://course1.example.com')">
+                            <div class="course-banner">
+                                <div class="course-banner-content">
+                                    <div class="course-banner-title">内线基础</div>
+                                </div>
+                            </div>
+                            <div class="course-info">
+                                <h4 class="course-title">内线基础技能训练</h4>
+                                <p class="course-desc">适合新手内线玩家，从基础开始学习</p>
+                                <span class="course-tag">基础</span>
+                            </div>
+                        </div>
+                        <div class="course-card" onclick="openCourse('https://course2.example.com')">
+                            <div class="course-banner">
+                                <div class="course-banner-content">
+                                    <div class="course-banner-title">内线进阶</div>
+                                </div>
+                            </div>
+                            <div class="course-info">
+                                <h4 class="course-title">内线进阶技巧</h4>
+                                <p class="course-desc">提升内线技能，掌握高级技巧</p>
+                                <span class="course-tag">进阶</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="course-category">
+                    <h3>适合PG的课程</h3>
+                    <div class="course-grid">
+                        <div class="course-card" onclick="openCourse('https://course3.example.com')">
+                            <div class="course-banner">
+                                <div class="course-banner-content">
+                                    <div class="course-banner-title">PG基础</div>
+                                </div>
+                            </div>
+                            <div class="course-info">
+                                <h4 class="course-title">PG基础技能训练</h4>
+                                <p class="course-desc">适合新手PG玩家，从基础开始学习</p>
+                                <span class="course-tag">基础</span>
+                            </div>
+                        </div>
+                        <div class="course-card" onclick="openCourse('https://course4.example.com')">
+                            <div class="course-banner">
+                                <div class="course-banner-content">
+                                    <div class="course-banner-title">PG进阶</div>
+                                </div>
+                            </div>
+                            <div class="course-info">
+                                <h4 class="course-title">PG进阶技巧</h4>
+                                <p class="course-desc">提升PG技能，掌握高级技巧</p>
+                                <span class="course-tag">进阶</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 全屏图片显示 -->
+    <div class="fullscreen-overlay" id="fullscreen-overlay" style="display: none;">
+        <img class="fullscreen-image" id="fullscreen-image" alt="全屏显示">
+    </div>
+    
+    <!-- JavaScript文件 - iOS优化版本 -->
+    <script src="script.js?v=202508292255"></script>
+    
+    <!-- iOS Safari特殊优化脚本 -->
+    <script>
+        // iOS Safari特殊优化
+        (function() {
+            var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+            var isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+            
+            if (isIOS) {
+                console.log('检测到iOS设备，应用特殊优化');
+                
+                // 防止iOS Safari的弹性滚动
+                document.body.style.webkitOverflowScrolling = 'touch';
+                
+                // 防止iOS Safari的缩放
+                document.addEventListener('gesturestart', function(e) {
+                    e.preventDefault();
+                });
+                
+                // 优化iOS Safari的触摸事件
+                document.addEventListener('touchstart', function(e) {
+                    // 防止双击缩放
+                    if (e.touches.length > 1) {
+                        e.preventDefault();
+                    }
+                }, { passive: false });
+                
+                // iOS Safari图片加载优化
+                var images = document.querySelectorAll('img');
+                for (var i = 0; i < images.length; i++) {
+                    images[i].addEventListener('load', function() {
+                        this.style.opacity = '1';
+                    });
+                    images[i].addEventListener('error', function() {
+                        console.log('iOS图片加载失败:', this.src);
+                    });
+                }
+                
+                // iOS Safari缓存清理
+                if (window.navigator.standalone) {
+                    console.log('iOS独立应用模式，清理缓存');
+                    localStorage.clear();
+                    sessionStorage.clear();
+                }
+            }
+            
+            // 页面加载完成后的iOS优化
+            window.addEventListener('load', function() {
+                if (isIOS) {
+                    console.log('iOS页面加载完成');
+                    
+                    // 强制重绘
+                    document.body.offsetHeight;
+                    
+                    // 检查页面状态
+                    setTimeout(function() {
+                        var contentSections = document.querySelectorAll('.content-section');
+                        console.log('内容区域数量:', contentSections.length);
+                        for (var i = 0; i < contentSections.length; i++) {
+                            console.log('区域', i, ':', contentSections[i].id, '显示状态:', contentSections[i].style.display);
+                        }
+                    }, 1000);
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

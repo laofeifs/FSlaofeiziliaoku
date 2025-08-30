@@ -1,5 +1,5 @@
 // 腾讯云COS配置
-var COS_CONFIG = {
+const COS_CONFIG = {
     // 这里需要你填入你的腾讯云COS配置信息
     SecretId: 'YOUR_SECRET_ID',
     SecretKey: 'YOUR_SECRET_KEY',
@@ -10,15 +10,15 @@ var COS_CONFIG = {
 };
 
 // 当前选中的代次
-var currentGeneration = '9';
+let currentGeneration = '9';
 
 // 图鉴数据 - 所有代数共用一张图片
-var galleryData = {
+const galleryData = {
     image: 'gallery/超特图鉴.png'
 };
 
 // 角色数据示例（你可以根据实际情况修改）
-var charactersData = {
+const charactersData = {
     '1': [
         {
             id: '1_1',
@@ -40,161 +40,27 @@ var charactersData = {
             generation: '1代超特',
             description: '一代超特角色',
             image: 'characters/1代超特/蛇姬.png'
-                }
+        }
     ],
     '2': [
         {
             id: '2_1',
-            name: '安杰拉',
+            name: '角色名称2',
             generation: '2代超特',
-            description: '二代超特角色',
-            image: 'characters/2代超特/安杰拉.png',
-            gifFolder: 'gifs/2代超特/安杰拉/'
-        },
-        {
-            id: '2_2',
-            name: '沃顿',
-            generation: '2代超特',
-            description: '二代超特角色',
-            image: 'characters/2代超特/沃顿.png',
-            gifFolder: 'gifs/2代超特/沃顿/'
-        },
-        {
-            id: '2_3',
-            name: '莉莉斯',
-            generation: '2代超特',
-            description: '二代超特角色',
-            image: 'characters/2代超特/莉莉斯.png',
-            gifFolder: 'gifs/2代超特/莉莉斯/'
-        },
-        {
-            id: '2_4',
-            name: '路西法',
-            generation: '2代超特',
-            description: '二代超特角色',
-            image: 'characters/2代超特/路西法.png',
-            gifFolder: 'gifs/2代超特/路西法/'
+            description: '这是2代超特的角色描述',
+            image: 'characters/2gen/character2.jpg'
         }
+        // 更多角色...
     ],
-    '3': [
+    '5': [
         {
-            id: '3_1',
-            name: '凤凰',
-            generation: '3代超特',
-            description: '三代超特角色',
-            image: 'characters/3代超特/凤凰.png',
-            gifFolder: 'gifs/3代超特/凤凰/'
-        },
-        {
-            id: '3_2',
-            name: '白虎',
-            generation: '3代超特',
-            description: '三代超特角色',
-            image: 'characters/3代超特/白虎.png',
-            gifFolder: 'gifs/3代超特/白虎/'
-        },
-        {
-            id: '3_3',
-            name: '酒鬼',
-            generation: '3代超特',
-            description: '三代超特角色',
-            image: 'characters/3代超特/酒鬼.png',
-            gifFolder: 'gifs/3代超特/酒鬼/'
-        },
-        {
-            id: '3_4',
-            name: '麒麟',
-            generation: '3代超特',
-            description: '三代超特角色',
-            image: 'characters/3代超特/麒麟.png',
-            gifFolder: 'gifs/3代超特/麒麟/'
+            id: '5_1',
+            name: '角色名称5',
+            generation: '5代超特',
+            description: '这是5代超特的角色描述',
+            image: 'characters/5gen/character5.jpg'
         }
-    ],
-    '3_5': [
-        {
-            id: '3_5_1',
-            name: '悠夏',
-            generation: '3.5代超特',
-            description: '三点五代超特角色',
-            image: 'characters/3.5代超特/悠夏.png',
-            gifFolder: 'gifs/3.5代超特/悠夏/'
-        },
-        {
-            id: '3_5_2',
-            name: '托姆斯',
-            generation: '3.5代超特',
-            description: '三点五代超特角色',
-            image: 'characters/3.5代超特/托姆斯.png',
-            gifFolder: 'gifs/3.5代超特/托姆斯/'
-        },
-        {
-            id: '3_5_3',
-            name: '浩然',
-            generation: '3.5代超特',
-            description: '三点五代超特角色',
-            image: 'characters/3.5代超特/浩然.png',
-            gifFolder: 'gifs/3.5代超特/浩然/'
-        },
-        {
-            id: '3_5_4',
-            name: '芙熙',
-            generation: '3.5代超特',
-            description: '三点五代超特角色',
-            image: 'characters/3.5代超特/芙熙.png',
-            gifFolder: 'gifs/3.5代超特/芙熙/'
-        }
-    ],
-    '4': [
-        {
-            id: '4_1',
-            name: '丽雅',
-            generation: '4代超特',
-            description: '四代超特角色',
-            image: 'characters/4代超特/丽雅.png',
-            gifFolder: 'gifs/4代超特/丽雅/'
-        },
-        {
-            id: '4_2',
-            name: '狐狸',
-            generation: '4代超特',
-            description: '四代超特角色',
-            image: 'characters/4代超特/狐狸.png',
-            gifFolder: 'gifs/4代超特/狐狸/'
-        },
-        {
-            id: '4_3',
-            name: '玛丽',
-            generation: '4代超特',
-            description: '四代超特角色',
-            image: 'characters/4代超特/玛丽.png',
-            gifFolder: 'gifs/4代超特/玛丽/'
-        },
-        {
-            id: '4_4',
-            name: '雷鸣',
-            generation: '4代超特',
-            description: '四代超特角色',
-            image: 'characters/4代超特/雷鸣.png',
-            gifFolder: 'gifs/4代超特/雷鸣/'
-        },
-        {
-            id: '4_5',
-            name: '露美',
-            generation: '4代超特',
-            description: '四代超特角色',
-            image: 'characters/4代超特/露美.png',
-            gifFolder: 'gifs/4代超特/露美/'
-        }
-    ],
-    '4_5': [
-        {
-            id: '4_5_1',
-            name: '夏洛梅特',
-            generation: '4.5代超特',
-            description: '四点五代超特角色',
-            image: 'characters/4.5代超特/夏洛梅特.png',
-            gifFolder: 'gifs/4.5代超特/夏洛梅特/'
-        }
+        // 更多角色...
     ],
     '6': [
         {
@@ -228,24 +94,6 @@ var charactersData = {
             description: '风雷双属性角色',
             image: 'characters/6代超特/风雷.png',
             gifFolder: 'gifs/6代超特/风雷/'
-        }
-    ],
-    '5': [
-        {
-            id: '5_1',
-            name: '艾达',
-            generation: '5代超特',
-            description: '五代超特角色',
-            image: 'characters/5代超特/艾达.png',
-            gifFolder: 'gifs/5代超特/艾达/'
-        },
-        {
-            id: '5_2',
-            name: '杰罗',
-            generation: '5代超特',
-            description: '五代超特角色',
-            image: 'characters/5代超特/杰罗.png',
-            gifFolder: 'gifs/5代超特/杰罗/'
         }
     ],
     '7': [
@@ -424,44 +272,168 @@ function autoForceRefresh() {
     }
 }
 
-// 版本检查功能已移除，简化代码
+// 检测服务器版本并强制刷新
+function checkServerVersion() {
+    // 微信浏览器禁用自动刷新
+    if (isWeChat()) {
+        console.log('微信浏览器禁用自动刷新');
+        return;
+    }
+    
+    // 安卓微信浏览器特殊处理
+    if (isAndroidWeChat()) {
+        console.log('安卓微信浏览器，完全禁用版本检测');
+        return;
+    }
+    
+    // 检查是否已经检测过，避免重复检测
+    var lastCheck = localStorage.getItem('last_version_check');
+    var currentTime = Date.now();
+    
+    // 如果距离上次检查不到5分钟，跳过检测
+    if (lastCheck && (currentTime - parseInt(lastCheck)) < 5 * 60 * 1000) {
+        console.log('距离上次版本检查不到5分钟，跳过检测');
+        return;
+    }
+    
+    localStorage.setItem('last_version_check', currentTime);
+    
+    fetch('/version.txt?t=' + currentTime) // 防止缓存
+        .then(res => res.text())
+        .then(serverVersion => {
+            serverVersion = serverVersion.trim(); // 去除可能的空格
+            let localVersion = localStorage.getItem('site_version');
+            console.log('服务器版本:', serverVersion, '本地版本:', localVersion);
+            
+            if (localVersion !== serverVersion) {
+                console.log('检测到新版本，执行强制刷新');
+                localStorage.setItem('site_version', serverVersion);
+                // location.reload(true); // 注释掉自动刷新
+            } else {
+                console.log('版本匹配，无需刷新');
+            }
+        })
+        .catch(error => {
+            console.log('版本检测失败:', error);
+        });
+}
+
+// 检查版本并提示刷新（简化版）
 function checkVersion() {
-    console.log('版本检查功能已移除');
+    // 版本检查现在由checkServerVersion()处理
+    console.log('版本检查已移至服务器检测');
 }
 
 
 
 // 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM加载完成');
+    // 禁用下拉刷新
+    preventPullToRefresh();
     
-    // iOS Safari特殊处理
-    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    if (isIOS) {
-        console.log('检测到iOS设备');
+    // 检查版本并提示刷新
+    checkVersion();
+    
+    // 连接状态检测
+    var connectionCheckInterval;
+    var lastConnectionCheck = Date.now();
+    
+    // 检测网络连接状态
+    function checkConnection() {
+        var currentTime = Date.now();
         
-        // 添加iOS专用错误处理
-        window.addEventListener('error', function(e) {
-            console.error('iOS错误:', e.error);
-        });
-        
-        // 添加资源加载错误处理
-        window.addEventListener('load', function() {
-            console.log('iOS页面加载完成');
-            // 检查关键资源是否加载成功
-            var images = document.querySelectorAll('img');
-            for (var i = 0; i < images.length; i++) {
-                if (!images[i].complete) {
-                    console.warn('图片加载失败:', images[i].src);
+        // 每2分钟检查一次连接状态（降低频率）
+        if (currentTime - lastConnectionCheck > 120000) {
+            lastConnectionCheck = currentTime;
+            
+            // 尝试加载一个小的资源来检测连接
+            fetch('/version.txt?t=' + currentTime, { 
+                method: 'HEAD',
+                cache: 'no-cache',
+                timeout: 5000 // 5秒超时
+            })
+            .then(function(response) {
+                if (response.ok) {
+                    console.log('网络连接正常');
+                    // 清除连接错误提示
+                    var errorTip = document.getElementById('connection-error-tip');
+                    if (errorTip) {
+                        errorTip.remove();
+                    }
+                } else {
+                    throw new Error('网络响应异常');
                 }
-            }
-        });
+            })
+            .catch(function(error) {
+                console.log('网络连接检测失败:', error);
+                // 不显示错误提示，只在控制台记录
+                // showConnectionError(); // 注释掉自动显示错误
+            });
+        }
+    }
+    
+    // 显示连接错误提示
+    function showConnectionError() {
+        // 检查是否已经显示过提示
+        if (document.getElementById('connection-error-tip')) {
+            return;
+        }
         
-        // 强制清除iOS缓存
-        if (window.navigator.standalone) {
-            console.log('iOS独立应用模式，清除缓存');
+        var errorTip = document.createElement('div');
+        errorTip.id = 'connection-error-tip';
+        errorTip.style.cssText = 'position:fixed;top:120px;left:10px;right:10px;background:#ff4757;color:white;padding:12px;border-radius:8px;font-size:14px;z-index:9999;text-align:center;';
+        errorTip.innerHTML = `
+            <div style="margin-bottom:8px;">⚠️ 网络连接异常，请检查网络后刷新页面</div>
+            <button onclick="console.log('手动刷新已禁用')" style="background:white;color:#ff4757;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-size:12px;">刷新页面</button>
+            <button onclick="this.parentElement.remove()" style="background:transparent;color:white;border:1px solid white;padding:6px 12px;border-radius:4px;cursor:pointer;font-size:12px;margin-left:8px;">关闭</button>
+        `;
+        document.body.appendChild(errorTip);
+    }
+    
+    // 启动连接检测（降低频率，避免频繁检测）
+    connectionCheckInterval = setInterval(checkConnection, 300000); // 每5分钟检查一次
+    
+
+    
+
+    
+    // 手机端强制刷新检测
+    var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (isMobile) {
+        console.log('检测到移动设备，检查是否需要强制刷新');
+        var lastMobileCheck = localStorage.getItem('mobile_last_check');
+        var currentTime = Date.now();
+        
+        // 如果距离上次检查超过1分钟，执行强制刷新
+        if (!lastMobileCheck || (currentTime - parseInt(lastMobileCheck)) > 60 * 1000) {
+            console.log('移动设备强制刷新检查');
+            localStorage.setItem('mobile_last_check', currentTime);
+            
+            // 清除所有缓存
+            if ('caches' in window) {
+                caches.keys().then(function(names) {
+                    for (let name of names) {
+                        caches.delete(name);
+                    }
+                });
+            }
+            
+            // 清除localStorage
             localStorage.clear();
             sessionStorage.clear();
+            
+            // 移除移动端刷新提示
+            // var mobileTip = document.createElement('div');
+            // mobileTip.style.cssText = 'position:fixed;top:10px;left:10px;right:10px;background:#ff6b6b;color:white;padding:12px;border-radius:8px;font-size:14px;z-index:9999;text-align:center;';
+            // mobileTip.innerHTML = '📱 移动端检测到更新，请下拉刷新页面获取最新内容';
+            // document.body.appendChild(mobileTip);
+            
+            // 10秒后自动隐藏提示
+            // setTimeout(function() {
+            //     if (mobileTip.parentNode) {
+            //         mobileTip.parentNode.removeChild(mobileTip);
+            //     }
+            // }, 10000);
         }
     }
     
@@ -494,88 +466,99 @@ document.addEventListener('DOMContentLoaded', function() {
 
     }
     
-    // 简化初始化，只保留核心功能
-    try {
-        console.log('开始初始化页面功能');
-        
-        // 分步初始化，便于调试
-        console.log('1. 初始化导航');
-        initializeNavigation();
-        
-        console.log('2. 初始化筛选');
-        initializeFilters();
-        
-        console.log('3. 加载角色');
-        loadCharacters(currentGeneration);
-        
-        console.log('4. 加载图鉴');
-        loadGallery(currentGeneration);
-        
-        // 默认隐藏筛选按钮（因为默认是gallery页面）
-        var filterContainer = document.querySelector('.filter-container');
-        if (filterContainer) {
-            filterContainer.style.display = 'none';
-        }
-        
-        console.log('5. 初始化排名');
-        // 初始化职业排名功能
-        initializeRanking();
-        
-        console.log('页面功能初始化完成');
-        
-        // iOS设备特殊检查
-        if (isIOS) {
-            setTimeout(function() {
-                console.log('iOS页面状态检查');
-                var contentSections = document.querySelectorAll('.content-section');
-                console.log('内容区域数量:', contentSections.length);
-                
-                for (var i = 0; i < contentSections.length; i++) {
-                    console.log('区域', i, ':', contentSections[i].id, '显示状态:', contentSections[i].style.display);
-                }
-            }, 2000);
-        }
-    } catch (error) {
-        console.error('页面初始化出错:', error);
-        // iOS设备显示错误信息
-        if (isIOS) {
-            alert('页面加载出错: ' + error.message);
-        }
+    // 检测服务器版本（只在必要时）
+    setTimeout(checkServerVersion, 2000); // 延迟2秒检测，避免页面加载时立即检测
+    
+    initializeNavigation();
+    initializeFilters();
+    loadCharacters(currentGeneration);
+    loadGallery(currentGeneration);
+    
+    // 默认显示筛选按钮（因为默认是characters页面）
+    const filterContainer = document.querySelector('.filter-container');
+    if (filterContainer) {
+        filterContainer.style.display = 'block';
     }
+    
+    // 初始化职业排名功能
+    initializeRanking();
 });
 
 // 初始化主导航
 function initializeNavigation() {
-    var navButtons = document.querySelectorAll('.nav-btn');
+    const navButtons = document.querySelectorAll('.nav-btn');
     
-    for (var i = 0; i < navButtons.length; i++) {
-        navButtons[i].addEventListener('click', function() {
+    navButtons.forEach(button => {
+        button.addEventListener('click', function() {
             // 移除所有活动状态
-            for (var j = 0; j < navButtons.length; j++) {
-                navButtons[j].classList.remove('active');
-            }
+            navButtons.forEach(btn => btn.classList.remove('active'));
             // 添加当前活动状态
             this.classList.add('active');
             
             // 切换内容区域
-            var section = this.getAttribute('data-section');
+            const section = this.getAttribute('data-section');
             
-            // 正常切换内容区域
+            // 特殊处理FS账号跳转
+            if (section === 'account') {
+                console.log('检测到FS账号点击');
+                // 微店H5链接
+                var weidianUrl = 'https://k.youshop10.com/6HZaEV6N';
+                
+                // 检测是否在微信浏览器中
+                if (isWeChat()) {
+                    console.log('微信浏览器，尝试跳转微店');
+                    // 微信内置浏览器使用多种跳转方式
+                    try {
+                        // 方式1：直接跳转
+                        window.location.href = weidianUrl;
+                    } catch (e) {
+                        console.log('直接跳转失败，尝试其他方式');
+                        try {
+                            // 方式2：使用location.replace
+                            window.location.replace(weidianUrl);
+                        } catch (e2) {
+                            console.log('replace跳转失败，尝试assign');
+                            try {
+                                // 方式3：使用location.assign
+                                window.location.assign(weidianUrl);
+                            } catch (e3) {
+                                console.log('所有跳转方式失败，显示提示');
+                                // 方式4：显示提示让用户手动点击
+                                var tip = document.createElement('div');
+                                tip.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#22c55e;color:white;padding:20px;border-radius:8px;font-size:16px;z-index:10000;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.3);';
+                                tip.innerHTML = `
+                                    <p style="margin:0 0 15px 0;">点击下方链接跳转到微店</p>
+                                    <a href="${weidianUrl}" style="color:white;text-decoration:underline;font-weight:bold;">老非街头篮球账号微店</a>
+                                    <br><br>
+                                    <button onclick="this.parentElement.remove()" style="background:white;color:#22c55e;border:none;padding:8px 16px;border-radius:4px;cursor:pointer;">关闭</button>
+                                `;
+                                document.body.appendChild(tip);
+                            }
+                        }
+                    }
+                    return; // 阻止继续执行
+                } else {
+                    console.log('外置浏览器，新窗口打开微店');
+                    // 外置浏览器打开新窗口
+                    window.open(weidianUrl, '_blank');
+                    return; // 阻止继续执行
+                }
+            }
+            
+            // 其他导航正常切换
             switchSection(section);
         });
-    }
+    });
 }
 
 // 初始化筛选按钮
 function initializeFilters() {
-    var filterButtons = document.querySelectorAll('.filter-btn');
+    const filterButtons = document.querySelectorAll('.filter-btn');
     
-    for (var i = 0; i < filterButtons.length; i++) {
-        filterButtons[i].addEventListener('click', function() {
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
             // 移除所有活动状态
-            for (var j = 0; j < filterButtons.length; j++) {
-                filterButtons[j].classList.remove('active');
-            }
+            filterButtons.forEach(btn => btn.classList.remove('active'));
             // 添加当前活动状态
             this.classList.add('active');
             
@@ -584,7 +567,7 @@ function initializeFilters() {
             loadCharacters(currentGeneration);
             loadGallery(currentGeneration);
         });
-    }
+    });
 }
 
 // 切换内容区域
@@ -643,15 +626,8 @@ function createCharacterCard(character) {
     const card = document.createElement('div');
     card.className = 'character-card';
     
-    // 构建图片URL（使用腾讯云COS，添加iOS兼容性）
-    var imageUrl = '';
-    if (character.image) {
-        imageUrl = COS_CONFIG.Domain + '/' + character.image;
-        // iOS设备添加时间戳避免缓存问题
-        if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
-            imageUrl += '?t=' + new Date().getTime();
-        }
-    }
+    // 构建图片URL（使用腾讯云COS）
+    const imageUrl = character.image ? `${COS_CONFIG.Domain}/${character.image}` : '';
     
     // 构建动作按钮HTML
     let actionsHtml = '';
@@ -784,19 +760,7 @@ function handleImageLoad(img, characterName) {
 
 // 图片加载失败处理
 function handleImageError(img, characterName) {
-    console.log('❌ ' + characterName + ' 图片加载失败: ' + img.src);
-    
-    // iOS设备特殊处理
-    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    if (isIOS) {
-        console.log('iOS设备图片加载失败，尝试重新加载');
-        // iOS设备尝试重新加载图片
-        setTimeout(function() {
-            if (img.src.indexOf('?t=') === -1) {
-                img.src = img.src + '?t=' + new Date().getTime();
-            }
-        }, 1000);
-    }
+    console.log(`❌ ${characterName} 图片加载失败: ${img.src}`);
     
     // 设置默认图片
     img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7mnKzlm748L3RleHQ+Cjx0ZXh0IHg9IjEwMCIgeT0iMTIwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjwvc3ZnPgo=';
@@ -932,60 +896,8 @@ function loadGifFiles(folder, characterId, card) {
     // 根据角色ID确定使用哪个GIF文件列表
     var commonGifFiles = [];
     
-    // 2代、3代、3.5代、4代、4.5代超特通用GIF文件
-    if (characterId.includes('2_') || characterId.includes('3_') || characterId.includes('4_')) {
-        commonGifFiles = [
-            'X.gif',
-            '三分.gif',
-            '中手冒.gif',
-            '中投.gif',
-            '大手冒.gif',
-            '小手冒.gif',
-            '抢断.gif',
-            '篮板.gif',
-            '近上.gif',
-            '近扣.gif',
-            '远上.gif',
-            '远扣.gif'
-        ];
-    } else if (characterId.includes('5_')) {
-        if (characterId === '5_1') {
-            // 艾达的GIF文件
-            commonGifFiles = [
-                'X.gif',
-                '三分.gif',
-                '中手冒.gif',
-                '中投.gif',
-                '大手冒.gif',
-                '小手冒.gif',
-                '抢断.gif',
-                '篮板.gif',
-                '近上.gif',
-                '近扣.gif',
-                '远上.gif',
-                '远扣.gif'
-            ];
-        } else if (characterId === '5_2') {
-            // 杰罗的GIF文件
-            commonGifFiles = [
-                'X.gif',
-                '中手.gif',
-                '中投.gif',
-                '分球.gif',
-                '地板.gif',
-                '大手冒.gif',
-                '小手冒.gif',
-                '快速跑传.gif',
-                '投篮.gif',
-                '灌篮盖帽.gif',
-                '篮板.gif',
-                '近上.gif',
-                '近扣.gif',
-                '远上.gif',
-                '远扣.gif'
-            ];
-        }
-    } else if (characterId.includes('6_')) {
+    // 6代超特特定GIF文件（双角色系统）
+    if (characterId.includes('6_')) {
         // 根据具体角色ID确定使用哪个双角色的GIF文件
         if (characterId === '6_1') {
             // 光暗双角色
@@ -1240,12 +1152,11 @@ function loadGifFiles(folder, characterId, card) {
 
 // 初始化职业排名功能
 function initializeRanking() {
-    // 设置职业排名图片路径（添加时间戳防止缓存）
-    const timestamp = new Date().getTime();
+    // 设置职业排名图片路径
     const rankingImages = {
-        'c': `${COS_CONFIG.Domain}/ranking/C排名.png?v=${timestamp}`,
-        'pf': `${COS_CONFIG.Domain}/ranking/PF排名.png?v=${timestamp}`,
-        'pg': `${COS_CONFIG.Domain}/ranking/PG排名.png?v=${timestamp}`
+        'c': `${COS_CONFIG.Domain}/ranking/C排名.png`,
+        'pf': `${COS_CONFIG.Domain}/ranking/PF排名.png`,
+        'pg': `${COS_CONFIG.Domain}/ranking/PG排名.png`
     };
     
     // 加载图片
@@ -1258,7 +1169,16 @@ function initializeRanking() {
                 this.alt = `${rankingType.toUpperCase()}排名 (图片加载失败)`;
             };
             
-
+            // 添加点击全屏显示功能（兼容移动端）
+            imgElement.addEventListener('click', function() {
+                showFullscreenImage(this.src, this.alt, this.classList.contains('rotated'));
+            });
+            
+            // 添加触摸事件，兼容苹果手机
+            imgElement.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                showFullscreenImage(this.src, this.alt, this.classList.contains('rotated'));
+            });
         }
     });
     
@@ -1282,13 +1202,21 @@ function initializeRanking() {
 }
 
 // 显示全屏图片
-function showFullscreenImage(src, alt) {
+function showFullscreenImage(src, alt, isRotated = false) {
     const overlay = document.getElementById('fullscreen-overlay');
     const fullscreenImg = document.getElementById('fullscreen-image');
     
     if (overlay && fullscreenImg) {
         fullscreenImg.src = src;
         fullscreenImg.alt = alt;
+        
+        // 设置旋转状态
+        if (isRotated) {
+            fullscreenImg.classList.add('rotated');
+        } else {
+            fullscreenImg.classList.remove('rotated');
+        }
+        
         overlay.style.display = 'flex';
         
         // 禁止页面滚动
@@ -1315,7 +1243,31 @@ function showFullscreenImage(src, alt) {
     }
 }
 
-
+// 切换图片旋转状态
+function toggleImageRotation() {
+    const rankingImages = document.querySelectorAll('.ranking-image');
+    const isRotated = rankingImages[0] && rankingImages[0].classList.contains('rotated');
+    
+    rankingImages.forEach(img => {
+        if (isRotated) {
+            img.classList.remove('rotated');
+        } else {
+            img.classList.add('rotated');
+        }
+    });
+    
+    // 更新按钮文字
+    const rotateBtn = document.querySelector('.rotate-btn span');
+    if (rotateBtn) {
+        rotateBtn.textContent = isRotated ? '旋转图片' : '取消旋转';
+    }
+    
+    // 更新按钮图标
+    const rotateIcon = document.querySelector('.rotate-btn i');
+    if (rotateIcon) {
+        rotateIcon.className = isRotated ? 'fas fa-redo' : 'fas fa-undo';
+    }
+}
 
 // 关闭全屏显示
 function closeFullscreen() {
@@ -1329,95 +1281,6 @@ function closeFullscreen() {
         if (history.state && history.state.fullscreen) {
             history.back();
         }
-    }
-}
-
-// 打开课程链接
-function openCourse(url) {
-    // 检测是否在微信浏览器中
-    if (/MicroMessenger/i.test(navigator.userAgent)) {
-        // 微信浏览器中，尝试使用微信内置浏览器打开
-        window.location.href = url;
-    } else {
-        // 其他浏览器，直接打开
-        window.open(url, '_blank');
-    }
-}
-
-// 复制微信号
-function copyWechat() {
-    const wechatNumber = document.getElementById('wechat-number').textContent;
-    
-    // 尝试使用现代浏览器的 Clipboard API
-    if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(wechatNumber).then(() => {
-            showCopySuccess();
-        }).catch(() => {
-            fallbackCopyTextToClipboard(wechatNumber);
-        });
-    } else {
-        // 降级方案
-        fallbackCopyTextToClipboard(wechatNumber);
-    }
-}
-
-// 降级复制方案
-function fallbackCopyTextToClipboard(text) {
-    const textArea = document.createElement("textarea");
-    textArea.value = text;
-    textArea.style.top = "0";
-    textArea.style.left = "0";
-    textArea.style.position = "fixed";
-    textArea.style.opacity = "0";
-    
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
-    
-    try {
-        const successful = document.execCommand('copy');
-        if (successful) {
-            showCopySuccess();
-        } else {
-            showCopyError();
-        }
-    } catch (err) {
-        showCopyError();
-    }
-    
-    document.body.removeChild(textArea);
-}
-
-// 显示复制成功提示
-function showCopySuccess() {
-    const copyBtn = document.querySelector('.copy-btn');
-    const originalText = copyBtn.innerHTML;
-    
-    copyBtn.innerHTML = '<i class="fas fa-check"></i><span>已复制</span>';
-    copyBtn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
-    
-    setTimeout(() => {
-        copyBtn.innerHTML = originalText;
-        copyBtn.style.background = 'linear-gradient(135deg, #3b82f6, #1d4ed8)';
-    }, 2000);
-}
-
-// 显示复制失败提示
-function showCopyError() {
-    alert('复制失败，请手动复制微信号：laofei90186');
-}
-
-// 打开店铺
-function openStore() {
-    const storeUrl = 'https://k.youshop10.com/6HZaEV6N';
-    
-    // 检测是否在微信浏览器中
-    if (/MicroMessenger/i.test(navigator.userAgent)) {
-        // 微信浏览器中，尝试使用微信内置浏览器打开
-        window.location.href = storeUrl;
-    } else {
-        // 其他浏览器，直接打开
-        window.open(storeUrl, '_blank');
     }
 }
 

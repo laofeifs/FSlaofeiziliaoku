@@ -30,7 +30,7 @@ html {
 .header {
     background-color: #1e3a5f;
     color: white;
-    padding: 25px 0;
+    padding: 40px 0;
     text-align: center;
     position: relative;
 }
@@ -42,10 +42,10 @@ html {
 }
 
 .main-title {
-    font-size: 3.5rem; /* 稍微缩小标题 */
+    font-size: 4rem; /* 继续放大标题 */
     font-weight: bold;
     color: #4ade80;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     letter-spacing: 2px;
 }
@@ -54,7 +54,7 @@ html {
     width: 60px;
     height: 3px;
     background-color: #4ade80;
-    margin: 0 auto 10px;
+    margin: 0 auto 15px;
     border-radius: 2px;
 }
 
@@ -62,7 +62,7 @@ html {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 15px;
+    gap: 20px;
     flex-wrap: wrap;
 }
 
@@ -97,13 +97,13 @@ html {
     align-items: center;
     justify-content: center;
     gap: 8px;
-    margin-top: 10px;
-    padding: 6px 12px;
+    margin-top: 15px;
+    padding: 8px 16px;
     background: rgba(255, 193, 7, 0.1);
     border: 1px solid rgba(255, 193, 7, 0.3);
-    border-radius: 16px;
+    border-radius: 20px;
     color: #ffc107;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     font-weight: 500;
 }
 
@@ -597,7 +597,13 @@ html {
     display: block;
 }
 
-
+.ranking-tip {
+    text-align: center;
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    font-style: italic;
+}
 
 .ranking-image {
     width: 100%;
@@ -605,14 +611,63 @@ html {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     object-fit: contain;
+    cursor: pointer;
     transition: transform 0.2s ease;
+    /* 移除默认旋转，改为可控制 */
 }
 
 .ranking-image:hover {
-    transform: scale(1.02); /* 轻微放大效果 */
+    transform: rotate(90deg) scale(1.02); /* 保持旋转的同时放大 */
 }
 
+/* 旋转按钮样式 */
+.ranking-controls {
+    text-align: center;
+    margin: 20px 0;
+}
 
+.rotate-btn {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+    transition: all 0.3s ease;
+}
+
+.rotate-btn:hover {
+    background: linear-gradient(135deg, #16a34a, #15803d);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(34, 197, 94, 0.4);
+}
+
+.rotate-btn:active {
+    transform: translateY(0);
+}
+
+.rotate-btn i {
+    font-size: 1.1rem;
+}
+
+/* 旋转状态样式 */
+.ranking-image.rotated {
+    transform: rotate(90deg);
+}
+
+.ranking-image.rotated:hover {
+    transform: rotate(90deg) scale(1.02);
+}
+
+.fullscreen-image.rotated {
+    transform: rotate(90deg);
+}
 
 /* 全屏显示样式 */
 .fullscreen-overlay {
@@ -654,436 +709,6 @@ html {
     }
 }
 
-/* 课程样式 */
-.courses-container {
-    padding: 20px 0;
-}
-
-.course-category {
-    margin-bottom: 40px;
-}
-
-.course-category h3 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #1f2937;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.course-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 20px;
-}
-
-.course-card {
-    background: white;
-    border-radius: 16px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-    overflow: hidden;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    display: flex;
-    height: 130px;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    position: relative;
-}
-
-.course-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #22c55e, #3b82f6, #f59e0b);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.course-card:hover {
-    transform: translateY(-6px) scale(1.02);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
-    border-color: rgba(34, 197, 94, 0.2);
-}
-
-.course-card:hover::before {
-    opacity: 1;
-}
-
-.course-banner {
-    width: 220px;
-    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
-
-.course-banner::before {
-    content: '';
-    position: absolute;
-    top: -40%;
-    right: -40%;
-    width: 120px;
-    height: 120px;
-    background: radial-gradient(circle, rgba(255, 255, 0, 0.4) 0%, rgba(255, 255, 0, 0.1) 70%);
-    border-radius: 50%;
-    animation: float 6s ease-in-out infinite;
-}
-
-.course-banner::after {
-    content: '';
-    position: absolute;
-    bottom: -25%;
-    left: -25%;
-    width: 100px;
-    height: 100px;
-    background: radial-gradient(circle, rgba(255, 255, 0, 0.3) 0%, rgba(255, 255, 0, 0.05) 70%);
-    border-radius: 50%;
-    animation: float 8s ease-in-out infinite reverse;
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-10px) rotate(180deg); }
-}
-
-.course-banner-content {
-    position: relative;
-    z-index: 2;
-    color: white;
-    text-align: center;
-    padding: 18px;
-    width: 100%;
-}
-
-.course-banner-title {
-    font-size: 1.3rem;
-    font-weight: 800;
-    margin-bottom: 6px;
-    line-height: 1.2;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.course-banner-subtitle {
-    font-size: 0.8rem;
-    opacity: 0.9;
-    margin-bottom: 8px;
-    line-height: 1.3;
-}
-
-.course-banner-desc {
-    font-size: 0.7rem;
-    opacity: 0.8;
-    line-height: 1.2;
-}
-
-.course-tag {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: rgba(255, 255, 255, 0.9);
-    color: #3b82f6;
-    padding: 2px 8px;
-    border-radius: 12px;
-    font-size: 0.7rem;
-    font-weight: 600;
-}
-
-.course-info {
-    flex: 1;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.course-title {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #1f2937;
-    line-height: 1.5;
-    margin: 0;
-}
-
-
-
-/* FS账号页面样式 */
-.account-container {
-    padding: 20px 0;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
-}
-
-.account-module {
-    background: white;
-    border-radius: 16px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    transition: all 0.3s ease;
-    height: fit-content;
-}
-
-.account-module:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-}
-
-.module-header {
-    background: linear-gradient(135deg, #22c55e, #16a34a);
-    color: white;
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.module-header i {
-    font-size: 1.5rem;
-}
-
-.module-header h3 {
-    font-size: 1.3rem;
-    font-weight: 700;
-    margin: 0;
-}
-
-.module-content {
-    padding: 25px;
-}
-
-.service-desc, .store-desc {
-    color: #6b7280;
-    font-size: 1rem;
-    line-height: 1.6;
-    margin-bottom: 20px;
-}
-
-.contact-info {
-    background: #f8fafc;
-    border-radius: 12px;
-    padding: 20px;
-}
-
-.wechat-section {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 15px;
-}
-
-.wechat-section label {
-    font-weight: 600;
-    color: #374151;
-    font-size: 1rem;
-}
-
-.wechat-display {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: white;
-    border: 2px solid #e5e7eb;
-    border-radius: 8px;
-    padding: 8px 12px;
-    flex: 1;
-}
-
-#wechat-number {
-    font-family: 'Courier New', monospace;
-    font-weight: 600;
-    color: #1f2937;
-    font-size: 1rem;
-}
-
-.copy-btn {
-    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 6px 12px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: all 0.2s ease;
-}
-
-.copy-btn:hover {
-    background: linear-gradient(135deg, #1d4ed8, #1e40af);
-    transform: translateY(-1px);
-}
-
-.copy-btn:active {
-    transform: translateY(0);
-}
-
-.copy-tip {
-    color: #6b7280;
-    font-size: 0.9rem;
-    margin: 0;
-    text-align: center;
-    font-style: italic;
-}
-
-.store-btn {
-    background: linear-gradient(135deg, #f59e0b, #d97706);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    padding: 15px 30px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    transition: all 0.3s ease;
-    width: 100%;
-    justify-content: center;
-}
-
-.store-btn:hover {
-    background: linear-gradient(135deg, #d97706, #b45309);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(245, 158, 11, 0.3);
-}
-
-.store-btn:active {
-    transform: translateY(0);
-}
-
-/* 移动端FS账号样式 */
-@media (max-width: 768px) {
-    .account-container {
-        padding: 5px 0;
-        grid-template-columns: 1fr;
-        gap: 10px;
-    }
-    
-    .account-module {
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-    
-    .module-header {
-        padding: 8px 12px;
-    }
-    
-    .module-header i {
-        font-size: 1rem;
-    }
-    
-    .module-header h3 {
-        font-size: 0.9rem;
-    }
-    
-    .module-content {
-        padding: 10px 12px;
-    }
-    
-    .service-desc, .store-desc {
-        font-size: 0.85rem;
-        margin-bottom: 10px;
-        line-height: 1.4;
-    }
-    
-    .contact-info {
-        padding: 10px;
-        border-radius: 6px;
-    }
-    
-    .wechat-section {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 6px;
-        margin-bottom: 8px;
-    }
-    
-    .wechat-section label {
-        font-size: 0.85rem;
-    }
-    
-    .wechat-display {
-        width: 100%;
-        padding: 4px 8px;
-    }
-    
-    #wechat-number {
-        font-size: 0.85rem;
-    }
-    
-    .copy-btn {
-        padding: 4px 8px;
-        font-size: 0.75rem;
-    }
-    
-    .copy-tip {
-        font-size: 0.75rem;
-        margin-top: 6px;
-    }
-    
-    .store-btn {
-        padding: 8px 12px;
-        font-size: 0.9rem;
-        border-radius: 6px;
-    }
-}
-
-/* 移动端课程样式 */
-@media (max-width: 768px) {
-    .course-grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-    
-    .course-card {
-        height: auto;
-        flex-direction: column;
-    }
-    
-    .course-banner {
-        width: 100%;
-        height: 100px;
-    }
-    
-    .course-banner-content {
-        padding: 10px;
-    }
-    
-    .course-banner-title {
-        font-size: 1rem;
-    }
-    
-    .course-banner-subtitle {
-        font-size: 0.75rem;
-    }
-    
-    .course-banner-desc {
-        font-size: 0.65rem;
-    }
-    
-    .course-info {
-        padding: 12px;
-    }
-    
-    .course-title {
-        font-size: 0.9rem;
-    }
-    
-    .course-price {
-        font-size: 1.1rem;
-    }
-}
-
 /* 响应式设计 */
 @media (max-width: 768px) {
     .main-title {
@@ -1091,30 +716,28 @@ html {
     }
     
     .nav-buttons {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr); /* 每行固定3个 */
-        gap: 8px;
+        flex-direction: row; /* 保持水平排列 */
+        align-items: center;
+        justify-content: space-between; /* 平均分配空间 */
+        gap: 8px; /* 减少间距 */
         width: 100%;
     }
     
     .nav-btn {
-        width: 100%; /* 固定宽度 */
-        min-width: 0; /* 移除最小宽度限制 */
-        max-width: none;
-        padding: 12px 6px; /* 调整内边距 */
-        font-size: 0.9rem; /* 调整字体大小 */
-        gap: 4px; /* 减少图标和文字间距 */
-        text-align: center; /* 文字居中 */
-        justify-content: center;
+        flex: 1; /* 平均分配宽度 */
+        min-width: auto; /* 移除最小宽度限制 */
+        max-width: none; /* 移除最大宽度限制 */
+        padding: 15px 8px; /* 增加内边距 */
+        font-size: 1rem; /* 放大字体 */
+        gap: 6px; /* 增加图标和文字间距 */
     }
     
     .nav-btn i {
-        font-size: 1rem; /* 调整图标大小 */
+        font-size: 1.2rem; /* 放大图标大小 */
     }
     
     .nav-btn span {
         white-space: nowrap; /* 防止文字换行 */
-        text-align: center; /* 确保文字居中 */
     }
     
     .filter-buttons {

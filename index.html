@@ -6,12 +6,47 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>老非FS资料库 - 新版本</title>
-    <link rel="stylesheet" href="styles.css?v=2.1">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <meta http-equiv="Pragma" content="">
+    <meta http-equiv="Expires" content="">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:; img-src 'self' https: data: blob: *; connect-src 'self' https: *;">
+    <title>老非FS资料库</title>
+    <link rel="stylesheet" href="styles.css?v=202508310100">
+    <!-- 使用本地图标字体，避免CDN问题 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous" referrerpolicy="no-referrer" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==">
+    
+    <!-- Service Worker 注册 -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js?v=202508310100')
+                    .then((registration) => {
+                        console.log('Service Worker registered with scope:', registration.scope);
+                        addDebugInfo('Service Worker注册成功: ' + registration.scope);
+                        
+                        // 检查更新
+                        registration.addEventListener('updatefound', () => {
+                            console.log('Service Worker update found');
+                            addDebugInfo('Service Worker发现更新');
+                        });
+                        
+                        // 监听控制器变化
+                        navigator.serviceWorker.addEventListener('controllerchange', () => {
+                            console.log('Service Worker controller changed');
+                            addDebugInfo('Service Worker控制器已更新');
+                        });
+                    })
+                    .catch((error) => {
+                        console.log('Service Worker registration failed:', error);
+                        addDebugInfo('Service Worker注册失败: ' + error.message);
+                    });
+            });
+        } else {
+            addDebugInfo('浏览器不支持Service Worker');
+        }
+    </script>
 </head>
 <body>
     <!-- 头部区域 -->
@@ -26,6 +61,28 @@
                     <span>laofei90186</span>
                 </div>
             </div>
+            <div class="refresh-tip-header">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span>点击右上角三个点➡️刷新获取最新版</span>
+            </div>
+            
+            <!-- 调试信息 -->
+            <div id="debug-info" style="background: rgba(0,0,0,0.8); color: white; padding: 10px; margin: 10px; border-radius: 5px; font-size: 12px; display: none;">
+                <div id="debug-content">调试信息加载中...</div>
+                <button onclick="toggleDebug()" style="background: #007bff; color: white; border: none; padding: 5px 10px; border-radius: 3px; margin-top: 5px;">切换调试</button>
+            </div>
+            
+            <!-- 微信浏览器提示 -->
+            <div id="wechat-warning" style="background: linear-gradient(45deg, #ff6b6b, #ee5a52); color: white; padding: 15px; margin: 10px; border-radius: 10px; text-align: center; display: none;">
+                <h3 style="margin: 0 0 10px 0;">⚠️ 微信浏览器兼容性提示</h3>
+                <p style="margin: 0 0 10px 0; font-size: 14px;">如果页面无法正常显示，建议：</p>
+                <p style="margin: 0; font-size: 12px;">1. 点击右上角三个点 → 选择"在浏览器中打开"</p>
+                <p style="margin: 0; font-size: 12px;">2. 或使用Safari/Chrome浏览器直接访问</p>
+                <div style="margin-top: 10px;">
+                    <button onclick="forceRefresh()" style="background: #28a745; color: white; border: none; padding: 8px 16px; border-radius: 5px; margin-right: 10px; font-weight: bold;">强制刷新</button>
+                    <button onclick="hideWechatWarning()" style="background: white; color: #ff6b6b; border: none; padding: 8px 16px; border-radius: 5px; font-weight: bold;">我知道了</button>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -34,12 +91,25 @@
         <!-- 主导航按钮 -->
         <div class="nav-container">
             <div class="nav-buttons">
-                <button class="nav-btn active" data-section="characters">
-                    <span>超特角色介绍</span>
+                <button class="nav-btn active" data-section="gallery">
+                    <i class="fas fa-images"></i>
+                    <span>超特图鉴</span>
+                </button>
+                <button class="nav-btn" data-section="characters">
+                    <i class="fas fa-running"></i>
+                    <span>超特动作</span>
                 </button>
                 <button class="nav-btn" data-section="ranking">
                     <i class="fas fa-trophy"></i>
                     <span>职业排名</span>
+                </button>
+                <button class="nav-btn" data-section="account">
+                    <i class="fas fa-user-circle"></i>
+                    <span>FS账号</span>
+                </button>
+                <button class="nav-btn" data-section="courses">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>老非课程</span>
                 </button>
                 <button class="nav-btn" data-section="skills">
                     <span>实用技巧</span>
@@ -47,12 +117,7 @@
                 <button class="nav-btn" data-section="events">
                     <span>活动</span>
                 </button>
-                <button class="nav-btn" data-section="account">
-                    <span>FS账号</span>
-                </button>
-                <button class="nav-btn" data-section="admin">
-                    <span>管理端</span>
-                </button>
+
             </div>
         </div>
 
@@ -71,7 +136,7 @@
                     <i class="fas fa-bolt"></i>
                     <span>3代超特</span>
                 </button>
-                <button class="filter-btn" data-generation="3.5">
+                <button class="filter-btn" data-generation="3_5">
                     <i class="fas fa-bolt"></i>
                     <span>3.5代超特</span>
                 </button>
@@ -79,7 +144,7 @@
                     <i class="fas fa-bolt"></i>
                     <span>4代超特</span>
                 </button>
-                <button class="filter-btn" data-generation="4.5">
+                <button class="filter-btn" data-generation="4_5">
                     <i class="fas fa-bolt"></i>
                     <span>4.5代超特</span>
                 </button>
@@ -118,15 +183,22 @@
             </div>
         </div>
 
-        <!-- 刷新提示 -->
-        <div id="refresh-tip" class="refresh-tip" style="display: none;">
+        <!-- 移除刷新提示 -->
+        <!-- <div id="refresh-tip" class="refresh-tip" style="display: none;">
             <p>检测到新版本，请下拉刷新页面</p>
-        </div>
+        </div> -->
         
         <!-- 内容显示区域 -->
         <div class="content-area">
-            <div id="characters-section" class="content-section active">
-                <h2>超特角色介绍</h2>
+            <div id="gallery-section" class="content-section active">
+                <h2>超特图鉴</h2>
+                <div class="gallery-grid" id="gallery-grid">
+                    <!-- 图鉴卡片将在这里动态生成 -->
+                </div>
+            </div>
+            
+            <div id="characters-section" class="content-section">
+                <h2>超特动作</h2>
                 <div class="characters-grid" id="characters-grid">
                     <!-- 角色卡片将在这里动态生成 -->
                 </div>
@@ -134,7 +206,31 @@
 
             <div id="ranking-section" class="content-section">
                 <h2>职业排名</h2>
-                <p>职业排名内容将在这里显示</p>
+                <div class="ranking-tabs">
+                    <button class="ranking-tab active" data-ranking="c">
+                        <i class="fas fa-user"></i>
+                        <span>C排名</span>
+                    </button>
+                    <button class="ranking-tab" data-ranking="pf">
+                        <i class="fas fa-user"></i>
+                        <span>PF排名</span>
+                    </button>
+                    <button class="ranking-tab" data-ranking="pg">
+                        <i class="fas fa-user"></i>
+                        <span>PG排名</span>
+                    </button>
+                </div>
+                <div class="ranking-content">
+                    <div id="c-ranking" class="ranking-item active">
+                        <img src="" alt="C排名" class="ranking-image" id="c-ranking-image">
+                    </div>
+                    <div id="pf-ranking" class="ranking-item">
+                        <img src="" alt="PF排名" class="ranking-image" id="pf-ranking-image">
+                    </div>
+                    <div id="pg-ranking" class="ranking-item">
+                        <img src="" alt="PG排名" class="ranking-image" id="pg-ranking-image">
+                    </div>
+                </div>
             </div>
 
             <div id="skills-section" class="content-section">
@@ -148,8 +244,228 @@
             </div>
 
             <div id="account-section" class="content-section">
-                <h2>FS账号</h2>
-                <p>FS账号内容将在这里显示</p>
+                <div class="account-container">
+                    <div class="account-module">
+                        <div class="module-header">
+                            <i class="fas fa-store"></i>
+                            <h3>查看老非FS账号店铺</h3>
+                        </div>
+                        <div class="module-content">
+                            <p class="store-desc">浏览老非的FS账号店铺，选择心仪的账号</p>
+                            <button class="store-btn" onclick="openStore()">
+                                <i class="fas fa-external-link-alt"></i>
+                                <span>进入店铺</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="account-module">
+                        <div class="module-header">
+                            <i class="fas fa-user-check"></i>
+                            <h3>老非帮选号+调试服务</h3>
+                        </div>
+                        <div class="module-content">
+                            <p class="service-desc">专业帮您选择最适合的FS账号，并提供调试服务</p>
+                            <div class="contact-info">
+                                <div class="wechat-section">
+                                    <label>微信号：</label>
+                                    <div class="wechat-display">
+                                        <span id="wechat-number">laofei90186</span>
+                                        <button class="copy-btn" onclick="copyWechat()">
+                                            <i class="fas fa-copy"></i>
+                                            <span>复制</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <p class="copy-tip">点击复制按钮即可复制微信号，添加好友咨询详情</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="courses-section" class="content-section">
+                <h2>老非课程</h2>
+                <div class="courses-container">
+                    <div class="course-category">
+                        <h3><i class="fas fa-star" style="color: #22c55e;"></i> 适合内线的课程</h3>
+                        <div class="course-grid">
+                            <div class="course-card" onclick="openCourse('https://h5.htknow.com/#/pages/teacher/home/home?id=46187&uid=152933534&code=0116xOkl2ALUcg43vonl231yvR06xOkN&state=snsapi_base')">
+                                <div class="course-banner">
+                                    <div class="course-banner-content">
+                                        <div class="course-banner-title">TT综合打法</div>
+                                        <div class="course-banner-subtitle">0基础学习TT阵容 (PF+C+PG通用)</div>
+                                        <div class="course-banner-desc">1.了解当前版本主流打法进位票位等</div>
+                                        <div class="course-tag">专栏</div>
+                                    </div>
+                                </div>
+                                <div class="course-info">
+                                    <div class="course-title">老非TT阵容打法课 (PFCPG通用)</div>
+                                </div>
+                            </div>
+                            
+                            <div class="course-card" onclick="openCourse('https://h5.htknow.com/#/pages/teacher/home/home?id=46187&uid=152933534&code=0116xOkl2ALUcg43vonl231yvR06xOkN&state=snsapi_base')">
+                                <div class="course-banner">
+                                    <div class="course-banner-content">
+                                        <div class="course-banner-title">盖帽教学</div>
+                                        <div class="course-banner-subtitle">盖帽的快乐谁不想多多体验</div>
+                                        <div class="course-banner-desc">1.冒位冒点老非全解析</div>
+                                        <div class="course-tag">专栏</div>
+                                    </div>
+                                </div>
+                                <div class="course-info">
+                                    <div class="course-title">街球老非盖帽教学TT篇 (已更新9代罗卡盖帽教学)</div>
+                                </div>
+                            </div>
+                            
+                            <div class="course-card" onclick="openCourse('https://h5.htknow.com/#/pages/teacher/home/home?id=46187&uid=152933534&code=0116xOkl2ALUcg43vonl231yvR06xOkN&state=snsapi_base')">
+                                <div class="course-banner">
+                                    <div class="course-banner-content">
+                                        <div class="course-banner-title">躲吸与牵制</div>
+                                        <div class="course-banner-subtitle">牵制躲吸做得好好友少不了</div>
+                                        <div class="course-banner-desc">1.了解大梦/大力的范围与机制</div>
+                                        <div class="course-tag">专栏</div>
+                                    </div>
+                                </div>
+                                <div class="course-info">
+                                    <div class="course-title">老非《躲吸与牵制教学》含躲大力和牵制吸人全流程</div>
+                                    <div class="course-price">¥ 159.00</div>
+                                </div>
+                            </div>
+                            
+                            <div class="course-card" onclick="openCourse('https://h5.htknow.com/#/pages/teacher/home/home?id=46187&uid=152933534&code=0116xOkl2ALUcg43vonl231yvR06xOkN&state=snsapi_base')">
+                                <div class="course-banner">
+                                    <div class="course-banner-content">
+                                        <div class="course-banner-title">进攻技巧/碎步</div>
+                                        <div class="course-banner-subtitle">谁不想打帅球秀操作呢?</div>
+                                        <div class="course-banner-desc">1.各类碎步共34+个,老非精心总结</div>
+                                        <div class="course-tag">专栏</div>
+                                    </div>
+                                </div>
+                                <div class="course-info">
+                                    <div class="course-title">老非教学《TT阵容34个进攻技巧》含各类碎步及按键逐...</div>
+                                </div>
+                            </div>
+                            
+                            <div class="course-card" onclick="openCourse('https://h5.htknow.com/#/pages/teacher/home/home?id=46187&uid=152933534&code=0116xOkl2ALUcg43vonl231yvR06xOkN&state=snsapi_base')">
+                                <div class="course-banner">
+                                    <div class="course-banner-content">
+                                        <div class="course-banner-title">篮板课程</div>
+                                        <div class="course-banner-subtitle">得篮板者得天下 篮板学习是没有尽</div>
+                                        <div class="course-banner-desc">1.了解板位板点高标等基础知识</div>
+                                        <div class="course-tag">专栏</div>
+                                    </div>
+                                </div>
+                                <div class="course-info">
+                                    <div class="course-title">老非街球教学视频篮板篇</div>
+                                </div>
+                            </div>
+                            
+                            <div class="course-card" onclick="openCourse('https://h5.htknow.com/#/pages/teacher/home/home?id=46187&uid=152933534&code=0116xOkl2ALUcg43vonl231yvR06xOkN&state=snsapi_base')">
+                                <div class="course-banner">
+                                    <div class="course-banner-content">
+                                        <div class="course-banner-title">跑扣课</div>
+                                        <div class="course-banner-subtitle">为什么玩PF? 我是为了这个扣篮</div>
+                                        <div class="course-banner-desc">1.了解起扣的机制原理</div>
+                                        <div class="course-tag">专栏</div>
+                                    </div>
+                                </div>
+                                <div class="course-info">
+                                    <div class="course-title">老非街球教学跑扣篇</div>
+                                </div>
+                            </div>
+                            
+                            <div class="course-card" onclick="openCourse('https://h5.htknow.com/#/pages/teacher/home/home?id=46187&uid=152933534&code=0116xOkl2ALUcg43vonl231yvR06xOkN&state=snsapi_base')">
+                                <div class="course-banner">
+                                    <div class="course-banner-content">
+                                        <div class="course-banner-title">精准传球教程</div>
+                                        <div class="course-banner-subtitle">做一个有"QE"指定传球的内线</div>
+                                        <div class="course-banner-desc">1.精准传球技巧详解</div>
+                                        <div class="course-tag">专栏</div>
+                                    </div>
+                                </div>
+                                <div class="course-info">
+                                    <div class="course-title">街球老非精准传球教学 (不包含一条直线传球)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="course-category">
+                        <h3><i class="fas fa-star" style="color: #22c55e;"></i> 适合PG的课程</h3>
+                        <div class="course-grid">
+                            <div class="course-card" onclick="openCourse('https://h5.htknow.com/#/pages/teacher/home/home?id=46187&uid=152933534&code=0116xOkl2ALUcg43vonl231yvR06xOkN&state=snsapi_base')">
+                                <div class="course-banner">
+                                    <div class="course-banner-content">
+                                        <div class="course-banner-title">TT综合打法</div>
+                                        <div class="course-banner-subtitle">0基础学习TT阵容(PF+C+PG通用)</div>
+                                        <div class="course-banner-desc">1.了解当前版本主流打法进位票位等</div>
+                                        <div class="course-tag">专栏</div>
+                                    </div>
+                                </div>
+                                <div class="course-info">
+                                    <div class="course-title">老非TT阵容打法课(PFCPG通用)</div>
+                                </div>
+                            </div>
+                            
+                            <div class="course-card" onclick="openCourse('https://h5.htknow.com/#/pages/teacher/home/home?id=46187&uid=152933534&code=0116xOkl2ALUcg43vonl231yvR06xOkN&state=snsapi_base')">
+                                <div class="course-banner">
+                                    <div class="course-banner-content">
+                                        <div class="course-banner-title">盖帽教学</div>
+                                        <div class="course-banner-subtitle">盖帽的快乐谁不想多多体验</div>
+                                        <div class="course-banner-desc">1.冒位冒点毛非全解析</div>
+                                        <div class="course-tag">专栏</div>
+                                    </div>
+                                </div>
+                                <div class="course-info">
+                                    <div class="course-title">街球老非盖帽教学TT篇(已更新9代罗卡盖帽教学)</div>
+                                </div>
+                            </div>
+                            
+                            <div class="course-card" onclick="openCourse('https://h5.htknow.com/#/pages/teacher/home/home?id=46187&uid=152933534&code=0116xOkl2ALUcg43vonl231yvR06xOkN&state=snsapi_base')">
+                                <div class="course-banner">
+                                    <div class="course-banner-content">
+                                        <div class="course-banner-title">躲吸与牵制</div>
+                                        <div class="course-banner-subtitle">牵制躲吸做得好好友少不了</div>
+                                        <div class="course-banner-desc">1.了解大梦/大力的范围与机制</div>
+                                        <div class="course-tag">专栏</div>
+                                    </div>
+                                </div>
+                                <div class="course-info">
+                                    <div class="course-title">老非《躲吸与牵制教学》含躲大力和牵制吸人全流程</div>
+                                </div>
+                            </div>
+                            
+                            <div class="course-card" onclick="openCourse('https://h5.htknow.com/#/pages/teacher/home/home?id=46187&uid=152933534&code=0116xOkl2ALUcg43vonl231yvR06xOkN&state=snsapi_base')">
+                                <div class="course-banner">
+                                    <div class="course-banner-content">
+                                        <div class="course-banner-title">篮板课程</div>
+                                        <div class="course-banner-subtitle">得篮板者得天下 篮板学习是没有尽</div>
+                                        <div class="course-banner-desc">1.了解板位板点高标等基础知识</div>
+                                        <div class="course-tag">专栏</div>
+                                    </div>
+                                </div>
+                                <div class="course-info">
+                                    <div class="course-title">老非街球教学视频篮板篇</div>
+                                </div>
+                            </div>
+                            
+                            <div class="course-card" onclick="openCourse('https://h5.htknow.com/#/pages/teacher/home/home?id=46187&uid=152933534&code=0116xOkl2ALUcg43vonl231yvR06xOkN&state=snsapi_base')">
+                                <div class="course-banner">
+                                    <div class="course-banner-content">
+                                        <div class="course-banner-title">PG跑位</div>
+                                        <div class="course-banner-subtitle">PG作为球队大脑必须讲究跑位</div>
+                                        <div class="course-banner-desc">1.不同开局对位站位老非给出详细胞位路线</div>
+                                        <div class="course-tag">专栏</div>
+                                    </div>
+                                </div>
+                                <div class="course-info">
+                                    <div class="course-title">老非《TT阵容PG跑位教学》基础版</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div id="admin-section" class="content-section">
@@ -159,6 +475,263 @@
         </div>
     </main>
 
-    <script src="script.js?v=2.1"></script>
+    <!-- 全屏显示容器 -->
+    <div id="fullscreen-overlay" class="fullscreen-overlay">
+        <img id="fullscreen-image" class="fullscreen-image" src="" alt="">
+    </div>
+
+    <script src="script.js?v=202508310100"></script>
+    
+    <!-- 微信浏览器特殊处理 -->
+    <script>
+        // 微信浏览器特殊处理
+        (function() {
+            var isWeChat = /MicroMessenger/i.test(navigator.userAgent);
+            var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+            
+            console.log('浏览器检测:', '微信:', isWeChat, 'iOS:', isIOS);
+            addDebugInfo('浏览器检测: 微信=' + isWeChat + ', iOS=' + isIOS);
+            
+            // 强制清除缓存 - 更激进的方法
+            function forceClearCache() {
+                // 清除localStorage和sessionStorage
+                localStorage.clear();
+                sessionStorage.clear();
+                addDebugInfo('localStorage和sessionStorage已清除');
+                
+                // 清除所有缓存
+                if ('caches' in window) {
+                    caches.keys().then(function(names) {
+                        for (var i = 0; i < names.length; i++) {
+                            caches.delete(names[i]);
+                            console.log('缓存已清除:', names[i]);
+                            addDebugInfo('缓存已清除: ' + names[i]);
+                        }
+                    });
+                }
+                
+                // 强制刷新页面（仅在必要时）
+                var lastVisit = localStorage.getItem('lastVisit');
+                var currentTime = new Date().getTime();
+                if (!lastVisit || (currentTime - parseInt(lastVisit)) > 300000) { // 5分钟
+                    localStorage.setItem('lastVisit', currentTime);
+                    addDebugInfo('页面可能需要强制刷新');
+                }
+            }
+            
+            // Service Worker状态检查
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                    console.log('当前Service Worker数量:', registrations.length);
+                    addDebugInfo('当前Service Worker数量: ' + registrations.length);
+                    for (var i = 0; i < registrations.length; i++) {
+                        console.log('Service Worker状态:', registrations[i].active ? 'active' : 'inactive');
+                        addDebugInfo('Service Worker状态: ' + (registrations[i].active ? 'active' : 'inactive'));
+                    }
+                });
+            }
+            
+            // 执行强制清除缓存
+            forceClearCache();
+            
+            // HTTPS强制检查
+            if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
+                addDebugInfo('检测到非HTTPS协议，重定向到HTTPS');
+                location.replace('https:' + location.href.substring(location.protocol.length));
+                return;
+            }
+            
+            // CORS检查
+            function checkCORS() {
+                var testImage = new Image();
+                testImage.onload = function() {
+                    addDebugInfo('CORS检查通过 - 图片加载正常');
+                };
+                testImage.onerror = function() {
+                    addDebugInfo('CORS检查失败 - 图片加载失败');
+                    showWechatWarning();
+                };
+                testImage.src = 'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/gallery/超特图鉴.png?v=' + new Date().getTime();
+            }
+            
+            if (isWeChat) {
+                console.log('微信浏览器检测到，应用特殊处理');
+                addDebugInfo('微信浏览器检测到，应用特殊处理');
+                
+                // 显示微信浏览器提示
+                setTimeout(function() {
+                    showWechatWarning();
+                }, 3000);
+                
+                // 执行CORS检查
+                setTimeout(function() {
+                    checkCORS();
+                }, 1000);
+                
+                // iOS微信特殊处理
+                if (isIOS) {
+                    console.log('iOS微信特殊处理');
+                    addDebugInfo('iOS微信特殊处理');
+                    document.body.style.webkitOverflowScrolling = 'touch';
+                    document.body.style.overflow = 'hidden';
+                    document.body.style.position = 'fixed';
+                    document.body.style.width = '100%';
+                    document.body.style.height = '100%';
+                }
+                
+                // 微信JS-SDK准备
+                document.addEventListener('WeixinJSBridgeReady', function() {
+                    console.log('微信JS-SDK准备就绪');
+                    addDebugInfo('微信JS-SDK准备就绪');
+                    if (typeof WeixinJSBridge !== 'undefined') {
+                        WeixinJSBridge.call('hideOptionMenu');
+                        WeixinJSBridge.call('showOptionMenu');
+                    }
+                });
+                
+                // 延迟初始化
+                setTimeout(function() {
+                    console.log('微信浏览器延迟初始化');
+                    addDebugInfo('微信浏览器延迟初始化');
+                    if (typeof initializeNavigation === 'function') {
+                        initializeNavigation();
+                        addDebugInfo('导航初始化完成');
+                    }
+                    if (typeof initializeFilters === 'function') {
+                        initializeFilters();
+                        addDebugInfo('筛选器初始化完成');
+                    }
+                    if (typeof loadCharacters === 'function') {
+                        loadCharacters('9');
+                        addDebugInfo('角色加载完成');
+                    }
+                }, 1000);
+            }
+            
+            // 页面加载完成后的处理
+            window.addEventListener('load', function() {
+                console.log('页面加载完成');
+                addDebugInfo('页面完全加载完成');
+                
+                // 检查页面是否正常加载
+                setTimeout(function() {
+                    var contentSections = document.querySelectorAll('.content-section');
+                    var hasContent = false;
+                    
+                    for (var i = 0; i < contentSections.length; i++) {
+                        if (contentSections[i].children.length > 1) {
+                            hasContent = true;
+                            break;
+                        }
+                    }
+                    
+                    if (!hasContent && isWeChat) {
+                        addDebugInfo('页面内容加载失败，尝试强制刷新');
+                        if (confirm('页面加载异常，是否强制刷新？')) {
+                            window.location.reload(true);
+                        }
+                    } else {
+                        addDebugInfo('页面内容加载正常');
+                        if (isWeChat) {
+                            setTimeout(function() {
+                                console.log('内容区域数量:', contentSections.length);
+                                addDebugInfo('内容区域数量: ' + contentSections.length);
+                                for (var i = 0; i < contentSections.length; i++) {
+                                    console.log('区域', i, ':', contentSections[i].id, '显示状态:', contentSections[i].style.display);
+                                    addDebugInfo('区域' + i + ': ' + contentSections[i].id + ' 显示状态: ' + contentSections[i].style.display);
+                                }
+                            }, 2000);
+                        }
+                    }
+                }, 3000);
+            });
+        })();
+        
+        // 调试功能
+        function addDebugInfo(message) {
+            var debugContent = document.getElementById('debug-content');
+            if (debugContent) {
+                var time = new Date().toLocaleTimeString();
+                debugContent.innerHTML += '<div>[' + time + '] ' + message + '</div>';
+                console.log('[' + time + '] ' + message);
+            }
+        }
+        
+        function toggleDebug() {
+            var debugInfo = document.getElementById('debug-info');
+            if (debugInfo.style.display === 'none') {
+                debugInfo.style.display = 'block';
+            } else {
+                debugInfo.style.display = 'none';
+            }
+        }
+        
+        function hideWechatWarning() {
+            var warning = document.getElementById('wechat-warning');
+            if (warning) {
+                warning.style.display = 'none';
+            }
+        }
+        
+        // 显示微信浏览器提示
+        function showWechatWarning() {
+            var warning = document.getElementById('wechat-warning');
+            if (warning) {
+                warning.style.display = 'block';
+                addDebugInfo('显示微信浏览器提示');
+            }
+        }
+        
+        function forceRefresh() {
+            addDebugInfo('执行强制刷新');
+            // 清除所有缓存
+            localStorage.clear();
+            sessionStorage.clear();
+            if ('caches' in window) {
+                caches.keys().then(function(names) {
+                    for (var i = 0; i < names.length; i++) {
+                        caches.delete(names[i]);
+                        addDebugInfo('清除缓存: ' + names[i]);
+                    }
+                });
+            }
+            
+            // 通知Service Worker清除缓存
+            if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+                navigator.serviceWorker.controller.postMessage({
+                    type: 'CLEAR_CACHE'
+                });
+                addDebugInfo('通知Service Worker清除缓存');
+            }
+            
+            // 强制刷新页面
+            window.location.reload(true);
+        }
+        
+        // 缓存管理功能
+        function clearAllCaches() {
+            addDebugInfo('清除所有缓存');
+            return new Promise(function(resolve) {
+                // 清除localStorage和sessionStorage
+                localStorage.clear();
+                sessionStorage.clear();
+                
+                // 清除Service Worker缓存
+                if ('caches' in window) {
+                    caches.keys().then(function(names) {
+                        var promises = names.map(function(name) {
+                            return caches.delete(name);
+                        });
+                        Promise.all(promises).then(function() {
+                            addDebugInfo('所有缓存已清除');
+                            resolve();
+                        });
+                    });
+                } else {
+                    resolve();
+                }
+            });
+        }
+    </script>
 </body>
 </html>

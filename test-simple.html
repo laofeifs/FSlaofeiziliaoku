@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简单测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .test-box {
+            background: white;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>微信浏览器测试</h1>
+    
+    <div class="test-box">
+        <h2>1. 基础HTML测试</h2>
+        <p class="success">如果你能看到这段文字，说明HTML正常</p>
+        <p class="info">当前时间: <span id="time"></span></p>
+    </div>
+    
+    <div class="test-box">
+        <h2>2. JavaScript测试</h2>
+        <p id="js-test" class="error">JavaScript测试中...</p>
+        <button onclick="testJS()">点击测试JavaScript</button>
+    </div>
+    
+    <div class="test-box">
+        <h2>3. 图片加载测试</h2>
+        <p>测试COS图片加载:</p>
+        <img src="https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/gallery/超特图鉴.png" 
+             alt="测试图片" 
+             onload="imageLoaded()" 
+             onerror="imageError()">
+        <p id="image-status" class="info">图片加载中...</p>
+    </div>
+    
+    <div class="test-box">
+        <h2>4. 设备信息</h2>
+        <p id="device-info" class="info">检测中...</p>
+    </div>
+    
+    <div class="test-box">
+        <h2>5. 网络测试</h2>
+        <p id="network-test" class="info">测试中...</p>
+        <button onclick="testNetwork()">测试网络</button>
+    </div>
+
+    <script>
+        // 基础JavaScript测试
+        function testJS() {
+            document.getElementById('js-test').innerHTML = 'JavaScript正常工作！';
+            document.getElementById('js-test').className = 'success';
+        }
+        
+        // 图片加载测试
+        function imageLoaded() {
+            document.getElementById('image-status').innerHTML = '图片加载成功！';
+            document.getElementById('image-status').className = 'success';
+        }
+        
+        function imageError() {
+            document.getElementById('image-status').innerHTML = '图片加载失败！';
+            document.getElementById('image-status').className = 'error';
+        }
+        
+        // 设备信息检测
+        function detectDevice() {
+            var info = [];
+            info.push('用户代理: ' + navigator.userAgent);
+            info.push('屏幕尺寸: ' + screen.width + 'x' + screen.height);
+            info.push('视口尺寸: ' + window.innerWidth + 'x' + window.innerHeight);
+            info.push('协议: ' + window.location.protocol);
+            info.push('域名: ' + window.location.hostname);
+            
+            var isWeChat = /MicroMessenger/i.test(navigator.userAgent);
+            var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+            
+            info.push('微信浏览器: ' + (isWeChat ? '是' : '否'));
+            info.push('iOS设备: ' + (isIOS ? '是' : '否'));
+            
+            document.getElementById('device-info').innerHTML = info.join('<br>');
+        }
+        
+        // 网络测试
+        function testNetwork() {
+            var status = document.getElementById('network-test');
+            status.innerHTML = '正在测试网络...';
+            
+            fetch('https://httpbin.org/get')
+                .then(function(response) {
+                    status.innerHTML = '网络连接正常 (状态码: ' + response.status + ')';
+                    status.className = 'success';
+                })
+                .catch(function(error) {
+                    status.innerHTML = '网络连接失败: ' + error.message;
+                    status.className = 'error';
+                });
+        }
+        
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('页面加载完成');
+            
+            // 显示当前时间
+            document.getElementById('time').textContent = new Date().toLocaleString();
+            
+            // 检测设备信息
+            detectDevice();
+            
+            // 自动测试JavaScript
+            setTimeout(function() {
+                testJS();
+            }, 1000);
+            
+            // 自动测试网络
+            setTimeout(function() {
+                testNetwork();
+            }, 2000);
+        });
+        
+        // 错误处理
+        window.addEventListener('error', function(e) {
+            console.error('页面错误:', e.error);
+            alert('页面发生错误: ' + e.error.message);
+        });
+    </script>
+</body>
+</html>
