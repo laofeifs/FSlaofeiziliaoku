@@ -1235,6 +1235,8 @@ function showFullscreenImage(src, alt) {
     }
 }
 
+
+
 // 关闭全屏显示
 function closeFullscreen() {
     const overlay = document.getElementById('fullscreen-overlay');
