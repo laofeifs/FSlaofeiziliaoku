@@ -13,31 +13,39 @@
     <meta http-equiv="Expires" content="">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:; img-src 'self' https: data: blob: *; connect-src 'self' https: *;">
     <title>老非FS资料库</title>
-    <link rel="stylesheet" href="styles.css?v=202508310000">
+    <link rel="stylesheet" href="styles.css?v=202508310100">
     <!-- 使用本地图标字体，避免CDN问题 -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous" referrerpolicy="no-referrer" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==">
     
-    <!-- Service Worker 暂时禁用，避免影响页面加载 -->
+    <!-- Service Worker 注册 -->
     <script>
-    // if ('serviceWorker' in navigator) {
-    //   navigator.serviceWorker.register('/sw.js')
-    //     .then(registration => {
-    //       console.log('Service Worker 注册成功:', registration.scope);
-    //       
-    //       // 监听更新
-    //       registration.addEventListener('updatefound', () => {
-    //         console.log('检测到Service Worker更新');
-    //         const newWorker = registration.installing;
-    //         newWorker.addEventListener('statechange', () => {
-    //           if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-    //             console.log('新版本可用，提示用户刷新');
-    //             // 可以在这里显示更新提示
-    //           }
-    //         });
-    //       });
-    //     })
-    //     .catch(err => console.error('Service Worker 注册失败:', err));
-    // }
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js?v=202508310100')
+                    .then((registration) => {
+                        console.log('Service Worker registered with scope:', registration.scope);
+                        addDebugInfo('Service Worker注册成功: ' + registration.scope);
+                        
+                        // 检查更新
+                        registration.addEventListener('updatefound', () => {
+                            console.log('Service Worker update found');
+                            addDebugInfo('Service Worker发现更新');
+                        });
+                        
+                        // 监听控制器变化
+                        navigator.serviceWorker.addEventListener('controllerchange', () => {
+                            console.log('Service Worker controller changed');
+                            addDebugInfo('Service Worker控制器已更新');
+                        });
+                    })
+                    .catch((error) => {
+                        console.log('Service Worker registration failed:', error);
+                        addDebugInfo('Service Worker注册失败: ' + error.message);
+                    });
+            });
+        } else {
+            addDebugInfo('浏览器不支持Service Worker');
+        }
     </script>
 </head>
 <body>
@@ -70,7 +78,10 @@
                 <p style="margin: 0 0 10px 0; font-size: 14px;">如果页面无法正常显示，建议：</p>
                 <p style="margin: 0; font-size: 12px;">1. 点击右上角三个点 → 选择"在浏览器中打开"</p>
                 <p style="margin: 0; font-size: 12px;">2. 或使用Safari/Chrome浏览器直接访问</p>
-                <button onclick="hideWechatWarning()" style="background: white; color: #ff6b6b; border: none; padding: 8px 16px; border-radius: 5px; margin-top: 10px; font-weight: bold;">我知道了</button>
+                <div style="margin-top: 10px;">
+                    <button onclick="forceRefresh()" style="background: #28a745; color: white; border: none; padding: 8px 16px; border-radius: 5px; margin-right: 10px; font-weight: bold;">强制刷新</button>
+                    <button onclick="hideWechatWarning()" style="background: white; color: #ff6b6b; border: none; padding: 8px 16px; border-radius: 5px; font-weight: bold;">我知道了</button>
+                </div>
             </div>
         </div>
     </header>
@@ -469,7 +480,7 @@
         <img id="fullscreen-image" class="fullscreen-image" src="" alt="">
     </div>
 
-    <script src="script.js?v=202508310000"></script>
+    <script src="script.js?v=202508310100"></script>
     
     <!-- 微信浏览器特殊处理 -->
     <script>
@@ -481,26 +492,66 @@
             console.log('浏览器检测:', '微信:', isWeChat, 'iOS:', isIOS);
             addDebugInfo('浏览器检测: 微信=' + isWeChat + ', iOS=' + isIOS);
             
-            // Service Worker清理
+            // 强制清除缓存 - 更激进的方法
+            function forceClearCache() {
+                // 清除localStorage和sessionStorage
+                localStorage.clear();
+                sessionStorage.clear();
+                addDebugInfo('localStorage和sessionStorage已清除');
+                
+                // 清除所有缓存
+                if ('caches' in window) {
+                    caches.keys().then(function(names) {
+                        for (var i = 0; i < names.length; i++) {
+                            caches.delete(names[i]);
+                            console.log('缓存已清除:', names[i]);
+                            addDebugInfo('缓存已清除: ' + names[i]);
+                        }
+                    });
+                }
+                
+                // 强制刷新页面（仅在必要时）
+                var lastVisit = localStorage.getItem('lastVisit');
+                var currentTime = new Date().getTime();
+                if (!lastVisit || (currentTime - parseInt(lastVisit)) > 300000) { // 5分钟
+                    localStorage.setItem('lastVisit', currentTime);
+                    addDebugInfo('页面可能需要强制刷新');
+                }
+            }
+            
+            // Service Worker状态检查
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                    console.log('当前Service Worker数量:', registrations.length);
+                    addDebugInfo('当前Service Worker数量: ' + registrations.length);
                     for (var i = 0; i < registrations.length; i++) {
-                        registrations[i].unregister();
-                        console.log('Service Worker已注销');
-                        addDebugInfo('Service Worker已注销');
+                        console.log('Service Worker状态:', registrations[i].active ? 'active' : 'inactive');
+                        addDebugInfo('Service Worker状态: ' + (registrations[i].active ? 'active' : 'inactive'));
                     }
                 });
             }
             
-            // 强制清除所有缓存
-            if ('caches' in window) {
-                caches.keys().then(function(names) {
-                    for (var i = 0; i < names.length; i++) {
-                        caches.delete(names[i]);
-                        console.log('缓存已清除:', names[i]);
-                        addDebugInfo('缓存已清除: ' + names[i]);
-                    }
-                });
+            // 执行强制清除缓存
+            forceClearCache();
+            
+            // HTTPS强制检查
+            if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
+                addDebugInfo('检测到非HTTPS协议，重定向到HTTPS');
+                location.replace('https:' + location.href.substring(location.protocol.length));
+                return;
+            }
+            
+            // CORS检查
+            function checkCORS() {
+                var testImage = new Image();
+                testImage.onload = function() {
+                    addDebugInfo('CORS检查通过 - 图片加载正常');
+                };
+                testImage.onerror = function() {
+                    addDebugInfo('CORS检查失败 - 图片加载失败');
+                    showWechatWarning();
+                };
+                testImage.src = 'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/gallery/超特图鉴.png?v=' + new Date().getTime();
             }
             
             if (isWeChat) {
@@ -512,10 +563,10 @@
                     showWechatWarning();
                 }, 3000);
                 
-                // 强制清除缓存
-                localStorage.clear();
-                sessionStorage.clear();
-                addDebugInfo('localStorage和sessionStorage已清除');
+                // 执行CORS检查
+                setTimeout(function() {
+                    checkCORS();
+                }, 1000);
                 
                 // iOS微信特殊处理
                 if (isIOS) {
@@ -561,17 +612,38 @@
             window.addEventListener('load', function() {
                 console.log('页面加载完成');
                 addDebugInfo('页面完全加载完成');
-                if (isWeChat) {
-                    setTimeout(function() {
-                        var contentSections = document.querySelectorAll('.content-section');
-                        console.log('内容区域数量:', contentSections.length);
-                        addDebugInfo('内容区域数量: ' + contentSections.length);
-                        for (var i = 0; i < contentSections.length; i++) {
-                            console.log('区域', i, ':', contentSections[i].id, '显示状态:', contentSections[i].style.display);
-                            addDebugInfo('区域' + i + ': ' + contentSections[i].id + ' 显示状态: ' + contentSections[i].style.display);
+                
+                // 检查页面是否正常加载
+                setTimeout(function() {
+                    var contentSections = document.querySelectorAll('.content-section');
+                    var hasContent = false;
+                    
+                    for (var i = 0; i < contentSections.length; i++) {
+                        if (contentSections[i].children.length > 1) {
+                            hasContent = true;
+                            break;
                         }
-                    }, 2000);
-                }
+                    }
+                    
+                    if (!hasContent && isWeChat) {
+                        addDebugInfo('页面内容加载失败，尝试强制刷新');
+                        if (confirm('页面加载异常，是否强制刷新？')) {
+                            window.location.reload(true);
+                        }
+                    } else {
+                        addDebugInfo('页面内容加载正常');
+                        if (isWeChat) {
+                            setTimeout(function() {
+                                console.log('内容区域数量:', contentSections.length);
+                                addDebugInfo('内容区域数量: ' + contentSections.length);
+                                for (var i = 0; i < contentSections.length; i++) {
+                                    console.log('区域', i, ':', contentSections[i].id, '显示状态:', contentSections[i].style.display);
+                                    addDebugInfo('区域' + i + ': ' + contentSections[i].id + ' 显示状态: ' + contentSections[i].style.display);
+                                }
+                            }, 2000);
+                        }
+                    }
+                }, 3000);
             });
         })();
         
@@ -608,6 +680,57 @@
                 warning.style.display = 'block';
                 addDebugInfo('显示微信浏览器提示');
             }
+        }
+        
+        function forceRefresh() {
+            addDebugInfo('执行强制刷新');
+            // 清除所有缓存
+            localStorage.clear();
+            sessionStorage.clear();
+            if ('caches' in window) {
+                caches.keys().then(function(names) {
+                    for (var i = 0; i < names.length; i++) {
+                        caches.delete(names[i]);
+                        addDebugInfo('清除缓存: ' + names[i]);
+                    }
+                });
+            }
+            
+            // 通知Service Worker清除缓存
+            if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+                navigator.serviceWorker.controller.postMessage({
+                    type: 'CLEAR_CACHE'
+                });
+                addDebugInfo('通知Service Worker清除缓存');
+            }
+            
+            // 强制刷新页面
+            window.location.reload(true);
+        }
+        
+        // 缓存管理功能
+        function clearAllCaches() {
+            addDebugInfo('清除所有缓存');
+            return new Promise(function(resolve) {
+                // 清除localStorage和sessionStorage
+                localStorage.clear();
+                sessionStorage.clear();
+                
+                // 清除Service Worker缓存
+                if ('caches' in window) {
+                    caches.keys().then(function(names) {
+                        var promises = names.map(function(name) {
+                            return caches.delete(name);
+                        });
+                        Promise.all(promises).then(function() {
+                            addDebugInfo('所有缓存已清除');
+                            resolve();
+                        });
+                    });
+                } else {
+                    resolve();
+                }
+            });
         }
     </script>
 </body>
