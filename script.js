@@ -3,10 +3,10 @@ const COS_CONFIG = {
     // 这里需要你填入你的腾讯云COS配置信息
     SecretId: 'YOUR_SECRET_ID',
     SecretKey: 'YOUR_SECRET_KEY',
-    Bucket: 'fs-images-1259209256',
-    Region: 'YOUR_REGION',
-    // COS访问域名，格式类似：https://fs-images-1259209256.cos-website.ap-region.myqcloud.com
-    Domain: 'https://fs-images-1259209256.cos-website.ap-beijing.myqcloud.com'
+    Bucket: 'laofei-1259209256',
+    Region: 'ap-nanjing', // 南京地域
+    // COS访问域名，使用新存储桶域名
+    Domain: 'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com'
 };
 
 // 当前选中的代次
@@ -285,6 +285,8 @@ function checkVersion() {
     console.log('版本检查已移至服务器检测');
 }
 
+
+
 // 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', function() {
     // 检查版本并提示刷新
@@ -298,14 +300,15 @@ document.addEventListener('DOMContentLoaded', function() {
     function checkConnection() {
         var currentTime = Date.now();
         
-        // 每30秒检查一次连接状态
-        if (currentTime - lastConnectionCheck > 30000) {
+        // 每2分钟检查一次连接状态（降低频率）
+        if (currentTime - lastConnectionCheck > 120000) {
             lastConnectionCheck = currentTime;
             
             // 尝试加载一个小的资源来检测连接
             fetch('/version.txt?t=' + currentTime, { 
                 method: 'HEAD',
-                cache: 'no-cache'
+                cache: 'no-cache',
+                timeout: 5000 // 5秒超时
             })
             .then(function(response) {
                 if (response.ok) {
@@ -320,8 +323,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             })
             .catch(function(error) {
-                console.log('网络连接异常:', error);
-                showConnectionError();
+                console.log('网络连接检测失败:', error);
+                // 不显示错误提示，只在控制台记录
+                // showConnectionError(); // 注释掉自动显示错误
             });
         }
     }
@@ -345,7 +349,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // 启动连接检测
-    connectionCheckInterval = setInterval(checkConnection, 30000); // 每30秒检查一次
+    connectionCheckInterval = setInterval(checkConnection, 120000); // 每2分钟检查一次
     
     // 检查URL是否需要添加时间戳
     function checkUrlTimestamp() {
@@ -367,7 +371,9 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('visibilitychange', function() {
         if (!document.hidden) {
             console.log('页面重新可见，检查连接状态');
-            checkConnection();
+            // 只在页面重新可见时检查，不显示错误提示
+            var currentTime = Date.now();
+            lastConnectionCheck = currentTime;
         }
     });
     
@@ -437,18 +443,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 3000);
         }
         
-        // 所有微信浏览器都显示刷新提示
-        var wechatTip = document.createElement('div');
-        wechatTip.style.cssText = 'position:fixed;top:50px;right:10px;background:#22c55e;color:white;padding:8px 12px;border-radius:4px;font-size:12px;z-index:9999;';
-        wechatTip.innerHTML = '微信用户：右上角刷新查看7代角色';
-        document.body.appendChild(wechatTip);
-        
-        // 5秒后自动隐藏提示
-        setTimeout(function() {
-            if (wechatTip.parentNode) {
-                wechatTip.parentNode.removeChild(wechatTip);
-            }
-        }, 5000);
+
     }
     
     // 检测服务器版本（只在必要时）
@@ -634,7 +629,7 @@ function createCharacterCard(character) {
     
     card.innerHTML = `
         <div class="character-image">
-            ${imageUrl ? `<img src="${imageUrl}" alt="${character.name}" style="width: 100%; height: 100%; object-fit: cover;">` : '暂无图片'}
+            ${imageUrl ? `<img src="${imageUrl}" alt="${character.name}" style="width: 100%; height: 100%; object-fit: cover;" onerror="handleImageError(this, '${character.name}')" onload="handleImageLoad(this, '${character.name}')">` : '暂无图片'}
         </div>
         <div class="character-info">
             <h3 class="character-name">${character.name}</h3>
@@ -673,6 +668,67 @@ function createCharacterCard(character) {
     }
     
     return card;
+}
+
+// 图片加载成功处理
+function handleImageLoad(img, characterName) {
+    console.log(`✅ ${characterName} 图片加载成功`);
+}
+
+// 图片加载失败处理
+function handleImageError(img, characterName) {
+    console.log(`❌ ${characterName} 图片加载失败: ${img.src}`);
+    
+    // 设置默认图片
+    img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7mnKzlm748L3RleHQ+Cjx0ZXh0IHg9IjEwMCIgeT0iMTIwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjwvc3ZnPgo=';
+    img.alt = characterName + ' (图片加载失败)';
+    
+    // 显示错误提示
+    var errorTip = document.createElement('div');
+    errorTip.style.cssText = 'position:fixed;top:10px;left:50%;transform:translateX(-50%);background:#ff4757;color:white;padding:10px 15px;border-radius:6px;font-size:14px;z-index:10000;text-align:center;';
+    errorTip.innerHTML = `
+        <div style="margin-bottom:8px;">⚠️ COS访问受限 (451错误)</div>
+        <div style="font-size:12px;margin-bottom:8px;">角色: ${characterName}</div>
+        <div style="font-size:11px;opacity:0.9;margin-bottom:8px;">请检查COS存储桶权限设置</div>
+        <button onclick="showCOSHelp()" style="background:white;color:#ff4757;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-size:12px;margin-right:8px;">查看帮助</button>
+        <button onclick="this.parentElement.remove()" style="background:transparent;color:white;border:1px solid white;padding:6px 12px;border-radius:4px;cursor:pointer;font-size:12px;">关闭</button>
+    `;
+    document.body.appendChild(errorTip);
+    
+    // 10秒后自动隐藏
+    setTimeout(function() {
+        if (errorTip.parentNode) {
+            errorTip.remove();
+        }
+    }, 10000);
+}
+
+// 显示COS帮助信息
+function showCOSHelp() {
+    var helpHtml = `
+        <div style="margin-bottom:15px;font-weight:bold;text-align:center;">🔧 COS 451错误解决方案</div>
+        <div style="text-align:left;margin-bottom:15px;">
+            <div style="margin-bottom:10px;"><strong>问题原因：</strong></div>
+            <div style="font-size:12px;margin-bottom:8px;">• COS存储桶访问权限受限</div>
+            <div style="font-size:12px;margin-bottom:8px;">• 文件可能被设置为私有</div>
+            <div style="font-size:12px;margin-bottom:8px;">• 存储桶配置问题</div>
+        </div>
+        <div style="text-align:left;margin-bottom:15px;">
+            <div style="margin-bottom:10px;"><strong>解决步骤：</strong></div>
+            <div style="font-size:12px;margin-bottom:8px;">1. 登录腾讯云控制台</div>
+            <div style="font-size:12px;margin-bottom:8px;">2. 进入COS存储桶管理</div>
+            <div style="font-size:12px;margin-bottom:8px;">3. 检查存储桶权限设置</div>
+            <div style="font-size:12px;margin-bottom:8px;">4. 确保文件为公开读取</div>
+        </div>
+        <div style="text-align:center;">
+            <button onclick="this.parentElement.parentElement.remove()" style="background:#22c55e;color:white;border:none;padding:8px 16px;border-radius:4px;cursor:pointer;font-size:14px;">知道了</button>
+        </div>
+    `;
+    
+    var helpDiv = document.createElement('div');
+    helpDiv.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.95);color:white;padding:20px;border-radius:8px;font-size:14px;z-index:10001;min-width:350px;max-width:500px;';
+    helpDiv.innerHTML = helpHtml;
+    document.body.appendChild(helpDiv);
 }
 
 // 从腾讯云COS获取文件列表（示例函数）

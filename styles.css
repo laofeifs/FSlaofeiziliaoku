@@ -27,11 +27,12 @@ body {
 }
 
 .main-title {
-    font-size: 2.5rem;
+    font-size: 3.2rem;
     font-weight: bold;
     color: #4ade80;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 2px;
 }
 
 .title-underline {
@@ -51,10 +52,11 @@ body {
 }
 
 .powered-by {
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: white;
-    opacity: 0.9;
+    opacity: 0.8;
     margin: 0;
+    font-weight: 400;
 }
 
 .contact-tag {
