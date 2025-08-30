@@ -816,15 +816,18 @@ html {
 /* FS账号页面样式 */
 .account-container {
     padding: 20px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
 }
 
 .account-module {
     background: white;
     border-radius: 16px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-    margin-bottom: 30px;
     overflow: hidden;
     transition: all 0.3s ease;
+    height: fit-content;
 }
 
 .account-module:hover {
@@ -962,6 +965,8 @@ html {
 @media (max-width: 768px) {
     .account-container {
         padding: 15px 0;
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
     
     .module-header {
