@@ -1010,8 +1010,14 @@ function initializeRanking() {
                 this.alt = `${rankingType.toUpperCase()}排名 (图片加载失败)`;
             };
             
-            // 添加点击全屏显示功能
+            // 添加点击全屏显示功能（兼容移动端）
             imgElement.addEventListener('click', function() {
+                showFullscreenImage(this.src, this.alt);
+            });
+            
+            // 添加触摸事件，兼容苹果手机
+            imgElement.addEventListener('touchstart', function(e) {
+                e.preventDefault();
                 showFullscreenImage(this.src, this.alt);
             });
         }
@@ -1048,6 +1054,15 @@ function showFullscreenImage(src, alt) {
         
         // 禁止页面滚动
         document.body.style.overflow = 'hidden';
+        
+        // 移动端特殊处理
+        if (window.innerWidth <= 768) {
+            // 强制竖屏显示
+            overlay.style.flexDirection = 'column';
+            fullscreenImg.style.width = '100%';
+            fullscreenImg.style.height = '100%';
+            fullscreenImg.style.objectFit = 'contain';
+        }
     }
 }
 
@@ -1068,6 +1083,14 @@ document.addEventListener('DOMContentLoaded', function() {
         // 点击背景关闭全屏
         overlay.addEventListener('click', function(e) {
             if (e.target === overlay) {
+                closeFullscreen();
+            }
+        });
+        
+        // 触摸事件关闭全屏（移动端）
+        overlay.addEventListener('touchstart', function(e) {
+            if (e.target === overlay) {
+                e.preventDefault();
                 closeFullscreen();
             }
         });
