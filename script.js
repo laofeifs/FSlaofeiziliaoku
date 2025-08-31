@@ -328,33 +328,7 @@ var charactersData = {
             generation: '9代超特',
             description: '九代超特角色，共用一套动作',
             image: 'characters/9代超特/亚琪亚克.png',
-            actions: [
-                { name: '不看人传球', gif: 'gifs/9代超特/亚琪亚克/不看人传球.gif' },
-                { name: '大手冒', gif: 'gifs/9代超特/亚琪亚克/大手冒.gif' },
-                { name: '地板', gif: 'gifs/9代超特/亚琪亚克/地板.gif' },
-                { name: '快速起来', gif: 'gifs/9代超特/亚琪亚克/快速起来.gif' },
-                { name: '篮板', gif: 'gifs/9代超特/亚琪亚克/篮板.gif' },
-                { name: '抢断', gif: 'gifs/9代超特/亚琪亚克/抢断.gif' },
-                { name: '小手冒', gif: 'gifs/9代超特/亚琪亚克/小手冒.gif' },
-                { name: '中手冒', gif: 'gifs/9代超特/亚琪亚克/中手冒.gif' },
-                { name: 'A分球', gif: 'gifs/9代超特/亚琪亚克/A分球.gif' },
-                { name: 'A近扣', gif: 'gifs/9代超特/亚琪亚克/A近扣.gif' },
-                { name: 'A近上', gif: 'gifs/9代超特/亚琪亚克/A近上.gif' },
-                { name: 'A篮板', gif: 'gifs/9代超特/亚琪亚克/A篮板.gif' },
-                { name: 'A三分', gif: 'gifs/9代超特/亚琪亚克/A三分.gif' },
-                { name: 'A远扣', gif: 'gifs/9代超特/亚琪亚克/A远扣.gif' },
-                { name: 'A远上', gif: 'gifs/9代超特/亚琪亚克/A远上.gif' },
-                { name: 'A中投', gif: 'gifs/9代超特/亚琪亚克/A中投.gif' },
-                { name: 'B分球', gif: 'gifs/9代超特/亚琪亚克/B分球.gif' },
-                { name: 'B近扣', gif: 'gifs/9代超特/亚琪亚克/B近扣.gif' },
-                { name: 'B近上', gif: 'gifs/9代超特/亚琪亚克/B近上.gif' },
-                { name: 'B篮板', gif: 'gifs/9代超特/亚琪亚克/B篮板.gif' },
-                { name: 'B三分', gif: 'gifs/9代超特/亚琪亚克/B三分.gif' },
-                { name: 'B远扣', gif: 'gifs/9代超特/亚琪亚克/B远扣.gif' },
-                { name: 'B远上', gif: 'gifs/9代超特/亚琪亚克/B远上.gif' },
-                { name: 'B中投', gif: 'gifs/9代超特/亚琪亚克/B中投.gif' },
-                { name: 'X', gif: 'gifs/9代超特/亚琪亚克/X.gif' }
-            ]
+            gifFolder: 'gifs/9代超特/亚琪亚克/'
         },
         {
             id: '9_2',
@@ -362,30 +336,7 @@ var charactersData = {
             generation: '9代超特',
             description: '九代超特角色',
             image: 'characters/9代超特/罗卡.png',
-            actions: [
-                { name: '不看人传球', gif: 'gifs/9代超特/罗卡/不看人传球.gif' },
-                { name: '大手冒', gif: 'gifs/9代超特/罗卡/大手冒.gif' },
-                { name: '地板', gif: 'gifs/9代超特/罗卡/地板.gif' },
-                { name: '小手冒', gif: 'gifs/9代超特/罗卡/小手冒.gif' },
-                { name: '中手冒', gif: 'gifs/9代超特/罗卡/中手冒.gif' },
-                { name: 'A分球', gif: 'gifs/9代超特/罗卡/A分球.gif' },
-                { name: 'A近扣', gif: 'gifs/9代超特/罗卡/A近扣.gif' },
-                { name: 'A近上', gif: 'gifs/9代超特/罗卡/A近上.gif' },
-                { name: 'A篮板', gif: 'gifs/9代超特/罗卡/A篮板.gif' },
-                { name: 'A三分', gif: 'gifs/9代超特/罗卡/A三分.gif' },
-                { name: 'A远扣', gif: 'gifs/9代超特/罗卡/A远扣.gif' },
-                { name: 'A远上', gif: 'gifs/9代超特/罗卡/A远上.gif' },
-                { name: 'A中投', gif: 'gifs/9代超特/罗卡/A中投.gif' },
-                { name: 'B分球', gif: 'gifs/9代超特/罗卡/B分球.gif' },
-                { name: 'B近扣', gif: 'gifs/9代超特/罗卡/B近扣.gif' },
-                { name: 'B近上', gif: 'gifs/9代超特/罗卡/B近上.gif' },
-                { name: 'B篮板', gif: 'gifs/9代超特/罗卡/B篮板.gif' },
-                { name: 'B三分', gif: 'gifs/9代超特/罗卡/B三分.gif' },
-                { name: 'B远扣', gif: 'gifs/9代超特/罗卡/B远扣.gif' },
-                { name: 'B远上', gif: 'gifs/9代超特/罗卡/B远上.gif' },
-                { name: 'B中投', gif: 'gifs/9代超特/罗卡/B中投.gif' },
-                { name: 'X', gif: 'gifs/9代超特/罗卡/X.gif' }
-            ]
+            gifFolder: 'gifs/9代超特/罗卡/'
         }
     ],
     '8': [
@@ -751,28 +702,8 @@ function createCharacterCard(character) {
     
     // 构建动作按钮HTML
     let actionsHtml = '';
-    if (character.actions && character.actions.length > 0) {
-        // 9代超特使用预设动作列表
-        actionsHtml = `
-            <div class="character-actions">
-                <h4>动作技能</h4>
-                <div class="action-buttons">
-                    ${character.actions.map(action => `
-                        <button class="action-btn" data-gif="${COS_CONFIG.Domain}/${action.gif}">
-                            <i class="fas fa-play"></i>
-                            <span>${action.name}</span>
-                        </button>
-                    `).join('')}
-                </div>
-                <div class="action-preview">
-                    <div class="gif-container" id="gif-${character.id}">
-                        <p>点击上方动作按钮查看GIF</p>
-                    </div>
-                </div>
-            </div>
-        `;
-    } else if (character.gifFolder) {
-        // 其他代次使用动态读取GIF文件
+    if (character.gifFolder) {
+        // 所有代次都使用动态读取GIF文件
         actionsHtml = `
             <div class="character-actions">
                 <h4>动作技能</h4>
@@ -819,132 +750,11 @@ function createCharacterCard(character) {
         imgContainer.appendChild(img);
     }
     
-    // 添加动作按钮事件监听
-    if (character.actions && character.actions.length > 0) {
-        // 9代超特使用预设动作列表
-        var actionButtons = card.querySelectorAll('.action-btn');
-        var gifContainer = card.querySelector('#gif-' + character.id);
-        
-        for (var i = 0; i < actionButtons.length; i++) {
-            (function(button) {
-                button.onclick = function(e) {
-                    e.preventDefault(); // 阻止默认行为
-                    e.stopPropagation(); // 阻止事件冒泡
-                    
-                    // 移除所有按钮的激活状态
-                    for (var j = 0; j < actionButtons.length; j++) {
-                        actionButtons[j].classList.remove('active');
-                    }
-                    // 添加当前按钮的激活状态
-                    this.classList.add('active');
-                    
-                    // 显示对应的GIF - 使用移动端兼容的GIF加载函数
-                    var gifUrl = this.getAttribute('data-gif');
-                    var actionName = this.querySelector('span').textContent;
-                    
-                    console.log('🎯 点击动作按钮:', actionName);
-                    console.log('🔗 GIF URL:', gifUrl);
-                    console.log('📱 设备信息:', navigator.userAgent);
-                    
-                    // 清空容器并显示加载提示
-                    gifContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #9ca3af;">加载GIF中...</div>';
-                    
-                    // 确保GIF容器可见 - 移动端优化
-                    gifContainer.style.display = 'block';
-                    gifContainer.style.position = 'relative';
-                    gifContainer.style.zIndex = '9999'; // 提高层级
-                    gifContainer.style.background = '#ffffff';
-                    gifContainer.style.border = '1px solid #e5e7eb';
-                    gifContainer.style.borderRadius = '8px';
-                    gifContainer.style.padding = '10px';
-                    gifContainer.style.margin = '10px 0';
-                    gifContainer.style.width = '100%';
-                    gifContainer.style.maxWidth = '100%';
-                    gifContainer.style.overflow = 'visible';
-                    
-                    // 移动端特殊处理
-                    if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-                        console.log('📱 检测到移动设备，应用移动端优化');
-                        gifContainer.style.webkitTransform = 'translateZ(0)'; // 启用硬件加速
-                        gifContainer.style.transform = 'translateZ(0)';
-                        gifContainer.style.webkitBackfaceVisibility = 'hidden';
-                        gifContainer.style.backfaceVisibility = 'hidden';
-                    }
-                    
-                    // 创建图片元素 - 移动端兼容
-                    const img = new Image();
-                    img.className = 'action-gif';
-                    img.style.maxWidth = '100%';
-                    img.style.width = 'auto';
-                    img.style.height = 'auto';
-                    img.style.display = 'block';
-                    img.style.margin = '0 auto';
-                    img.style.zIndex = '10000'; // 最高层级
-                    img.style.position = 'relative';
-                    img.style.verticalAlign = 'top';
-                    img.alt = actionName;
-                    
-                    // 移动端图片优化
-                    if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-                        img.style.webkitTransform = 'translateZ(0)';
-                        img.style.transform = 'translateZ(0)';
-                        img.style.webkitBackfaceVisibility = 'hidden';
-                        img.style.backfaceVisibility = 'hidden';
-                        img.style.imageRendering = 'auto';
-                        img.style.webkitImageRendering = 'auto';
-                    }
-                    
-                    // 加载成功处理
-                    img.onload = function() {
-                        console.log('✅ GIF加载成功:', gifUrl);
-                        console.log('📏 尺寸:', img.naturalWidth, 'x', img.naturalHeight);
-                        console.log('📱 设备:', navigator.userAgent);
-                        
-                        // 替换加载提示
-                        gifContainer.innerHTML = '';
-                        gifContainer.appendChild(img);
-                        gifContainer.innerHTML += '<p class="action-name" style="text-align: center; margin-top: 10px; font-weight: bold; color: #374151; font-size: 14px;">' + actionName + '</p>';
-                        
-                        // 移动端强制重绘
-                        if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-                            // 触发重绘
-                            gifContainer.style.display = 'none';
-                            gifContainer.offsetHeight;
-                            gifContainer.style.display = 'block';
-                            
-                            // 延迟再次触发，确保显示
-                            setTimeout(() => {
-                                gifContainer.style.opacity = '0.99';
-                                setTimeout(() => {
-                                    gifContainer.style.opacity = '1';
-                                }, 10);
-                            }, 100);
-                        }
-                    };
-                    
-                    // 加载失败处理
-                    img.onerror = function() {
-                        console.log('❌ GIF加载失败:', gifUrl);
-                        console.log('📱 设备:', navigator.userAgent);
-                        
-                        // 尝试备用方案
-                        if (!gifUrl.includes('?')) {
-                            console.log('🔄 尝试添加时间戳重试...');
-                            img.src = gifUrl + '?t=' + Date.now();
-                            return;
-                        }
-                        
-                        gifContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #dc3545; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 4px; font-size: 14px;">GIF加载失败<br>设备: ' + navigator.userAgent.substring(0, 50) + '...</div>';
-                    };
-                    
-                    // 设置图片源
-                    img.src = gifUrl;
-                };
-            })(actionButtons[i]);
-        }
-    } else if (character.gifFolder) {
-        // 其他代次动态加载GIF文件
-        loadGifFiles(character.gifFolder, character.id, card);
+    // 动态加载GIF文件
+    if (character.gifFolder) {
+        // 直接传递当前代数，避免时序问题
+        var currentGen = getCurrentGeneration();
+        loadGifFiles(character.gifFolder, character.id, card, currentGen);
     }
     
     return card;
@@ -1185,235 +995,239 @@ function isValidFileType(file, allowedTypes = ['jpg', 'jpeg', 'png', 'gif', 'mp4
     return allowedTypes.includes(extension);
 }
 
+// 获取当前选中的代次
+function getCurrentGeneration() {
+    var activeFilter = document.querySelector('.filter-btn.active');
+    if (activeFilter) {
+        var generation = activeFilter.getAttribute('data-generation');
+        return generation;
+    }
+    return '9'; // 默认返回9代
+}
+
 // 动态加载GIF文件
-function loadGifFiles(folder, characterId, card) {
+function loadGifFiles(folder, characterId, card, currentGeneration) {
     console.log('开始加载GIF文件:', characterId, '文件夹:', folder);
     
     // 确保文件夹路径正确（移除末尾斜杠，避免重复）
     var cleanFolder = folder.replace(/\/$/, '');
     
-    // 根据角色ID确定使用哪个GIF文件列表
+    // 精确的文件映射表 - 根据角色ID使用对应的文件列表
     var commonGifFiles = [];
     
-    // 2代、3代、3.5代、4代、4.5代超特通用GIF文件
-    if (characterId.includes('2_') || characterId.includes('3_') || characterId.includes('4_')) {
+    // 9代超特亚琪亚克 - 精确的25个文件列表
+    if (characterId === '9_1') {
         commonGifFiles = [
-            'X.gif',
-            '三分.gif',
-            '中手冒.gif',
-            '中投.gif',
-            '大手冒.gif',
-            '小手冒.gif',
-            '抢断.gif',
-            '篮板.gif',
-            '近上.gif',
-            '近扣.gif',
-            '远上.gif',
-            '远扣.gif'
-        ];
-    } else if (characterId.includes('5_')) {
-        if (characterId === '5_1') {
-            // 艾达的GIF文件
-            commonGifFiles = [
-                'X.gif',
-                '三分.gif',
-                '中手冒.gif',
-                '中投.gif',
-                '大手冒.gif',
-                '小手冒.gif',
-                '抢断.gif',
-                '篮板.gif',
-                '近上.gif',
-                '近扣.gif',
-                '远上.gif',
-                '远扣.gif'
-            ];
-        } else if (characterId === '5_2') {
-            // 杰罗的GIF文件
-            commonGifFiles = [
-                'X.gif',
-                '中手.gif',
-                '中投.gif',
-                '分球.gif',
-                '地板.gif',
-                '大手冒.gif',
-                '小手冒.gif',
-                '快速跑传.gif',
-                '投篮.gif',
-                '灌篮盖帽.gif',
-                '篮板.gif',
-                '近上.gif',
-                '近扣.gif',
-                '远上.gif',
-                '远扣.gif'
-            ];
-        }
-    } else if (characterId.includes('6_')) {
-        // 根据具体角色ID确定使用哪个双角色的GIF文件
-        if (characterId === '6_1') {
-            // 光暗双角色
-            commonGifFiles = [
-                '光X.gif',
-                '光三分.gif',
-                '光中手.gif',
-                '光中投.gif',
-                '光分球.gif',
-                '光地板.gif',
-                '光大手.gif',
-                '光小手.gif',
-                '光篮板.gif',
-                '光近上.gif',
-                '光近扣.gif',
-                '光远上.gif',
-                '光远扣.gif',
-                '暗X.gif',
-                '暗三分.gif',
-                '暗中手.gif',
-                '暗中投.gif',
-                '暗分球.gif',
-                '暗地板.gif',
-                '暗大手.gif',
-                '暗小手冒.gif',
-                '暗篮板.gif',
-                '暗近上.gif',
-                '暗近扣.gif',
-                '暗远上.gif',
-                '暗远扣.gif'
-            ];
-        } else if (characterId === '6_2') {
-            // 冰火双角色
-            commonGifFiles = [
-                '水X.gif',
-                '水三分.gif',
-                '水中投.gif',
-                '水分球.gif',
-                '水地板.gif',
-                '水大手冒.gif',
-                '水小手冒.gif',
-                '水篮板.gif',
-                '水近上.gif',
-                '水近扣.gif',
-                '水远上.gif',
-                '水远扣.gif',
-                '火X.gif',
-                '火三分.gif',
-                '火中投.gif',
-                '火分球.gif',
-                '火地板.gif',
-                '火大手冒.gif',
-                '火小手冒.gif',
-                '火篮板.gif',
-                '火近上.gif',
-                '火近扣.gif',
-                '火远上.gif',
-                '火远扣.gif'
-            ];
-        } else if (characterId === '6_3') {
-            // 钢铁剧毒双角色
-            commonGifFiles = [
-                '剧毒X.gif',
-                '剧毒三分.gif',
-                '剧毒中投.gif',
-                '剧毒分球.gif',
-                '剧毒地板.gif',
-                '剧毒大手冒.gif',
-                '剧毒小手冒.gif',
-                '剧毒小手哦冒.gif',
-                '剧毒篮板.gif',
-                '剧毒近上.gif',
-                '剧毒近扣.gif',
-                '剧毒远上.gif',
-                '剧毒远扣.gif',
-                '毒液中投.gif',
-                '钢铁X.gif',
-                '钢铁XX.gif',
-                '钢铁三分.gif',
-                '钢铁中投.gif',
-                '钢铁分球.gif',
-                '钢铁地板.gif',
-                '钢铁大手冒.gif',
-                '钢铁小手冒.gif',
-                '钢铁篮板.gif',
-                '钢铁近上.gif',
-                '钢铁近扣.gif',
-                '钢铁远上.gif',
-                '钢铁远扣.gif'
-            ];
-        } else if (characterId === '6_4') {
-            // 风雷双角色
-            commonGifFiles = [
-                '雷X.gif',
-                '雷三分.gif',
-                '雷中投.gif',
-                '雷分球.gif',
-                '雷地板.gif',
-                '雷大手冒.gif',
-                '雷小手冒.gif',
-                '雷篮板.gif',
-                '雷近上.gif',
-                '雷近扣.gif',
-                '雷远上.gif',
-                '雷远扣.gif',
-                '风X.gif',
-                '风三分.gif',
-                '风中投.gif',
-                '风分球.gif',
-                '风地板.gif',
-                '风大手冒.gif',
-                '风小手冒.gif',
-                '风篮板.gif',
-                '风近上.gif',
-                '风近扣.gif',
-                '风远上.gif',
-                '风远扣.gif'
-            ];
-        }
-    } else {
-        // 其他代数的通用GIF文件
-        commonGifFiles = [
-            'X.gif',
-            '不看人传球.gif',
-            '中手冒.gif',
-            '分球.gif',
-            '地板.gif',
-            '大手冒.gif',
-            '小手冒.gif',
-            '抢断.gif',
-            '篮板.gif',
-            '间接进攻手.gif',
-            '阳三分.gif',
-            '阳中投.gif',
-            '阳近上.gif',
-            '阳近扣.gif',
-            '阳远上.gif',
-            '阳远扣.gif',
-            '阴三分.gif',
-            '阴中投.gif',
-            '阴近上.gif',
-            '阴近扣.gif',
-            '阴远上.gif',
-            '阴远扣.gif',
-            '快速起来.gif',
-            'A分球.gif',
-            'A近扣.gif',
-            'A近上.gif',
-            'A篮板.gif',
-            'A三分.gif',
-            'A远扣.gif',
-            'A远上.gif',
-            'A中投.gif',
-            'B分球.gif',
-            'B近扣.gif',
-            'B近上.gif',
-            'B篮板.gif',
-            'B三分.gif',
-            'B远扣.gif',
-            'B远上.gif',
-            'B中投.gif'
+            // A系列动作（8个）
+            'A三分.gif', 'A中投.gif', 'A分球.gif', 'A篮板.gif', 'A近上.gif', 'A近扣.gif', 'A远上.gif', 'A远扣.gif',
+            // B系列动作（8个）
+            'B三分.gif', 'B中投.gif', 'B分球.gif', 'B篮板.gif', 'B近上.gif', 'B近扣.gif', 'B远上.gif', 'B远扣.gif',
+            // 其他动作（9个）
+            'X.gif', '不看人传球.gif', '中手冒.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '快速起来.gif', '抢断.gif', '篮板.gif'
         ];
     }
+    // 9代超特罗卡 - 精确的22个文件列表
+    else if (characterId === '9_2') {
+        commonGifFiles = [
+            // A系列动作（8个）
+            'A三分.gif', 'A中投.gif', 'A分球.gif', 'A篮板.gif', 'A近上.gif', 'A近扣.gif', 'A远上.gif', 'A远扣.gif',
+            // B系列动作（8个）
+            'B三分.gif', 'B中投.gif', 'B分球.gif', 'B篮板.gif', 'B近上.gif', 'B近扣.gif', 'B远上.gif', 'B远扣.gif',
+            // 其他动作（6个）
+            'X.gif', '不看人传球.gif', '中手冒.gif', '地板.gif', '大手冒.gif', '小手冒.gif'
+        ];
+    }
+    // 8代超特哈托尔 - 精确的22个文件列表
+    else if (characterId === '8_1') {
+        commonGifFiles = [
+            // 基础动作（8个）
+            'X.gif', '不看人传球.gif', '中手冒.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '抢断.gif',
+            // 其他动作（14个）
+            '篮板.gif', '间接进攻手.gif', '阳三分.gif', '阳中投.gif', '阳近上.gif', '阳近扣.gif', '阳远上.gif', '阳远扣.gif', '阴三分.gif', '阴中投.gif', '阴近上.gif', '阴近扣.gif', '阴远上.gif', '阴远扣.gif'
+        ];
+    }
+    // 8代超特奥丁 - 精确的22个文件列表
+    else if (characterId === '8_2') {
+        commonGifFiles = [
+            // 基础动作（8个）
+            'X.gif', '不看人传球.gif', '中手冒.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '抢断.gif',
+            // 其他动作（14个）
+            '篮板.gif', '间接进攻手.gif', '阳三分.gif', '阳中投.gif', '阳近上.gif', '阳近扣.gif', '阳远上.gif', '阳远扣.gif', '阴三分.gif', '阴中投.gif', '阴近上.gif', '阴近扣.gif', '阴远上.gif', '阴远扣.gif'
+        ];
+    }
+    // 8代超特月神 - 精确的25个文件列表
+    else if (characterId === '8_3') {
+        commonGifFiles = [
+            // 基础动作（12个）
+            'X.gif', '三分.gif', '三分阳.gif', '不看人传球.gif', '中手冒.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '抢断.gif', '篮板.gif', '间接进攻手.gif',
+            // 阴阳动作（13个）
+            '阳三分.gif', '阳中投.gif', '阳近上.gif', '阳近扣.gif', '阳远上.gif', '阴远扣.gif', '阳远扣.gif', '阴三分.gif', '阴中投.gif', '阴近上.gif', '阴近扣.gif', '阴远上.gif', '阴远哭.gif'
+        ];
+    }
+    // 7代超特月儿 - 精确的19个文件列表
+    else if (characterId === '7_1') {
+        commonGifFiles = [
+            // 基础动作（7个）
+            'X.gif', '中手.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '篮板.gif',
+            // 阴阳动作（12个）
+            '阳三分.gif', '阳中投.gif', '阳近上.gif', '阳近扣.gif', '阳远上.gif', '阳远扣.gif', '阴三分.gif', '阴中投.gif', '阴近上.gif', '阴近扣.gif', '阴远上.gif', '阴远扣.gif'
+        ];
+    }
+    // 7代超特玄武 - 精确的19个文件列表
+    else if (characterId === '7_2') {
+        commonGifFiles = [
+            // 基础动作（7个）
+            'X.gif', '中手冒.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '篮板.gif',
+            // 阴阳动作（12个）
+            '阳三分.gif', '阳中投.gif', '阳近上.gif', '阳近扣.gif', '阳远上.gif', '阳远扣.gif', '阴三分.gif', '阴中投.gif', '阴近上.gif', '阴近扣.gif', '阴远上.gif', '阴远扣.gif'
+        ];
+    }
+    // 7代超特雪舞 - 精确的20个文件列表
+    else if (characterId === '7_3') {
+        commonGifFiles = [
+            // 基础动作（8个）
+            'X.gif', '中手.gif', '中手冒.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '篮板.gif',
+            // 阴阳动作（12个）
+            '阳三分.gif', '阳中投.gif', '阳近上.gif', '阳近扣.gif', '阳远上.gif', '阳远扣.gif', '阴三分.gif', '阴中投.gif', '阴近上.gif', '阴近扣.gif', '阴远上.gif', '阴远扣.gif'
+        ];
+    }
+    // 其他角色根据当前代数动态生成文件列表
+    else {
+        // 使用传入的当前代数参数
+        console.log('当前代数:', currentGeneration, '角色ID:', characterId);
+        
+        // 根据代数生成对应的文件列表
+        if (currentGeneration === '9') {
+            // 9代通用动作（适用于未明确映射的9代角色）
+            commonGifFiles = [
+                'X.gif', 'A三分.gif', 'A中投.gif', 'A分球.gif', 'A篮板.gif', 'A近上.gif', 'A近扣.gif', 'A远上.gif', 'A远扣.gif',
+                'B三分.gif', 'B中投.gif', 'B分球.gif', 'B篮板.gif', 'B近上.gif', 'B近扣.gif', 'B远上.gif', 'B远扣.gif',
+                '不看人传球.gif', '中手冒.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '快速起来.gif', '抢断.gif', '篮板.gif'
+            ];
+        } else if (currentGeneration === '8') {
+            // 8代通用动作（适用于未明确映射的8代角色）
+            commonGifFiles = [
+                'X.gif', '三分.gif', '三分阳.gif', '不看人传球.gif', '中手冒.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '抢断.gif', '篮板.gif', '间接进攻手.gif',
+                '阳三分.gif', '阳中投.gif', '阳近上.gif', '阳近扣.gif', '阳远上.gif', '阳远扣.gif', '阴三分.gif', '阴中投.gif', '阴近上.gif', '阴近扣.gif', '阴远上.gif', '阴远扣.gif', '阴远哭.gif'
+            ];
+        } else if (currentGeneration === '7') {
+            // 7代通用动作（适用于未明确映射的7代角色）
+            commonGifFiles = [
+                'X.gif', '中手.gif', '中手冒.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '篮板.gif',
+                '阳三分.gif', '阳中投.gif', '阳近上.gif', '阳近扣.gif', '阳远上.gif', '阳远扣.gif', '阴三分.gif', '阴中投.gif', '阴近上.gif', '阴近扣.gif', '阴远上.gif', '阴远扣.gif'
+            ];
+        } else if (currentGeneration === '7.5') {
+            // 7.5代通用动作
+            commonGifFiles = [
+                'X.gif', '三分.gif', '中投.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '抢断.gif', '篮板.gif',
+                '近上.gif', '近扣.gif', '远上.gif', '远扣.gif', '不看人传球.gif', '间接进攻手.gif'
+            ];
+        } else if (currentGeneration === '6') {
+            // 6代角色需要精确映射，根据角色ID使用对应的文件列表
+            if (characterId === '6_1') {
+                // 光暗角色 - 光暗系列动作
+                commonGifFiles = [
+                    // 光系列动作（13个）
+                    '光X.gif', '光三分.gif', '光中手.gif', '光中投.gif', '光分球.gif', '光地板.gif', '光大手.gif', '光小手.gif', '光篮板.gif', '光近上.gif', '光近扣.gif', '光远上.gif', '光远扣.gif',
+                    // 暗系列动作（13个）
+                    '暗X.gif', '暗三分.gif', '暗中手.gif', '暗中投.gif', '暗分球.gif', '暗地板.gif', '暗大手.gif', '暗小手冒.gif', '暗篮板.gif', '暗近上.gif', '暗近扣.gif', '暗远上.gif', '暗远扣.gif'
+                ];
+            } else if (characterId === '6_2') {
+                // 冰火角色 - 冰火系列动作
+                commonGifFiles = [
+                    // 冰系列动作（13个）
+                    '冰X.gif', '冰三分.gif', '冰中手.gif', '冰中投.gif', '冰分球.gif', '冰地板.gif', '冰大手.gif', '冰小手.gif', '冰篮板.gif', '冰近上.gif', '冰近扣.gif', '冰远上.gif', '冰远扣.gif',
+                    // 火系列动作（13个）
+                    '火X.gif', '火三分.gif', '火中手.gif', '火中投.gif', '火分球.gif', '火地板.gif', '火大手.gif', '火小手.gif', '火篮板.gif', '火近上.gif', '火近扣.gif', '火远上.gif', '火远扣.gif'
+                ];
+            } else if (characterId === '6_3') {
+                // 钢铁剧毒角色 - 钢铁剧毒系列动作
+                commonGifFiles = [
+                    // 剧毒系列动作（13个）
+                    '剧毒X.gif', '剧毒三分.gif', '剧毒中投.gif', '剧毒分球.gif', '剧毒地板.gif', '剧毒大手冒.gif', '剧毒小手冒.gif', '剧毒小手哦冒.gif', '剧毒篮板.gif', '剧毒近上.gif', '剧毒近扣.gif', '剧毒远上.gif', '剧毒远扣.gif',
+                    // 钢铁系列动作（14个）
+                    '钢铁X.gif', '钢铁XX.gif', '钢铁三分.gif', '钢铁中投.gif', '钢铁分球.gif', '钢铁地板.gif', '钢铁大手冒.gif', '钢铁小手冒.gif', '钢铁篮板.gif', '钢铁近上.gif', '钢铁近扣.gif', '钢铁远上.gif', '钢铁远傻姑娘.gif', '钢铁远扣.gif'
+                ];
+            } else if (characterId === '6_4') {
+                // 风雷角色 - 风雷系列动作
+                commonGifFiles = [
+                    // 雷系列动作（13个）
+                    '雷X.gif', '雷三分.gif', '雷中投.gif', '雷分球.gif', '雷地板.gif', '雷大手冒.gif', '雷小手冒.gif', '雷篮板.gif', '雷近上.gif', '雷近扣.gif', '雷远上.gif', '雷远扣.gif',
+                    // 风系列动作（13个）
+                    '风X.gif', '风三分.gif', '风中投.gif', '风分球.gif', '风地板.gif', '风大手冒.gif', '风小手冒.gif', '风篮板.gif', '风近上.gif', '风近扣.gif', '风远上.gif', '风远扣.gif'
+                ];
+            } else {
+                // 其他6代角色使用基础动作
+                commonGifFiles = [
+                    'X.gif', '三分.gif', '中投.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '抢断.gif', '篮板.gif',
+                    '近上.gif', '近扣.gif', '远上.gif', '远扣.gif', '不看人传球.gif', '间接进攻手.gif'
+                ];
+            }
+        } else if (currentGeneration === '6.5') {
+            // 6.5代通用动作
+            commonGifFiles = [
+                'X.gif', '三分.gif', '中投.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '抢断.gif', '篮板.gif',
+                '近上.gif', '近扣.gif', '远上.gif', '远扣.gif', '不看人传球.gif', '间接进攻手.gif'
+            ];
+        } else if (currentGeneration === '5.5') {
+            // 5.5代通用动作
+            commonGifFiles = [
+                'X.gif', '三分.gif', '中投.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '抢断.gif', '篮板.gif',
+                '近上.gif', '近扣.gif', '远上.gif', '远扣.gif', '不看人传球.gif', '间接进攻手.gif'
+            ];
+        } else if (currentGeneration === '5') {
+            // 5代通用动作
+            commonGifFiles = [
+                'X.gif', '三分.gif', '中投.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '抢断.gif', '篮板.gif',
+                '近上.gif', '近扣.gif', '远上.gif', '远扣.gif', '不看人传球.gif', '间接进攻手.gif'
+            ];
+        } else if (currentGeneration === '4.5') {
+            // 4.5代通用动作
+            commonGifFiles = [
+                'X.gif', '三分.gif', '中投.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '抢断.gif', '篮板.gif',
+                '近上.gif', '近扣.gif', '远上.gif', '远扣.gif', '不看人传球.gif', '间接进攻手.gif'
+            ];
+        } else if (currentGeneration === '4') {
+            // 4代通用动作
+            commonGifFiles = [
+                'X.gif', '三分.gif', '中投.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '抢断.gif', '篮板.gif',
+                '近上.gif', '近扣.gif', '远上.gif', '远扣.gif', '不看人传球.gif', '间接进攻手.gif'
+            ];
+        } else if (currentGeneration === '3_5') {
+            // 3.5代通用动作
+            commonGifFiles = [
+                'X.gif', '三分.gif', '中投.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '抢断.gif', '篮板.gif',
+                '近上.gif', '近扣.gif', '远上.gif', '远扣.gif', '不看人传球.gif', '间接进攻手.gif'
+            ];
+        } else if (currentGeneration === '3') {
+            // 3代通用动作
+            commonGifFiles = [
+                'X.gif', '三分.gif', '中投.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '抢断.gif', '篮板.gif',
+                '近上.gif', '近扣.gif', '远上.gif', '远扣.gif', '不看人传球.gif', '间接进攻手.gif'
+            ];
+        } else if (currentGeneration === '2') {
+            // 2代通用动作
+            commonGifFiles = [
+                'X.gif', '三分.gif', '中投.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '抢断.gif', '篮板.gif',
+                '近上.gif', '近扣.gif', '远上.gif', '远扣.gif', '不看人传球.gif', '间接进攻手.gif'
+            ];
+        } else if (currentGeneration === '1') {
+            // 1代通用动作
+            commonGifFiles = [
+                'X.gif', '三分.gif', '中投.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '抢断.gif', '篮板.gif',
+                '近上.gif', '近扣.gif', '远上.gif', '远扣.gif', '不看人传球.gif', '间接进攻手.gif'
+            ];
+        } else {
+            // 其他代数使用基础动作
+            commonGifFiles = [
+                'X.gif', 'XX.gif', '三分.gif', '中投.gif', '分球.gif', '地板.gif',
+                '大手冒.gif', '小手冒.gif', '中手冒.gif', '抢断.gif', '篮板.gif',
+                '近上.gif', '近扣.gif', '远上.gif', '远扣.gif', '不看人传球.gif', '间接进攻手.gif'
+            ];
+        }
+    }
     
-    console.log('GIF文件列表:', commonGifFiles);
+    console.log('开始动态扫描GIF文件:', characterId, '文件夹:', cleanFolder, '扫描文件数量:', commonGifFiles.length);
     
     var actionButtonsContainer = card.querySelector('#actions-' + characterId);
     var gifContainer = card.querySelector('#gif-' + characterId);
@@ -1432,27 +1246,37 @@ function loadGifFiles(folder, characterId, card) {
     function checkGifFile(file, index) {
         // 正确构建URL路径
         var gifUrl = COS_CONFIG.Domain + '/' + cleanFolder + '/' + file;
-        console.log('检查GIF文件:', gifUrl);
+        console.log('检查GIF文件:', file, '完整URL:', gifUrl, '角色ID:', characterId, '文件夹:', cleanFolder);
         
+        // 使用Image对象检查，避免CORS问题
         var img = new Image();
+        var timeoutId;
+        
+        // 设置超时
+        timeoutId = setTimeout(function() {
+            console.log('⏰ GIF文件检查超时:', file);
+            img.src = '';
+            checkedCount++;
+            if (checkedCount === commonGifFiles.length) {
+                createButtons();
+            }
+        }, 3000); // 3秒超时
         
         img.onload = function() {
+            clearTimeout(timeoutId);
             console.log('✅ GIF文件存在:', file);
-            // 文件存在，添加到按钮列表
             validGifFiles.push(file);
             checkedCount++;
             if (checkedCount === commonGifFiles.length) {
-                // 所有文件检查完成，创建按钮
                 createButtons();
             }
         };
         
         img.onerror = function() {
+            clearTimeout(timeoutId);
             console.log('❌ GIF文件不存在:', file);
-            // 文件不存在，跳过
             checkedCount++;
             if (checkedCount === commonGifFiles.length) {
-                // 所有文件检查完成，创建按钮
                 createButtons();
             }
         };
@@ -1856,176 +1680,11 @@ window.FSDataLibrary = {
     COS_CONFIG
 };
 
-// 运行图片加载测试
-function runImageLoadTest() {
-    const output = document.getElementById('image-test-output');
-    if (!output) return;
-    
-    output.innerHTML = '<p>正在测试图片加载...</p>';
-    
-    const testImages = [
-        {
-            name: '超特图鉴',
-            url: 'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/gallery/超特图鉴.png'
-        },
-        {
-            name: 'C排名',
-            url: 'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/ranking/C排名.png'
-        },
-        {
-            name: '亚琪亚克角色',
-            url: 'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/characters/9代超特/亚琪亚克.png'
-        }
-    ];
-    
-    let results = [];
-    
-    testImages.forEach((image, index) => {
-        const img = new Image();
-        const startTime = Date.now();
-        
-        img.onload = function() {
-            const loadTime = Date.now() - startTime;
-            results.push({
-                name: image.name,
-                success: true,
-                time: loadTime,
-                url: image.url
-            });
-            
-            updateTestResults(results, output);
-        };
-        
-        img.onerror = function() {
-            results.push({
-                name: image.name,
-                success: false,
-                time: 0,
-                url: image.url
-            });
-            
-            updateTestResults(results, output);
-        };
-        
-        // 添加时间戳避免缓存
-        img.src = image.url + '?test=' + Date.now();
-    });
-}
 
-// 更新测试结果
-function updateTestResults(results, output) {
-    if (results.length === 0) return;
-    
-    let html = '<h4>测试结果:</h4>';
-    let successCount = 0;
-    let totalTime = 0;
-    
-    results.forEach(result => {
-        if (result.success) {
-            successCount++;
-            totalTime += result.time;
-            html += `<p style="color: green;">✅ ${result.name}: 成功 (${result.time}ms)</p>`;
-        } else {
-            html += `<p style="color: red;">❌ ${result.name}: 失败</p>`;
-        }
-    });
-    
-    html += `<p><strong>总计: ${successCount}/${results.length} 成功</strong>`;
-    if (successCount > 0) {
-        html += ` | 平均加载时间: ${Math.round(totalTime / successCount)}ms`;
-    }
-    
-    output.innerHTML = html;
-}
 
-// 显示移动端诊断
-function showMobileDiagnostic() {
-    // 隐藏所有内容区域
-    const sections = document.querySelectorAll('.content-section');
-    sections.forEach(section => section.classList.remove('active'));
-    
-    // 显示诊断区域
-    const diagnosticSection = document.getElementById('mobile-diagnostic-section');
-    if (diagnosticSection) {
-        diagnosticSection.classList.add('active');
-        diagnosticSection.style.display = 'block';
-        
-        // 更新设备信息
-        updateDeviceInfo();
-        
-        // 测试网络连接
-        testNetworkConnection();
-    }
-}
 
-// 更新设备信息
-function updateDeviceInfo() {
-    const deviceInfo = document.getElementById('device-info');
-    if (!deviceInfo) return;
-    
-    const info = {
-        userAgent: navigator.userAgent,
-        platform: navigator.platform,
-        language: navigator.language,
-        cookieEnabled: navigator.cookieEnabled,
-        onLine: navigator.onLine,
-        screenWidth: window.screen.width,
-        screenHeight: window.screen.height,
-        viewportWidth: window.innerWidth,
-        viewportHeight: window.innerHeight,
-        pixelRatio: window.devicePixelRatio || 1,
-        isWeChat: /MicroMessenger/i.test(navigator.userAgent),
-        isIOS: /iPad|iPhone|iPod/.test(navigator.userAgent),
-        isAndroid: /Android/.test(navigator.userAgent),
-        isMobile: /Mobile|Android|iPhone|iPad/.test(navigator.userAgent)
-    };
-    
-    let html = '';
-    for (const [key, value] of Object.entries(info)) {
-        html += `<div><strong>${key}:</strong> ${value}</div>`;
-    }
-    
-    deviceInfo.innerHTML = html;
-}
 
-// 测试网络连接
-function testNetworkConnection() {
-    const networkTest = document.getElementById('network-test');
-    if (!networkTest) return;
-    
-    networkTest.innerHTML = '<p>正在测试网络连接...</p>';
-    
-    // 测试基本网络连接
-    const testUrl = 'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/gallery/超特图鉴.png';
-    const img = new Image();
-    const startTime = Date.now();
-    
-    img.onload = function() {
-        const loadTime = Date.now() - startTime;
-        networkTest.innerHTML = `
-            <p style="color: green;">✅ 网络连接正常</p>
-            <p>COS域名访问: 成功</p>
-            <p>响应时间: ${loadTime}ms</p>
-            <p>图片尺寸: ${img.naturalWidth} x ${img.naturalHeight}</p>
-        `;
-    };
-    
-    img.onerror = function() {
-        networkTest.innerHTML = `
-            <p style="color: red;">❌ 网络连接异常</p>
-            <p>COS域名访问: 失败</p>
-            <p>可能原因:</p>
-            <ul>
-                <li>网络连接问题</li>
-                <li>CORS跨域限制</li>
-                <li>COS存储桶配置问题</li>
-                <li>移动端浏览器限制</li>
-            </ul>
-        `;
-    };
-    
-    img.src = testUrl + '?network-test=' + Date.now();
-}
+
 
 // 导出函数供外部使用
 window.FSDataLibrary = {
@@ -2033,10 +1692,7 @@ window.FSDataLibrary = {
     uploadToCOS,
     getCOSFileList,
     loadGifFiles,
-    COS_CONFIG,
-    testMobileImageLoading,
-    showMobileDiagnostic,
-    runImageLoadTest
+    COS_CONFIG
 };
 
 // 图片加载诊断和修复函数
@@ -2830,32 +2486,18 @@ function checkMobileCompatibility() {
 document.addEventListener('DOMContentLoaded', function() {
     const compatibility = checkMobileCompatibility();
     
-    // iOS 18.2 强制刷新处理
+    // iOS 18.2 特殊处理（移除强制刷新，避免页面无法加载）
     if (compatibility.isIOS && compatibility.iosVersion && compatibility.iosVersion.major >= 18) {
-        console.log('🍎 iOS 18+ 检测到，应用强制刷新处理');
+        console.log('🍎 iOS 18+ 检测到，应用特殊处理');
         
-        // 检查是否需要强制刷新
-        const lastRefresh = sessionStorage.getItem('ios18_last_refresh');
-        const currentTime = Date.now();
-        
-        if (!lastRefresh || (currentTime - parseInt(lastRefresh)) > 300000) { // 5分钟
-            console.log('🔄 iOS 18+ 强制刷新页面');
-            sessionStorage.setItem('ios18_last_refresh', currentTime.toString());
-            
-            // 清理所有缓存
-            if ('caches' in window) {
-                caches.keys().then(names => {
-                    names.forEach(name => {
-                        caches.delete(name);
-                        console.log('🗑️ 清理缓存:', name);
-                    });
+        // 仅清理缓存，不强制刷新
+        if ('caches' in window) {
+            caches.keys().then(names => {
+                names.forEach(name => {
+                    caches.delete(name);
+                    console.log('🗑️ 清理缓存:', name);
                 });
-            }
-            
-            // 强制刷新（仅在必要时）
-            if (window.location.search.includes('force_refresh')) {
-                window.location.reload(true);
-            }
+            });
         }
     }
 });

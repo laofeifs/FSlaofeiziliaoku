@@ -2,59 +2,38 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="format-detection" content="telephone=no, email=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:; img-src 'self' https: data: blob: *; connect-src 'self' https: *;">
     <title>老非FS资料库</title>
     
-    <!-- 移动端图片加载优化 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="format-detection" content="telephone=no, email=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="mobile-web-app-capable" content="yes">
-    
     <!-- 预加载关键资源 -->
-    <link rel="preload" href="styles.css?v=202508312900" as="style">
-    <link rel="preload" href="script.js?v=202508312900" as="script">
+            <link rel="preload" href="styles.css?v=202508313130" as="style">
+        <link rel="preload" href="script.js?v=202508313130" as="script">
     
-    <link rel="stylesheet" href="styles.css?v=202508312900">
+    <link rel="stylesheet" href="styles.css?v=202508313130">
     <!-- 使用本地图标字体，避免CDN问题 -->
     <!-- 使用国内CDN，提高访问速度 -->
     <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous" referrerpolicy="no-referrer">
     
     <!-- Service Worker 注册 -->
     <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js?v=202508312900')
+        // 延迟注册Service Worker，避免阻塞页面加载
+        setTimeout(() => {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('./sw.js?v=202508313130')
                     .then((registration) => {
                         console.log('Service Worker registered with scope:', registration.scope);
                         // 安全的调试信息调用
                         if (typeof addDebugInfo === 'function') {
                             addDebugInfo('Service Worker注册成功: ' + registration.scope);
                         }
-                        
-                        // 检查更新
-                        registration.addEventListener('updatefound', () => {
-                            console.log('Service Worker update found');
-                            if (typeof addDebugInfo === 'function') {
-                                addDebugInfo('Service Worker发现更新');
-                            }
-                        });
-                        
-                        // 监听控制器变化
-                        navigator.serviceWorker.addEventListener('controllerchange', () => {
-                            console.log('Service Worker controller changed');
-                            if (typeof addDebugInfo === 'function') {
-                                addDebugInfo('Service Worker控制器已更新');
-                            }
-                        });
                     })
                     .catch((error) => {
                         console.log('Service Worker registration failed:', error);
@@ -62,12 +41,12 @@
                             addDebugInfo('Service Worker注册失败: ' + error.message);
                         }
                     });
-            });
-        } else {
-            if (typeof addDebugInfo === 'function') {
-                addDebugInfo('浏览器不支持Service Worker');
+            } else {
+                if (typeof addDebugInfo === 'function') {
+                    addDebugInfo('浏览器不支持Service Worker');
+                }
             }
-        }
+        }, 1000); // 延迟1秒注册
     </script>
 </head>
 <body>
@@ -95,7 +74,7 @@
                     <button onclick="toggleDebug()" style="background: #007bff; color: white; border: none; padding: 5px 10px; border-radius: 3px; margin-right: 5px;">切换调试</button>
                     <button onclick="checkCacheStatus()" style="background: #28a745; color: white; border: none; padding: 5px 10px; border-radius: 3px; margin-right: 5px;">检查缓存</button>
                     <button onclick="clearAllCaches()" style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px; margin-right: 5px;">清除缓存</button>
-                    <button onclick="testMobileImageLoading()" style="background: #ffc107; color: black; border: none; padding: 5px 10px; border-radius: 3px; margin-right: 5px;">测试图片加载</button>
+
                     <button onclick="diagnoseImageLoading()" style="background: #6f42c1; color: white; border: none; padding: 5px 10px; border-radius: 3px; margin-right: 5px;">图片诊断</button>
                     <button onclick="testImageAccess()" style="background: #17a2b8; color: white; border: none; padding: 5px 10px; border-radius: 3px; margin-right: 5px;">COS测试</button>
                     <button onclick="diagnoseCOSAccess()" style="background: #fd7e14; color: white; border: none; padding: 5px 10px; border-radius: 3px; margin-right: 5px;">权限诊断</button>
@@ -136,15 +115,12 @@
                     <i class="fas fa-graduation-cap"></i>
                     <span>老非课程</span>
                 </button>
+                <button class="nav-btn" data-section="events">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>活动介绍</span>
+                </button>
                 <button class="nav-btn" data-section="skills">
                     <span>实用技巧</span>
-                </button>
-                <button class="nav-btn" data-section="events">
-                    <span>活动</span>
-                </button>
-                <button class="nav-btn" data-section="mobile-diagnostic">
-                    <i class="fas fa-bug"></i>
-                    <span>移动端诊断</span>
                 </button>
 
             </div>
@@ -268,19 +244,19 @@
             </div>
 
             <div id="events-section" class="content-section">
-                <h2>活动</h2>
+                <h2>活动介绍</h2>
                 <div class="events-container">
                     <div class="event-card" onclick="openEvent('https://mp.weixin.qq.com/s/ZRJXXrERfy62Dyu0yU6yog')">
                         <div class="event-banner">
                             <div class="event-banner-content">
-                                <div class="event-banner-title">最新活动</div>
-                                <div class="event-banner-subtitle">点击查看最新活动详情</div>
+                                <div class="event-banner-title">9.4版本预告</div>
+                                <div class="event-banner-subtitle">点击查看最新版本预告详情</div>
                                 <div class="event-tag">热门</div>
                             </div>
                         </div>
                         <div class="event-info">
-                            <div class="event-title">查看最新活动</div>
-                            <div class="event-desc">点击进入微信文章查看详细活动信息</div>
+                            <div class="event-title">9.4版本预告</div>
+                            <div class="event-desc">点击进入微信文章查看详细版本预告信息</div>
                         </div>
                     </div>
                 </div>
@@ -516,27 +492,7 @@
                 <p>管理端内容将在这里显示</p>
             </div>
             
-            <!-- 移动端图片加载诊断区域 -->
-            <div id="mobile-diagnostic-section" class="content-section">
-                <h2>移动端图片加载诊断</h2>
-                <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                    <h3>设备信息</h3>
-                    <div id="device-info" style="font-family: monospace; font-size: 12px; line-height: 1.5;">
-                        正在检测设备信息...
-                    </div>
-                    
-                    <h3 style="margin-top: 20px;">网络连接测试</h3>
-                    <div id="network-test" style="font-family: monospace; font-size: 12px; line-height: 1.5;">
-                        正在测试网络连接...
-                    </div>
-                    
-                    <h3 style="margin-top: 20px;">图片加载测试</h3>
-                    <div id="image-test-results" style="font-family: monospace; font-size: 12px; line-height: 1.5;">
-                        <button onclick="runImageLoadTest()" style="background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">开始图片加载测试</button>
-                        <div id="image-test-output" style="margin-top: 10px;"></div>
-                    </div>
-                </div>
-            </div>
+
         </div>
     </main>
 
@@ -545,7 +501,7 @@
         <img id="fullscreen-image" class="fullscreen-image" src="" alt="">
     </div>
 
-    <script src="script.js?v=202508312900"></script>
+    <script src="script.js?v=202508313130"></script>
     
     <!-- 智能设备检测和兼容性优化 -->
     <script>
@@ -660,16 +616,6 @@
             
             // 通用优化
             function applyCommonOptimizations() {
-                // 响应式布局优化
-                var viewport = document.querySelector('meta[name="viewport"]');
-                if (viewport) {
-                    if (isMobile) {
-                        viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover');
-                    } else {
-                        viewport.setAttribute('content', 'width=device-width, initial-scale=1.0');
-                    }
-                }
-                
                 // 性能优化
                 if (isMobile) {
                     // 移动端性能优化
@@ -867,15 +813,8 @@
                         }
                     }
                     
-                    if (typeof loadCharacters === 'function') {
-                        try {
-                            loadCharacters('9');
-                            safeDebugInfo('角色加载完成');
-                        } catch (e) {
-                            safeDebugInfo('角色加载失败: ' + e.message);
-                            success = false;
-                        }
-                    }
+                    // 角色加载由导航系统自动处理，不需要手动调用
+                    safeDebugInfo('角色加载系统就绪');
                     
                     if (!success) {
                         safeDebugInfo('部分功能初始化失败，3秒后重试');
@@ -920,10 +859,8 @@
                         initializeFilters();
                         safeDebugInfo('筛选器初始化完成');
                     }
-                    if (typeof loadCharacters === 'function') {
-                        loadCharacters('9');
-                        safeDebugInfo('角色加载完成');
-                    }
+                    // 角色加载由导航系统自动处理，不需要手动调用
+                    safeDebugInfo('角色加载系统就绪');
                 }, 1000);
             }
             
