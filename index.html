@@ -20,10 +20,10 @@
     <meta name="mobile-web-app-capable" content="yes">
     
     <!-- 预加载关键资源 -->
-    <link rel="preload" href="styles.css?v=202508312600" as="style">
-    <link rel="preload" href="script.js?v=202508312600" as="script">
+    <link rel="preload" href="styles.css?v=202508312700" as="style">
+    <link rel="preload" href="script.js?v=202508312700" as="script">
     
-    <link rel="stylesheet" href="styles.css?v=202508312600">
+    <link rel="stylesheet" href="styles.css?v=202508312700">
     <!-- 使用本地图标字体，避免CDN问题 -->
     <!-- 使用国内CDN，提高访问速度 -->
     <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous" referrerpolicy="no-referrer">
@@ -32,7 +32,7 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js?v=202508312600')
+                navigator.serviceWorker.register('./sw.js?v=202508312700')
                     .then((registration) => {
                         console.log('Service Worker registered with scope:', registration.scope);
                         // 安全的调试信息调用
@@ -531,7 +531,7 @@
         <img id="fullscreen-image" class="fullscreen-image" src="" alt="">
     </div>
 
-    <script src="script.js?v=202508312600"></script>
+    <script src="script.js?v=202508312700"></script>
     
     <!-- 智能设备检测和兼容性优化 -->
     <script>

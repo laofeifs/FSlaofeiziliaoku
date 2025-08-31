@@ -60,7 +60,7 @@ var currentGeneration = '9';
 var galleryData = {
     image: 'gallery/超特图鉴.png',
     // 备用图片路径，如果主图片不存在则使用这个
-    fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgdmlld0JveD0iMCAwIDgwMCA2MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjQwMCIgeT0iMjAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iNDgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iMjgwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iMzIwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iMzYwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iNDAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iNDQwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iNDgwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iNTIwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iNTYwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjwvc3ZnPgo=',
+    fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgdmlld0JveD0iMCAwIDgwMCA2MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjQwMCIgeT0iMjAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iNDgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iMjgwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iMzIwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iMzYwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iNDAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iNDQwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iNDgwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iNTIwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iNTYwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjwvc3ZnPgo='
     // 移除备用图片设置
 };
 
@@ -838,57 +838,106 @@ function createCharacterCard(character) {
                     // 添加当前按钮的激活状态
                     this.classList.add('active');
                     
-                    // 显示对应的GIF - 使用简单的GIF加载函数
+                    // 显示对应的GIF - 使用移动端兼容的GIF加载函数
                     var gifUrl = this.getAttribute('data-gif');
                     var actionName = this.querySelector('span').textContent;
                     
                     console.log('🎯 点击动作按钮:', actionName);
                     console.log('🔗 GIF URL:', gifUrl);
+                    console.log('📱 设备信息:', navigator.userAgent);
                     
                     // 清空容器并显示加载提示
                     gifContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #9ca3af;">加载GIF中...</div>';
                     
-                    // 确保GIF容器可见
+                    // 确保GIF容器可见 - 移动端优化
                     gifContainer.style.display = 'block';
                     gifContainer.style.position = 'relative';
-                    gifContainer.style.zIndex = '10';
+                    gifContainer.style.zIndex = '9999'; // 提高层级
                     gifContainer.style.background = '#ffffff';
                     gifContainer.style.border = '1px solid #e5e7eb';
                     gifContainer.style.borderRadius = '8px';
                     gifContainer.style.padding = '10px';
                     gifContainer.style.margin = '10px 0';
+                    gifContainer.style.width = '100%';
+                    gifContainer.style.maxWidth = '100%';
+                    gifContainer.style.overflow = 'visible';
                     
-                    // 直接创建图片元素
+                    // 移动端特殊处理
+                    if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                        console.log('📱 检测到移动设备，应用移动端优化');
+                        gifContainer.style.webkitTransform = 'translateZ(0)'; // 启用硬件加速
+                        gifContainer.style.transform = 'translateZ(0)';
+                        gifContainer.style.webkitBackfaceVisibility = 'hidden';
+                        gifContainer.style.backfaceVisibility = 'hidden';
+                    }
+                    
+                    // 创建图片元素 - 移动端兼容
                     const img = new Image();
                     img.className = 'action-gif';
                     img.style.maxWidth = '100%';
+                    img.style.width = 'auto';
                     img.style.height = 'auto';
                     img.style.display = 'block';
                     img.style.margin = '0 auto';
-                    img.style.zIndex = '11';
+                    img.style.zIndex = '10000'; // 最高层级
+                    img.style.position = 'relative';
+                    img.style.verticalAlign = 'top';
                     img.alt = actionName;
                     
+                    // 移动端图片优化
+                    if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                        img.style.webkitTransform = 'translateZ(0)';
+                        img.style.transform = 'translateZ(0)';
+                        img.style.webkitBackfaceVisibility = 'hidden';
+                        img.style.backfaceVisibility = 'hidden';
+                        img.style.imageRendering = 'auto';
+                        img.style.webkitImageRendering = 'auto';
+                    }
+                    
+                    // 加载成功处理
                     img.onload = function() {
                         console.log('✅ GIF加载成功:', gifUrl);
                         console.log('📏 尺寸:', img.naturalWidth, 'x', img.naturalHeight);
+                        console.log('📱 设备:', navigator.userAgent);
                         
                         // 替换加载提示
                         gifContainer.innerHTML = '';
                         gifContainer.appendChild(img);
-                        gifContainer.innerHTML += '<p class="action-name" style="text-align: center; margin-top: 10px; font-weight: bold; color: #374151;">' + actionName + '</p>';
+                        gifContainer.innerHTML += '<p class="action-name" style="text-align: center; margin-top: 10px; font-weight: bold; color: #374151; font-size: 14px;">' + actionName + '</p>';
                         
-                        // 强制重绘
-                        gifContainer.style.display = 'none';
-                        gifContainer.offsetHeight; // 触发重排
-                        gifContainer.style.display = 'block';
+                        // 移动端强制重绘
+                        if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                            // 触发重绘
+                            gifContainer.style.display = 'none';
+                            gifContainer.offsetHeight;
+                            gifContainer.style.display = 'block';
+                            
+                            // 延迟再次触发，确保显示
+                            setTimeout(() => {
+                                gifContainer.style.opacity = '0.99';
+                                setTimeout(() => {
+                                    gifContainer.style.opacity = '1';
+                                }, 10);
+                            }, 100);
+                        }
                     };
                     
+                    // 加载失败处理
                     img.onerror = function() {
                         console.log('❌ GIF加载失败:', gifUrl);
-                        gifContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #dc3545; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 4px;">GIF加载失败: ' + gifUrl + '</div>';
+                        console.log('📱 设备:', navigator.userAgent);
+                        
+                        // 尝试备用方案
+                        if (!gifUrl.includes('?')) {
+                            console.log('🔄 尝试添加时间戳重试...');
+                            img.src = gifUrl + '?t=' + Date.now();
+                            return;
+                        }
+                        
+                        gifContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #dc3545; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 4px; font-size: 14px;">GIF加载失败<br>设备: ' + navigator.userAgent.substring(0, 50) + '...</div>';
                     };
                     
-                    // 直接设置图片源
+                    // 设置图片源
                     img.src = gifUrl;
                 };
             })(actionButtons[i]);
@@ -1457,57 +1506,106 @@ function loadGifFiles(folder, characterId, card) {
                     // 添加当前按钮的激活状态
                     this.classList.add('active');
                     
-                    // 显示对应的GIF - 使用简单的GIF加载函数
+                    // 显示对应的GIF - 使用移动端兼容的GIF加载函数
                     var gifUrl = this.getAttribute('data-gif');
                     var actionName = this.querySelector('span').textContent;
                     
                     console.log('🎯 点击动作按钮:', actionName);
                     console.log('🔗 GIF URL:', gifUrl);
+                    console.log('📱 设备信息:', navigator.userAgent);
                     
                     // 清空容器并显示加载提示
                     gifContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #9ca3af;">加载GIF中...</div>';
                     
-                    // 确保GIF容器可见
+                    // 确保GIF容器可见 - 移动端优化
                     gifContainer.style.display = 'block';
                     gifContainer.style.position = 'relative';
-                    gifContainer.style.zIndex = '10';
+                    gifContainer.style.zIndex = '9999'; // 提高层级
                     gifContainer.style.background = '#ffffff';
                     gifContainer.style.border = '1px solid #e5e7eb';
                     gifContainer.style.borderRadius = '8px';
                     gifContainer.style.padding = '10px';
                     gifContainer.style.margin = '10px 0';
+                    gifContainer.style.width = '100%';
+                    gifContainer.style.maxWidth = '100%';
+                    gifContainer.style.overflow = 'visible';
                     
-                    // 直接创建图片元素
+                    // 移动端特殊处理
+                    if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                        console.log('📱 检测到移动设备，应用移动端优化');
+                        gifContainer.style.webkitTransform = 'translateZ(0)'; // 启用硬件加速
+                        gifContainer.style.transform = 'translateZ(0)';
+                        gifContainer.style.webkitBackfaceVisibility = 'hidden';
+                        gifContainer.style.backfaceVisibility = 'hidden';
+                    }
+                    
+                    // 创建图片元素 - 移动端兼容
                     const img = new Image();
                     img.className = 'action-gif';
                     img.style.maxWidth = '100%';
+                    img.style.width = 'auto';
                     img.style.height = 'auto';
                     img.style.display = 'block';
                     img.style.margin = '0 auto';
-                    img.style.zIndex = '11';
+                    img.style.zIndex = '10000'; // 最高层级
+                    img.style.position = 'relative';
+                    img.style.verticalAlign = 'top';
                     img.alt = actionName;
                     
+                    // 移动端图片优化
+                    if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                        img.style.webkitTransform = 'translateZ(0)';
+                        img.style.transform = 'translateZ(0)';
+                        img.style.webkitBackfaceVisibility = 'hidden';
+                        img.style.backfaceVisibility = 'hidden';
+                        img.style.imageRendering = 'auto';
+                        img.style.webkitImageRendering = 'auto';
+                    }
+                    
+                    // 加载成功处理
                     img.onload = function() {
                         console.log('✅ GIF加载成功:', gifUrl);
                         console.log('📏 尺寸:', img.naturalWidth, 'x', img.naturalHeight);
+                        console.log('📱 设备:', navigator.userAgent);
                         
                         // 替换加载提示
                         gifContainer.innerHTML = '';
                         gifContainer.appendChild(img);
-                        gifContainer.innerHTML += '<p class="action-name" style="text-align: center; margin-top: 10px; font-weight: bold; color: #374151;">' + actionName + '</p>';
+                        gifContainer.innerHTML += '<p class="action-name" style="text-align: center; margin-top: 10px; font-weight: bold; color: #374151; font-size: 14px;">' + actionName + '</p>';
                         
-                        // 强制重绘
-                        gifContainer.style.display = 'none';
-                        gifContainer.offsetHeight; // 触发重排
-                        gifContainer.style.display = 'block';
+                        // 移动端强制重绘
+                        if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                            // 触发重绘
+                            gifContainer.style.display = 'none';
+                            gifContainer.offsetHeight;
+                            gifContainer.style.display = 'block';
+                            
+                            // 延迟再次触发，确保显示
+                            setTimeout(() => {
+                                gifContainer.style.opacity = '0.99';
+                                setTimeout(() => {
+                                    gifContainer.style.opacity = '1';
+                                }, 10);
+                            }, 100);
+                        }
                     };
                     
+                    // 加载失败处理
                     img.onerror = function() {
                         console.log('❌ GIF加载失败:', gifUrl);
-                        gifContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #dc3545; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 4px;">GIF加载失败: ' + gifUrl + '</div>';
+                        console.log('📱 设备:', navigator.userAgent);
+                        
+                        // 尝试备用方案
+                        if (!gifUrl.includes('?')) {
+                            console.log('🔄 尝试添加时间戳重试...');
+                            img.src = gifUrl + '?t=' + Date.now();
+                            return;
+                        }
+                        
+                        gifContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #dc3545; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 4px; font-size: 14px;">GIF加载失败<br>设备: ' + navigator.userAgent.substring(0, 50) + '...</div>';
                     };
                     
-                    // 直接设置图片源
+                    // 设置图片源
                     img.src = gifUrl;
                 };
             })(actionButtons[i]);
@@ -2569,5 +2667,78 @@ function loadGifDirectly(gifUrl, actionName, container) {
     // 直接使用完整URL
     img.src = gifUrl;
 }
+
+// 移动端兼容性检测和修复函数
+function checkMobileCompatibility() {
+    console.log('🔍 检测移动端兼容性...');
+    
+    const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const isAndroid = /Android/.test(navigator.userAgent);
+    const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
+    
+    console.log('📱 设备信息:', {
+        isMobile: isMobile,
+        isIOS: isIOS,
+        isAndroid: isAndroid,
+        isWeChat: isWeChat,
+        userAgent: navigator.userAgent
+    });
+    
+    // 应用移动端特殊处理
+    if (isMobile) {
+        // 修复iOS Safari的GIF显示问题
+        if (isIOS) {
+            console.log('🍎 检测到iOS设备，应用iOS特殊处理');
+            document.body.style.webkitTransform = 'translateZ(0)';
+            document.body.style.transform = 'translateZ(0)';
+        }
+        
+        // 修复Android Chrome的GIF显示问题
+        if (isAndroid) {
+            console.log('🤖 检测到Android设备，应用Android特殊处理');
+            // 强制启用硬件加速
+            const style = document.createElement('style');
+            style.textContent = `
+                .gif-container, .action-gif {
+                    -webkit-transform: translateZ(0) !important;
+                    transform: translateZ(0) !important;
+                    -webkit-backface-visibility: hidden !important;
+                    backface-visibility: hidden !important;
+                    will-change: transform !important;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        // 修复微信浏览器的GIF显示问题
+        if (isWeChat) {
+            console.log('💬 检测到微信浏览器，应用微信特殊处理');
+            // 微信浏览器特殊处理
+            const style = document.createElement('style');
+            style.textContent = `
+                .gif-container {
+                    z-index: 999999 !important;
+                    position: relative !important;
+                    background: #ffffff !important;
+                }
+                .action-gif {
+                    z-index: 1000000 !important;
+                    position: relative !important;
+                    -webkit-transform: translateZ(0) !important;
+                    transform: translateZ(0) !important;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+    }
+    
+    return { isMobile, isIOS, isAndroid, isWeChat };
+}
+
+// 页面加载时检测兼容性
+document.addEventListener('DOMContentLoaded', function() {
+    checkMobileCompatibility();
+});
 
 

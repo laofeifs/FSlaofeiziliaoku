@@ -740,13 +740,29 @@ html {
     width: 100%;
     display: block !important;
     position: relative;
-    z-index: 10;
+    z-index: 9999 !important;
     background: #ffffff;
     border: 1px solid #e5e7eb;
     border-radius: 8px;
     padding: 10px;
     margin: 10px 0;
     min-height: 100px;
+    max-width: 100%;
+    overflow: visible;
+    box-sizing: border-box;
+}
+
+/* 移动端特殊处理 */
+@media (max-width: 768px) {
+    .gif-container {
+        z-index: 99999 !important;
+        position: relative !important;
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        will-change: transform;
+    }
 }
 
 .gif-container p {
@@ -764,8 +780,46 @@ html {
     object-fit: contain !important; /* 改为contain保持比例 */
     display: block !important;
     margin: 0 auto !important;
-    z-index: 11 !important;
+    z-index: 100000 !important;
     position: relative !important;
+    vertical-align: top;
+    box-sizing: border-box;
+}
+
+/* 移动端图片优化 */
+@media (max-width: 768px) {
+    .action-gif {
+        z-index: 100000 !important;
+        position: relative !important;
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        image-rendering: auto;
+        -webkit-image-rendering: auto;
+        will-change: transform;
+        max-width: 100% !important;
+        width: auto !important;
+        height: auto !important;
+    }
+}
+
+/* iOS Safari 特殊处理 */
+@supports (-webkit-touch-callout: none) {
+    .action-gif {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+    }
+}
+
+/* Android Chrome 特殊处理 */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+    .action-gif {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+    }
 }
 
 .action-name {
