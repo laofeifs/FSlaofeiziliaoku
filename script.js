@@ -2531,4 +2531,709 @@ function openEvent(url) {
     }
 }
 
+// 全面COS诊断和修复函数
+function comprehensiveCOSTest() {
+    console.log('🔍 开始全面COS诊断...');
+    
+    if (typeof addDebugInfo === 'function') {
+        addDebugInfo('开始全面COS诊断');
+    }
+    
+    const testCases = [
+        {
+            name: '基础图片访问',
+            url: COS_CONFIG.Domain + '/gallery/超特图鉴.png',
+            type: 'image'
+        },
+        {
+            name: '角色图片访问',
+            url: COS_CONFIG.Domain + '/characters/9代超特/亚琪亚克.png',
+            type: 'image'
+        },
+        {
+            name: 'GIF文件访问',
+            url: COS_CONFIG.Domain + '/gifs/9代超特/亚琪亚克/A三分.gif',
+            type: 'gif'
+        },
+        {
+            name: '排名图片访问',
+            url: COS_CONFIG.Domain + '/ranking/C排名.png',
+            type: 'image'
+        }
+    ];
+    
+    let results = {
+        total: testCases.length,
+        success: 0,
+        failed: 0,
+        details: []
+    };
+    
+    // 测试每个URL
+    testCases.forEach((testCase, index) => {
+        console.log(`\n📋 测试 ${index + 1}: ${testCase.name}`);
+        console.log(`🔗 URL: ${testCase.url}`);
+        
+        if (typeof addDebugInfo === 'function') {
+            addDebugInfo(`测试 ${index + 1}: ${testCase.name}`);
+        }
+        
+        // 方法1: 使用fetch测试
+        fetch(testCase.url, {
+            method: 'HEAD',
+            mode: 'cors',
+            credentials: 'omit'
+        }).then(response => {
+            console.log(`✅ ${testCase.name} - HTTP状态: ${response.status}`);
+            console.log(`📊 响应头:`, response.headers);
+            
+            if (typeof addDebugInfo === 'function') {
+                addDebugInfo(`${testCase.name} - HTTP状态: ${response.status}`);
+            }
+            
+            if (response.ok) {
+                results.success++;
+                results.details.push({
+                    name: testCase.name,
+                    status: 'success',
+                    httpStatus: response.status,
+                    url: testCase.url
+                });
+            } else {
+                results.failed++;
+                results.details.push({
+                    name: testCase.name,
+                    status: 'failed',
+                    httpStatus: response.status,
+                    url: testCase.url,
+                    error: `HTTP ${response.status}`
+                });
+            }
+        }).catch(error => {
+            console.log(`❌ ${testCase.name} - 网络错误:`, error.message);
+            
+            if (typeof addDebugInfo === 'function') {
+                addDebugInfo(`${testCase.name} - 网络错误: ${error.message}`);
+            }
+            
+            results.failed++;
+            results.details.push({
+                name: testCase.name,
+                status: 'failed',
+                url: testCase.url,
+                error: error.message
+            });
+        });
+        
+        // 方法2: 使用Image对象测试
+        const img = new Image();
+        img.onload = function() {
+            console.log(`✅ ${testCase.name} - 图片加载成功 (${img.naturalWidth}x${img.naturalHeight})`);
+            
+            if (typeof addDebugInfo === 'function') {
+                addDebugInfo(`${testCase.name} - 图片加载成功 (${img.naturalWidth}x${img.naturalHeight})`);
+            }
+        };
+        img.onerror = function() {
+            console.log(`❌ ${testCase.name} - 图片加载失败`);
+            
+            if (typeof addDebugInfo === 'function') {
+                addDebugInfo(`${testCase.name} - 图片加载失败`);
+            }
+        };
+        img.src = testCase.url + '?t=' + Date.now();
+    });
+    
+    // 5秒后输出总结
+    setTimeout(() => {
+        console.log('\n📊 全面COS诊断结果:');
+        console.log(`总计测试: ${results.total}`);
+        console.log(`成功: ${results.success}`);
+        console.log(`失败: ${results.failed}`);
+        console.log('详细结果:', results.details);
+        
+        if (typeof addDebugInfo === 'function') {
+            addDebugInfo(`诊断完成: 成功${results.success}个, 失败${results.failed}个`);
+            
+            // 根据结果提供建议
+            if (results.failed > 0) {
+                addDebugInfo('建议检查:');
+                addDebugInfo('1. 腾讯云COS存储桶权限设置');
+                addDebugInfo('2. 防盗链配置');
+                addDebugInfo('3. 网络连接状态');
+                addDebugInfo('4. 文件是否存在于COS中');
+            }
+        }
+        
+        // 如果大部分失败，尝试备用域名
+        if (results.failed > results.success && COS_CONFIG.BackupDomain) {
+            console.log('🔄 尝试使用备用域名...');
+            if (typeof addDebugInfo === 'function') {
+                addDebugInfo('尝试使用备用域名...');
+            }
+            testBackupDomain();
+        }
+    }, 5000);
+}
+
+// 测试备用域名
+function testBackupDomain() {
+    console.log('🔍 测试备用域名:', COS_CONFIG.BackupDomain);
+    
+    if (typeof addDebugInfo === 'function') {
+        addDebugInfo('测试备用域名: ' + COS_CONFIG.BackupDomain);
+    }
+    
+    const testUrl = COS_CONFIG.BackupDomain + '/gallery/超特图鉴.png';
+    
+    fetch(testUrl, {
+        method: 'HEAD',
+        mode: 'cors',
+        credentials: 'omit'
+    }).then(response => {
+        console.log('✅ 备用域名测试成功:', response.status);
+        
+        if (typeof addDebugInfo === 'function') {
+            addDebugInfo('备用域名测试成功: ' + response.status);
+        }
+        
+        // 如果备用域名可用，建议切换
+        if (response.ok) {
+            console.log('💡 建议切换到备用域名');
+            if (typeof addDebugInfo === 'function') {
+                addDebugInfo('建议切换到备用域名');
+            }
+        }
+    }).catch(error => {
+        console.log('❌ 备用域名测试失败:', error.message);
+        
+        if (typeof addDebugInfo === 'function') {
+            addDebugInfo('备用域名测试失败: ' + error.message);
+        }
+    });
+}
+
+// 清除所有缓存并重新加载
+function clearAllCachesAndReload() {
+    console.log('🧹 清除所有缓存并重新加载...');
+    
+    if (typeof addDebugInfo === 'function') {
+        addDebugInfo('清除所有缓存并重新加载...');
+    }
+    
+    // 清除localStorage和sessionStorage
+    localStorage.clear();
+    sessionStorage.clear();
+    
+    // 清除Service Worker缓存
+    if ('caches' in window) {
+        caches.keys().then(cacheNames => {
+            return Promise.all(
+                cacheNames.map(cacheName => {
+                    console.log('删除缓存:', cacheName);
+                    return caches.delete(cacheName);
+                })
+            );
+        }).then(() => {
+            console.log('所有缓存已清除');
+            
+            if (typeof addDebugInfo === 'function') {
+                addDebugInfo('所有缓存已清除');
+            }
+            
+            // 通知Service Worker清除缓存
+            if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+                navigator.serviceWorker.controller.postMessage({
+                    type: 'CLEAR_CACHE'
+                });
+            }
+            
+            // 强制刷新页面
+            setTimeout(() => {
+                window.location.reload(true);
+            }, 1000);
+        });
+    } else {
+        // 如果没有caches API，直接刷新
+        window.location.reload(true);
+    }
+}
+
+// 详细网络诊断函数
+function detailedNetworkDiagnosis() {
+    console.log('🔍 开始详细网络诊断...');
+    
+    if (typeof addDebugInfo === 'function') {
+        addDebugInfo('开始详细网络诊断');
+    }
+    
+    const diagnosisResults = {
+        dns: null,
+        network: null,
+        cors: null,
+        timing: null,
+        userAgent: navigator.userAgent,
+        platform: navigator.platform,
+        connection: navigator.connection || 'unknown'
+    };
+    
+    // 1. 测试DNS解析和网络连接
+    const testUrl = COS_CONFIG.Domain + '/gallery/超特图鉴.png';
+    const startTime = performance.now();
+    
+    fetch(testUrl, {
+        method: 'HEAD',
+        mode: 'cors',
+        credentials: 'omit',
+        cache: 'no-cache'
+    }).then(response => {
+        const endTime = performance.now();
+        const duration = endTime - startTime;
+        
+        diagnosisResults.network = {
+            status: response.status,
+            statusText: response.statusText,
+            ok: response.ok,
+            duration: duration
+        };
+        
+        // 检查响应头
+        const headers = {};
+        response.headers.forEach((value, key) => {
+            headers[key] = value;
+        });
+        
+        diagnosisResults.cors = {
+            headers: headers,
+            hasCorsHeaders: headers['access-control-allow-origin'] !== undefined
+        };
+        
+        console.log('✅ 网络连接测试成功');
+        console.log('📊 响应时间:', duration.toFixed(2) + 'ms');
+        console.log('📋 响应头:', headers);
+        
+        if (typeof addDebugInfo === 'function') {
+            addDebugInfo(`网络连接成功 - 响应时间: ${duration.toFixed(2)}ms`);
+            addDebugInfo(`HTTP状态: ${response.status} ${response.statusText}`);
+        }
+        
+    }).catch(error => {
+        const endTime = performance.now();
+        const duration = endTime - startTime;
+        
+        diagnosisResults.network = {
+            error: error.message,
+            duration: duration,
+            type: error.name
+        };
+        
+        console.log('❌ 网络连接测试失败:', error);
+        console.log('📊 失败时间:', duration.toFixed(2) + 'ms');
+        
+        if (typeof addDebugInfo === 'function') {
+            addDebugInfo(`网络连接失败: ${error.message}`);
+            addDebugInfo(`错误类型: ${error.name}`);
+        }
+    });
+    
+    // 2. 测试多个图片URL
+    const testUrls = [
+        COS_CONFIG.Domain + '/gallery/超特图鉴.png',
+        COS_CONFIG.Domain + '/ranking/C排名.png',
+        COS_CONFIG.Domain + '/characters/9代超特/亚琪亚克.png',
+        COS_CONFIG.BackupDomain + '/gallery/超特图鉴.png'
+    ];
+    
+    let successCount = 0;
+    let failCount = 0;
+    const timingResults = [];
+    
+    testUrls.forEach((url, index) => {
+        const imgStartTime = performance.now();
+        
+        const img = new Image();
+        img.onload = function() {
+            const imgEndTime = performance.now();
+            const imgDuration = imgEndTime - imgStartTime;
+            
+            successCount++;
+            timingResults.push({
+                url: url,
+                success: true,
+                duration: imgDuration,
+                size: `${img.naturalWidth}x${img.naturalHeight}`
+            });
+            
+            console.log(`✅ 图片${index + 1}加载成功: ${imgDuration.toFixed(2)}ms`);
+            
+            if (typeof addDebugInfo === 'function') {
+                addDebugInfo(`图片${index + 1}成功: ${imgDuration.toFixed(2)}ms`);
+            }
+        };
+        
+        img.onerror = function() {
+            const imgEndTime = performance.now();
+            const imgDuration = imgEndTime - imgStartTime;
+            
+            failCount++;
+            timingResults.push({
+                url: url,
+                success: false,
+                duration: imgDuration,
+                error: 'Image load failed'
+            });
+            
+            console.log(`❌ 图片${index + 1}加载失败: ${imgDuration.toFixed(2)}ms`);
+            
+            if (typeof addDebugInfo === 'function') {
+                addDebugInfo(`图片${index + 1}失败: ${imgDuration.toFixed(2)}ms`);
+            }
+        };
+        
+        img.src = url + '?t=' + Date.now();
+    });
+    
+    // 3. 检查浏览器环境
+    const browserInfo = {
+        userAgent: navigator.userAgent,
+        platform: navigator.platform,
+        language: navigator.language,
+        cookieEnabled: navigator.cookieEnabled,
+        onLine: navigator.onLine,
+        connection: navigator.connection || 'unknown',
+        hardwareConcurrency: navigator.hardwareConcurrency,
+        deviceMemory: navigator.deviceMemory || 'unknown'
+    };
+    
+    console.log('🌐 浏览器环境信息:', browserInfo);
+    
+    if (typeof addDebugInfo === 'function') {
+        addDebugInfo('浏览器环境检查完成');
+        addDebugInfo(`在线状态: ${navigator.onLine ? '在线' : '离线'}`);
+        addDebugInfo(`网络类型: ${browserInfo.connection}`);
+    }
+    
+    // 4. 检查缓存状态
+    if ('caches' in window) {
+        caches.keys().then(cacheNames => {
+            console.log('📦 当前缓存数量:', cacheNames.length);
+            console.log('📦 缓存列表:', cacheNames);
+            
+            if (typeof addDebugInfo === 'function') {
+                addDebugInfo(`缓存数量: ${cacheNames.length}`);
+                cacheNames.forEach(name => {
+                    addDebugInfo(`缓存: ${name}`);
+                });
+            }
+        });
+    }
+    
+    // 5. 检查Service Worker状态
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+            console.log('🔧 Service Worker数量:', registrations.length);
+            
+            if (typeof addDebugInfo === 'function') {
+                addDebugInfo(`Service Worker数量: ${registrations.length}`);
+            }
+            
+            registrations.forEach((registration, index) => {
+                console.log(`🔧 SW${index + 1}状态:`, registration.active ? 'active' : 'inactive');
+                
+                if (typeof addDebugInfo === 'function') {
+                    addDebugInfo(`SW${index + 1}: ${registration.active ? 'active' : 'inactive'}`);
+                }
+            });
+        });
+    }
+    
+    // 6. 延迟输出总结
+    setTimeout(() => {
+        console.log('\n📊 详细网络诊断结果:');
+        console.log('浏览器信息:', browserInfo);
+        console.log('网络测试:', diagnosisResults.network);
+        console.log('CORS信息:', diagnosisResults.cors);
+        console.log('图片加载统计:', { success: successCount, failed: failCount });
+        console.log('详细时间:', timingResults);
+        
+        if (typeof addDebugInfo === 'function') {
+            addDebugInfo('=== 诊断总结 ===');
+            addDebugInfo(`图片加载: 成功${successCount}个, 失败${failCount}个`);
+            
+            if (failCount > successCount) {
+                addDebugInfo('⚠️ 大部分图片加载失败，可能原因:');
+                addDebugInfo('1. 网络连接问题');
+                addDebugInfo('2. DNS解析问题');
+                addDebugInfo('3. 防火墙或代理阻止');
+                addDebugInfo('4. 浏览器缓存问题');
+            } else if (successCount > 0) {
+                addDebugInfo('✅ 部分图片可以加载，可能是特定文件问题');
+            }
+        }
+        
+        // 保存诊断结果到localStorage
+        localStorage.setItem('networkDiagnosis', JSON.stringify({
+            timestamp: new Date().toISOString(),
+            results: diagnosisResults,
+            timing: timingResults,
+            browser: browserInfo
+        }));
+        
+    }, 8000);
+    
+    return diagnosisResults;
+}
+
+// 检查是否是微信浏览器问题
+function checkWeChatIssues() {
+    const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const isAndroid = /Android/.test(navigator.userAgent);
+    
+    console.log('📱 设备检测:', {
+        isWeChat: isWeChat,
+        isIOS: isIOS,
+        isAndroid: isAndroid,
+        userAgent: navigator.userAgent
+    });
+    
+    if (typeof addDebugInfo === 'function') {
+        addDebugInfo(`设备检测: 微信=${isWeChat}, iOS=${isIOS}, Android=${isAndroid}`);
+    }
+    
+    // 微信浏览器特殊处理
+    if (isWeChat) {
+        console.log('🔍 检测到微信浏览器，应用特殊处理...');
+        
+        if (typeof addDebugInfo === 'function') {
+            addDebugInfo('检测到微信浏览器，应用特殊处理');
+        }
+        
+        // 微信浏览器可能需要特殊的时间戳处理
+        const testUrl = COS_CONFIG.Domain + '/gallery/超特图鉴.png?v=' + Date.now() + '&wx=' + Math.random();
+        
+        const img = new Image();
+        img.onload = function() {
+            console.log('✅ 微信浏览器图片加载成功');
+            if (typeof addDebugInfo === 'function') {
+                addDebugInfo('微信浏览器图片加载成功');
+            }
+        };
+        img.onerror = function() {
+            console.log('❌ 微信浏览器图片加载失败');
+            if (typeof addDebugInfo === 'function') {
+                addDebugInfo('微信浏览器图片加载失败');
+            }
+        };
+        img.src = testUrl;
+    }
+}
+
+// 微信浏览器图片加载优化
+function optimizeForWeChat() {
+    const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
+    
+    if (!isWeChat) {
+        console.log('非微信浏览器，跳过微信优化');
+        return;
+    }
+    
+    console.log('🔧 应用微信浏览器优化...');
+    
+    if (typeof addDebugInfo === 'function') {
+        addDebugInfo('应用微信浏览器优化');
+    }
+    
+    // 1. 修改图片加载策略
+    const originalCreateRobustImage = window.createRobustImage;
+    
+    window.createRobustImage = function(src, alt, options) {
+        const weChatOptions = {
+            ...options,
+            // 微信浏览器特殊参数
+            enableCacheBusting: true,
+            enableImageCompression: false, // 微信浏览器可能不支持某些压缩参数
+            retryDelay: 3000, // 增加重试延迟
+            maxRetries: 3
+        };
+        
+        // 添加微信特殊的时间戳
+        let imageUrl = src;
+        if (!src.startsWith('http')) {
+            imageUrl = COS_CONFIG.Domain + '/' + src;
+        }
+        
+        // 微信浏览器特殊处理
+        const separator = imageUrl.includes('?') ? '&' : '?';
+        imageUrl += separator + 'wx=' + Date.now() + '&r=' + Math.random();
+        
+        console.log('🔧 微信优化图片URL:', imageUrl);
+        
+        if (typeof addDebugInfo === 'function') {
+            addDebugInfo('微信优化图片URL: ' + imageUrl);
+        }
+        
+        const img = new Image();
+        img.alt = alt || '';
+        img.style.maxWidth = '100%';
+        img.style.height = 'auto';
+        
+        // 微信浏览器特殊错误处理
+        img.onerror = function() {
+            console.log('❌ 微信浏览器图片加载失败:', imageUrl);
+            
+            if (typeof addDebugInfo === 'function') {
+                addDebugInfo('微信浏览器图片加载失败: ' + imageUrl);
+            }
+            
+            // 尝试备用域名
+            if (COS_CONFIG.BackupDomain) {
+                const backupUrl = imageUrl.replace(COS_CONFIG.Domain, COS_CONFIG.BackupDomain);
+                console.log('🔄 尝试微信备用域名:', backupUrl);
+                
+                if (typeof addDebugInfo === 'function') {
+                    addDebugInfo('尝试微信备用域名: ' + backupUrl);
+                }
+                
+                img.src = backupUrl;
+            } else {
+                // 显示错误占位符
+                img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7mnKzlm748L3RleHQ+Cjx0ZXh0IHg9IjEwMCIgeT0iMTIwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjwvc3ZnPgo=';
+            }
+        };
+        
+        img.onload = function() {
+            console.log('✅ 微信浏览器图片加载成功:', imageUrl);
+            
+            if (typeof addDebugInfo === 'function') {
+                addDebugInfo('微信浏览器图片加载成功: ' + imageUrl);
+            }
+        };
+        
+        img.src = imageUrl;
+        return img;
+    };
+    
+    // 2. 微信JS-SDK准备
+    document.addEventListener('WeixinJSBridgeReady', function() {
+        console.log('🔧 微信JS-SDK准备就绪');
+        
+        if (typeof addDebugInfo === 'function') {
+            addDebugInfo('微信JS-SDK准备就绪');
+        }
+        
+        if (typeof WeixinJSBridge !== 'undefined') {
+            // 隐藏微信菜单，避免干扰
+            WeixinJSBridge.call('hideOptionMenu');
+            
+            // 设置页面标题
+            WeixinJSBridge.call('setDocumentTitle', '老非FS资料库');
+        }
+    });
+    
+    // 3. 微信浏览器特殊样式
+    const style = document.createElement('style');
+    style.textContent = `
+        /* 微信浏览器特殊样式 */
+        .wechat-browser img {
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .wechat-browser .gallery-grid img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        /* 微信浏览器滚动优化 */
+        .wechat-browser {
+            -webkit-overflow-scrolling: touch;
+        }
+    `;
+    document.head.appendChild(style);
+    document.body.classList.add('wechat-browser');
+    
+    // 4. 微信浏览器网络状态监听
+    window.addEventListener('online', function() {
+        console.log('🌐 微信浏览器网络连接恢复');
+        
+        if (typeof addDebugInfo === 'function') {
+            addDebugInfo('微信浏览器网络连接恢复');
+        }
+        
+        // 重新加载图片
+        setTimeout(() => {
+            const images = document.querySelectorAll('img[src*="cos.ap-nanjing.myqcloud.com"]');
+            images.forEach(img => {
+                const originalSrc = img.src;
+                img.src = originalSrc + (originalSrc.includes('?') ? '&' : '?') + 'reload=' + Date.now();
+            });
+        }, 1000);
+    });
+    
+    window.addEventListener('offline', function() {
+        console.log('❌ 微信浏览器网络连接断开');
+        
+        if (typeof addDebugInfo === 'function') {
+            addDebugInfo('微信浏览器网络连接断开');
+        }
+    });
+    
+    console.log('✅ 微信浏览器优化完成');
+    
+    if (typeof addDebugInfo === 'function') {
+        addDebugInfo('微信浏览器优化完成');
+    }
+}
+
+// 强制刷新微信浏览器缓存
+function forceWeChatRefresh() {
+    const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
+    
+    if (!isWeChat) {
+        console.log('非微信浏览器，跳过微信刷新');
+        return;
+    }
+    
+    console.log('🔄 强制刷新微信浏览器缓存...');
+    
+    if (typeof addDebugInfo === 'function') {
+        addDebugInfo('强制刷新微信浏览器缓存');
+    }
+    
+    // 1. 清除所有缓存
+    localStorage.clear();
+    sessionStorage.clear();
+    
+    // 2. 清除Service Worker缓存
+    if ('caches' in window) {
+        caches.keys().then(cacheNames => {
+            return Promise.all(
+                cacheNames.map(cacheName => {
+                    console.log('删除微信缓存:', cacheName);
+                    return caches.delete(cacheName);
+                })
+            );
+        }).then(() => {
+            console.log('微信缓存清除完成');
+            
+            if (typeof addDebugInfo === 'function') {
+                addDebugInfo('微信缓存清除完成');
+            }
+        });
+    }
+    
+    // 3. 微信特殊刷新
+    if (typeof WeixinJSBridge !== 'undefined') {
+        WeixinJSBridge.call('reloadPage');
+    } else {
+        // 延迟刷新，确保缓存清除完成
+        setTimeout(() => {
+            window.location.reload(true);
+        }, 2000);
+    }
+}
+
 
