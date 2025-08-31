@@ -15,9 +15,15 @@
 ```
 老非FS资料库/
 ├── index.html          # 主页面
+├── script.js           # 主要JavaScript文件
 ├── styles.css          # 样式文件
-├── script.js           # JavaScript功能
-└── README.md           # 项目说明
+├── sw.js               # Service Worker
+├── version.txt         # 版本号
+├── README.md           # 项目说明
+└── tools_and_backups/  # 工具和备份文件夹（不上传）
+    ├── backup_*/                # 备份文件夹
+    ├── script-ios.js           # 旧版本脚本
+    └── README.md               # 工具说明
 ```
 
 ## 快速开始

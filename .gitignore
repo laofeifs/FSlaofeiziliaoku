@@ -1,0 +1,32 @@
+# 工具和备份文件夹
+tools_and_backups/
+
+# macOS系统文件
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# 临时文件
+*.tmp
+*.temp
+*.log
+
+# 编辑器文件
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 备份文件
+*.bak
+*.backup
+backup_*/
+
+# 旧版本文件
+script-ios.js
+script-old.js

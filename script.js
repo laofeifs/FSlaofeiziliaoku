@@ -19,8 +19,7 @@ var galleryData = {
     image: 'gallery/超特图鉴.png',
     // 备用图片路径，如果主图片不存在则使用这个
     fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgdmlld0JveD0iMCAwIDgwMCA2MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjQwMCIgeT0iMjAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iNDgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iMjgwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iMzIwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iMzYwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iNDAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iNDQwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iNDgwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iNTIwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iNTYwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjwvc3ZnPgo=',
-    // 临时使用备用图片，直到COS权限问题解决
-    useFallback: true
+    // 移除备用图片设置
 };
 
 // 角色数据示例（你可以根据实际情况修改）
@@ -793,18 +792,13 @@ function createGalleryCard() {
     const imageUrlWithTimestamp = imageUrl ? `${imageUrl}?t=${Date.now()}` : '';
     console.log('带时间戳的图鉴图片URL:', imageUrlWithTimestamp);
     
-    // 临时使用备用图片，直到COS权限问题解决
-    const finalImageUrl = galleryData.useFallback ? galleryData.fallbackImage : imageUrlWithTimestamp;
-    console.log('最终图鉴图片URL:', finalImageUrl);
-    
     card.innerHTML = `
         <div class="gallery-image-full">
-            ${finalImageUrl ? `<img src="${finalImageUrl}" alt="超特图鉴" style="width: 100%; height: auto; object-fit: contain;" onerror="handleGalleryImageError(this, '超特图鉴')" onload="handleImageLoad(this, '超特图鉴')">` : '暂无图片'}
+            ${imageUrlWithTimestamp ? `<img src="${imageUrlWithTimestamp}" alt="超特图鉴" style="width: 100%; height: auto; object-fit: contain;" onerror="handleGalleryImageError(this, '超特图鉴')" onload="handleImageLoad(this, '超特图鉴')">` : '暂无图片'}
         </div>
         <div class="gallery-info">
             <h3 class="gallery-name">超特图鉴</h3>
             <p class="gallery-generation">所有代数角色一览</p>
-            ${galleryData.useFallback ? '<p style="color: #ff6b6b; font-size: 12px;">⚠️ 使用备用图片（COS权限问题）</p>' : ''}
         </div>
     `;
     
@@ -866,15 +860,14 @@ function handleImageError(img, characterName) {
         }, 1000);
     }
     
-    // 显示COS诊断提示
-    showCOSDiagnosticTip(characterName, img.src);
+    // 移除COS诊断提示
     
     // 设置默认图片
     img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7mnKzlm748L3RleHQ+Cjx0ZXh0IHg9IjEwMCIgeT0iMTIwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjwvc3ZnPgo=';
     img.alt = characterName + ' (图片加载失败)';
 }
 
-// 图鉴图片错误处理（特殊处理）
+// 图鉴图片错误处理（简化版）
 function handleGalleryImageError(img, characterName) {
     console.log('❌ ' + characterName + ' 图鉴图片加载失败');
     console.log('失败URL: ' + img.src);
@@ -888,101 +881,13 @@ function handleGalleryImageError(img, characterName) {
         return;
     }
     
-    // 如果备用域名也失败，尝试使用备用图片
-    if (galleryData.fallbackImage) {
-        console.log('尝试使用备用图片');
-        img.src = galleryData.fallbackImage;
-        img.alt = characterName + ' (备用图片)';
-        return;
-    }
-    
-    // 如果没有备用图片，使用默认错误处理
+    // 使用默认错误处理
     handleImageError(img, characterName);
 }
 
-// 显示COS诊断提示
-function showCOSDiagnosticTip(characterName, failedUrl) {
-    // 避免重复显示
-    if (document.getElementById('cos-diagnostic-tip')) {
-        return;
-    }
-    
-    var tipHtml = `
-        <div style="margin-bottom:15px;font-weight:bold;text-align:center;">🔧 COS图片加载问题诊断</div>
-        <div style="text-align:left;margin-bottom:15px;">
-            <div style="margin-bottom:10px;"><strong>问题详情：</strong></div>
-            <div style="font-size:12px;margin-bottom:8px;">• 角色：${characterName}</div>
-            <div style="font-size:12px;margin-bottom:8px;">• 失败URL：${failedUrl}</div>
-            <div style="font-size:12px;margin-bottom:8px;">• COS域名：${COS_CONFIG.Domain}</div>
-        </div>
-        <div style="text-align:left;margin-bottom:15px;">
-            <div style="margin-bottom:10px;"><strong>可能原因：</strong></div>
-            <div style="font-size:12px;margin-bottom:8px;">• 文件不存在或路径错误</div>
-            <div style="font-size:12px;margin-bottom:8px;">• COS存储桶权限问题</div>
-            <div style="font-size:12px;margin-bottom:8px;">• 网络连接问题</div>
-        </div>
-        <div style="text-align:center;">
-            <button onclick="openCOSDiagnostic()" style="background:#007bff;color:white;border:none;padding:8px 16px;border-radius:4px;cursor:pointer;font-size:14px;margin-right:10px;">详细诊断</button>
-            <button onclick="this.parentElement.parentElement.remove()" style="background:#6c757d;color:white;border:none;padding:8px 16px;border-radius:4px;cursor:pointer;font-size:14px;">关闭</button>
-        </div>
-    `;
-    
-    var tipDiv = document.createElement('div');
-    tipDiv.id = 'cos-diagnostic-tip';
-    tipDiv.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.95);color:white;padding:20px;border-radius:8px;font-size:14px;z-index:10001;min-width:400px;max-width:600px;';
-    tipDiv.innerHTML = tipHtml;
-    document.body.appendChild(tipDiv);
-    
-    // 5秒后自动关闭
-    setTimeout(function() {
-        if (tipDiv.parentNode) {
-            tipDiv.parentNode.removeChild(tipDiv);
-        }
-    }, 5000);
-}
+// 移除COS诊断相关函数
 
-// 打开COS诊断工具
-function openCOSDiagnostic() {
-    window.open('cos-diagnostic.html', '_blank');
-}
-
-// 快速测试COS配置
-function testCOSConfig() {
-    console.log('=== COS配置测试 ===');
-    console.log('COS_CONFIG:', COS_CONFIG);
-    console.log('主域名:', COS_CONFIG.Domain);
-    console.log('备用域名:', COS_CONFIG.BackupDomain);
-    
-    // 测试图鉴图片URL构建
-    const testImagePath = 'gallery/超特图鉴.png';
-    const testUrl = `${COS_CONFIG.Domain}/${testImagePath}`;
-    console.log('测试图鉴URL:', testUrl);
-    
-    // 测试角色图片URL构建
-    const testCharacterPath = 'characters/1代超特/小芸.png';
-    const testCharacterUrl = `${COS_CONFIG.Domain}/${testCharacterPath}`;
-    console.log('测试角色URL:', testCharacterUrl);
-    
-    // 检查URL格式
-    console.log('图鉴URL是否以https开头:', testUrl.startsWith('https://'));
-    console.log('角色URL是否以https开头:', testCharacterUrl.startsWith('https://'));
-    
-    return {
-        config: COS_CONFIG,
-        testUrls: {
-            gallery: testUrl,
-            character: testCharacterUrl
-        }
-    };
-}
-
-// 页面加载时自动测试COS配置
-window.addEventListener('load', function() {
-    setTimeout(function() {
-        console.log('页面加载完成，开始COS配置测试...');
-        testCOSConfig();
-    }, 1000);
-});
+// 移除COS配置测试函数
 
 // 禁用下拉刷新
 function preventPullToRefresh() {
@@ -1017,33 +922,7 @@ function preventPullToRefresh() {
 
 
 
-// 显示COS帮助信息
-function showCOSHelp() {
-    var helpHtml = `
-        <div style="margin-bottom:15px;font-weight:bold;text-align:center;">🔧 COS 451错误解决方案</div>
-        <div style="text-align:left;margin-bottom:15px;">
-            <div style="margin-bottom:10px;"><strong>问题原因：</strong></div>
-            <div style="font-size:12px;margin-bottom:8px;">• COS存储桶访问权限受限</div>
-            <div style="font-size:12px;margin-bottom:8px;">• 文件可能被设置为私有</div>
-            <div style="font-size:12px;margin-bottom:8px;">• 存储桶配置问题</div>
-        </div>
-        <div style="text-align:left;margin-bottom:15px;">
-            <div style="margin-bottom:10px;"><strong>解决步骤：</strong></div>
-            <div style="font-size:12px;margin-bottom:8px;">1. 登录腾讯云控制台</div>
-            <div style="font-size:12px;margin-bottom:8px;">2. 进入COS存储桶管理</div>
-            <div style="font-size:12px;margin-bottom:8px;">3. 检查存储桶权限设置</div>
-            <div style="font-size:12px;margin-bottom:8px;">4. 确保文件为公开读取</div>
-        </div>
-        <div style="text-align:center;">
-            <button onclick="this.parentElement.parentElement.remove()" style="background:#22c55e;color:white;border:none;padding:8px 16px;border-radius:4px;cursor:pointer;font-size:14px;">知道了</button>
-        </div>
-    `;
-    
-    var helpDiv = document.createElement('div');
-    helpDiv.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.95);color:white;padding:20px;border-radius:8px;font-size:14px;z-index:10001;min-width:350px;max-width:500px;';
-    helpDiv.innerHTML = helpHtml;
-    document.body.appendChild(helpDiv);
-}
+// 移除COS帮助信息函数
 
 // 从腾讯云COS获取文件列表（示例函数）
 async function getCOSFileList(prefix = '') {
