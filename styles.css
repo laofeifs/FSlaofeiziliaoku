@@ -738,6 +738,31 @@ html {
 .gif-container {
     text-align: center;
     width: 100%;
+    display: block !important;
+    position: relative;
+    z-index: 9999 !important;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px 0;
+    min-height: 100px;
+    max-width: 100%;
+    overflow: visible;
+    box-sizing: border-box;
+}
+
+/* 移动端特殊处理 */
+@media (max-width: 768px) {
+    .gif-container {
+        z-index: 99999 !important;
+        position: relative !important;
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        will-change: transform;
+    }
 }
 
 .gif-container p {
@@ -753,6 +778,155 @@ html {
     border-radius: 6px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     object-fit: contain !important; /* 改为contain保持比例 */
+    display: block !important;
+    margin: 0 auto !important;
+    z-index: 100000 !important;
+    position: relative !important;
+    vertical-align: top;
+    box-sizing: border-box;
+}
+
+/* 移动端图片优化 */
+@media (max-width: 768px) {
+    .action-gif {
+        z-index: 100000 !important;
+        position: relative !important;
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        image-rendering: auto;
+        -webkit-image-rendering: auto;
+        will-change: transform;
+        max-width: 100% !important;
+        width: auto !important;
+        height: auto !important;
+    }
+}
+
+/* iOS Safari 特殊处理 */
+@supports (-webkit-touch-callout: none) {
+    .action-gif {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+    }
+}
+
+/* Android Chrome 特殊处理 */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+    .action-gif {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+    }
+}
+
+/* 活动卡片样式 */
+.events-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.event-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid #e5e7eb;
+}
+
+.event-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.event-banner {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+    position: relative;
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+}
+
+.event-banner-content {
+    color: white;
+    width: 100%;
+}
+
+.event-banner-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.event-banner-subtitle {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin-bottom: 12px;
+}
+
+.event-tag {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+}
+
+.event-info {
+    padding: 20px;
+}
+
+.event-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #1f2937;
+    margin-bottom: 8px;
+}
+
+.event-desc {
+    color: #6b7280;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .event-card {
+        margin: 0 10px;
+    }
+    
+    .event-banner {
+        padding: 15px;
+        min-height: 100px;
+    }
+    
+    .event-banner-title {
+        font-size: 1.3rem;
+    }
+    
+    .event-banner-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .event-info {
+        padding: 15px;
+    }
+    
+    .event-title {
+        font-size: 1.1rem;
+    }
 }
 
 .action-name {
@@ -1450,7 +1624,7 @@ html {
     }
     
     .main-title {
-        font-size: 2.2rem; /* 小屏幕也适当放大 */
+        font-size: 2.5rem; /* 从2.2rem增加到2.5rem */
     }
     
     .filter-buttons {
@@ -1463,17 +1637,17 @@ html {
     }
     
     .nav-btn {
-        padding: 12px 6px; /* 增加内边距 */
-        font-size: 0.9rem; /* 放大字体 */
+        padding: 14px 8px; /* 增加内边距 */
+        font-size: 1rem; /* 从0.9rem增加到1rem */
     }
     
     .nav-btn i {
-        font-size: 1rem; /* 放大图标 */
+        font-size: 1.1rem; /* 从1rem增加到1.1rem */
     }
     
     /* 移动端刷新提示优化 */
     .refresh-tip-header {
-        font-size: 0.8rem;
+        font-size: 0.9rem; /* 从0.8rem增加到0.9rem */
         padding: 6px 12px;
         margin-top: 12px;
     }

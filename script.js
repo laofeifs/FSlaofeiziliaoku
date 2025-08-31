@@ -1,14 +1,56 @@
-// 腾讯云COS配置
+// 腾讯云COS配置 - 使用公共访问域名
 var COS_CONFIG = {
-    // 这里需要你填入你的腾讯云COS配置信息
-    SecretId: 'YOUR_SECRET_ID',
-    SecretKey: 'YOUR_SECRET_KEY',
+    // 使用公共访问域名，不需要SecretId和SecretKey
     Bucket: 'laofei-1259209256',
     Region: 'ap-nanjing', // 南京地域
     // COS访问域名，使用新存储桶域名
     Domain: 'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com',
     // 备用域名，如果主域名有问题
-    BackupDomain: 'https://laofei-1259209256.cos-website.ap-nanjing.myqcloud.com'
+    BackupDomain: 'https://laofei-1259209256.cos-website.ap-nanjing.myqcloud.com',
+    // 添加更多备用域名
+    FallbackDomains: [
+        'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com',
+        'https://laofei-1259209256.cos-website.ap-nanjing.myqcloud.com',
+        'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com'
+    ]
+};
+
+// 移动端图片加载优化配置
+var MOBILE_IMAGE_CONFIG = {
+    // 移动端图片加载重试次数
+    maxRetries: 3,
+    // 重试间隔（毫秒）
+    retryDelay: 1000,
+    // 移动端图片加载超时时间
+    timeout: 10000,
+    // 是否启用移动端特殊处理
+    enableMobileOptimization: true,
+    // 移动端图片压缩参数
+    mobileImageParams: '?imageView2/2/w/800/format/webp',
+    // 备用图片格式
+    fallbackFormats: ['webp', 'jpg', 'png']
+};
+
+// 图片加载诊断和修复配置
+var IMAGE_LOAD_CONFIG = {
+    // 启用详细诊断
+    enableDiagnostics: true,
+    // 启用自动修复
+    enableAutoFix: true,
+    // 最大重试次数
+    maxRetries: 5,
+    // 重试间隔（毫秒）
+    retryDelay: 2000,
+    // 超时时间
+    timeout: 15000,
+    // 启用备用域名
+    enableFallbackDomains: true,
+    // 启用图片压缩
+    enableImageCompression: true,
+    // 压缩参数
+    compressionParams: '?imageView2/2/w/800/format/webp',
+    // 启用缓存破坏
+    enableCacheBusting: true
 };
 
 // 当前选中的代次
@@ -18,7 +60,7 @@ var currentGeneration = '9';
 var galleryData = {
     image: 'gallery/超特图鉴.png',
     // 备用图片路径，如果主图片不存在则使用这个
-    fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgdmlld0JveD0iMCAwIDgwMCA2MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjQwMCIgeT0iMjAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iNDgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iMjgwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iMzIwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iMzYwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iNDAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iNDQwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iNDgwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iNTIwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iNTYwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjwvc3ZnPgo=',
+    fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgdmlld0JveD0iMCAwIDgwMCA2MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjQwMCIgeT0iMjAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iNDgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iMjgwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iMzIwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iMzYwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iNDAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iNDQwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iNDgwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iNTIwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iNTYwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjwvc3ZnPgo='
     // 移除备用图片设置
 };
 
@@ -286,33 +328,7 @@ var charactersData = {
             generation: '9代超特',
             description: '九代超特角色，共用一套动作',
             image: 'characters/9代超特/亚琪亚克.png',
-            actions: [
-                { name: '不看人传球', gif: 'gifs/9代超特/亚琪亚克/不看人传球.gif' },
-                { name: '大手冒', gif: 'gifs/9代超特/亚琪亚克/大手冒.gif' },
-                { name: '地板', gif: 'gifs/9代超特/亚琪亚克/地板.gif' },
-                { name: '快速起来', gif: 'gifs/9代超特/亚琪亚克/快速起来.gif' },
-                { name: '篮板', gif: 'gifs/9代超特/亚琪亚克/篮板.gif' },
-                { name: '抢断', gif: 'gifs/9代超特/亚琪亚克/抢断.gif' },
-                { name: '小手冒', gif: 'gifs/9代超特/亚琪亚克/小手冒.gif' },
-                { name: '中手冒', gif: 'gifs/9代超特/亚琪亚克/中手冒.gif' },
-                { name: 'A分球', gif: 'gifs/9代超特/亚琪亚克/A分球.gif' },
-                { name: 'A近扣', gif: 'gifs/9代超特/亚琪亚克/A近扣.gif' },
-                { name: 'A近上', gif: 'gifs/9代超特/亚琪亚克/A近上.gif' },
-                { name: 'A篮板', gif: 'gifs/9代超特/亚琪亚克/A篮板.gif' },
-                { name: 'A三分', gif: 'gifs/9代超特/亚琪亚克/A三分.gif' },
-                { name: 'A远扣', gif: 'gifs/9代超特/亚琪亚克/A远扣.gif' },
-                { name: 'A远上', gif: 'gifs/9代超特/亚琪亚克/A远上.gif' },
-                { name: 'A中投', gif: 'gifs/9代超特/亚琪亚克/A中投.gif' },
-                { name: 'B分球', gif: 'gifs/9代超特/亚琪亚克/B分球.gif' },
-                { name: 'B近扣', gif: 'gifs/9代超特/亚琪亚克/B近扣.gif' },
-                { name: 'B近上', gif: 'gifs/9代超特/亚琪亚克/B近上.gif' },
-                { name: 'B篮板', gif: 'gifs/9代超特/亚琪亚克/B篮板.gif' },
-                { name: 'B三分', gif: 'gifs/9代超特/亚琪亚克/B三分.gif' },
-                { name: 'B远扣', gif: 'gifs/9代超特/亚琪亚克/B远扣.gif' },
-                { name: 'B远上', gif: 'gifs/9代超特/亚琪亚克/B远上.gif' },
-                { name: 'B中投', gif: 'gifs/9代超特/亚琪亚克/B中投.gif' },
-                { name: 'X', gif: 'gifs/9代超特/亚琪亚克/X.gif' }
-            ]
+            gifFolder: 'gifs/9代超特/亚琪亚克/'
         },
         {
             id: '9_2',
@@ -320,30 +336,7 @@ var charactersData = {
             generation: '9代超特',
             description: '九代超特角色',
             image: 'characters/9代超特/罗卡.png',
-            actions: [
-                { name: '不看人传球', gif: 'gifs/9代超特/罗卡/不看人传球.gif' },
-                { name: '大手冒', gif: 'gifs/9代超特/罗卡/大手冒.gif' },
-                { name: '地板', gif: 'gifs/9代超特/罗卡/地板.gif' },
-                { name: '小手冒', gif: 'gifs/9代超特/罗卡/小手冒.gif' },
-                { name: '中手冒', gif: 'gifs/9代超特/罗卡/中手冒.gif' },
-                { name: 'A分球', gif: 'gifs/9代超特/罗卡/A分球.gif' },
-                { name: 'A近扣', gif: 'gifs/9代超特/罗卡/A近扣.gif' },
-                { name: 'A近上', gif: 'gifs/9代超特/罗卡/A近上.gif' },
-                { name: 'A篮板', gif: 'gifs/9代超特/罗卡/A篮板.gif' },
-                { name: 'A三分', gif: 'gifs/9代超特/罗卡/A三分.gif' },
-                { name: 'A远扣', gif: 'gifs/9代超特/罗卡/A远扣.gif' },
-                { name: 'A远上', gif: 'gifs/9代超特/罗卡/A远上.gif' },
-                { name: 'A中投', gif: 'gifs/9代超特/罗卡/A中投.gif' },
-                { name: 'B分球', gif: 'gifs/9代超特/罗卡/B分球.gif' },
-                { name: 'B近扣', gif: 'gifs/9代超特/罗卡/B近扣.gif' },
-                { name: 'B近上', gif: 'gifs/9代超特/罗卡/B近上.gif' },
-                { name: 'B篮板', gif: 'gifs/9代超特/罗卡/B篮板.gif' },
-                { name: 'B三分', gif: 'gifs/9代超特/罗卡/B三分.gif' },
-                { name: 'B远扣', gif: 'gifs/9代超特/罗卡/B远扣.gif' },
-                { name: 'B远上', gif: 'gifs/9代超特/罗卡/B远上.gif' },
-                { name: 'B中投', gif: 'gifs/9代超特/罗卡/B中投.gif' },
-                { name: 'X', gif: 'gifs/9代超特/罗卡/X.gif' }
-            ]
+            gifFolder: 'gifs/9代超特/罗卡/'
         }
     ],
     '8': [
@@ -526,6 +519,29 @@ document.addEventListener('DOMContentLoaded', function() {
         // 初始化职业排名功能
         initializeRanking();
         
+        // 移动端图片预加载
+        if (isMobile()) {
+            console.log('6. 移动端图片预加载');
+            preloadMobileImages([
+                COS_CONFIG.Domain + '/gallery/超特图鉴.png',
+                COS_CONFIG.Domain + '/ranking/C排名.png',
+                COS_CONFIG.Domain + '/ranking/PF排名.png',
+                COS_CONFIG.Domain + '/ranking/PG排名.png'
+            ]);
+        }
+        
+        // 启动图片加载诊断
+        console.log('7. 启动图片加载诊断');
+        setTimeout(() => {
+            diagnoseImageLoading();
+        }, 2000);
+        
+        // 启动COS连接测试
+        console.log('8. 启动COS连接测试');
+        setTimeout(() => {
+            testCOSBucketAccess();
+        }, 3000);
+        
         console.log('页面功能初始化完成');
         
         // iOS设备特殊检查
@@ -551,10 +567,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // 初始化主导航
 function initializeNavigation() {
+    console.log('初始化导航按钮');
     var navButtons = document.querySelectorAll('.nav-btn');
+    console.log('找到导航按钮数量:', navButtons.length);
     
     for (var i = 0; i < navButtons.length; i++) {
         navButtons[i].addEventListener('click', function() {
+            console.log('导航按钮被点击:', this.textContent.trim());
+            
             // 移除所有活动状态
             for (var j = 0; j < navButtons.length; j++) {
                 navButtons[j].classList.remove('active');
@@ -564,11 +584,13 @@ function initializeNavigation() {
             
             // 切换内容区域
             var section = this.getAttribute('data-section');
+            console.log('切换到的区域:', section);
             
             // 正常切换内容区域
             switchSection(section);
         });
     }
+    console.log('导航按钮初始化完成');
 }
 
 // 初始化筛选按钮
@@ -594,24 +616,42 @@ function initializeFilters() {
 
 // 切换内容区域
 function switchSection(sectionName) {
+    console.log('切换内容区域:', sectionName);
+    
     // 隐藏所有内容区域
     const sections = document.querySelectorAll('.content-section');
-    sections.forEach(section => section.classList.remove('active'));
+    console.log('找到内容区域数量:', sections.length);
+    sections.forEach(section => {
+        section.classList.remove('active');
+        console.log('隐藏区域:', section.id);
+    });
     
     // 显示选中的内容区域
     const targetSection = document.getElementById(sectionName + '-section');
+    console.log('目标区域ID:', sectionName + '-section');
+    console.log('找到目标区域:', targetSection);
+    
     if (targetSection) {
         targetSection.classList.add('active');
+        console.log('激活区域:', targetSection.id);
+    } else {
+        console.error('找不到目标区域:', sectionName + '-section');
     }
     
     // 控制筛选按钮的显示/隐藏
     const filterContainer = document.querySelector('.filter-container');
     if (sectionName === 'characters') {
         // 只在"超特动作"页面显示筛选按钮
-        filterContainer.style.display = 'block';
+        if (filterContainer) {
+            filterContainer.style.display = 'block';
+            console.log('显示筛选按钮');
+        }
     } else {
         // 其他页面隐藏筛选按钮
-        filterContainer.style.display = 'none';
+        if (filterContainer) {
+            filterContainer.style.display = 'none';
+            console.log('隐藏筛选按钮');
+        }
     }
 }
 
@@ -660,43 +700,10 @@ function createCharacterCard(character) {
     const card = document.createElement('div');
     card.className = 'character-card';
     
-    // 构建图片URL（使用腾讯云COS，添加时间戳避免缓存）
-    var imageUrl = '';
-    if (character.image) {
-        imageUrl = COS_CONFIG.Domain + '/' + character.image;
-        console.log('角色图片URL:', imageUrl);
-        
-        // 所有设备都添加时间戳避免缓存问题
-        imageUrl += '?t=' + new Date().getTime();
-        console.log('添加时间戳后的URL:', imageUrl);
-    } else {
-        console.warn('角色没有图片路径:', character.name);
-    }
-    
     // 构建动作按钮HTML
     let actionsHtml = '';
-    if (character.actions && character.actions.length > 0) {
-        // 9代超特使用预设动作列表
-        actionsHtml = `
-            <div class="character-actions">
-                <h4>动作技能</h4>
-                <div class="action-buttons">
-                    ${character.actions.map(action => `
-                        <button class="action-btn" data-gif="${COS_CONFIG.Domain}/${action.gif}">
-                            <i class="fas fa-play"></i>
-                            <span>${action.name}</span>
-                        </button>
-                    `).join('')}
-                </div>
-                <div class="action-preview">
-                    <div class="gif-container" id="gif-${character.id}">
-                        <p>点击上方动作按钮查看GIF</p>
-                    </div>
-                </div>
-            </div>
-        `;
-    } else if (character.gifFolder) {
-        // 8代超特使用动态读取GIF文件
+    if (character.gifFolder) {
+        // 所有代次都使用动态读取GIF文件
         actionsHtml = `
             <div class="character-actions">
                 <h4>动作技能</h4>
@@ -715,7 +722,9 @@ function createCharacterCard(character) {
     card.innerHTML = `
         <div class="character-header">
             <div class="character-image">
-                ${imageUrl ? `<img src="${imageUrl}" alt="${character.name}" style="width: 100%; height: 100%; object-fit: cover;" onerror="handleImageError(this, '${character.name}')" onload="handleImageLoad(this, '${character.name}')">` : '暂无图片'}
+                <div id="img-container-${character.id}" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #f3f4f6; border-radius: 50%;">
+                    <span style="color: #9ca3af; font-size: 0.9rem;">加载中...</span>
+                </div>
             </div>
             <div class="character-info">
                 <h3 class="character-name">${character.name}</h3>
@@ -727,37 +736,25 @@ function createCharacterCard(character) {
         </div>
     `;
     
-    // 添加动作按钮事件监听
-    if (character.actions && character.actions.length > 0) {
-        // 9代超特使用预设动作列表
-        var actionButtons = card.querySelectorAll('.action-btn');
-        var gifContainer = card.querySelector('#gif-' + character.id);
+    // 使用增强的图片加载功能 - 为所有角色统一使用
+    if (character.image) {
+        const imgContainer = card.querySelector('#img-container-' + character.id);
+        const img = createEnhancedImage(character.image, character.name);
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.objectFit = 'cover';
+        img.style.borderRadius = '50%';
         
-        for (var i = 0; i < actionButtons.length; i++) {
-            (function(button) {
-                button.onclick = function(e) {
-                    e.preventDefault(); // 阻止默认行为
-                    e.stopPropagation(); // 阻止事件冒泡
-                    
-                    // 移除所有按钮的激活状态
-                    for (var j = 0; j < actionButtons.length; j++) {
-                        actionButtons[j].classList.remove('active');
-                    }
-                    // 添加当前按钮的激活状态
-                    this.classList.add('active');
-                    
-                    // 显示对应的GIF
-                    var gifUrl = this.getAttribute('data-gif');
-                    var actionName = this.querySelector('span').textContent;
-                    gifContainer.innerHTML = '<img src="' + gifUrl + '" alt="' + actionName + '" class="action-gif"><p class="action-name">' + actionName + '</p>';
-                    
-                    return false; // 阻止页面滚动
-                };
-            })(actionButtons[i]);
-        }
-    } else if (character.gifFolder) {
-        // 8代超特动态加载GIF文件
-        loadGifFiles(character.gifFolder, character.id, card);
+        // 替换加载提示
+        imgContainer.innerHTML = '';
+        imgContainer.appendChild(img);
+    }
+    
+    // 动态加载GIF文件
+    if (character.gifFolder) {
+        // 直接传递当前代数，避免时序问题
+        var currentGen = getCurrentGeneration();
+        loadGifFiles(character.gifFolder, character.id, card, currentGen);
     }
     
     return card;
@@ -794,13 +791,28 @@ function createGalleryCard() {
     
     card.innerHTML = `
         <div class="gallery-image-full">
-            ${imageUrlWithTimestamp ? `<img src="${imageUrlWithTimestamp}" alt="超特图鉴" style="width: 100%; height: auto; object-fit: contain;" onerror="handleGalleryImageError(this, '超特图鉴')" onload="handleImageLoad(this, '超特图鉴')">` : '暂无图片'}
+            <div id="gallery-img-container" style="width: 100%; display: flex; align-items: center; justify-content: center; background: #f3f4f6; min-height: 200px;">
+                <span style="color: #9ca3af; font-size: 1rem;">加载中...</span>
+            </div>
         </div>
         <div class="gallery-info">
             <h3 class="gallery-name">超特图鉴</h3>
             <p class="gallery-generation">所有代数角色一览</p>
         </div>
     `;
+    
+    // 使用增强的图片加载功能
+    if (galleryData.image) {
+        const imgContainer = card.querySelector('#gallery-img-container');
+        const img = createEnhancedImage(galleryData.image, '超特图鉴');
+        img.style.width = '100%';
+        img.style.height = 'auto';
+        img.style.objectFit = 'contain';
+        
+        // 替换加载提示
+        imgContainer.innerHTML = '';
+        imgContainer.appendChild(img);
+    }
     
     return card;
 }
@@ -983,235 +995,239 @@ function isValidFileType(file, allowedTypes = ['jpg', 'jpeg', 'png', 'gif', 'mp4
     return allowedTypes.includes(extension);
 }
 
+// 获取当前选中的代次
+function getCurrentGeneration() {
+    var activeFilter = document.querySelector('.filter-btn.active');
+    if (activeFilter) {
+        var generation = activeFilter.getAttribute('data-generation');
+        return generation;
+    }
+    return '9'; // 默认返回9代
+}
+
 // 动态加载GIF文件
-function loadGifFiles(folder, characterId, card) {
+function loadGifFiles(folder, characterId, card, currentGeneration) {
     console.log('开始加载GIF文件:', characterId, '文件夹:', folder);
     
     // 确保文件夹路径正确（移除末尾斜杠，避免重复）
     var cleanFolder = folder.replace(/\/$/, '');
     
-    // 根据角色ID确定使用哪个GIF文件列表
+    // 精确的文件映射表 - 根据角色ID使用对应的文件列表
     var commonGifFiles = [];
     
-    // 2代、3代、3.5代、4代、4.5代超特通用GIF文件
-    if (characterId.includes('2_') || characterId.includes('3_') || characterId.includes('4_')) {
+    // 9代超特亚琪亚克 - 精确的25个文件列表
+    if (characterId === '9_1') {
         commonGifFiles = [
-            'X.gif',
-            '三分.gif',
-            '中手冒.gif',
-            '中投.gif',
-            '大手冒.gif',
-            '小手冒.gif',
-            '抢断.gif',
-            '篮板.gif',
-            '近上.gif',
-            '近扣.gif',
-            '远上.gif',
-            '远扣.gif'
-        ];
-    } else if (characterId.includes('5_')) {
-        if (characterId === '5_1') {
-            // 艾达的GIF文件
-            commonGifFiles = [
-                'X.gif',
-                '三分.gif',
-                '中手冒.gif',
-                '中投.gif',
-                '大手冒.gif',
-                '小手冒.gif',
-                '抢断.gif',
-                '篮板.gif',
-                '近上.gif',
-                '近扣.gif',
-                '远上.gif',
-                '远扣.gif'
-            ];
-        } else if (characterId === '5_2') {
-            // 杰罗的GIF文件
-            commonGifFiles = [
-                'X.gif',
-                '中手.gif',
-                '中投.gif',
-                '分球.gif',
-                '地板.gif',
-                '大手冒.gif',
-                '小手冒.gif',
-                '快速跑传.gif',
-                '投篮.gif',
-                '灌篮盖帽.gif',
-                '篮板.gif',
-                '近上.gif',
-                '近扣.gif',
-                '远上.gif',
-                '远扣.gif'
-            ];
-        }
-    } else if (characterId.includes('6_')) {
-        // 根据具体角色ID确定使用哪个双角色的GIF文件
-        if (characterId === '6_1') {
-            // 光暗双角色
-            commonGifFiles = [
-                '光X.gif',
-                '光三分.gif',
-                '光中手.gif',
-                '光中投.gif',
-                '光分球.gif',
-                '光地板.gif',
-                '光大手.gif',
-                '光小手.gif',
-                '光篮板.gif',
-                '光近上.gif',
-                '光近扣.gif',
-                '光远上.gif',
-                '光远扣.gif',
-                '暗X.gif',
-                '暗三分.gif',
-                '暗中手.gif',
-                '暗中投.gif',
-                '暗分球.gif',
-                '暗地板.gif',
-                '暗大手.gif',
-                '暗小手冒.gif',
-                '暗篮板.gif',
-                '暗近上.gif',
-                '暗近扣.gif',
-                '暗远上.gif',
-                '暗远扣.gif'
-            ];
-        } else if (characterId === '6_2') {
-            // 冰火双角色
-            commonGifFiles = [
-                '水X.gif',
-                '水三分.gif',
-                '水中投.gif',
-                '水分球.gif',
-                '水地板.gif',
-                '水大手冒.gif',
-                '水小手冒.gif',
-                '水篮板.gif',
-                '水近上.gif',
-                '水近扣.gif',
-                '水远上.gif',
-                '水远扣.gif',
-                '火X.gif',
-                '火三分.gif',
-                '火中投.gif',
-                '火分球.gif',
-                '火地板.gif',
-                '火大手冒.gif',
-                '火小手冒.gif',
-                '火篮板.gif',
-                '火近上.gif',
-                '火近扣.gif',
-                '火远上.gif',
-                '火远扣.gif'
-            ];
-        } else if (characterId === '6_3') {
-            // 钢铁剧毒双角色
-            commonGifFiles = [
-                '剧毒X.gif',
-                '剧毒三分.gif',
-                '剧毒中投.gif',
-                '剧毒分球.gif',
-                '剧毒地板.gif',
-                '剧毒大手冒.gif',
-                '剧毒小手冒.gif',
-                '剧毒小手哦冒.gif',
-                '剧毒篮板.gif',
-                '剧毒近上.gif',
-                '剧毒近扣.gif',
-                '剧毒远上.gif',
-                '剧毒远扣.gif',
-                '毒液中投.gif',
-                '钢铁X.gif',
-                '钢铁XX.gif',
-                '钢铁三分.gif',
-                '钢铁中投.gif',
-                '钢铁分球.gif',
-                '钢铁地板.gif',
-                '钢铁大手冒.gif',
-                '钢铁小手冒.gif',
-                '钢铁篮板.gif',
-                '钢铁近上.gif',
-                '钢铁近扣.gif',
-                '钢铁远上.gif',
-                '钢铁远扣.gif'
-            ];
-        } else if (characterId === '6_4') {
-            // 风雷双角色
-            commonGifFiles = [
-                '雷X.gif',
-                '雷三分.gif',
-                '雷中投.gif',
-                '雷分球.gif',
-                '雷地板.gif',
-                '雷大手冒.gif',
-                '雷小手冒.gif',
-                '雷篮板.gif',
-                '雷近上.gif',
-                '雷近扣.gif',
-                '雷远上.gif',
-                '雷远扣.gif',
-                '风X.gif',
-                '风三分.gif',
-                '风中投.gif',
-                '风分球.gif',
-                '风地板.gif',
-                '风大手冒.gif',
-                '风小手冒.gif',
-                '风篮板.gif',
-                '风近上.gif',
-                '风近扣.gif',
-                '风远上.gif',
-                '风远扣.gif'
-            ];
-        }
-    } else {
-        // 其他代数的通用GIF文件
-        commonGifFiles = [
-            'X.gif',
-            '不看人传球.gif',
-            '中手冒.gif',
-            '分球.gif',
-            '地板.gif',
-            '大手冒.gif',
-            '小手冒.gif',
-            '抢断.gif',
-            '篮板.gif',
-            '间接进攻手.gif',
-            '阳三分.gif',
-            '阳中投.gif',
-            '阳近上.gif',
-            '阳近扣.gif',
-            '阳远上.gif',
-            '阳远扣.gif',
-            '阴三分.gif',
-            '阴中投.gif',
-            '阴近上.gif',
-            '阴近扣.gif',
-            '阴远上.gif',
-            '阴远扣.gif',
-            '快速起来.gif',
-            'A分球.gif',
-            'A近扣.gif',
-            'A近上.gif',
-            'A篮板.gif',
-            'A三分.gif',
-            'A远扣.gif',
-            'A远上.gif',
-            'A中投.gif',
-            'B分球.gif',
-            'B近扣.gif',
-            'B近上.gif',
-            'B篮板.gif',
-            'B三分.gif',
-            'B远扣.gif',
-            'B远上.gif',
-            'B中投.gif'
+            // A系列动作（8个）
+            'A三分.gif', 'A中投.gif', 'A分球.gif', 'A篮板.gif', 'A近上.gif', 'A近扣.gif', 'A远上.gif', 'A远扣.gif',
+            // B系列动作（8个）
+            'B三分.gif', 'B中投.gif', 'B分球.gif', 'B篮板.gif', 'B近上.gif', 'B近扣.gif', 'B远上.gif', 'B远扣.gif',
+            // 其他动作（9个）
+            'X.gif', '不看人传球.gif', '中手冒.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '快速起来.gif', '抢断.gif', '篮板.gif'
         ];
     }
+    // 9代超特罗卡 - 精确的22个文件列表
+    else if (characterId === '9_2') {
+        commonGifFiles = [
+            // A系列动作（8个）
+            'A三分.gif', 'A中投.gif', 'A分球.gif', 'A篮板.gif', 'A近上.gif', 'A近扣.gif', 'A远上.gif', 'A远扣.gif',
+            // B系列动作（8个）
+            'B三分.gif', 'B中投.gif', 'B分球.gif', 'B篮板.gif', 'B近上.gif', 'B近扣.gif', 'B远上.gif', 'B远扣.gif',
+            // 其他动作（6个）
+            'X.gif', '不看人传球.gif', '中手冒.gif', '地板.gif', '大手冒.gif', '小手冒.gif'
+        ];
+    }
+    // 8代超特哈托尔 - 精确的22个文件列表
+    else if (characterId === '8_1') {
+        commonGifFiles = [
+            // 基础动作（8个）
+            'X.gif', '不看人传球.gif', '中手冒.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '抢断.gif',
+            // 其他动作（14个）
+            '篮板.gif', '间接进攻手.gif', '阳三分.gif', '阳中投.gif', '阳近上.gif', '阳近扣.gif', '阳远上.gif', '阳远扣.gif', '阴三分.gif', '阴中投.gif', '阴近上.gif', '阴近扣.gif', '阴远上.gif', '阴远扣.gif'
+        ];
+    }
+    // 8代超特奥丁 - 精确的22个文件列表
+    else if (characterId === '8_2') {
+        commonGifFiles = [
+            // 基础动作（8个）
+            'X.gif', '不看人传球.gif', '中手冒.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '抢断.gif',
+            // 其他动作（14个）
+            '篮板.gif', '间接进攻手.gif', '阳三分.gif', '阳中投.gif', '阳近上.gif', '阳近扣.gif', '阳远上.gif', '阳远扣.gif', '阴三分.gif', '阴中投.gif', '阴近上.gif', '阴近扣.gif', '阴远上.gif', '阴远扣.gif'
+        ];
+    }
+    // 8代超特月神 - 精确的25个文件列表
+    else if (characterId === '8_3') {
+        commonGifFiles = [
+            // 基础动作（12个）
+            'X.gif', '三分.gif', '三分阳.gif', '不看人传球.gif', '中手冒.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '抢断.gif', '篮板.gif', '间接进攻手.gif',
+            // 阴阳动作（13个）
+            '阳三分.gif', '阳中投.gif', '阳近上.gif', '阳近扣.gif', '阳远上.gif', '阴远扣.gif', '阳远扣.gif', '阴三分.gif', '阴中投.gif', '阴近上.gif', '阴近扣.gif', '阴远上.gif', '阴远哭.gif'
+        ];
+    }
+    // 7代超特月儿 - 精确的19个文件列表
+    else if (characterId === '7_1') {
+        commonGifFiles = [
+            // 基础动作（7个）
+            'X.gif', '中手.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '篮板.gif',
+            // 阴阳动作（12个）
+            '阳三分.gif', '阳中投.gif', '阳近上.gif', '阳近扣.gif', '阳远上.gif', '阳远扣.gif', '阴三分.gif', '阴中投.gif', '阴近上.gif', '阴近扣.gif', '阴远上.gif', '阴远扣.gif'
+        ];
+    }
+    // 7代超特玄武 - 精确的19个文件列表
+    else if (characterId === '7_2') {
+        commonGifFiles = [
+            // 基础动作（7个）
+            'X.gif', '中手冒.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '篮板.gif',
+            // 阴阳动作（12个）
+            '阳三分.gif', '阳中投.gif', '阳近上.gif', '阳近扣.gif', '阳远上.gif', '阳远扣.gif', '阴三分.gif', '阴中投.gif', '阴近上.gif', '阴近扣.gif', '阴远上.gif', '阴远扣.gif'
+        ];
+    }
+    // 7代超特雪舞 - 精确的20个文件列表
+    else if (characterId === '7_3') {
+        commonGifFiles = [
+            // 基础动作（8个）
+            'X.gif', '中手.gif', '中手冒.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '篮板.gif',
+            // 阴阳动作（12个）
+            '阳三分.gif', '阳中投.gif', '阳近上.gif', '阳近扣.gif', '阳远上.gif', '阳远扣.gif', '阴三分.gif', '阴中投.gif', '阴近上.gif', '阴近扣.gif', '阴远上.gif', '阴远扣.gif'
+        ];
+    }
+    // 其他角色根据当前代数动态生成文件列表
+    else {
+        // 使用传入的当前代数参数
+        console.log('当前代数:', currentGeneration, '角色ID:', characterId);
+        
+        // 根据代数生成对应的文件列表
+        if (currentGeneration === '9') {
+            // 9代通用动作（适用于未明确映射的9代角色）
+            commonGifFiles = [
+                'X.gif', 'A三分.gif', 'A中投.gif', 'A分球.gif', 'A篮板.gif', 'A近上.gif', 'A近扣.gif', 'A远上.gif', 'A远扣.gif',
+                'B三分.gif', 'B中投.gif', 'B分球.gif', 'B篮板.gif', 'B近上.gif', 'B近扣.gif', 'B远上.gif', 'B远扣.gif',
+                '不看人传球.gif', '中手冒.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '快速起来.gif', '抢断.gif', '篮板.gif'
+            ];
+        } else if (currentGeneration === '8') {
+            // 8代通用动作（适用于未明确映射的8代角色）
+            commonGifFiles = [
+                'X.gif', '三分.gif', '三分阳.gif', '不看人传球.gif', '中手冒.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '抢断.gif', '篮板.gif', '间接进攻手.gif',
+                '阳三分.gif', '阳中投.gif', '阳近上.gif', '阳近扣.gif', '阳远上.gif', '阳远扣.gif', '阴三分.gif', '阴中投.gif', '阴近上.gif', '阴近扣.gif', '阴远上.gif', '阴远扣.gif', '阴远哭.gif'
+            ];
+        } else if (currentGeneration === '7') {
+            // 7代通用动作（适用于未明确映射的7代角色）
+            commonGifFiles = [
+                'X.gif', '中手.gif', '中手冒.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '篮板.gif',
+                '阳三分.gif', '阳中投.gif', '阳近上.gif', '阳近扣.gif', '阳远上.gif', '阳远扣.gif', '阴三分.gif', '阴中投.gif', '阴近上.gif', '阴近扣.gif', '阴远上.gif', '阴远扣.gif'
+            ];
+        } else if (currentGeneration === '7.5') {
+            // 7.5代通用动作
+            commonGifFiles = [
+                'X.gif', '三分.gif', '中投.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '抢断.gif', '篮板.gif',
+                '近上.gif', '近扣.gif', '远上.gif', '远扣.gif', '不看人传球.gif', '间接进攻手.gif'
+            ];
+        } else if (currentGeneration === '6') {
+            // 6代角色需要精确映射，根据角色ID使用对应的文件列表
+            if (characterId === '6_1') {
+                // 光暗角色 - 光暗系列动作
+                commonGifFiles = [
+                    // 光系列动作（13个）
+                    '光X.gif', '光三分.gif', '光中手.gif', '光中投.gif', '光分球.gif', '光地板.gif', '光大手.gif', '光小手.gif', '光篮板.gif', '光近上.gif', '光近扣.gif', '光远上.gif', '光远扣.gif',
+                    // 暗系列动作（13个）
+                    '暗X.gif', '暗三分.gif', '暗中手.gif', '暗中投.gif', '暗分球.gif', '暗地板.gif', '暗大手.gif', '暗小手冒.gif', '暗篮板.gif', '暗近上.gif', '暗近扣.gif', '暗远上.gif', '暗远扣.gif'
+                ];
+            } else if (characterId === '6_2') {
+                // 冰火角色 - 冰火系列动作
+                commonGifFiles = [
+                    // 冰系列动作（13个）
+                    '冰X.gif', '冰三分.gif', '冰中手.gif', '冰中投.gif', '冰分球.gif', '冰地板.gif', '冰大手.gif', '冰小手.gif', '冰篮板.gif', '冰近上.gif', '冰近扣.gif', '冰远上.gif', '冰远扣.gif',
+                    // 火系列动作（13个）
+                    '火X.gif', '火三分.gif', '火中手.gif', '火中投.gif', '火分球.gif', '火地板.gif', '火大手.gif', '火小手.gif', '火篮板.gif', '火近上.gif', '火近扣.gif', '火远上.gif', '火远扣.gif'
+                ];
+            } else if (characterId === '6_3') {
+                // 钢铁剧毒角色 - 钢铁剧毒系列动作
+                commonGifFiles = [
+                    // 剧毒系列动作（13个）
+                    '剧毒X.gif', '剧毒三分.gif', '剧毒中投.gif', '剧毒分球.gif', '剧毒地板.gif', '剧毒大手冒.gif', '剧毒小手冒.gif', '剧毒小手哦冒.gif', '剧毒篮板.gif', '剧毒近上.gif', '剧毒近扣.gif', '剧毒远上.gif', '剧毒远扣.gif',
+                    // 钢铁系列动作（14个）
+                    '钢铁X.gif', '钢铁XX.gif', '钢铁三分.gif', '钢铁中投.gif', '钢铁分球.gif', '钢铁地板.gif', '钢铁大手冒.gif', '钢铁小手冒.gif', '钢铁篮板.gif', '钢铁近上.gif', '钢铁近扣.gif', '钢铁远上.gif', '钢铁远傻姑娘.gif', '钢铁远扣.gif'
+                ];
+            } else if (characterId === '6_4') {
+                // 风雷角色 - 风雷系列动作
+                commonGifFiles = [
+                    // 雷系列动作（13个）
+                    '雷X.gif', '雷三分.gif', '雷中投.gif', '雷分球.gif', '雷地板.gif', '雷大手冒.gif', '雷小手冒.gif', '雷篮板.gif', '雷近上.gif', '雷近扣.gif', '雷远上.gif', '雷远扣.gif',
+                    // 风系列动作（13个）
+                    '风X.gif', '风三分.gif', '风中投.gif', '风分球.gif', '风地板.gif', '风大手冒.gif', '风小手冒.gif', '风篮板.gif', '风近上.gif', '风近扣.gif', '风远上.gif', '风远扣.gif'
+                ];
+            } else {
+                // 其他6代角色使用基础动作
+                commonGifFiles = [
+                    'X.gif', '三分.gif', '中投.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '抢断.gif', '篮板.gif',
+                    '近上.gif', '近扣.gif', '远上.gif', '远扣.gif', '不看人传球.gif', '间接进攻手.gif'
+                ];
+            }
+        } else if (currentGeneration === '6.5') {
+            // 6.5代通用动作
+            commonGifFiles = [
+                'X.gif', '三分.gif', '中投.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '抢断.gif', '篮板.gif',
+                '近上.gif', '近扣.gif', '远上.gif', '远扣.gif', '不看人传球.gif', '间接进攻手.gif'
+            ];
+        } else if (currentGeneration === '5.5') {
+            // 5.5代通用动作
+            commonGifFiles = [
+                'X.gif', '三分.gif', '中投.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '抢断.gif', '篮板.gif',
+                '近上.gif', '近扣.gif', '远上.gif', '远扣.gif', '不看人传球.gif', '间接进攻手.gif'
+            ];
+        } else if (currentGeneration === '5') {
+            // 5代通用动作
+            commonGifFiles = [
+                'X.gif', '三分.gif', '中投.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '抢断.gif', '篮板.gif',
+                '近上.gif', '近扣.gif', '远上.gif', '远扣.gif', '不看人传球.gif', '间接进攻手.gif'
+            ];
+        } else if (currentGeneration === '4.5') {
+            // 4.5代通用动作
+            commonGifFiles = [
+                'X.gif', '三分.gif', '中投.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '抢断.gif', '篮板.gif',
+                '近上.gif', '近扣.gif', '远上.gif', '远扣.gif', '不看人传球.gif', '间接进攻手.gif'
+            ];
+        } else if (currentGeneration === '4') {
+            // 4代通用动作
+            commonGifFiles = [
+                'X.gif', '三分.gif', '中投.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '抢断.gif', '篮板.gif',
+                '近上.gif', '近扣.gif', '远上.gif', '远扣.gif', '不看人传球.gif', '间接进攻手.gif'
+            ];
+        } else if (currentGeneration === '3_5') {
+            // 3.5代通用动作
+            commonGifFiles = [
+                'X.gif', '三分.gif', '中投.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '抢断.gif', '篮板.gif',
+                '近上.gif', '近扣.gif', '远上.gif', '远扣.gif', '不看人传球.gif', '间接进攻手.gif'
+            ];
+        } else if (currentGeneration === '3') {
+            // 3代通用动作
+            commonGifFiles = [
+                'X.gif', '三分.gif', '中投.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '抢断.gif', '篮板.gif',
+                '近上.gif', '近扣.gif', '远上.gif', '远扣.gif', '不看人传球.gif', '间接进攻手.gif'
+            ];
+        } else if (currentGeneration === '2') {
+            // 2代通用动作
+            commonGifFiles = [
+                'X.gif', '三分.gif', '中投.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '抢断.gif', '篮板.gif',
+                '近上.gif', '近扣.gif', '远上.gif', '远扣.gif', '不看人传球.gif', '间接进攻手.gif'
+            ];
+        } else if (currentGeneration === '1') {
+            // 1代通用动作
+            commonGifFiles = [
+                'X.gif', '三分.gif', '中投.gif', '分球.gif', '地板.gif', '大手冒.gif', '小手冒.gif', '抢断.gif', '篮板.gif',
+                '近上.gif', '近扣.gif', '远上.gif', '远扣.gif', '不看人传球.gif', '间接进攻手.gif'
+            ];
+        } else {
+            // 其他代数使用基础动作
+            commonGifFiles = [
+                'X.gif', 'XX.gif', '三分.gif', '中投.gif', '分球.gif', '地板.gif',
+                '大手冒.gif', '小手冒.gif', '中手冒.gif', '抢断.gif', '篮板.gif',
+                '近上.gif', '近扣.gif', '远上.gif', '远扣.gif', '不看人传球.gif', '间接进攻手.gif'
+            ];
+        }
+    }
     
-    console.log('GIF文件列表:', commonGifFiles);
+    console.log('开始动态扫描GIF文件:', characterId, '文件夹:', cleanFolder, '扫描文件数量:', commonGifFiles.length);
     
     var actionButtonsContainer = card.querySelector('#actions-' + characterId);
     var gifContainer = card.querySelector('#gif-' + characterId);
@@ -1230,27 +1246,37 @@ function loadGifFiles(folder, characterId, card) {
     function checkGifFile(file, index) {
         // 正确构建URL路径
         var gifUrl = COS_CONFIG.Domain + '/' + cleanFolder + '/' + file;
-        console.log('检查GIF文件:', gifUrl);
+        console.log('检查GIF文件:', file, '完整URL:', gifUrl, '角色ID:', characterId, '文件夹:', cleanFolder);
         
+        // 使用Image对象检查，避免CORS问题
         var img = new Image();
+        var timeoutId;
+        
+        // 设置超时
+        timeoutId = setTimeout(function() {
+            console.log('⏰ GIF文件检查超时:', file);
+            img.src = '';
+            checkedCount++;
+            if (checkedCount === commonGifFiles.length) {
+                createButtons();
+            }
+        }, 3000); // 3秒超时
         
         img.onload = function() {
+            clearTimeout(timeoutId);
             console.log('✅ GIF文件存在:', file);
-            // 文件存在，添加到按钮列表
             validGifFiles.push(file);
             checkedCount++;
             if (checkedCount === commonGifFiles.length) {
-                // 所有文件检查完成，创建按钮
                 createButtons();
             }
         };
         
         img.onerror = function() {
+            clearTimeout(timeoutId);
             console.log('❌ GIF文件不存在:', file);
-            // 文件不存在，跳过
             checkedCount++;
             if (checkedCount === commonGifFiles.length) {
-                // 所有文件检查完成，创建按钮
                 createButtons();
             }
         };
@@ -1304,12 +1330,107 @@ function loadGifFiles(folder, characterId, card) {
                     // 添加当前按钮的激活状态
                     this.classList.add('active');
                     
-                    // 显示对应的GIF
+                    // 显示对应的GIF - 使用移动端兼容的GIF加载函数
                     var gifUrl = this.getAttribute('data-gif');
                     var actionName = this.querySelector('span').textContent;
-                    gifContainer.innerHTML = '<img src="' + gifUrl + '" alt="' + actionName + '" class="action-gif"><p class="action-name">' + actionName + '</p>';
                     
-                    return false; // 阻止页面滚动
+                    console.log('🎯 点击动作按钮:', actionName);
+                    console.log('🔗 GIF URL:', gifUrl);
+                    console.log('📱 设备信息:', navigator.userAgent);
+                    
+                    // 清空容器并显示加载提示
+                    gifContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #9ca3af;">加载GIF中...</div>';
+                    
+                    // 确保GIF容器可见 - 移动端优化
+                    gifContainer.style.display = 'block';
+                    gifContainer.style.position = 'relative';
+                    gifContainer.style.zIndex = '9999'; // 提高层级
+                    gifContainer.style.background = '#ffffff';
+                    gifContainer.style.border = '1px solid #e5e7eb';
+                    gifContainer.style.borderRadius = '8px';
+                    gifContainer.style.padding = '10px';
+                    gifContainer.style.margin = '10px 0';
+                    gifContainer.style.width = '100%';
+                    gifContainer.style.maxWidth = '100%';
+                    gifContainer.style.overflow = 'visible';
+                    
+                    // 移动端特殊处理
+                    if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                        console.log('📱 检测到移动设备，应用移动端优化');
+                        gifContainer.style.webkitTransform = 'translateZ(0)'; // 启用硬件加速
+                        gifContainer.style.transform = 'translateZ(0)';
+                        gifContainer.style.webkitBackfaceVisibility = 'hidden';
+                        gifContainer.style.backfaceVisibility = 'hidden';
+                    }
+                    
+                    // 创建图片元素 - 移动端兼容
+                    const img = new Image();
+                    img.className = 'action-gif';
+                    img.style.maxWidth = '100%';
+                    img.style.width = 'auto';
+                    img.style.height = 'auto';
+                    img.style.display = 'block';
+                    img.style.margin = '0 auto';
+                    img.style.zIndex = '10000'; // 最高层级
+                    img.style.position = 'relative';
+                    img.style.verticalAlign = 'top';
+                    img.alt = actionName;
+                    
+                    // 移动端图片优化
+                    if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                        img.style.webkitTransform = 'translateZ(0)';
+                        img.style.transform = 'translateZ(0)';
+                        img.style.webkitBackfaceVisibility = 'hidden';
+                        img.style.backfaceVisibility = 'hidden';
+                        img.style.imageRendering = 'auto';
+                        img.style.webkitImageRendering = 'auto';
+                    }
+                    
+                    // 加载成功处理
+                    img.onload = function() {
+                        console.log('✅ GIF加载成功:', gifUrl);
+                        console.log('📏 尺寸:', img.naturalWidth, 'x', img.naturalHeight);
+                        console.log('📱 设备:', navigator.userAgent);
+                        
+                        // 替换加载提示
+                        gifContainer.innerHTML = '';
+                        gifContainer.appendChild(img);
+                        gifContainer.innerHTML += '<p class="action-name" style="text-align: center; margin-top: 10px; font-weight: bold; color: #374151; font-size: 14px;">' + actionName + '</p>';
+                        
+                        // 移动端强制重绘
+                        if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                            // 触发重绘
+                            gifContainer.style.display = 'none';
+                            gifContainer.offsetHeight;
+                            gifContainer.style.display = 'block';
+                            
+                            // 延迟再次触发，确保显示
+                            setTimeout(() => {
+                                gifContainer.style.opacity = '0.99';
+                                setTimeout(() => {
+                                    gifContainer.style.opacity = '1';
+                                }, 10);
+                            }, 100);
+                        }
+                    };
+                    
+                    // 加载失败处理
+                    img.onerror = function() {
+                        console.log('❌ GIF加载失败:', gifUrl);
+                        console.log('📱 设备:', navigator.userAgent);
+                        
+                        // 尝试备用方案
+                        if (!gifUrl.includes('?')) {
+                            console.log('🔄 尝试添加时间戳重试...');
+                            img.src = gifUrl + '?t=' + Date.now();
+                            return;
+                        }
+                        
+                        gifContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #dc3545; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 4px; font-size: 14px;">GIF加载失败<br>设备: ' + navigator.userAgent.substring(0, 50) + '...</div>';
+                    };
+                    
+                    // 设置图片源
+                    img.src = gifUrl;
                 };
             })(actionButtons[i]);
         }
@@ -1326,17 +1447,18 @@ function initializeRanking() {
         'pg': `${COS_CONFIG.Domain}/ranking/PG排名.png?v=${timestamp}`
     };
     
-    // 加载图片
+    // 加载图片 - 使用强大的图片加载功能
     Object.keys(rankingImages).forEach(rankingType => {
         const imgElement = document.getElementById(`${rankingType}-ranking-image`);
         if (imgElement) {
-            imgElement.src = rankingImages[rankingType];
-            imgElement.onerror = function() {
-                this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l5PSIxNCIgZmlsbD0iIzlDQTNBRiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPuacrOWbvjwvdGV4dD4KPC9zdmc+Cg==';
-                this.alt = `${rankingType.toUpperCase()}排名 (图片加载失败)`;
-            };
+            // 使用增强的图片加载功能
+            const img = createEnhancedImage(`ranking/${rankingType.toUpperCase()}排名.png`, `${rankingType.toUpperCase()}排名`);
+            img.style.width = '100%';
+            img.style.height = 'auto';
             
-
+            // 替换原有图片
+            imgElement.parentNode.replaceChild(img, imgElement);
+            img.id = `${rankingType}-ranking-image`;
         }
     });
     
@@ -1557,3 +1679,1561 @@ window.FSDataLibrary = {
     loadGifFiles,
     COS_CONFIG
 };
+
+
+
+
+
+
+
+// 导出函数供外部使用
+window.FSDataLibrary = {
+    loadCharacters,
+    uploadToCOS,
+    getCOSFileList,
+    loadGifFiles,
+    COS_CONFIG
+};
+
+// 图片加载诊断和修复函数
+function createRobustImage(src, alt, options = {}) {
+    const img = new Image();
+    const retryCount = options.retryCount || 0;
+    const maxRetries = options.maxRetries || IMAGE_LOAD_CONFIG.maxRetries;
+    const currentDomainIndex = options.domainIndex || 0;
+    
+    // 构建图片URL
+    let imageUrl = src;
+    
+    // 如果是相对路径，添加域名
+    if (!src.startsWith('http')) {
+        const domains = IMAGE_LOAD_CONFIG.enableFallbackDomains ? 
+            COS_CONFIG.FallbackDomains : [COS_CONFIG.Domain];
+        
+        if (currentDomainIndex < domains.length) {
+            imageUrl = domains[currentDomainIndex] + '/' + src;
+        } else {
+            imageUrl = COS_CONFIG.Domain + '/' + src;
+        }
+    }
+    
+    // 添加压缩参数
+    if (IMAGE_LOAD_CONFIG.enableImageCompression && 
+        imageUrl.includes('cos.ap-nanjing.myqcloud.com') && 
+        !imageUrl.includes('imageView2')) {
+        imageUrl += IMAGE_LOAD_CONFIG.compressionParams;
+    }
+    
+    // 添加缓存破坏参数
+    if (IMAGE_LOAD_CONFIG.enableCacheBusting) {
+        const separator = imageUrl.includes('?') ? '&' : '?';
+        imageUrl += separator + 'v=' + Date.now() + '&r=' + Math.random();
+    }
+    
+    // 设置图片属性
+    img.alt = alt || '';
+    img.style.maxWidth = '100%';
+    img.style.height = 'auto';
+    
+    // 添加加载状态
+    img.style.opacity = '0';
+    img.style.transition = 'opacity 0.3s ease';
+    
+    // 诊断信息
+    if (IMAGE_LOAD_CONFIG.enableDiagnostics) {
+        console.log('🔄 尝试加载图片:', imageUrl);
+        console.log('📊 重试次数:', retryCount, '域名索引:', currentDomainIndex);
+    }
+    
+    // 加载成功处理
+    img.onload = function() {
+        console.log('✅ 图片加载成功:', imageUrl);
+        img.style.opacity = '1';
+        
+        // 触发成功事件
+        const event = new CustomEvent('imageLoadSuccess', {
+            detail: { src: imageUrl, img: img, originalSrc: src }
+        });
+        document.dispatchEvent(event);
+    };
+    
+    // 加载失败处理
+    img.onerror = function() {
+        console.log('❌ 图片加载失败:', imageUrl);
+        
+        // 尝试使用备用域名
+        if (IMAGE_LOAD_CONFIG.enableFallbackDomains && 
+            currentDomainIndex < COS_CONFIG.FallbackDomains.length - 1) {
+            
+            console.log('🔄 尝试备用域名...');
+            setTimeout(() => {
+                createRobustImage(src, alt, {
+                    retryCount: retryCount,
+                    maxRetries: maxRetries,
+                    domainIndex: currentDomainIndex + 1
+                });
+            }, IMAGE_LOAD_CONFIG.retryDelay);
+            return;
+        }
+        
+        // 尝试重试
+        if (retryCount < maxRetries) {
+            console.log('🔄 重试加载图片...');
+            setTimeout(() => {
+                createRobustImage(src, alt, {
+                    retryCount: retryCount + 1,
+                    maxRetries: maxRetries
+                });
+            }, IMAGE_LOAD_CONFIG.retryDelay);
+            return;
+        }
+        
+        // 所有尝试都失败，显示错误占位符
+        console.log('❌ 图片加载最终失败:', src);
+        img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7mnKzlm748L3RleHQ+Cjx0ZXh0IHg9IjEwMCIgeT0iMTIwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjwvc3ZnPgo=';
+        img.style.opacity = '1';
+        
+        // 触发失败事件
+        const event = new CustomEvent('imageLoadError', {
+            detail: { src: imageUrl, img: img, originalSrc: src }
+        });
+        document.dispatchEvent(event);
+    };
+    
+    // 设置超时处理
+    const timeout = setTimeout(() => {
+        if (!img.complete) {
+            console.log('⏰ 图片加载超时:', imageUrl);
+            img.onerror();
+        }
+    }, IMAGE_LOAD_CONFIG.timeout);
+    
+    // 清除超时
+    const originalOnload = img.onload;
+    img.onload = function() {
+        clearTimeout(timeout);
+        if (originalOnload) {
+            originalOnload.call(this);
+        }
+    };
+    
+    // 设置图片源
+    img.src = imageUrl;
+    
+    return img;
+}
+
+// 批量图片加载诊断
+function diagnoseImageLoading() {
+    console.log('🔍 开始图片加载诊断...');
+    
+    const testImages = [
+        'gallery/超特图鉴.png',
+        'ranking/C排名.png',
+        'characters/9代超特/亚琪亚克.png',
+        'gifs/9代超特/亚琪亚克/A三分.gif'
+    ];
+    
+    let results = {
+        success: 0,
+        failed: 0,
+        details: []
+    };
+    
+    testImages.forEach((imagePath, index) => {
+        const img = createRobustImage(imagePath, 'test-' + index);
+        
+        img.addEventListener('load', function() {
+            results.success++;
+            results.details.push({
+                path: imagePath,
+                status: 'success',
+                url: img.src
+            });
+            console.log(`✅ 测试图片${index + 1}加载成功:`, imagePath);
+        });
+        
+        img.addEventListener('error', function() {
+            results.failed++;
+            results.details.push({
+                path: imagePath,
+                status: 'failed',
+                url: img.src
+            });
+            console.log(`❌ 测试图片${index + 1}加载失败:`, imagePath);
+        });
+    });
+    
+    // 5秒后输出诊断结果
+    setTimeout(() => {
+        console.log('📊 图片加载诊断结果:', results);
+        console.log(`总计: ${results.success + results.failed}张图片`);
+        console.log(`成功: ${results.success}张`);
+        console.log(`失败: ${results.failed}张`);
+        
+        // 显示诊断结果
+        if (typeof addDebugInfo === 'function') {
+            addDebugInfo(`图片诊断完成: 成功${results.success}张, 失败${results.failed}张`);
+        }
+    }, 5000);
+    
+    return results;
+}
+
+// 简单图片测试函数
+function testImageAccess() {
+    console.log('🔍 开始测试COS图片访问...');
+    
+    const testImages = [
+        'gallery/超特图鉴.png',
+        'characters/9代超特/亚琪亚克.png',
+        'gifs/9代超特/亚琪亚克/A三分.gif'
+    ];
+    
+    testImages.forEach((imagePath, index) => {
+        const testUrl = COS_CONFIG.Domain + '/' + imagePath;
+        console.log(`测试图片${index + 1}: ${testUrl}`);
+        
+        const img = new Image();
+        img.onload = function() {
+            console.log(`✅ 图片${index + 1}访问成功: ${imagePath}`);
+        };
+        img.onerror = function() {
+            console.log(`❌ 图片${index + 1}访问失败: ${imagePath}`);
+            console.log(`失败URL: ${testUrl}`);
+        };
+        img.src = testUrl;
+    });
+}
+
+// 在页面加载完成后自动测试
+window.addEventListener('load', function() {
+    setTimeout(() => {
+        testImageAccess();
+    }, 1000);
+});
+
+// 详细诊断COS访问权限
+function diagnoseCOSAccess() {
+    console.log('🔍 开始详细诊断COS访问权限...');
+    
+    // 测试不同类型的文件
+    const testFiles = [
+        { type: '图片', path: 'gallery/超特图鉴.png', expected: '图鉴图片' },
+        { type: '角色图片', path: 'characters/9代超特/亚琪亚克.png', expected: '角色头像' },
+        { type: 'GIF文件', path: 'gifs/9代超特/亚琪亚克/A三分.gif', expected: '动作GIF' },
+        { type: '排名图片', path: 'ranking/C排名.png', expected: '排名图片' }
+    ];
+    
+    let results = {
+        success: 0,
+        failed: 0,
+        details: []
+    };
+    
+    testFiles.forEach((file, index) => {
+        const testUrl = COS_CONFIG.Domain + '/' + file.path;
+        console.log(`\n📁 测试${file.type}: ${file.path}`);
+        console.log(`🔗 完整URL: ${testUrl}`);
+        
+        const img = new Image();
+        img.onload = function() {
+            console.log(`✅ ${file.type}访问成功: ${file.path}`);
+            console.log(`📏 图片尺寸: ${img.naturalWidth} x ${img.naturalHeight}`);
+            results.success++;
+            results.details.push({
+                type: file.type,
+                path: file.path,
+                status: 'success',
+                url: testUrl,
+                size: `${img.naturalWidth} x ${img.naturalHeight}`
+            });
+        };
+        img.onerror = function() {
+            console.log(`❌ ${file.type}访问失败: ${file.path}`);
+            console.log(`🚫 可能原因: 文件不存在、权限不足、路径错误`);
+            results.failed++;
+            results.details.push({
+                type: file.type,
+                path: file.path,
+                status: 'failed',
+                url: testUrl,
+                error: '访问被拒绝或文件不存在'
+            });
+        };
+        img.src = testUrl;
+    });
+    
+    // 3秒后输出详细结果
+    setTimeout(() => {
+        console.log('\n📊 详细诊断结果:');
+        console.log(`总计: ${results.success + results.failed}个文件`);
+        console.log(`成功: ${results.success}个`);
+        console.log(`失败: ${results.failed}个`);
+        
+        console.log('\n📋 详细结果:');
+        results.details.forEach(detail => {
+            const status = detail.status === 'success' ? '✅' : '❌';
+            console.log(`${status} ${detail.type}: ${detail.path}`);
+            if (detail.status === 'success' && detail.size) {
+                console.log(`   尺寸: ${detail.size}`);
+            }
+            if (detail.status === 'failed') {
+                console.log(`   错误: ${detail.error}`);
+            }
+        });
+        
+        // 分析问题
+        if (results.failed > 0) {
+            console.log('\n🔍 问题分析:');
+            if (results.details.some(d => d.type === 'GIF文件' && d.status === 'success') &&
+                results.details.some(d => d.type === '图片' && d.status === 'failed')) {
+                console.log('🎯 可能原因: COS存储桶权限配置问题');
+                console.log('   - GIF文件可以访问');
+                console.log('   - 图片文件无法访问');
+                console.log('   - 建议检查COS存储桶的访问权限设置');
+            }
+        }
+    }, 3000);
+    
+    return results;
+}
+
+// 直接测试COS存储桶访问
+function testCOSBucketAccess() {
+    console.log('🔍 直接测试COS存储桶访问...');
+    
+    // 测试不同的访问方式
+    const testUrls = [
+        // 直接访问存储桶根目录
+        'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/',
+        // 测试图鉴图片
+        'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/gallery/超特图鉴.png',
+        // 测试角色图片
+        'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/characters/9代超特/亚琪亚克.png',
+        // 测试GIF文件
+        'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/gifs/9代超特/亚琪亚克/A三分.gif'
+    ];
+    
+    testUrls.forEach((url, index) => {
+        console.log(`\n🔗 测试URL ${index + 1}: ${url}`);
+        
+        // 使用fetch测试访问
+        fetch(url, { method: 'HEAD' })
+            .then(response => {
+                if (response.ok) {
+                    console.log(`✅ URL ${index + 1} 可以访问 (状态: ${response.status})`);
+                } else {
+                    console.log(`❌ URL ${index + 1} 访问失败 (状态: ${response.status})`);
+                }
+            })
+            .catch(error => {
+                console.log(`❌ URL ${index + 1} 网络错误: ${error.message}`);
+            });
+    });
+}
+
+// 全面测试COS连接
+function comprehensiveCOSTest() {
+    console.log('🔍 开始全面测试COS连接...');
+    
+    // 测试不同的域名和路径组合
+    const testCases = [
+        {
+            name: '主域名根目录',
+            url: 'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/',
+            expected: '应该返回403或列出文件'
+        },
+        {
+            name: '备用域名根目录',
+            url: 'https://laofei-1259209256.cos-website.ap-nanjing.myqcloud.com/',
+            expected: '应该返回403或列出文件'
+        },
+        {
+            name: '图鉴图片直接访问',
+            url: 'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/gallery/超特图鉴.png',
+            expected: '应该返回200和图片数据'
+        },
+        {
+            name: '角色图片直接访问',
+            url: 'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/characters/9代超特/亚琪亚克.png',
+            expected: '应该返回200和图片数据'
+        },
+        {
+            name: 'GIF文件直接访问',
+            url: 'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/gifs/9代超特/亚琪亚克/A三分.gif',
+            expected: '应该返回200和GIF数据'
+        },
+        {
+            name: '带时间戳的图片访问',
+            url: 'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/gallery/超特图鉴.png?t=' + Date.now(),
+            expected: '应该返回200和图片数据'
+        }
+    ];
+    
+    testCases.forEach((testCase, index) => {
+        console.log(`\n🧪 测试${index + 1}: ${testCase.name}`);
+        console.log(`🔗 URL: ${testCase.url}`);
+        console.log(`📋 预期: ${testCase.expected}`);
+        
+        // 使用fetch测试
+        fetch(testCase.url, { 
+            method: 'HEAD',
+            mode: 'cors'
+        })
+        .then(response => {
+            console.log(`📊 响应状态: ${response.status} ${response.statusText}`);
+            console.log(`📋 响应头:`, response.headers);
+            
+            if (response.ok) {
+                console.log(`✅ 测试${index + 1}成功`);
+            } else if (response.status === 403) {
+                console.log(`⚠️ 测试${index + 1}: 权限不足 (403) - 需要检查COS权限设置`);
+            } else if (response.status === 404) {
+                console.log(`❌ 测试${index + 1}: 文件不存在 (404) - 需要检查文件路径`);
+            } else {
+                console.log(`❌ 测试${index + 1}: 访问失败 (${response.status})`);
+            }
+        })
+        .catch(error => {
+            console.log(`❌ 测试${index + 1}: 网络错误 - ${error.message}`);
+            if (error.message.includes('CORS')) {
+                console.log(`🔍 这是CORS跨域问题，需要在COS中配置CORS规则`);
+            }
+        });
+    });
+}
+
+// 增强的图片加载函数 - 尝试多种访问方式
+function createEnhancedImage(src, alt, options = {}) {
+    console.log('🔄 尝试加载图片:', src);
+    
+    const img = new Image();
+    img.alt = alt || '';
+    img.style.maxWidth = '100%';
+    img.style.height = 'auto';
+    
+    // 尝试多种访问方式
+    const accessMethods = [
+        // 方法1：直接访问
+        COS_CONFIG.Domain + '/' + src,
+        // 方法2：添加时间戳
+        COS_CONFIG.Domain + '/' + src + '?t=' + Date.now(),
+        // 方法3：使用备用域名
+        COS_CONFIG.BackupDomain + '/' + src,
+        // 方法4：添加压缩参数（不使用WebP）
+        COS_CONFIG.Domain + '/' + src + '?imageView2/2/w/800',
+        // 方法5：添加随机参数
+        COS_CONFIG.Domain + '/' + src + '?v=' + Math.random()
+    ];
+    
+    let currentMethod = 0;
+    
+    function tryNextMethod() {
+        if (currentMethod >= accessMethods.length) {
+            console.log('❌ 所有访问方式都失败:', src);
+            // 显示错误占位符
+            img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7mnKzlm748L3RleHQ+Cjx0ZXh0IHg9IjEwMCIgeT0iMTIwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjwvc3ZnPgo=';
+            return;
+        }
+        
+        const testUrl = accessMethods[currentMethod];
+        console.log(`🔧 尝试方法${currentMethod + 1}: ${testUrl}`);
+        
+        img.onload = function() {
+            console.log(`✅ 方法${currentMethod + 1}成功: ${testUrl}`);
+            console.log(`📏 图片尺寸: ${img.naturalWidth} x ${img.naturalHeight}`);
+        };
+        
+        img.onerror = function() {
+            console.log(`❌ 方法${currentMethod + 1}失败: ${testUrl}`);
+            currentMethod++;
+            setTimeout(tryNextMethod, 500); // 500ms后尝试下一种方法
+        };
+        
+        img.src = testUrl;
+    }
+    
+    // 开始尝试
+    tryNextMethod();
+    
+    return img;
+}
+
+// 专门的GIF加载函数 - 处理COS中的GIF文件
+function createGifImage(src, alt) {
+    console.log('🔄 尝试加载GIF文件:', src);
+    
+    const img = new Image();
+    img.alt = alt || '';
+    img.style.maxWidth = '100%';
+    img.style.height = 'auto';
+    
+    // 尝试多种访问方式
+    const accessMethods = [
+        // 方法1：直接访问GIF文件
+        COS_CONFIG.Domain + '/' + src,
+        // 方法2：添加时间戳避免缓存
+        COS_CONFIG.Domain + '/' + src + '?t=' + Date.now(),
+        // 方法3：使用备用域名
+        COS_CONFIG.BackupDomain + '/' + src,
+        // 方法4：添加随机参数
+        COS_CONFIG.Domain + '/' + src + '?v=' + Math.random(),
+        // 方法5：强制GIF格式
+        COS_CONFIG.Domain + '/' + src + '?imageView2/2/w/800/format/gif'
+    ];
+    
+    let currentMethod = 0;
+    
+    function tryNextMethod() {
+        if (currentMethod >= accessMethods.length) {
+            console.log('❌ 所有GIF访问方式都失败:', src);
+            // 显示错误占位符
+            img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7mnKzlm748L3RleHQ+Cjx0ZXh0IHg9IjEwMCIgeT0iMTIwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjwvc3ZnPgo=';
+            return;
+        }
+        
+        const testUrl = accessMethods[currentMethod];
+        console.log(`🔧 尝试GIF方法${currentMethod + 1}: ${testUrl}`);
+        
+        // 清除之前的事件监听器
+        img.onload = null;
+        img.onerror = null;
+        
+        img.onload = function() {
+            console.log(`✅ GIF方法${currentMethod + 1}成功: ${testUrl}`);
+            console.log(`📏 GIF尺寸: ${img.naturalWidth} x ${img.naturalHeight}`);
+            console.log(`📄 文件类型: GIF`);
+        };
+        
+        img.onerror = function() {
+            console.log(`❌ GIF方法${currentMethod + 1}失败: ${testUrl}`);
+            currentMethod++;
+            setTimeout(tryNextMethod, 500); // 500ms后尝试下一种方法
+        };
+        
+        img.src = testUrl;
+    }
+    
+    // 开始尝试
+    tryNextMethod();
+    
+    return img;
+}
+
+// GIF测试函数 - 测试单个GIF文件加载
+function testSingleGif() {
+    console.log('🧪 开始测试单个GIF文件加载');
+    
+    // 测试一个简单的GIF文件
+    const testGifUrl = 'gifs/9代超特/亚琪亚克/A三分.gif';
+    
+    console.log('🔗 测试GIF URL:', COS_CONFIG.Domain + '/' + testGifUrl);
+    
+    const img = new Image();
+    img.style.width = '200px';
+    img.style.height = '200px';
+    img.style.border = '2px solid red';
+    
+    img.onload = function() {
+        console.log('✅ 测试GIF加载成功！');
+        console.log('📏 尺寸:', img.naturalWidth, 'x', img.naturalHeight);
+        console.log('🔗 URL:', img.src);
+        
+        // 显示在页面上
+        const testContainer = document.createElement('div');
+        testContainer.style.position = 'fixed';
+        testContainer.style.top = '10px';
+        testContainer.style.right = '10px';
+        testContainer.style.zIndex = '9999';
+        testContainer.style.background = 'white';
+        testContainer.style.padding = '10px';
+        testContainer.style.border = '2px solid blue';
+        testContainer.innerHTML = '<h3>GIF测试结果 - 成功</h3>';
+        testContainer.appendChild(img);
+        
+        document.body.appendChild(testContainer);
+        
+        // 5秒后自动移除
+        setTimeout(() => {
+            if (testContainer.parentNode) {
+                testContainer.parentNode.removeChild(testContainer);
+            }
+        }, 5000);
+    };
+    
+    img.onerror = function() {
+        console.log('❌ 测试GIF加载失败！');
+        console.log('🔗 尝试的URL:', img.src);
+        
+        // 显示错误信息
+        const testContainer = document.createElement('div');
+        testContainer.style.position = 'fixed';
+        testContainer.style.top = '10px';
+        testContainer.style.right = '10px';
+        testContainer.style.zIndex = '9999';
+        testContainer.style.background = 'red';
+        testContainer.style.color = 'white';
+        testContainer.style.padding = '10px';
+        testContainer.style.border = '2px solid red';
+        testContainer.innerHTML = '<h3>GIF测试结果 - 失败</h3><p>URL: ' + img.src + '</p>';
+        
+        document.body.appendChild(testContainer);
+        
+        // 5秒后自动移除
+        setTimeout(() => {
+            if (testContainer.parentNode) {
+                testContainer.parentNode.removeChild(testContainer);
+            }
+        }, 5000);
+    };
+    
+    // 直接使用COS域名
+    img.src = COS_CONFIG.Domain + '/' + testGifUrl;
+}
+
+// 简单的GIF加载函数 - 直接加载GIF文件
+function loadGifDirectly(gifUrl, actionName, container) {
+    console.log('🔄 直接加载GIF:', gifUrl);
+    
+    // 清空容器并显示加载提示
+    container.innerHTML = '<div style="text-align: center; padding: 20px; color: #9ca3af;">加载GIF中...</div>';
+    
+    const img = new Image();
+    img.className = 'action-gif';
+    img.style.maxWidth = '100%';
+    img.style.height = 'auto';
+    img.alt = actionName;
+    
+    img.onload = function() {
+        console.log('✅ GIF加载成功:', gifUrl);
+        console.log('📏 尺寸:', img.naturalWidth, 'x', img.naturalHeight);
+        
+        // 替换加载提示
+        container.innerHTML = '';
+        container.appendChild(img);
+        container.innerHTML += '<p class="action-name">' + actionName + '</p>';
+    };
+    
+    img.onerror = function() {
+        console.log('❌ GIF加载失败:', gifUrl);
+        container.innerHTML = '<div style="text-align: center; padding: 20px; color: #dc3545;">GIF加载失败</div>';
+    };
+    
+    // 直接使用完整URL
+    img.src = gifUrl;
+}
+
+// 移动端兼容性检测和修复函数
+function checkMobileCompatibility() {
+    console.log('🔍 检测移动端兼容性...');
+    
+    const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const isAndroid = /Android/.test(navigator.userAgent);
+    const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
+    const isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+    
+    // 检测iOS版本
+    let iosVersion = null;
+    if (isIOS) {
+        const match = navigator.userAgent.match(/OS (\d+)_(\d+)_?(\d+)?/);
+        if (match) {
+            iosVersion = {
+                major: parseInt(match[1]),
+                minor: parseInt(match[2]),
+                patch: match[3] ? parseInt(match[3]) : 0
+            };
+        }
+    }
+    
+    console.log('📱 设备信息:', {
+        isMobile: isMobile,
+        isIOS: isIOS,
+        isAndroid: isAndroid,
+        isWeChat: isWeChat,
+        isSafari: isSafari,
+        iosVersion: iosVersion,
+        userAgent: navigator.userAgent
+    });
+    
+    // 应用移动端特殊处理
+    if (isMobile) {
+        // iOS 18.2 特殊处理
+        if (isIOS && iosVersion && iosVersion.major >= 18) {
+            console.log('🍎 检测到iOS 18+，应用特殊处理');
+            
+            // 强制清理缓存
+            if ('caches' in window) {
+                caches.keys().then(names => {
+                    names.forEach(name => {
+                        caches.delete(name);
+                        console.log('🗑️ 清理缓存:', name);
+                    });
+                });
+            }
+            
+            // iOS 18.2 特殊CSS
+            const style = document.createElement('style');
+            style.textContent = `
+                .gif-container {
+                    z-index: 999999 !important;
+                    position: relative !important;
+                    background: #ffffff !important;
+                    -webkit-transform: translateZ(0) !important;
+                    transform: translateZ(0) !important;
+                    -webkit-backface-visibility: hidden !important;
+                    backface-visibility: hidden !important;
+                    will-change: transform !important;
+                    -webkit-perspective: 1000px !important;
+                    perspective: 1000px !important;
+                }
+                .action-gif {
+                    z-index: 1000000 !important;
+                    position: relative !important;
+                    -webkit-transform: translateZ(0) !important;
+                    transform: translateZ(0) !important;
+                    -webkit-backface-visibility: hidden !important;
+                    backface-visibility: hidden !important;
+                    will-change: transform !important;
+                    -webkit-perspective: 1000px !important;
+                    perspective: 1000px !important;
+                    image-rendering: -webkit-optimize-contrast !important;
+                    image-rendering: crisp-edges !important;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        // 修复iOS Safari的GIF显示问题
+        if (isIOS) {
+            console.log('🍎 检测到iOS设备，应用iOS特殊处理');
+            document.body.style.webkitTransform = 'translateZ(0)';
+            document.body.style.transform = 'translateZ(0)';
+            
+            // iOS Safari 特殊处理
+            if (isSafari) {
+                console.log('🌐 检测到iOS Safari，应用Safari特殊处理');
+                const style = document.createElement('style');
+                style.textContent = `
+                    .gif-container, .action-gif {
+                        -webkit-transform: translateZ(0) !important;
+                        transform: translateZ(0) !important;
+                        -webkit-backface-visibility: hidden !important;
+                        backface-visibility: hidden !important;
+                        will-change: transform !important;
+                        -webkit-perspective: 1000px !important;
+                        perspective: 1000px !important;
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+        
+        // 修复Android Chrome的GIF显示问题
+        if (isAndroid) {
+            console.log('🤖 检测到Android设备，应用Android特殊处理');
+            // 强制启用硬件加速
+            const style = document.createElement('style');
+            style.textContent = `
+                .gif-container, .action-gif {
+                    -webkit-transform: translateZ(0) !important;
+                    transform: translateZ(0) !important;
+                    -webkit-backface-visibility: hidden !important;
+                    backface-visibility: hidden !important;
+                    will-change: transform !important;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        // 修复微信浏览器的GIF显示问题
+        if (isWeChat) {
+            console.log('💬 检测到微信浏览器，应用微信特殊处理');
+            // 微信浏览器特殊处理
+            const style = document.createElement('style');
+            style.textContent = `
+                .gif-container {
+                    z-index: 999999 !important;
+                    position: relative !important;
+                    background: #ffffff !important;
+                    -webkit-transform: translateZ(0) !important;
+                    transform: translateZ(0) !important;
+                    -webkit-backface-visibility: hidden !important;
+                    backface-visibility: hidden !important;
+                    will-change: transform !important;
+                }
+                .action-gif {
+                    z-index: 1000000 !important;
+                    position: relative !important;
+                    -webkit-transform: translateZ(0) !important;
+                    transform: translateZ(0) !important;
+                    -webkit-backface-visibility: hidden !important;
+                    backface-visibility: hidden !important;
+                    will-change: transform !important;
+                    image-rendering: -webkit-optimize-contrast !important;
+                    image-rendering: crisp-edges !important;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+    }
+    
+    return { isMobile, isIOS, isAndroid, isWeChat, isSafari, iosVersion };
+}
+
+// 页面加载时检测兼容性
+document.addEventListener('DOMContentLoaded', function() {
+    const compatibility = checkMobileCompatibility();
+    
+    // iOS 18.2 特殊处理（移除强制刷新，避免页面无法加载）
+    if (compatibility.isIOS && compatibility.iosVersion && compatibility.iosVersion.major >= 18) {
+        console.log('🍎 iOS 18+ 检测到，应用特殊处理');
+        
+        // 仅清理缓存，不强制刷新
+        if ('caches' in window) {
+            caches.keys().then(names => {
+                names.forEach(name => {
+                    caches.delete(name);
+                    console.log('🗑️ 清理缓存:', name);
+                });
+            });
+        }
+    }
+});
+
+// 打开活动链接
+function openEvent(url) {
+    console.log('🎯 打开活动链接:', url);
+    
+    // 检测是否在微信浏览器中
+    const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
+    
+    if (isWeChat) {
+        console.log('💬 在微信浏览器中，直接打开链接');
+        // 在微信中直接打开
+        window.location.href = url;
+    } else {
+        console.log('🌐 在普通浏览器中，尝试打开链接');
+        // 在普通浏览器中尝试打开
+        try {
+            // 尝试在新窗口打开
+            const newWindow = window.open(url, '_blank');
+            if (!newWindow) {
+                // 如果弹窗被阻止，则直接跳转
+                window.location.href = url;
+            }
+        } catch (error) {
+            console.log('❌ 打开链接失败:', error);
+            // 降级处理：直接跳转
+            window.location.href = url;
+        }
+    }
+}
+
+// 全面COS诊断和修复函数
+function comprehensiveCOSTest() {
+    console.log('🔍 开始全面COS诊断...');
+    
+    if (typeof addDebugInfo === 'function') {
+        addDebugInfo('开始全面COS诊断');
+    }
+    
+    const testCases = [
+        {
+            name: '基础图片访问',
+            url: COS_CONFIG.Domain + '/gallery/超特图鉴.png',
+            type: 'image'
+        },
+        {
+            name: '角色图片访问',
+            url: COS_CONFIG.Domain + '/characters/9代超特/亚琪亚克.png',
+            type: 'image'
+        },
+        {
+            name: 'GIF文件访问',
+            url: COS_CONFIG.Domain + '/gifs/9代超特/亚琪亚克/A三分.gif',
+            type: 'gif'
+        },
+        {
+            name: '排名图片访问',
+            url: COS_CONFIG.Domain + '/ranking/C排名.png',
+            type: 'image'
+        }
+    ];
+    
+    let results = {
+        total: testCases.length,
+        success: 0,
+        failed: 0,
+        details: []
+    };
+    
+    // 测试每个URL
+    testCases.forEach((testCase, index) => {
+        console.log(`\n📋 测试 ${index + 1}: ${testCase.name}`);
+        console.log(`🔗 URL: ${testCase.url}`);
+        
+        if (typeof addDebugInfo === 'function') {
+            addDebugInfo(`测试 ${index + 1}: ${testCase.name}`);
+        }
+        
+        // 方法1: 使用fetch测试
+        fetch(testCase.url, {
+            method: 'HEAD',
+            mode: 'cors',
+            credentials: 'omit'
+        }).then(response => {
+            console.log(`✅ ${testCase.name} - HTTP状态: ${response.status}`);
+            console.log(`📊 响应头:`, response.headers);
+            
+            if (typeof addDebugInfo === 'function') {
+                addDebugInfo(`${testCase.name} - HTTP状态: ${response.status}`);
+            }
+            
+            if (response.ok) {
+                results.success++;
+                results.details.push({
+                    name: testCase.name,
+                    status: 'success',
+                    httpStatus: response.status,
+                    url: testCase.url
+                });
+            } else {
+                results.failed++;
+                results.details.push({
+                    name: testCase.name,
+                    status: 'failed',
+                    httpStatus: response.status,
+                    url: testCase.url,
+                    error: `HTTP ${response.status}`
+                });
+            }
+        }).catch(error => {
+            console.log(`❌ ${testCase.name} - 网络错误:`, error.message);
+            
+            if (typeof addDebugInfo === 'function') {
+                addDebugInfo(`${testCase.name} - 网络错误: ${error.message}`);
+            }
+            
+            results.failed++;
+            results.details.push({
+                name: testCase.name,
+                status: 'failed',
+                url: testCase.url,
+                error: error.message
+            });
+        });
+        
+        // 方法2: 使用Image对象测试
+        const img = new Image();
+        img.onload = function() {
+            console.log(`✅ ${testCase.name} - 图片加载成功 (${img.naturalWidth}x${img.naturalHeight})`);
+            
+            if (typeof addDebugInfo === 'function') {
+                addDebugInfo(`${testCase.name} - 图片加载成功 (${img.naturalWidth}x${img.naturalHeight})`);
+            }
+        };
+        img.onerror = function() {
+            console.log(`❌ ${testCase.name} - 图片加载失败`);
+            
+            if (typeof addDebugInfo === 'function') {
+                addDebugInfo(`${testCase.name} - 图片加载失败`);
+            }
+        };
+        img.src = testCase.url + '?t=' + Date.now();
+    });
+    
+    // 5秒后输出总结
+    setTimeout(() => {
+        console.log('\n📊 全面COS诊断结果:');
+        console.log(`总计测试: ${results.total}`);
+        console.log(`成功: ${results.success}`);
+        console.log(`失败: ${results.failed}`);
+        console.log('详细结果:', results.details);
+        
+        if (typeof addDebugInfo === 'function') {
+            addDebugInfo(`诊断完成: 成功${results.success}个, 失败${results.failed}个`);
+            
+            // 根据结果提供建议
+            if (results.failed > 0) {
+                addDebugInfo('建议检查:');
+                addDebugInfo('1. 腾讯云COS存储桶权限设置');
+                addDebugInfo('2. 防盗链配置');
+                addDebugInfo('3. 网络连接状态');
+                addDebugInfo('4. 文件是否存在于COS中');
+            }
+        }
+        
+        // 如果大部分失败，尝试备用域名
+        if (results.failed > results.success && COS_CONFIG.BackupDomain) {
+            console.log('🔄 尝试使用备用域名...');
+            if (typeof addDebugInfo === 'function') {
+                addDebugInfo('尝试使用备用域名...');
+            }
+            testBackupDomain();
+        }
+    }, 5000);
+}
+
+// 测试备用域名
+function testBackupDomain() {
+    console.log('🔍 测试备用域名:', COS_CONFIG.BackupDomain);
+    
+    if (typeof addDebugInfo === 'function') {
+        addDebugInfo('测试备用域名: ' + COS_CONFIG.BackupDomain);
+    }
+    
+    const testUrl = COS_CONFIG.BackupDomain + '/gallery/超特图鉴.png';
+    
+    fetch(testUrl, {
+        method: 'HEAD',
+        mode: 'cors',
+        credentials: 'omit'
+    }).then(response => {
+        console.log('✅ 备用域名测试成功:', response.status);
+        
+        if (typeof addDebugInfo === 'function') {
+            addDebugInfo('备用域名测试成功: ' + response.status);
+        }
+        
+        // 如果备用域名可用，建议切换
+        if (response.ok) {
+            console.log('💡 建议切换到备用域名');
+            if (typeof addDebugInfo === 'function') {
+                addDebugInfo('建议切换到备用域名');
+            }
+        }
+    }).catch(error => {
+        console.log('❌ 备用域名测试失败:', error.message);
+        
+        if (typeof addDebugInfo === 'function') {
+            addDebugInfo('备用域名测试失败: ' + error.message);
+        }
+    });
+}
+
+// 清除所有缓存并重新加载
+function clearAllCachesAndReload() {
+    console.log('🧹 清除所有缓存并重新加载...');
+    
+    if (typeof addDebugInfo === 'function') {
+        addDebugInfo('清除所有缓存并重新加载...');
+    }
+    
+    // 清除localStorage和sessionStorage
+    localStorage.clear();
+    sessionStorage.clear();
+    
+    // 清除Service Worker缓存
+    if ('caches' in window) {
+        caches.keys().then(cacheNames => {
+            return Promise.all(
+                cacheNames.map(cacheName => {
+                    console.log('删除缓存:', cacheName);
+                    return caches.delete(cacheName);
+                })
+            );
+        }).then(() => {
+            console.log('所有缓存已清除');
+            
+            if (typeof addDebugInfo === 'function') {
+                addDebugInfo('所有缓存已清除');
+            }
+            
+            // 通知Service Worker清除缓存
+            if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+                navigator.serviceWorker.controller.postMessage({
+                    type: 'CLEAR_CACHE'
+                });
+            }
+            
+            // 强制刷新页面
+            setTimeout(() => {
+                window.location.reload(true);
+            }, 1000);
+        });
+    } else {
+        // 如果没有caches API，直接刷新
+        window.location.reload(true);
+    }
+}
+
+// 详细网络诊断函数
+function detailedNetworkDiagnosis() {
+    console.log('🔍 开始详细网络诊断...');
+    
+    if (typeof addDebugInfo === 'function') {
+        addDebugInfo('开始详细网络诊断');
+    }
+    
+    const diagnosisResults = {
+        dns: null,
+        network: null,
+        cors: null,
+        timing: null,
+        userAgent: navigator.userAgent,
+        platform: navigator.platform,
+        connection: navigator.connection || 'unknown'
+    };
+    
+    // 1. 测试DNS解析和网络连接
+    const testUrl = COS_CONFIG.Domain + '/gallery/超特图鉴.png';
+    const startTime = performance.now();
+    
+    fetch(testUrl, {
+        method: 'HEAD',
+        mode: 'cors',
+        credentials: 'omit',
+        cache: 'no-cache'
+    }).then(response => {
+        const endTime = performance.now();
+        const duration = endTime - startTime;
+        
+        diagnosisResults.network = {
+            status: response.status,
+            statusText: response.statusText,
+            ok: response.ok,
+            duration: duration
+        };
+        
+        // 检查响应头
+        const headers = {};
+        response.headers.forEach((value, key) => {
+            headers[key] = value;
+        });
+        
+        diagnosisResults.cors = {
+            headers: headers,
+            hasCorsHeaders: headers['access-control-allow-origin'] !== undefined
+        };
+        
+        console.log('✅ 网络连接测试成功');
+        console.log('📊 响应时间:', duration.toFixed(2) + 'ms');
+        console.log('📋 响应头:', headers);
+        
+        if (typeof addDebugInfo === 'function') {
+            addDebugInfo(`网络连接成功 - 响应时间: ${duration.toFixed(2)}ms`);
+            addDebugInfo(`HTTP状态: ${response.status} ${response.statusText}`);
+        }
+        
+    }).catch(error => {
+        const endTime = performance.now();
+        const duration = endTime - startTime;
+        
+        diagnosisResults.network = {
+            error: error.message,
+            duration: duration,
+            type: error.name
+        };
+        
+        console.log('❌ 网络连接测试失败:', error);
+        console.log('📊 失败时间:', duration.toFixed(2) + 'ms');
+        
+        if (typeof addDebugInfo === 'function') {
+            addDebugInfo(`网络连接失败: ${error.message}`);
+            addDebugInfo(`错误类型: ${error.name}`);
+        }
+    });
+    
+    // 2. 测试多个图片URL
+    const testUrls = [
+        COS_CONFIG.Domain + '/gallery/超特图鉴.png',
+        COS_CONFIG.Domain + '/ranking/C排名.png',
+        COS_CONFIG.Domain + '/characters/9代超特/亚琪亚克.png',
+        COS_CONFIG.BackupDomain + '/gallery/超特图鉴.png'
+    ];
+    
+    let successCount = 0;
+    let failCount = 0;
+    const timingResults = [];
+    
+    testUrls.forEach((url, index) => {
+        const imgStartTime = performance.now();
+        
+        const img = new Image();
+        img.onload = function() {
+            const imgEndTime = performance.now();
+            const imgDuration = imgEndTime - imgStartTime;
+            
+            successCount++;
+            timingResults.push({
+                url: url,
+                success: true,
+                duration: imgDuration,
+                size: `${img.naturalWidth}x${img.naturalHeight}`
+            });
+            
+            console.log(`✅ 图片${index + 1}加载成功: ${imgDuration.toFixed(2)}ms`);
+            
+            if (typeof addDebugInfo === 'function') {
+                addDebugInfo(`图片${index + 1}成功: ${imgDuration.toFixed(2)}ms`);
+            }
+        };
+        
+        img.onerror = function() {
+            const imgEndTime = performance.now();
+            const imgDuration = imgEndTime - imgStartTime;
+            
+            failCount++;
+            timingResults.push({
+                url: url,
+                success: false,
+                duration: imgDuration,
+                error: 'Image load failed'
+            });
+            
+            console.log(`❌ 图片${index + 1}加载失败: ${imgDuration.toFixed(2)}ms`);
+            
+            if (typeof addDebugInfo === 'function') {
+                addDebugInfo(`图片${index + 1}失败: ${imgDuration.toFixed(2)}ms`);
+            }
+        };
+        
+        img.src = url + '?t=' + Date.now();
+    });
+    
+    // 3. 检查浏览器环境
+    const browserInfo = {
+        userAgent: navigator.userAgent,
+        platform: navigator.platform,
+        language: navigator.language,
+        cookieEnabled: navigator.cookieEnabled,
+        onLine: navigator.onLine,
+        connection: navigator.connection || 'unknown',
+        hardwareConcurrency: navigator.hardwareConcurrency,
+        deviceMemory: navigator.deviceMemory || 'unknown'
+    };
+    
+    console.log('🌐 浏览器环境信息:', browserInfo);
+    
+    if (typeof addDebugInfo === 'function') {
+        addDebugInfo('浏览器环境检查完成');
+        addDebugInfo(`在线状态: ${navigator.onLine ? '在线' : '离线'}`);
+        addDebugInfo(`网络类型: ${browserInfo.connection}`);
+    }
+    
+    // 4. 检查缓存状态
+    if ('caches' in window) {
+        caches.keys().then(cacheNames => {
+            console.log('📦 当前缓存数量:', cacheNames.length);
+            console.log('📦 缓存列表:', cacheNames);
+            
+            if (typeof addDebugInfo === 'function') {
+                addDebugInfo(`缓存数量: ${cacheNames.length}`);
+                cacheNames.forEach(name => {
+                    addDebugInfo(`缓存: ${name}`);
+                });
+            }
+        });
+    }
+    
+    // 5. 检查Service Worker状态
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+            console.log('🔧 Service Worker数量:', registrations.length);
+            
+            if (typeof addDebugInfo === 'function') {
+                addDebugInfo(`Service Worker数量: ${registrations.length}`);
+            }
+            
+            registrations.forEach((registration, index) => {
+                console.log(`🔧 SW${index + 1}状态:`, registration.active ? 'active' : 'inactive');
+                
+                if (typeof addDebugInfo === 'function') {
+                    addDebugInfo(`SW${index + 1}: ${registration.active ? 'active' : 'inactive'}`);
+                }
+            });
+        });
+    }
+    
+    // 6. 延迟输出总结
+    setTimeout(() => {
+        console.log('\n📊 详细网络诊断结果:');
+        console.log('浏览器信息:', browserInfo);
+        console.log('网络测试:', diagnosisResults.network);
+        console.log('CORS信息:', diagnosisResults.cors);
+        console.log('图片加载统计:', { success: successCount, failed: failCount });
+        console.log('详细时间:', timingResults);
+        
+        if (typeof addDebugInfo === 'function') {
+            addDebugInfo('=== 诊断总结 ===');
+            addDebugInfo(`图片加载: 成功${successCount}个, 失败${failCount}个`);
+            
+            if (failCount > successCount) {
+                addDebugInfo('⚠️ 大部分图片加载失败，可能原因:');
+                addDebugInfo('1. 网络连接问题');
+                addDebugInfo('2. DNS解析问题');
+                addDebugInfo('3. 防火墙或代理阻止');
+                addDebugInfo('4. 浏览器缓存问题');
+            } else if (successCount > 0) {
+                addDebugInfo('✅ 部分图片可以加载，可能是特定文件问题');
+            }
+        }
+        
+        // 保存诊断结果到localStorage
+        localStorage.setItem('networkDiagnosis', JSON.stringify({
+            timestamp: new Date().toISOString(),
+            results: diagnosisResults,
+            timing: timingResults,
+            browser: browserInfo
+        }));
+        
+    }, 8000);
+    
+    return diagnosisResults;
+}
+
+// 检查是否是微信浏览器问题
+function checkWeChatIssues() {
+    const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const isAndroid = /Android/.test(navigator.userAgent);
+    
+    console.log('📱 设备检测:', {
+        isWeChat: isWeChat,
+        isIOS: isIOS,
+        isAndroid: isAndroid,
+        userAgent: navigator.userAgent
+    });
+    
+    if (typeof addDebugInfo === 'function') {
+        addDebugInfo(`设备检测: 微信=${isWeChat}, iOS=${isIOS}, Android=${isAndroid}`);
+    }
+    
+    // 微信浏览器特殊处理
+    if (isWeChat) {
+        console.log('🔍 检测到微信浏览器，应用特殊处理...');
+        
+        if (typeof addDebugInfo === 'function') {
+            addDebugInfo('检测到微信浏览器，应用特殊处理');
+        }
+        
+        // 微信浏览器可能需要特殊的时间戳处理
+        const testUrl = COS_CONFIG.Domain + '/gallery/超特图鉴.png?v=' + Date.now() + '&wx=' + Math.random();
+        
+        const img = new Image();
+        img.onload = function() {
+            console.log('✅ 微信浏览器图片加载成功');
+            if (typeof addDebugInfo === 'function') {
+                addDebugInfo('微信浏览器图片加载成功');
+            }
+        };
+        img.onerror = function() {
+            console.log('❌ 微信浏览器图片加载失败');
+            if (typeof addDebugInfo === 'function') {
+                addDebugInfo('微信浏览器图片加载失败');
+            }
+        };
+        img.src = testUrl;
+    }
+}
+
+// 微信浏览器图片加载优化
+function optimizeForWeChat() {
+    const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
+    
+    if (!isWeChat) {
+        console.log('非微信浏览器，跳过微信优化');
+        return;
+    }
+    
+    console.log('🔧 应用微信浏览器优化...');
+    
+    if (typeof addDebugInfo === 'function') {
+        addDebugInfo('应用微信浏览器优化');
+    }
+    
+    // 1. 修改图片加载策略
+    const originalCreateRobustImage = window.createRobustImage;
+    
+    window.createRobustImage = function(src, alt, options) {
+        const weChatOptions = {
+            ...options,
+            // 微信浏览器特殊参数
+            enableCacheBusting: true,
+            enableImageCompression: false, // 微信浏览器可能不支持某些压缩参数
+            retryDelay: 3000, // 增加重试延迟
+            maxRetries: 3
+        };
+        
+        // 添加微信特殊的时间戳
+        let imageUrl = src;
+        if (!src.startsWith('http')) {
+            imageUrl = COS_CONFIG.Domain + '/' + src;
+        }
+        
+        // 微信浏览器特殊处理
+        const separator = imageUrl.includes('?') ? '&' : '?';
+        imageUrl += separator + 'wx=' + Date.now() + '&r=' + Math.random();
+        
+        console.log('🔧 微信优化图片URL:', imageUrl);
+        
+        if (typeof addDebugInfo === 'function') {
+            addDebugInfo('微信优化图片URL: ' + imageUrl);
+        }
+        
+        const img = new Image();
+        img.alt = alt || '';
+        img.style.maxWidth = '100%';
+        img.style.height = 'auto';
+        
+        // 微信浏览器特殊错误处理
+        img.onerror = function() {
+            console.log('❌ 微信浏览器图片加载失败:', imageUrl);
+            
+            if (typeof addDebugInfo === 'function') {
+                addDebugInfo('微信浏览器图片加载失败: ' + imageUrl);
+            }
+            
+            // 尝试备用域名
+            if (COS_CONFIG.BackupDomain) {
+                const backupUrl = imageUrl.replace(COS_CONFIG.Domain, COS_CONFIG.BackupDomain);
+                console.log('🔄 尝试微信备用域名:', backupUrl);
+                
+                if (typeof addDebugInfo === 'function') {
+                    addDebugInfo('尝试微信备用域名: ' + backupUrl);
+                }
+                
+                img.src = backupUrl;
+            } else {
+                // 显示错误占位符
+                img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7mnKzlm748L3RleHQ+Cjx0ZXh0IHg9IjEwMCIgeT0iMTIwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjwvc3ZnPgo=';
+            }
+        };
+        
+        img.onload = function() {
+            console.log('✅ 微信浏览器图片加载成功:', imageUrl);
+            
+            if (typeof addDebugInfo === 'function') {
+                addDebugInfo('微信浏览器图片加载成功: ' + imageUrl);
+            }
+        };
+        
+        img.src = imageUrl;
+        return img;
+    };
+    
+    // 2. 微信JS-SDK准备
+    document.addEventListener('WeixinJSBridgeReady', function() {
+        console.log('🔧 微信JS-SDK准备就绪');
+        
+        if (typeof addDebugInfo === 'function') {
+            addDebugInfo('微信JS-SDK准备就绪');
+        }
+        
+        if (typeof WeixinJSBridge !== 'undefined') {
+            // 隐藏微信菜单，避免干扰
+            WeixinJSBridge.call('hideOptionMenu');
+            
+            // 设置页面标题
+            WeixinJSBridge.call('setDocumentTitle', '老非FS资料库');
+        }
+    });
+    
+    // 3. 微信浏览器特殊样式
+    const style = document.createElement('style');
+    style.textContent = `
+        /* 微信浏览器特殊样式 */
+        .wechat-browser img {
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .wechat-browser .gallery-grid img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        /* 微信浏览器滚动优化 */
+        .wechat-browser {
+            -webkit-overflow-scrolling: touch;
+        }
+    `;
+    document.head.appendChild(style);
+    document.body.classList.add('wechat-browser');
+    
+    // 4. 微信浏览器网络状态监听
+    window.addEventListener('online', function() {
+        console.log('🌐 微信浏览器网络连接恢复');
+        
+        if (typeof addDebugInfo === 'function') {
+            addDebugInfo('微信浏览器网络连接恢复');
+        }
+        
+        // 重新加载图片
+        setTimeout(() => {
+            const images = document.querySelectorAll('img[src*="cos.ap-nanjing.myqcloud.com"]');
+            images.forEach(img => {
+                const originalSrc = img.src;
+                img.src = originalSrc + (originalSrc.includes('?') ? '&' : '?') + 'reload=' + Date.now();
+            });
+        }, 1000);
+    });
+    
+    window.addEventListener('offline', function() {
+        console.log('❌ 微信浏览器网络连接断开');
+        
+        if (typeof addDebugInfo === 'function') {
+            addDebugInfo('微信浏览器网络连接断开');
+        }
+    });
+    
+    console.log('✅ 微信浏览器优化完成');
+    
+    if (typeof addDebugInfo === 'function') {
+        addDebugInfo('微信浏览器优化完成');
+    }
+}
+
+// 强制刷新微信浏览器缓存
+function forceWeChatRefresh() {
+    const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
+    
+    if (!isWeChat) {
+        console.log('非微信浏览器，跳过微信刷新');
+        return;
+    }
+    
+    console.log('🔄 强制刷新微信浏览器缓存...');
+    
+    if (typeof addDebugInfo === 'function') {
+        addDebugInfo('强制刷新微信浏览器缓存');
+    }
+    
+    // 1. 清除所有缓存
+    localStorage.clear();
+    sessionStorage.clear();
+    
+    // 2. 清除Service Worker缓存
+    if ('caches' in window) {
+        caches.keys().then(cacheNames => {
+            return Promise.all(
+                cacheNames.map(cacheName => {
+                    console.log('删除微信缓存:', cacheName);
+                    return caches.delete(cacheName);
+                })
+            );
+        }).then(() => {
+            console.log('微信缓存清除完成');
+            
+            if (typeof addDebugInfo === 'function') {
+                addDebugInfo('微信缓存清除完成');
+            }
+        });
+    }
+    
+    // 3. 微信特殊刷新
+    if (typeof WeixinJSBridge !== 'undefined') {
+        WeixinJSBridge.call('reloadPage');
+    } else {
+        // 延迟刷新，确保缓存清除完成
+        setTimeout(() => {
+            window.location.reload(true);
+        }, 2000);
+    }
+}
+
+

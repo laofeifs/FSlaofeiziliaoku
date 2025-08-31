@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>图片访问测试</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-result { margin: 10px 0; padding: 10px; border: 1px solid #ccc; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        img { max-width: 200px; max-height: 200px; margin: 10px; }
+    </style>
+</head>
+<body>
+    <h1>腾讯云COS图片访问测试</h1>
+    <div id="results"></div>
+    
+    <script>
+        const testImages = [
+            'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/gallery/超特图鉴.png',
+            'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/ranking/C排名.png',
+            'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/characters/9代超特/亚琪亚克.png',
+            'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/gifs/9代超特/亚琪亚克/A三分.gif'
+        ];
+        
+        const resultsDiv = document.getElementById('results');
+        
+        testImages.forEach((url, index) => {
+            const resultDiv = document.createElement('div');
+            resultDiv.className = 'test-result';
+            resultDiv.innerHTML = `<h3>测试图片 ${index + 1}</h3><p>URL: ${url}</p>`;
+            resultsDiv.appendChild(resultDiv);
+            
+            const img = new Image();
+            img.onload = function() {
+                resultDiv.className = 'test-result success';
+                resultDiv.innerHTML += `<p>✅ 加载成功</p><p>尺寸: ${img.naturalWidth} x ${img.naturalHeight}</p>`;
+                resultDiv.appendChild(img);
+            };
+            img.onerror = function() {
+                resultDiv.className = 'test-result error';
+                resultDiv.innerHTML += `<p>❌ 加载失败</p><p>错误: 无法访问图片</p>`;
+            };
+            img.src = url;
+        });
+        
+        // 测试网络连接
+        fetch('https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/gallery/超特图鉴.png', {
+            method: 'HEAD'
+        }).then(response => {
+            const resultDiv = document.createElement('div');
+            resultDiv.className = 'test-result success';
+            resultDiv.innerHTML = `<h3>网络连接测试</h3><p>✅ 网络连接正常</p><p>状态码: ${response.status}</p>`;
+            resultsDiv.appendChild(resultDiv);
+        }).catch(error => {
+            const resultDiv = document.createElement('div');
+            resultDiv.className = 'test-result error';
+            resultDiv.innerHTML = `<h3>网络连接测试</h3><p>❌ 网络连接失败</p><p>错误: ${error.message}</p>`;
+            resultsDiv.appendChild(resultDiv);
+        });
+    </script>
+</body>
+</html>
