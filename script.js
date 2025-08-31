@@ -2860,4 +2860,33 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// 打开活动链接
+function openEvent(url) {
+    console.log('🎯 打开活动链接:', url);
+    
+    // 检测是否在微信浏览器中
+    const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
+    
+    if (isWeChat) {
+        console.log('💬 在微信浏览器中，直接打开链接');
+        // 在微信中直接打开
+        window.location.href = url;
+    } else {
+        console.log('🌐 在普通浏览器中，尝试打开链接');
+        // 在普通浏览器中尝试打开
+        try {
+            // 尝试在新窗口打开
+            const newWindow = window.open(url, '_blank');
+            if (!newWindow) {
+                // 如果弹窗被阻止，则直接跳转
+                window.location.href = url;
+            }
+        } catch (error) {
+            console.log('❌ 打开链接失败:', error);
+            // 降级处理：直接跳转
+            window.location.href = url;
+        }
+    }
+}
+
 

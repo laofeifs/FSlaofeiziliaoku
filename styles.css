@@ -822,6 +822,113 @@ html {
     }
 }
 
+/* 活动卡片样式 */
+.events-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.event-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid #e5e7eb;
+}
+
+.event-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.event-banner {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+    position: relative;
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+}
+
+.event-banner-content {
+    color: white;
+    width: 100%;
+}
+
+.event-banner-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.event-banner-subtitle {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin-bottom: 12px;
+}
+
+.event-tag {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+}
+
+.event-info {
+    padding: 20px;
+}
+
+.event-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #1f2937;
+    margin-bottom: 8px;
+}
+
+.event-desc {
+    color: #6b7280;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .event-card {
+        margin: 0 10px;
+    }
+    
+    .event-banner {
+        padding: 15px;
+        min-height: 100px;
+    }
+    
+    .event-banner-title {
+        font-size: 1.3rem;
+    }
+    
+    .event-banner-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .event-info {
+        padding: 15px;
+    }
+    
+    .event-title {
+        font-size: 1.1rem;
+    }
+}
+
 .action-name {
     color: #1f2937;
     font-size: 0.9rem;

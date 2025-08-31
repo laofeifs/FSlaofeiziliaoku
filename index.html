@@ -20,10 +20,10 @@
     <meta name="mobile-web-app-capable" content="yes">
     
     <!-- 预加载关键资源 -->
-    <link rel="preload" href="styles.css?v=202508312800" as="style">
-    <link rel="preload" href="script.js?v=202508312800" as="script">
+    <link rel="preload" href="styles.css?v=202508312900" as="style">
+    <link rel="preload" href="script.js?v=202508312900" as="script">
     
-    <link rel="stylesheet" href="styles.css?v=202508312800">
+    <link rel="stylesheet" href="styles.css?v=202508312900">
     <!-- 使用本地图标字体，避免CDN问题 -->
     <!-- 使用国内CDN，提高访问速度 -->
     <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous" referrerpolicy="no-referrer">
@@ -32,7 +32,7 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js?v=202508312800')
+                navigator.serviceWorker.register('./sw.js?v=202508312900')
                     .then((registration) => {
                         console.log('Service Worker registered with scope:', registration.scope);
                         // 安全的调试信息调用
@@ -269,7 +269,21 @@
 
             <div id="events-section" class="content-section">
                 <h2>活动</h2>
-                <p>活动内容将在这里显示</p>
+                <div class="events-container">
+                    <div class="event-card" onclick="openEvent('https://mp.weixin.qq.com/s/ZRJXXrERfy62Dyu0yU6yog')">
+                        <div class="event-banner">
+                            <div class="event-banner-content">
+                                <div class="event-banner-title">最新活动</div>
+                                <div class="event-banner-subtitle">点击查看最新活动详情</div>
+                                <div class="event-tag">热门</div>
+                            </div>
+                        </div>
+                        <div class="event-info">
+                            <div class="event-title">查看最新活动</div>
+                            <div class="event-desc">点击进入微信文章查看详细活动信息</div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div id="account-section" class="content-section">
@@ -531,7 +545,7 @@
         <img id="fullscreen-image" class="fullscreen-image" src="" alt="">
     </div>
 
-    <script src="script.js?v=202508312800"></script>
+    <script src="script.js?v=202508312900"></script>
     
     <!-- 智能设备检测和兼容性优化 -->
     <script>
