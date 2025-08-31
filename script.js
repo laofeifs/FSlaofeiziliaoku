@@ -2676,22 +2676,102 @@ function checkMobileCompatibility() {
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
     const isAndroid = /Android/.test(navigator.userAgent);
     const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
+    const isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+    
+    // 检测iOS版本
+    let iosVersion = null;
+    if (isIOS) {
+        const match = navigator.userAgent.match(/OS (\d+)_(\d+)_?(\d+)?/);
+        if (match) {
+            iosVersion = {
+                major: parseInt(match[1]),
+                minor: parseInt(match[2]),
+                patch: match[3] ? parseInt(match[3]) : 0
+            };
+        }
+    }
     
     console.log('📱 设备信息:', {
         isMobile: isMobile,
         isIOS: isIOS,
         isAndroid: isAndroid,
         isWeChat: isWeChat,
+        isSafari: isSafari,
+        iosVersion: iosVersion,
         userAgent: navigator.userAgent
     });
     
     // 应用移动端特殊处理
     if (isMobile) {
+        // iOS 18.2 特殊处理
+        if (isIOS && iosVersion && iosVersion.major >= 18) {
+            console.log('🍎 检测到iOS 18+，应用特殊处理');
+            
+            // 强制清理缓存
+            if ('caches' in window) {
+                caches.keys().then(names => {
+                    names.forEach(name => {
+                        caches.delete(name);
+                        console.log('🗑️ 清理缓存:', name);
+                    });
+                });
+            }
+            
+            // iOS 18.2 特殊CSS
+            const style = document.createElement('style');
+            style.textContent = `
+                .gif-container {
+                    z-index: 999999 !important;
+                    position: relative !important;
+                    background: #ffffff !important;
+                    -webkit-transform: translateZ(0) !important;
+                    transform: translateZ(0) !important;
+                    -webkit-backface-visibility: hidden !important;
+                    backface-visibility: hidden !important;
+                    will-change: transform !important;
+                    -webkit-perspective: 1000px !important;
+                    perspective: 1000px !important;
+                }
+                .action-gif {
+                    z-index: 1000000 !important;
+                    position: relative !important;
+                    -webkit-transform: translateZ(0) !important;
+                    transform: translateZ(0) !important;
+                    -webkit-backface-visibility: hidden !important;
+                    backface-visibility: hidden !important;
+                    will-change: transform !important;
+                    -webkit-perspective: 1000px !important;
+                    perspective: 1000px !important;
+                    image-rendering: -webkit-optimize-contrast !important;
+                    image-rendering: crisp-edges !important;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
         // 修复iOS Safari的GIF显示问题
         if (isIOS) {
             console.log('🍎 检测到iOS设备，应用iOS特殊处理');
             document.body.style.webkitTransform = 'translateZ(0)';
             document.body.style.transform = 'translateZ(0)';
+            
+            // iOS Safari 特殊处理
+            if (isSafari) {
+                console.log('🌐 检测到iOS Safari，应用Safari特殊处理');
+                const style = document.createElement('style');
+                style.textContent = `
+                    .gif-container, .action-gif {
+                        -webkit-transform: translateZ(0) !important;
+                        transform: translateZ(0) !important;
+                        -webkit-backface-visibility: hidden !important;
+                        backface-visibility: hidden !important;
+                        will-change: transform !important;
+                        -webkit-perspective: 1000px !important;
+                        perspective: 1000px !important;
+                    }
+                `;
+                document.head.appendChild(style);
+            }
         }
         
         // 修复Android Chrome的GIF显示问题
@@ -2721,24 +2801,63 @@ function checkMobileCompatibility() {
                     z-index: 999999 !important;
                     position: relative !important;
                     background: #ffffff !important;
+                    -webkit-transform: translateZ(0) !important;
+                    transform: translateZ(0) !important;
+                    -webkit-backface-visibility: hidden !important;
+                    backface-visibility: hidden !important;
+                    will-change: transform !important;
                 }
                 .action-gif {
                     z-index: 1000000 !important;
                     position: relative !important;
                     -webkit-transform: translateZ(0) !important;
                     transform: translateZ(0) !important;
+                    -webkit-backface-visibility: hidden !important;
+                    backface-visibility: hidden !important;
+                    will-change: transform !important;
+                    image-rendering: -webkit-optimize-contrast !important;
+                    image-rendering: crisp-edges !important;
                 }
             `;
             document.head.appendChild(style);
         }
     }
     
-    return { isMobile, isIOS, isAndroid, isWeChat };
+    return { isMobile, isIOS, isAndroid, isWeChat, isSafari, iosVersion };
 }
 
 // 页面加载时检测兼容性
 document.addEventListener('DOMContentLoaded', function() {
-    checkMobileCompatibility();
+    const compatibility = checkMobileCompatibility();
+    
+    // iOS 18.2 强制刷新处理
+    if (compatibility.isIOS && compatibility.iosVersion && compatibility.iosVersion.major >= 18) {
+        console.log('🍎 iOS 18+ 检测到，应用强制刷新处理');
+        
+        // 检查是否需要强制刷新
+        const lastRefresh = sessionStorage.getItem('ios18_last_refresh');
+        const currentTime = Date.now();
+        
+        if (!lastRefresh || (currentTime - parseInt(lastRefresh)) > 300000) { // 5分钟
+            console.log('🔄 iOS 18+ 强制刷新页面');
+            sessionStorage.setItem('ios18_last_refresh', currentTime.toString());
+            
+            // 清理所有缓存
+            if ('caches' in window) {
+                caches.keys().then(names => {
+                    names.forEach(name => {
+                        caches.delete(name);
+                        console.log('🗑️ 清理缓存:', name);
+                    });
+                });
+            }
+            
+            // 强制刷新（仅在必要时）
+            if (window.location.search.includes('force_refresh')) {
+                window.location.reload(true);
+            }
+        }
+    }
 });
 
 
