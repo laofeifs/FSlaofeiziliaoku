@@ -1,8 +1,6 @@
-// 腾讯云COS配置
+// 腾讯云COS配置 - 使用公共访问域名
 var COS_CONFIG = {
-    // 这里需要你填入你的腾讯云COS配置信息
-    SecretId: 'YOUR_SECRET_ID',
-    SecretKey: 'YOUR_SECRET_KEY',
+    // 使用公共访问域名，不需要SecretId和SecretKey
     Bucket: 'laofei-1259209256',
     Region: 'ap-nanjing', // 南京地域
     // COS访问域名，使用新存储桶域名
@@ -31,6 +29,28 @@ var MOBILE_IMAGE_CONFIG = {
     mobileImageParams: '?imageView2/2/w/800/format/webp',
     // 备用图片格式
     fallbackFormats: ['webp', 'jpg', 'png']
+};
+
+// 图片加载诊断和修复配置
+var IMAGE_LOAD_CONFIG = {
+    // 启用详细诊断
+    enableDiagnostics: true,
+    // 启用自动修复
+    enableAutoFix: true,
+    // 最大重试次数
+    maxRetries: 5,
+    // 重试间隔（毫秒）
+    retryDelay: 2000,
+    // 超时时间
+    timeout: 15000,
+    // 启用备用域名
+    enableFallbackDomains: true,
+    // 启用图片压缩
+    enableImageCompression: true,
+    // 压缩参数
+    compressionParams: '?imageView2/2/w/800/format/webp',
+    // 启用缓存破坏
+    enableCacheBusting: true
 };
 
 // 当前选中的代次
@@ -565,6 +585,12 @@ document.addEventListener('DOMContentLoaded', function() {
             diagnoseImageLoading();
         }, 2000);
         
+        // 启动COS连接测试
+        console.log('8. 启动COS连接测试');
+        setTimeout(() => {
+            testCOSBucketAccess();
+        }, 3000);
+        
         console.log('页面功能初始化完成');
         
         // iOS设备特殊检查
@@ -590,10 +616,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // 初始化主导航
 function initializeNavigation() {
+    console.log('初始化导航按钮');
     var navButtons = document.querySelectorAll('.nav-btn');
+    console.log('找到导航按钮数量:', navButtons.length);
     
     for (var i = 0; i < navButtons.length; i++) {
         navButtons[i].addEventListener('click', function() {
+            console.log('导航按钮被点击:', this.textContent.trim());
+            
             // 移除所有活动状态
             for (var j = 0; j < navButtons.length; j++) {
                 navButtons[j].classList.remove('active');
@@ -603,11 +633,13 @@ function initializeNavigation() {
             
             // 切换内容区域
             var section = this.getAttribute('data-section');
+            console.log('切换到的区域:', section);
             
             // 正常切换内容区域
             switchSection(section);
         });
     }
+    console.log('导航按钮初始化完成');
 }
 
 // 初始化筛选按钮
@@ -633,24 +665,42 @@ function initializeFilters() {
 
 // 切换内容区域
 function switchSection(sectionName) {
+    console.log('切换内容区域:', sectionName);
+    
     // 隐藏所有内容区域
     const sections = document.querySelectorAll('.content-section');
-    sections.forEach(section => section.classList.remove('active'));
+    console.log('找到内容区域数量:', sections.length);
+    sections.forEach(section => {
+        section.classList.remove('active');
+        console.log('隐藏区域:', section.id);
+    });
     
     // 显示选中的内容区域
     const targetSection = document.getElementById(sectionName + '-section');
+    console.log('目标区域ID:', sectionName + '-section');
+    console.log('找到目标区域:', targetSection);
+    
     if (targetSection) {
         targetSection.classList.add('active');
+        console.log('激活区域:', targetSection.id);
+    } else {
+        console.error('找不到目标区域:', sectionName + '-section');
     }
     
     // 控制筛选按钮的显示/隐藏
     const filterContainer = document.querySelector('.filter-container');
     if (sectionName === 'characters') {
         // 只在"超特动作"页面显示筛选按钮
-        filterContainer.style.display = 'block';
+        if (filterContainer) {
+            filterContainer.style.display = 'block';
+            console.log('显示筛选按钮');
+        }
     } else {
         // 其他页面隐藏筛选按钮
-        filterContainer.style.display = 'none';
+        if (filterContainer) {
+            filterContainer.style.display = 'none';
+            console.log('隐藏筛选按钮');
+        }
     }
 }
 
@@ -699,19 +749,6 @@ function createCharacterCard(character) {
     const card = document.createElement('div');
     card.className = 'character-card';
     
-    // 构建图片URL（使用腾讯云COS，添加时间戳避免缓存）
-    var imageUrl = '';
-    if (character.image) {
-        imageUrl = COS_CONFIG.Domain + '/' + character.image;
-        console.log('角色图片URL:', imageUrl);
-        
-        // 所有设备都添加时间戳避免缓存问题
-        imageUrl += '?t=' + new Date().getTime();
-        console.log('添加时间戳后的URL:', imageUrl);
-    } else {
-        console.warn('角色没有图片路径:', character.name);
-    }
-    
     // 构建动作按钮HTML
     let actionsHtml = '';
     if (character.actions && character.actions.length > 0) {
@@ -735,7 +772,7 @@ function createCharacterCard(character) {
             </div>
         `;
     } else if (character.gifFolder) {
-        // 8代超特使用动态读取GIF文件
+        // 其他代次使用动态读取GIF文件
         actionsHtml = `
             <div class="character-actions">
                 <h4>动作技能</h4>
@@ -768,10 +805,10 @@ function createCharacterCard(character) {
         </div>
     `;
     
-    // 使用强大的图片加载功能
+    // 使用增强的图片加载功能 - 为所有角色统一使用
     if (character.image) {
         const imgContainer = card.querySelector('#img-container-' + character.id);
-        const img = createRobustImage(character.image, character.name);
+        const img = createEnhancedImage(character.image, character.name);
         img.style.width = '100%';
         img.style.height = '100%';
         img.style.objectFit = 'cover';
@@ -801,17 +838,63 @@ function createCharacterCard(character) {
                     // 添加当前按钮的激活状态
                     this.classList.add('active');
                     
-                    // 显示对应的GIF
+                    // 显示对应的GIF - 使用简单的GIF加载函数
                     var gifUrl = this.getAttribute('data-gif');
                     var actionName = this.querySelector('span').textContent;
-                    gifContainer.innerHTML = '<img src="' + gifUrl + '" alt="' + actionName + '" class="action-gif"><p class="action-name">' + actionName + '</p>';
                     
-                    return false; // 阻止页面滚动
+                    console.log('🎯 点击动作按钮:', actionName);
+                    console.log('🔗 GIF URL:', gifUrl);
+                    
+                    // 清空容器并显示加载提示
+                    gifContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #9ca3af;">加载GIF中...</div>';
+                    
+                    // 确保GIF容器可见
+                    gifContainer.style.display = 'block';
+                    gifContainer.style.position = 'relative';
+                    gifContainer.style.zIndex = '10';
+                    gifContainer.style.background = '#ffffff';
+                    gifContainer.style.border = '1px solid #e5e7eb';
+                    gifContainer.style.borderRadius = '8px';
+                    gifContainer.style.padding = '10px';
+                    gifContainer.style.margin = '10px 0';
+                    
+                    // 直接创建图片元素
+                    const img = new Image();
+                    img.className = 'action-gif';
+                    img.style.maxWidth = '100%';
+                    img.style.height = 'auto';
+                    img.style.display = 'block';
+                    img.style.margin = '0 auto';
+                    img.style.zIndex = '11';
+                    img.alt = actionName;
+                    
+                    img.onload = function() {
+                        console.log('✅ GIF加载成功:', gifUrl);
+                        console.log('📏 尺寸:', img.naturalWidth, 'x', img.naturalHeight);
+                        
+                        // 替换加载提示
+                        gifContainer.innerHTML = '';
+                        gifContainer.appendChild(img);
+                        gifContainer.innerHTML += '<p class="action-name" style="text-align: center; margin-top: 10px; font-weight: bold; color: #374151;">' + actionName + '</p>';
+                        
+                        // 强制重绘
+                        gifContainer.style.display = 'none';
+                        gifContainer.offsetHeight; // 触发重排
+                        gifContainer.style.display = 'block';
+                    };
+                    
+                    img.onerror = function() {
+                        console.log('❌ GIF加载失败:', gifUrl);
+                        gifContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #dc3545; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 4px;">GIF加载失败: ' + gifUrl + '</div>';
+                    };
+                    
+                    // 直接设置图片源
+                    img.src = gifUrl;
                 };
             })(actionButtons[i]);
         }
     } else if (character.gifFolder) {
-        // 8代超特动态加载GIF文件
+        // 其他代次动态加载GIF文件
         loadGifFiles(character.gifFolder, character.id, card);
     }
     
@@ -859,10 +942,10 @@ function createGalleryCard() {
         </div>
     `;
     
-    // 使用强大的图片加载功能
+    // 使用增强的图片加载功能
     if (galleryData.image) {
         const imgContainer = card.querySelector('#gallery-img-container');
-        const img = createRobustImage(galleryData.image, '超特图鉴');
+        const img = createEnhancedImage(galleryData.image, '超特图鉴');
         img.style.width = '100%';
         img.style.height = 'auto';
         img.style.objectFit = 'contain';
@@ -1374,12 +1457,58 @@ function loadGifFiles(folder, characterId, card) {
                     // 添加当前按钮的激活状态
                     this.classList.add('active');
                     
-                    // 显示对应的GIF
+                    // 显示对应的GIF - 使用简单的GIF加载函数
                     var gifUrl = this.getAttribute('data-gif');
                     var actionName = this.querySelector('span').textContent;
-                    gifContainer.innerHTML = '<img src="' + gifUrl + '" alt="' + actionName + '" class="action-gif"><p class="action-name">' + actionName + '</p>';
                     
-                    return false; // 阻止页面滚动
+                    console.log('🎯 点击动作按钮:', actionName);
+                    console.log('🔗 GIF URL:', gifUrl);
+                    
+                    // 清空容器并显示加载提示
+                    gifContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #9ca3af;">加载GIF中...</div>';
+                    
+                    // 确保GIF容器可见
+                    gifContainer.style.display = 'block';
+                    gifContainer.style.position = 'relative';
+                    gifContainer.style.zIndex = '10';
+                    gifContainer.style.background = '#ffffff';
+                    gifContainer.style.border = '1px solid #e5e7eb';
+                    gifContainer.style.borderRadius = '8px';
+                    gifContainer.style.padding = '10px';
+                    gifContainer.style.margin = '10px 0';
+                    
+                    // 直接创建图片元素
+                    const img = new Image();
+                    img.className = 'action-gif';
+                    img.style.maxWidth = '100%';
+                    img.style.height = 'auto';
+                    img.style.display = 'block';
+                    img.style.margin = '0 auto';
+                    img.style.zIndex = '11';
+                    img.alt = actionName;
+                    
+                    img.onload = function() {
+                        console.log('✅ GIF加载成功:', gifUrl);
+                        console.log('📏 尺寸:', img.naturalWidth, 'x', img.naturalHeight);
+                        
+                        // 替换加载提示
+                        gifContainer.innerHTML = '';
+                        gifContainer.appendChild(img);
+                        gifContainer.innerHTML += '<p class="action-name" style="text-align: center; margin-top: 10px; font-weight: bold; color: #374151;">' + actionName + '</p>';
+                        
+                        // 强制重绘
+                        gifContainer.style.display = 'none';
+                        gifContainer.offsetHeight; // 触发重排
+                        gifContainer.style.display = 'block';
+                    };
+                    
+                    img.onerror = function() {
+                        console.log('❌ GIF加载失败:', gifUrl);
+                        gifContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #dc3545; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 4px;">GIF加载失败: ' + gifUrl + '</div>';
+                    };
+                    
+                    // 直接设置图片源
+                    img.src = gifUrl;
                 };
             })(actionButtons[i]);
         }
@@ -1396,17 +1525,18 @@ function initializeRanking() {
         'pg': `${COS_CONFIG.Domain}/ranking/PG排名.png?v=${timestamp}`
     };
     
-    // 加载图片
+    // 加载图片 - 使用强大的图片加载功能
     Object.keys(rankingImages).forEach(rankingType => {
         const imgElement = document.getElementById(`${rankingType}-ranking-image`);
         if (imgElement) {
-            imgElement.src = rankingImages[rankingType];
-            imgElement.onerror = function() {
-                this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l5PSIxNCIgZmlsbD0iIzlDQTNBRiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPuacrOWbvjwvdGV4dD4KPC9zdmc+Cg==';
-                this.alt = `${rankingType.toUpperCase()}排名 (图片加载失败)`;
-            };
+            // 使用增强的图片加载功能
+            const img = createEnhancedImage(`ranking/${rankingType.toUpperCase()}排名.png`, `${rankingType.toUpperCase()}排名`);
+            img.style.width = '100%';
+            img.style.height = 'auto';
             
-
+            // 替换原有图片
+            imgElement.parentNode.replaceChild(img, imgElement);
+            img.id = `${rankingType}-ranking-image`;
         }
     });
     
@@ -1925,9 +2055,12 @@ function createRobustImage(src, alt, options = {}) {
     }, IMAGE_LOAD_CONFIG.timeout);
     
     // 清除超时
+    const originalOnload = img.onload;
     img.onload = function() {
         clearTimeout(timeout);
-        img.onload();
+        if (originalOnload) {
+            originalOnload.call(this);
+        }
     };
     
     // 设置图片源
@@ -1992,3 +2125,449 @@ function diagnoseImageLoading() {
     
     return results;
 }
+
+// 简单图片测试函数
+function testImageAccess() {
+    console.log('🔍 开始测试COS图片访问...');
+    
+    const testImages = [
+        'gallery/超特图鉴.png',
+        'characters/9代超特/亚琪亚克.png',
+        'gifs/9代超特/亚琪亚克/A三分.gif'
+    ];
+    
+    testImages.forEach((imagePath, index) => {
+        const testUrl = COS_CONFIG.Domain + '/' + imagePath;
+        console.log(`测试图片${index + 1}: ${testUrl}`);
+        
+        const img = new Image();
+        img.onload = function() {
+            console.log(`✅ 图片${index + 1}访问成功: ${imagePath}`);
+        };
+        img.onerror = function() {
+            console.log(`❌ 图片${index + 1}访问失败: ${imagePath}`);
+            console.log(`失败URL: ${testUrl}`);
+        };
+        img.src = testUrl;
+    });
+}
+
+// 在页面加载完成后自动测试
+window.addEventListener('load', function() {
+    setTimeout(() => {
+        testImageAccess();
+    }, 1000);
+});
+
+// 详细诊断COS访问权限
+function diagnoseCOSAccess() {
+    console.log('🔍 开始详细诊断COS访问权限...');
+    
+    // 测试不同类型的文件
+    const testFiles = [
+        { type: '图片', path: 'gallery/超特图鉴.png', expected: '图鉴图片' },
+        { type: '角色图片', path: 'characters/9代超特/亚琪亚克.png', expected: '角色头像' },
+        { type: 'GIF文件', path: 'gifs/9代超特/亚琪亚克/A三分.gif', expected: '动作GIF' },
+        { type: '排名图片', path: 'ranking/C排名.png', expected: '排名图片' }
+    ];
+    
+    let results = {
+        success: 0,
+        failed: 0,
+        details: []
+    };
+    
+    testFiles.forEach((file, index) => {
+        const testUrl = COS_CONFIG.Domain + '/' + file.path;
+        console.log(`\n📁 测试${file.type}: ${file.path}`);
+        console.log(`🔗 完整URL: ${testUrl}`);
+        
+        const img = new Image();
+        img.onload = function() {
+            console.log(`✅ ${file.type}访问成功: ${file.path}`);
+            console.log(`📏 图片尺寸: ${img.naturalWidth} x ${img.naturalHeight}`);
+            results.success++;
+            results.details.push({
+                type: file.type,
+                path: file.path,
+                status: 'success',
+                url: testUrl,
+                size: `${img.naturalWidth} x ${img.naturalHeight}`
+            });
+        };
+        img.onerror = function() {
+            console.log(`❌ ${file.type}访问失败: ${file.path}`);
+            console.log(`🚫 可能原因: 文件不存在、权限不足、路径错误`);
+            results.failed++;
+            results.details.push({
+                type: file.type,
+                path: file.path,
+                status: 'failed',
+                url: testUrl,
+                error: '访问被拒绝或文件不存在'
+            });
+        };
+        img.src = testUrl;
+    });
+    
+    // 3秒后输出详细结果
+    setTimeout(() => {
+        console.log('\n📊 详细诊断结果:');
+        console.log(`总计: ${results.success + results.failed}个文件`);
+        console.log(`成功: ${results.success}个`);
+        console.log(`失败: ${results.failed}个`);
+        
+        console.log('\n📋 详细结果:');
+        results.details.forEach(detail => {
+            const status = detail.status === 'success' ? '✅' : '❌';
+            console.log(`${status} ${detail.type}: ${detail.path}`);
+            if (detail.status === 'success' && detail.size) {
+                console.log(`   尺寸: ${detail.size}`);
+            }
+            if (detail.status === 'failed') {
+                console.log(`   错误: ${detail.error}`);
+            }
+        });
+        
+        // 分析问题
+        if (results.failed > 0) {
+            console.log('\n🔍 问题分析:');
+            if (results.details.some(d => d.type === 'GIF文件' && d.status === 'success') &&
+                results.details.some(d => d.type === '图片' && d.status === 'failed')) {
+                console.log('🎯 可能原因: COS存储桶权限配置问题');
+                console.log('   - GIF文件可以访问');
+                console.log('   - 图片文件无法访问');
+                console.log('   - 建议检查COS存储桶的访问权限设置');
+            }
+        }
+    }, 3000);
+    
+    return results;
+}
+
+// 直接测试COS存储桶访问
+function testCOSBucketAccess() {
+    console.log('🔍 直接测试COS存储桶访问...');
+    
+    // 测试不同的访问方式
+    const testUrls = [
+        // 直接访问存储桶根目录
+        'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/',
+        // 测试图鉴图片
+        'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/gallery/超特图鉴.png',
+        // 测试角色图片
+        'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/characters/9代超特/亚琪亚克.png',
+        // 测试GIF文件
+        'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/gifs/9代超特/亚琪亚克/A三分.gif'
+    ];
+    
+    testUrls.forEach((url, index) => {
+        console.log(`\n🔗 测试URL ${index + 1}: ${url}`);
+        
+        // 使用fetch测试访问
+        fetch(url, { method: 'HEAD' })
+            .then(response => {
+                if (response.ok) {
+                    console.log(`✅ URL ${index + 1} 可以访问 (状态: ${response.status})`);
+                } else {
+                    console.log(`❌ URL ${index + 1} 访问失败 (状态: ${response.status})`);
+                }
+            })
+            .catch(error => {
+                console.log(`❌ URL ${index + 1} 网络错误: ${error.message}`);
+            });
+    });
+}
+
+// 全面测试COS连接
+function comprehensiveCOSTest() {
+    console.log('🔍 开始全面测试COS连接...');
+    
+    // 测试不同的域名和路径组合
+    const testCases = [
+        {
+            name: '主域名根目录',
+            url: 'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/',
+            expected: '应该返回403或列出文件'
+        },
+        {
+            name: '备用域名根目录',
+            url: 'https://laofei-1259209256.cos-website.ap-nanjing.myqcloud.com/',
+            expected: '应该返回403或列出文件'
+        },
+        {
+            name: '图鉴图片直接访问',
+            url: 'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/gallery/超特图鉴.png',
+            expected: '应该返回200和图片数据'
+        },
+        {
+            name: '角色图片直接访问',
+            url: 'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/characters/9代超特/亚琪亚克.png',
+            expected: '应该返回200和图片数据'
+        },
+        {
+            name: 'GIF文件直接访问',
+            url: 'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/gifs/9代超特/亚琪亚克/A三分.gif',
+            expected: '应该返回200和GIF数据'
+        },
+        {
+            name: '带时间戳的图片访问',
+            url: 'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/gallery/超特图鉴.png?t=' + Date.now(),
+            expected: '应该返回200和图片数据'
+        }
+    ];
+    
+    testCases.forEach((testCase, index) => {
+        console.log(`\n🧪 测试${index + 1}: ${testCase.name}`);
+        console.log(`🔗 URL: ${testCase.url}`);
+        console.log(`📋 预期: ${testCase.expected}`);
+        
+        // 使用fetch测试
+        fetch(testCase.url, { 
+            method: 'HEAD',
+            mode: 'cors'
+        })
+        .then(response => {
+            console.log(`📊 响应状态: ${response.status} ${response.statusText}`);
+            console.log(`📋 响应头:`, response.headers);
+            
+            if (response.ok) {
+                console.log(`✅ 测试${index + 1}成功`);
+            } else if (response.status === 403) {
+                console.log(`⚠️ 测试${index + 1}: 权限不足 (403) - 需要检查COS权限设置`);
+            } else if (response.status === 404) {
+                console.log(`❌ 测试${index + 1}: 文件不存在 (404) - 需要检查文件路径`);
+            } else {
+                console.log(`❌ 测试${index + 1}: 访问失败 (${response.status})`);
+            }
+        })
+        .catch(error => {
+            console.log(`❌ 测试${index + 1}: 网络错误 - ${error.message}`);
+            if (error.message.includes('CORS')) {
+                console.log(`🔍 这是CORS跨域问题，需要在COS中配置CORS规则`);
+            }
+        });
+    });
+}
+
+// 增强的图片加载函数 - 尝试多种访问方式
+function createEnhancedImage(src, alt, options = {}) {
+    console.log('🔄 尝试加载图片:', src);
+    
+    const img = new Image();
+    img.alt = alt || '';
+    img.style.maxWidth = '100%';
+    img.style.height = 'auto';
+    
+    // 尝试多种访问方式
+    const accessMethods = [
+        // 方法1：直接访问
+        COS_CONFIG.Domain + '/' + src,
+        // 方法2：添加时间戳
+        COS_CONFIG.Domain + '/' + src + '?t=' + Date.now(),
+        // 方法3：使用备用域名
+        COS_CONFIG.BackupDomain + '/' + src,
+        // 方法4：添加压缩参数（不使用WebP）
+        COS_CONFIG.Domain + '/' + src + '?imageView2/2/w/800',
+        // 方法5：添加随机参数
+        COS_CONFIG.Domain + '/' + src + '?v=' + Math.random()
+    ];
+    
+    let currentMethod = 0;
+    
+    function tryNextMethod() {
+        if (currentMethod >= accessMethods.length) {
+            console.log('❌ 所有访问方式都失败:', src);
+            // 显示错误占位符
+            img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7mnKzlm748L3RleHQ+Cjx0ZXh0IHg9IjEwMCIgeT0iMTIwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjwvc3ZnPgo=';
+            return;
+        }
+        
+        const testUrl = accessMethods[currentMethod];
+        console.log(`🔧 尝试方法${currentMethod + 1}: ${testUrl}`);
+        
+        img.onload = function() {
+            console.log(`✅ 方法${currentMethod + 1}成功: ${testUrl}`);
+            console.log(`📏 图片尺寸: ${img.naturalWidth} x ${img.naturalHeight}`);
+        };
+        
+        img.onerror = function() {
+            console.log(`❌ 方法${currentMethod + 1}失败: ${testUrl}`);
+            currentMethod++;
+            setTimeout(tryNextMethod, 500); // 500ms后尝试下一种方法
+        };
+        
+        img.src = testUrl;
+    }
+    
+    // 开始尝试
+    tryNextMethod();
+    
+    return img;
+}
+
+// 专门的GIF加载函数 - 处理COS中的GIF文件
+function createGifImage(src, alt) {
+    console.log('🔄 尝试加载GIF文件:', src);
+    
+    const img = new Image();
+    img.alt = alt || '';
+    img.style.maxWidth = '100%';
+    img.style.height = 'auto';
+    
+    // 尝试多种访问方式
+    const accessMethods = [
+        // 方法1：直接访问GIF文件
+        COS_CONFIG.Domain + '/' + src,
+        // 方法2：添加时间戳避免缓存
+        COS_CONFIG.Domain + '/' + src + '?t=' + Date.now(),
+        // 方法3：使用备用域名
+        COS_CONFIG.BackupDomain + '/' + src,
+        // 方法4：添加随机参数
+        COS_CONFIG.Domain + '/' + src + '?v=' + Math.random(),
+        // 方法5：强制GIF格式
+        COS_CONFIG.Domain + '/' + src + '?imageView2/2/w/800/format/gif'
+    ];
+    
+    let currentMethod = 0;
+    
+    function tryNextMethod() {
+        if (currentMethod >= accessMethods.length) {
+            console.log('❌ 所有GIF访问方式都失败:', src);
+            // 显示错误占位符
+            img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7mnKzlm748L3RleHQ+Cjx0ZXh0IHg9IjEwMCIgeT0iMTIwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjwvc3ZnPgo=';
+            return;
+        }
+        
+        const testUrl = accessMethods[currentMethod];
+        console.log(`🔧 尝试GIF方法${currentMethod + 1}: ${testUrl}`);
+        
+        // 清除之前的事件监听器
+        img.onload = null;
+        img.onerror = null;
+        
+        img.onload = function() {
+            console.log(`✅ GIF方法${currentMethod + 1}成功: ${testUrl}`);
+            console.log(`📏 GIF尺寸: ${img.naturalWidth} x ${img.naturalHeight}`);
+            console.log(`📄 文件类型: GIF`);
+        };
+        
+        img.onerror = function() {
+            console.log(`❌ GIF方法${currentMethod + 1}失败: ${testUrl}`);
+            currentMethod++;
+            setTimeout(tryNextMethod, 500); // 500ms后尝试下一种方法
+        };
+        
+        img.src = testUrl;
+    }
+    
+    // 开始尝试
+    tryNextMethod();
+    
+    return img;
+}
+
+// GIF测试函数 - 测试单个GIF文件加载
+function testSingleGif() {
+    console.log('🧪 开始测试单个GIF文件加载');
+    
+    // 测试一个简单的GIF文件
+    const testGifUrl = 'gifs/9代超特/亚琪亚克/A三分.gif';
+    
+    console.log('🔗 测试GIF URL:', COS_CONFIG.Domain + '/' + testGifUrl);
+    
+    const img = new Image();
+    img.style.width = '200px';
+    img.style.height = '200px';
+    img.style.border = '2px solid red';
+    
+    img.onload = function() {
+        console.log('✅ 测试GIF加载成功！');
+        console.log('📏 尺寸:', img.naturalWidth, 'x', img.naturalHeight);
+        console.log('🔗 URL:', img.src);
+        
+        // 显示在页面上
+        const testContainer = document.createElement('div');
+        testContainer.style.position = 'fixed';
+        testContainer.style.top = '10px';
+        testContainer.style.right = '10px';
+        testContainer.style.zIndex = '9999';
+        testContainer.style.background = 'white';
+        testContainer.style.padding = '10px';
+        testContainer.style.border = '2px solid blue';
+        testContainer.innerHTML = '<h3>GIF测试结果 - 成功</h3>';
+        testContainer.appendChild(img);
+        
+        document.body.appendChild(testContainer);
+        
+        // 5秒后自动移除
+        setTimeout(() => {
+            if (testContainer.parentNode) {
+                testContainer.parentNode.removeChild(testContainer);
+            }
+        }, 5000);
+    };
+    
+    img.onerror = function() {
+        console.log('❌ 测试GIF加载失败！');
+        console.log('🔗 尝试的URL:', img.src);
+        
+        // 显示错误信息
+        const testContainer = document.createElement('div');
+        testContainer.style.position = 'fixed';
+        testContainer.style.top = '10px';
+        testContainer.style.right = '10px';
+        testContainer.style.zIndex = '9999';
+        testContainer.style.background = 'red';
+        testContainer.style.color = 'white';
+        testContainer.style.padding = '10px';
+        testContainer.style.border = '2px solid red';
+        testContainer.innerHTML = '<h3>GIF测试结果 - 失败</h3><p>URL: ' + img.src + '</p>';
+        
+        document.body.appendChild(testContainer);
+        
+        // 5秒后自动移除
+        setTimeout(() => {
+            if (testContainer.parentNode) {
+                testContainer.parentNode.removeChild(testContainer);
+            }
+        }, 5000);
+    };
+    
+    // 直接使用COS域名
+    img.src = COS_CONFIG.Domain + '/' + testGifUrl;
+}
+
+// 简单的GIF加载函数 - 直接加载GIF文件
+function loadGifDirectly(gifUrl, actionName, container) {
+    console.log('🔄 直接加载GIF:', gifUrl);
+    
+    // 清空容器并显示加载提示
+    container.innerHTML = '<div style="text-align: center; padding: 20px; color: #9ca3af;">加载GIF中...</div>';
+    
+    const img = new Image();
+    img.className = 'action-gif';
+    img.style.maxWidth = '100%';
+    img.style.height = 'auto';
+    img.alt = actionName;
+    
+    img.onload = function() {
+        console.log('✅ GIF加载成功:', gifUrl);
+        console.log('📏 尺寸:', img.naturalWidth, 'x', img.naturalHeight);
+        
+        // 替换加载提示
+        container.innerHTML = '';
+        container.appendChild(img);
+        container.innerHTML += '<p class="action-name">' + actionName + '</p>';
+    };
+    
+    img.onerror = function() {
+        console.log('❌ GIF加载失败:', gifUrl);
+        container.innerHTML = '<div style="text-align: center; padding: 20px; color: #dc3545;">GIF加载失败</div>';
+    };
+    
+    // 直接使用完整URL
+    img.src = gifUrl;
+}
+
+
