@@ -6,9 +6,9 @@ var COS_CONFIG = {
     Bucket: 'laofei-1259209256',
     Region: 'ap-nanjing', // 南京地域
     // COS访问域名，使用新存储桶域名
-    Domain: 'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com',
+    Domain: 'https://laofei-1259209256.cos-website.ap-nanjing.myqcloud.com',
     // 备用域名，如果主域名有问题
-    BackupDomain: 'https://laofei-1259209256.cos-website.ap-nanjing.myqcloud.com'
+    BackupDomain: 'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com'
 };
 
 // 当前选中的代次

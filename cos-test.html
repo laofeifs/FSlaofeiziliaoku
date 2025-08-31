@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COS测试页面</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-item { margin: 20px 0; padding: 10px; border: 1px solid #ccc; }
+        .success { color: green; }
+        .error { color: red; }
+        img { max-width: 200px; max-height: 200px; }
+    </style>
+</head>
+<body>
+    <h1>COS访问测试</h1>
+    
+    <div class="test-item">
+        <h3>测试1: 超特图鉴图片</h3>
+        <p>URL: <span id="gallery-url"></span></p>
+        <img id="gallery-img" onload="showSuccess('gallery')" onerror="showError('gallery')" alt="超特图鉴">
+        <div id="gallery-result"></div>
+    </div>
+    
+    <div class="test-item">
+        <h3>测试2: 角色头像</h3>
+        <p>URL: <span id="character-url"></span></p>
+        <img id="character-img" onload="showSuccess('character')" onerror="showError('character')" alt="角色头像">
+        <div id="character-result"></div>
+    </div>
+    
+    <div class="test-item">
+        <h3>测试3: GIF文件</h3>
+        <p>URL: <span id="gif-url"></span></p>
+        <img id="gif-img" onload="showSuccess('gif')" onerror="showError('gif')" alt="GIF文件">
+        <div id="gif-result"></div>
+    </div>
+    
+    <div class="test-item">
+        <h3>测试4: 备用域名</h3>
+        <p>URL: <span id="backup-url"></span></p>
+        <img id="backup-img" onload="showSuccess('backup')" onerror="showError('backup')" alt="备用域名">
+        <div id="backup-result"></div>
+    </div>
+
+    <script>
+        // COS配置
+        var COS_CONFIG = {
+            Domain: 'https://laofei-1259209256.cos-website.ap-nanjing.myqcloud.com',
+            BackupDomain: 'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com'
+        };
+        
+        // 测试图片
+        var testImages = {
+            gallery: 'gallery/超特图鉴.png',
+            character: 'characters/9代超特/亚琪亚克.png',
+            gif: 'gifs/9代超特/亚琪亚克/投篮.gif'
+        };
+        
+        function showSuccess(type) {
+            document.getElementById(type + '-result').innerHTML = '<span class="success">✅ 加载成功</span>';
+        }
+        
+        function showError(type) {
+            document.getElementById(type + '-result').innerHTML = '<span class="error">❌ 加载失败</span>';
+        }
+        
+        // 开始测试
+        window.onload = function() {
+            // 测试主域名
+            document.getElementById('gallery-url').textContent = COS_CONFIG.Domain + '/' + testImages.gallery;
+            document.getElementById('gallery-img').src = COS_CONFIG.Domain + '/' + testImages.gallery;
+            
+            document.getElementById('character-url').textContent = COS_CONFIG.Domain + '/' + testImages.character;
+            document.getElementById('character-img').src = COS_CONFIG.Domain + '/' + testImages.character;
+            
+            document.getElementById('gif-url').textContent = COS_CONFIG.Domain + '/' + testImages.gif;
+            document.getElementById('gif-img').src = COS_CONFIG.Domain + '/' + testImages.gif;
+            
+            // 测试备用域名
+            document.getElementById('backup-url').textContent = COS_CONFIG.BackupDomain + '/' + testImages.gallery;
+            document.getElementById('backup-img').src = COS_CONFIG.BackupDomain + '/' + testImages.gallery;
+        };
+    </script>
+</body>
+</html>
