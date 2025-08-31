@@ -8,7 +8,13 @@ var COS_CONFIG = {
     // COS访问域名，使用新存储桶域名
     Domain: 'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com',
     // 备用域名，如果主域名有问题
-    BackupDomain: 'https://laofei-1259209256.cos-website.ap-nanjing.myqcloud.com'
+    BackupDomain: 'https://laofei-1259209256.cos-website.ap-nanjing.myqcloud.com',
+    // 添加更多备用域名
+    FallbackDomains: [
+        'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com',
+        'https://laofei-1259209256.cos-website.ap-nanjing.myqcloud.com',
+        'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com'
+    ]
 };
 
 // 移动端图片加载优化配置
@@ -553,6 +559,12 @@ document.addEventListener('DOMContentLoaded', function() {
             ]);
         }
         
+        // 启动图片加载诊断
+        console.log('7. 启动图片加载诊断');
+        setTimeout(() => {
+            diagnoseImageLoading();
+        }, 2000);
+        
         console.log('页面功能初始化完成');
         
         // iOS设备特殊检查
@@ -742,7 +754,9 @@ function createCharacterCard(character) {
     card.innerHTML = `
         <div class="character-header">
             <div class="character-image">
-                ${imageUrl ? `<img src="${imageUrl}" alt="${character.name}" style="width: 100%; height: 100%; object-fit: cover;" onerror="handleImageError(this, '${character.name}')" onload="handleImageLoad(this, '${character.name}')">` : '暂无图片'}
+                <div id="img-container-${character.id}" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #f3f4f6; border-radius: 50%;">
+                    <span style="color: #9ca3af; font-size: 0.9rem;">加载中...</span>
+                </div>
             </div>
             <div class="character-info">
                 <h3 class="character-name">${character.name}</h3>
@@ -753,6 +767,20 @@ function createCharacterCard(character) {
             ${actionsHtml}
         </div>
     `;
+    
+    // 使用强大的图片加载功能
+    if (character.image) {
+        const imgContainer = card.querySelector('#img-container-' + character.id);
+        const img = createRobustImage(character.image, character.name);
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.objectFit = 'cover';
+        img.style.borderRadius = '50%';
+        
+        // 替换加载提示
+        imgContainer.innerHTML = '';
+        imgContainer.appendChild(img);
+    }
     
     // 添加动作按钮事件监听
     if (character.actions && character.actions.length > 0) {
@@ -821,13 +849,28 @@ function createGalleryCard() {
     
     card.innerHTML = `
         <div class="gallery-image-full">
-            ${imageUrlWithTimestamp ? `<img src="${imageUrlWithTimestamp}" alt="超特图鉴" style="width: 100%; height: auto; object-fit: contain;" onerror="handleGalleryImageError(this, '超特图鉴')" onload="handleImageLoad(this, '超特图鉴')">` : '暂无图片'}
+            <div id="gallery-img-container" style="width: 100%; display: flex; align-items: center; justify-content: center; background: #f3f4f6; min-height: 200px;">
+                <span style="color: #9ca3af; font-size: 1rem;">加载中...</span>
+            </div>
         </div>
         <div class="gallery-info">
             <h3 class="gallery-name">超特图鉴</h3>
             <p class="gallery-generation">所有代数角色一览</p>
         </div>
     `;
+    
+    // 使用强大的图片加载功能
+    if (galleryData.image) {
+        const imgContainer = card.querySelector('#gallery-img-container');
+        const img = createRobustImage(galleryData.image, '超特图鉴');
+        img.style.width = '100%';
+        img.style.height = 'auto';
+        img.style.objectFit = 'contain';
+        
+        // 替换加载提示
+        imgContainer.innerHTML = '';
+        imgContainer.appendChild(img);
+    }
     
     return card;
 }
@@ -1767,3 +1810,185 @@ window.FSDataLibrary = {
     showMobileDiagnostic,
     runImageLoadTest
 };
+
+// 图片加载诊断和修复函数
+function createRobustImage(src, alt, options = {}) {
+    const img = new Image();
+    const retryCount = options.retryCount || 0;
+    const maxRetries = options.maxRetries || IMAGE_LOAD_CONFIG.maxRetries;
+    const currentDomainIndex = options.domainIndex || 0;
+    
+    // 构建图片URL
+    let imageUrl = src;
+    
+    // 如果是相对路径，添加域名
+    if (!src.startsWith('http')) {
+        const domains = IMAGE_LOAD_CONFIG.enableFallbackDomains ? 
+            COS_CONFIG.FallbackDomains : [COS_CONFIG.Domain];
+        
+        if (currentDomainIndex < domains.length) {
+            imageUrl = domains[currentDomainIndex] + '/' + src;
+        } else {
+            imageUrl = COS_CONFIG.Domain + '/' + src;
+        }
+    }
+    
+    // 添加压缩参数
+    if (IMAGE_LOAD_CONFIG.enableImageCompression && 
+        imageUrl.includes('cos.ap-nanjing.myqcloud.com') && 
+        !imageUrl.includes('imageView2')) {
+        imageUrl += IMAGE_LOAD_CONFIG.compressionParams;
+    }
+    
+    // 添加缓存破坏参数
+    if (IMAGE_LOAD_CONFIG.enableCacheBusting) {
+        const separator = imageUrl.includes('?') ? '&' : '?';
+        imageUrl += separator + 'v=' + Date.now() + '&r=' + Math.random();
+    }
+    
+    // 设置图片属性
+    img.alt = alt || '';
+    img.style.maxWidth = '100%';
+    img.style.height = 'auto';
+    
+    // 添加加载状态
+    img.style.opacity = '0';
+    img.style.transition = 'opacity 0.3s ease';
+    
+    // 诊断信息
+    if (IMAGE_LOAD_CONFIG.enableDiagnostics) {
+        console.log('🔄 尝试加载图片:', imageUrl);
+        console.log('📊 重试次数:', retryCount, '域名索引:', currentDomainIndex);
+    }
+    
+    // 加载成功处理
+    img.onload = function() {
+        console.log('✅ 图片加载成功:', imageUrl);
+        img.style.opacity = '1';
+        
+        // 触发成功事件
+        const event = new CustomEvent('imageLoadSuccess', {
+            detail: { src: imageUrl, img: img, originalSrc: src }
+        });
+        document.dispatchEvent(event);
+    };
+    
+    // 加载失败处理
+    img.onerror = function() {
+        console.log('❌ 图片加载失败:', imageUrl);
+        
+        // 尝试使用备用域名
+        if (IMAGE_LOAD_CONFIG.enableFallbackDomains && 
+            currentDomainIndex < COS_CONFIG.FallbackDomains.length - 1) {
+            
+            console.log('🔄 尝试备用域名...');
+            setTimeout(() => {
+                createRobustImage(src, alt, {
+                    retryCount: retryCount,
+                    maxRetries: maxRetries,
+                    domainIndex: currentDomainIndex + 1
+                });
+            }, IMAGE_LOAD_CONFIG.retryDelay);
+            return;
+        }
+        
+        // 尝试重试
+        if (retryCount < maxRetries) {
+            console.log('🔄 重试加载图片...');
+            setTimeout(() => {
+                createRobustImage(src, alt, {
+                    retryCount: retryCount + 1,
+                    maxRetries: maxRetries
+                });
+            }, IMAGE_LOAD_CONFIG.retryDelay);
+            return;
+        }
+        
+        // 所有尝试都失败，显示错误占位符
+        console.log('❌ 图片加载最终失败:', src);
+        img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7mnKzlm748L3RleHQ+Cjx0ZXh0IHg9IjEwMCIgeT0iMTIwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjwvc3ZnPgo=';
+        img.style.opacity = '1';
+        
+        // 触发失败事件
+        const event = new CustomEvent('imageLoadError', {
+            detail: { src: imageUrl, img: img, originalSrc: src }
+        });
+        document.dispatchEvent(event);
+    };
+    
+    // 设置超时处理
+    const timeout = setTimeout(() => {
+        if (!img.complete) {
+            console.log('⏰ 图片加载超时:', imageUrl);
+            img.onerror();
+        }
+    }, IMAGE_LOAD_CONFIG.timeout);
+    
+    // 清除超时
+    img.onload = function() {
+        clearTimeout(timeout);
+        img.onload();
+    };
+    
+    // 设置图片源
+    img.src = imageUrl;
+    
+    return img;
+}
+
+// 批量图片加载诊断
+function diagnoseImageLoading() {
+    console.log('🔍 开始图片加载诊断...');
+    
+    const testImages = [
+        'gallery/超特图鉴.png',
+        'ranking/C排名.png',
+        'characters/9代超特/亚琪亚克.png',
+        'gifs/9代超特/亚琪亚克/A三分.gif'
+    ];
+    
+    let results = {
+        success: 0,
+        failed: 0,
+        details: []
+    };
+    
+    testImages.forEach((imagePath, index) => {
+        const img = createRobustImage(imagePath, 'test-' + index);
+        
+        img.addEventListener('load', function() {
+            results.success++;
+            results.details.push({
+                path: imagePath,
+                status: 'success',
+                url: img.src
+            });
+            console.log(`✅ 测试图片${index + 1}加载成功:`, imagePath);
+        });
+        
+        img.addEventListener('error', function() {
+            results.failed++;
+            results.details.push({
+                path: imagePath,
+                status: 'failed',
+                url: img.src
+            });
+            console.log(`❌ 测试图片${index + 1}加载失败:`, imagePath);
+        });
+    });
+    
+    // 5秒后输出诊断结果
+    setTimeout(() => {
+        console.log('📊 图片加载诊断结果:', results);
+        console.log(`总计: ${results.success + results.failed}张图片`);
+        console.log(`成功: ${results.success}张`);
+        console.log(`失败: ${results.failed}张`);
+        
+        // 显示诊断结果
+        if (typeof addDebugInfo === 'function') {
+            addDebugInfo(`图片诊断完成: 成功${results.success}张, 失败${results.failed}张`);
+        }
+    }, 5000);
+    
+    return results;
+}

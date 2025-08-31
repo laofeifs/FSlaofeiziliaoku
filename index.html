@@ -20,10 +20,10 @@
     <meta name="mobile-web-app-capable" content="yes">
     
     <!-- 预加载关键资源 -->
-    <link rel="preload" href="styles.css?v=202508312300" as="style">
-    <link rel="preload" href="script.js?v=202508312300" as="script">
+    <link rel="preload" href="styles.css?v=202508312400" as="style">
+    <link rel="preload" href="script.js?v=202508312400" as="script">
     
-    <link rel="stylesheet" href="styles.css?v=202508312300">
+    <link rel="stylesheet" href="styles.css?v=202508312400">
     <!-- 使用本地图标字体，避免CDN问题 -->
     <!-- 使用国内CDN，提高访问速度 -->
     <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous" referrerpolicy="no-referrer">
@@ -32,7 +32,7 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js?v=202508312300')
+                navigator.serviceWorker.register('./sw.js?v=202508312400')
                     .then((registration) => {
                         console.log('Service Worker registered with scope:', registration.scope);
                         // 安全的调试信息调用
@@ -95,7 +95,8 @@
                     <button onclick="toggleDebug()" style="background: #007bff; color: white; border: none; padding: 5px 10px; border-radius: 3px; margin-right: 5px;">切换调试</button>
                     <button onclick="checkCacheStatus()" style="background: #28a745; color: white; border: none; padding: 5px 10px; border-radius: 3px; margin-right: 5px;">检查缓存</button>
                     <button onclick="clearAllCaches()" style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px; margin-right: 5px;">清除缓存</button>
-                    <button onclick="testMobileImageLoading()" style="background: #ffc107; color: black; border: none; padding: 5px 10px; border-radius: 3px;">测试图片加载</button>
+                    <button onclick="testMobileImageLoading()" style="background: #ffc107; color: black; border: none; padding: 5px 10px; border-radius: 3px; margin-right: 5px;">测试图片加载</button>
+                    <button onclick="diagnoseImageLoading()" style="background: #6f42c1; color: white; border: none; padding: 5px 10px; border-radius: 3px;">图片诊断</button>
                 </div>
             </div>
             
@@ -525,7 +526,7 @@
         <img id="fullscreen-image" class="fullscreen-image" src="" alt="">
     </div>
 
-    <script src="script.js?v=202508312300"></script>
+    <script src="script.js?v=202508312400"></script>
     
     <!-- 智能设备检测和兼容性优化 -->
     <script>
