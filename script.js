@@ -6,7 +6,9 @@ var COS_CONFIG = {
     Bucket: 'laofei-1259209256',
     Region: 'ap-nanjing', // 南京地域
     // COS访问域名，使用新存储桶域名
-    Domain: 'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com'
+    Domain: 'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com',
+    // 备用域名，如果主域名有问题
+    BackupDomain: 'https://laofei-1259209256.cos-website.ap-nanjing.myqcloud.com'
 };
 
 // 当前选中的代次
@@ -14,7 +16,11 @@ var currentGeneration = '9';
 
 // 图鉴数据 - 所有代数共用一张图片
 var galleryData = {
-    image: 'gallery/超特图鉴.png'
+    image: 'gallery/超特图鉴.png',
+    // 备用图片路径，如果主图片不存在则使用这个
+    fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgdmlld0JveD0iMCAwIDgwMCA2MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjQwMCIgeT0iMjAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iNDgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iMjgwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iMzIwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iMzYwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iNDAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iNDQwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iNDgwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iNTIwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iNTYwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjwvc3ZnPgo=',
+    // 临时使用备用图片，直到COS权限问题解决
+    useFallback: true
 };
 
 // 角色数据示例（你可以根据实际情况修改）
@@ -612,16 +618,23 @@ function switchSection(sectionName) {
 
 // 加载角色数据
 function loadCharacters(generation) {
+    console.log('开始加载角色数据，代次:', generation);
+    
     const charactersGrid = document.getElementById('characters-grid');
-    if (!charactersGrid) return;
+    if (!charactersGrid) {
+        console.error('找不到角色网格容器');
+        return;
+    }
     
     // 清空现有内容
     charactersGrid.innerHTML = '';
     
     // 获取当前代次的角色数据
     const characters = charactersData[generation] || [];
+    console.log('找到角色数量:', characters.length);
     
     if (characters.length === 0) {
+        console.warn('没有找到', generation, '代角色数据');
         charactersGrid.innerHTML = `
             <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #6b7280;">
                 <p>暂无${generation}代超特角色数据</p>
@@ -633,24 +646,32 @@ function loadCharacters(generation) {
     
     // 创建角色卡片
     characters.forEach(character => {
+        console.log('处理角色:', character.name, 'ID:', character.id);
         const characterCard = createCharacterCard(character);
         charactersGrid.appendChild(characterCard);
     });
+    
+    console.log('角色加载完成，代次:', generation);
 }
 
 // 创建角色卡片
 function createCharacterCard(character) {
+    console.log('创建角色卡片:', character.name, '图片路径:', character.image);
+    
     const card = document.createElement('div');
     card.className = 'character-card';
     
-    // 构建图片URL（使用腾讯云COS，添加iOS兼容性）
+    // 构建图片URL（使用腾讯云COS，添加时间戳避免缓存）
     var imageUrl = '';
     if (character.image) {
         imageUrl = COS_CONFIG.Domain + '/' + character.image;
-        // iOS设备添加时间戳避免缓存问题
-        if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
-            imageUrl += '?t=' + new Date().getTime();
-        }
+        console.log('角色图片URL:', imageUrl);
+        
+        // 所有设备都添加时间戳避免缓存问题
+        imageUrl += '?t=' + new Date().getTime();
+        console.log('添加时间戳后的URL:', imageUrl);
+    } else {
+        console.warn('角色没有图片路径:', character.name);
     }
     
     // 构建动作按钮HTML
@@ -758,19 +779,32 @@ function loadGallery(generation) {
 
 // 创建图鉴卡片
 function createGalleryCard() {
+    console.log('创建图鉴卡片');
+    console.log('图鉴图片路径:', galleryData.image);
+    
     const card = document.createElement('div');
     card.className = 'gallery-card-full';
     
     // 构建图片URL（使用腾讯云COS）
     const imageUrl = galleryData.image ? `${COS_CONFIG.Domain}/${galleryData.image}` : '';
+    console.log('图鉴图片URL:', imageUrl);
+    
+    // 添加时间戳避免缓存问题
+    const imageUrlWithTimestamp = imageUrl ? `${imageUrl}?t=${Date.now()}` : '';
+    console.log('带时间戳的图鉴图片URL:', imageUrlWithTimestamp);
+    
+    // 临时使用备用图片，直到COS权限问题解决
+    const finalImageUrl = galleryData.useFallback ? galleryData.fallbackImage : imageUrlWithTimestamp;
+    console.log('最终图鉴图片URL:', finalImageUrl);
     
     card.innerHTML = `
         <div class="gallery-image-full">
-            ${imageUrl ? `<img src="${imageUrl}" alt="超特图鉴" style="width: 100%; height: auto; object-fit: contain;" onerror="handleImageError(this, '超特图鉴')" onload="handleImageLoad(this, '超特图鉴')">` : '暂无图片'}
+            ${finalImageUrl ? `<img src="${finalImageUrl}" alt="超特图鉴" style="width: 100%; height: auto; object-fit: contain;" onerror="handleGalleryImageError(this, '超特图鉴')" onload="handleImageLoad(this, '超特图鉴')">` : '暂无图片'}
         </div>
         <div class="gallery-info">
             <h3 class="gallery-name">超特图鉴</h3>
             <p class="gallery-generation">所有代数角色一览</p>
+            ${galleryData.useFallback ? '<p style="color: #ff6b6b; font-size: 12px;">⚠️ 使用备用图片（COS权限问题）</p>' : ''}
         </div>
     `;
     
@@ -780,11 +814,43 @@ function createGalleryCard() {
 // 图片加载成功处理
 function handleImageLoad(img, characterName) {
     console.log(`✅ ${characterName} 图片加载成功`);
+    console.log(`图片URL: ${img.src}`);
+    console.log(`图片尺寸: ${img.naturalWidth} x ${img.naturalHeight}`);
 }
 
 // 图片加载失败处理
 function handleImageError(img, characterName) {
-    console.log('❌ ' + characterName + ' 图片加载失败: ' + img.src);
+    console.log('❌ ' + characterName + ' 图片加载失败');
+    console.log('失败URL: ' + img.src);
+    console.log('错误详情: 可能是文件不存在或网络问题');
+    
+    // 详细的错误诊断
+    var errorInfo = {
+        characterName: characterName,
+        failedUrl: img.src,
+        timestamp: new Date().toISOString(),
+        userAgent: navigator.userAgent,
+        isWeChat: /MicroMessenger/i.test(navigator.userAgent),
+        isIOS: /iPad|iPhone|iPod/.test(navigator.userAgent),
+        isAndroid: /Android/.test(navigator.userAgent),
+        networkOnline: navigator.onLine,
+        cosDomain: COS_CONFIG.Domain
+    };
+    
+    console.log('详细错误信息:', errorInfo);
+    
+    // 检查是否是COS域名问题
+    if (img.src.indexOf(COS_CONFIG.Domain) === -1) {
+        console.error('❌ 图片URL不是COS域名，可能是配置问题');
+        console.error('当前图片URL:', img.src);
+        console.error('期望的COS域名:', COS_CONFIG.Domain);
+        console.error('URL是否包含COS域名:', img.src.indexOf(COS_CONFIG.Domain));
+    }
+    
+    // 检查网络连接
+    if (!navigator.onLine) {
+        console.error('❌ 网络连接已断开');
+    }
     
     // iOS设备特殊处理
     var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -793,15 +859,130 @@ function handleImageError(img, characterName) {
         // iOS设备尝试重新加载图片
         setTimeout(function() {
             if (img.src.indexOf('?t=') === -1) {
-                img.src = img.src + '?t=' + new Date().getTime();
+                var retryUrl = img.src + '?t=' + new Date().getTime();
+                console.log('iOS重试URL:', retryUrl);
+                img.src = retryUrl;
             }
         }, 1000);
     }
+    
+    // 显示COS诊断提示
+    showCOSDiagnosticTip(characterName, img.src);
     
     // 设置默认图片
     img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7mnKzlm748L3RleHQ+Cjx0ZXh0IHg9IjEwMCIgeT0iMTIwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM5Q0EzQUYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7lm77niYfliqDovb3lpLHotKU8L3RleHQ+Cjwvc3ZnPgo=';
     img.alt = characterName + ' (图片加载失败)';
 }
+
+// 图鉴图片错误处理（特殊处理）
+function handleGalleryImageError(img, characterName) {
+    console.log('❌ ' + characterName + ' 图鉴图片加载失败');
+    console.log('失败URL: ' + img.src);
+    
+    // 尝试切换域名
+    if (img.src.indexOf(COS_CONFIG.Domain) !== -1 && COS_CONFIG.BackupDomain) {
+        console.log('尝试切换到备用域名');
+        const backupUrl = img.src.replace(COS_CONFIG.Domain, COS_CONFIG.BackupDomain);
+        console.log('备用URL:', backupUrl);
+        img.src = backupUrl;
+        return;
+    }
+    
+    // 如果备用域名也失败，尝试使用备用图片
+    if (galleryData.fallbackImage) {
+        console.log('尝试使用备用图片');
+        img.src = galleryData.fallbackImage;
+        img.alt = characterName + ' (备用图片)';
+        return;
+    }
+    
+    // 如果没有备用图片，使用默认错误处理
+    handleImageError(img, characterName);
+}
+
+// 显示COS诊断提示
+function showCOSDiagnosticTip(characterName, failedUrl) {
+    // 避免重复显示
+    if (document.getElementById('cos-diagnostic-tip')) {
+        return;
+    }
+    
+    var tipHtml = `
+        <div style="margin-bottom:15px;font-weight:bold;text-align:center;">🔧 COS图片加载问题诊断</div>
+        <div style="text-align:left;margin-bottom:15px;">
+            <div style="margin-bottom:10px;"><strong>问题详情：</strong></div>
+            <div style="font-size:12px;margin-bottom:8px;">• 角色：${characterName}</div>
+            <div style="font-size:12px;margin-bottom:8px;">• 失败URL：${failedUrl}</div>
+            <div style="font-size:12px;margin-bottom:8px;">• COS域名：${COS_CONFIG.Domain}</div>
+        </div>
+        <div style="text-align:left;margin-bottom:15px;">
+            <div style="margin-bottom:10px;"><strong>可能原因：</strong></div>
+            <div style="font-size:12px;margin-bottom:8px;">• 文件不存在或路径错误</div>
+            <div style="font-size:12px;margin-bottom:8px;">• COS存储桶权限问题</div>
+            <div style="font-size:12px;margin-bottom:8px;">• 网络连接问题</div>
+        </div>
+        <div style="text-align:center;">
+            <button onclick="openCOSDiagnostic()" style="background:#007bff;color:white;border:none;padding:8px 16px;border-radius:4px;cursor:pointer;font-size:14px;margin-right:10px;">详细诊断</button>
+            <button onclick="this.parentElement.parentElement.remove()" style="background:#6c757d;color:white;border:none;padding:8px 16px;border-radius:4px;cursor:pointer;font-size:14px;">关闭</button>
+        </div>
+    `;
+    
+    var tipDiv = document.createElement('div');
+    tipDiv.id = 'cos-diagnostic-tip';
+    tipDiv.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.95);color:white;padding:20px;border-radius:8px;font-size:14px;z-index:10001;min-width:400px;max-width:600px;';
+    tipDiv.innerHTML = tipHtml;
+    document.body.appendChild(tipDiv);
+    
+    // 5秒后自动关闭
+    setTimeout(function() {
+        if (tipDiv.parentNode) {
+            tipDiv.parentNode.removeChild(tipDiv);
+        }
+    }, 5000);
+}
+
+// 打开COS诊断工具
+function openCOSDiagnostic() {
+    window.open('cos-diagnostic.html', '_blank');
+}
+
+// 快速测试COS配置
+function testCOSConfig() {
+    console.log('=== COS配置测试 ===');
+    console.log('COS_CONFIG:', COS_CONFIG);
+    console.log('主域名:', COS_CONFIG.Domain);
+    console.log('备用域名:', COS_CONFIG.BackupDomain);
+    
+    // 测试图鉴图片URL构建
+    const testImagePath = 'gallery/超特图鉴.png';
+    const testUrl = `${COS_CONFIG.Domain}/${testImagePath}`;
+    console.log('测试图鉴URL:', testUrl);
+    
+    // 测试角色图片URL构建
+    const testCharacterPath = 'characters/1代超特/小芸.png';
+    const testCharacterUrl = `${COS_CONFIG.Domain}/${testCharacterPath}`;
+    console.log('测试角色URL:', testCharacterUrl);
+    
+    // 检查URL格式
+    console.log('图鉴URL是否以https开头:', testUrl.startsWith('https://'));
+    console.log('角色URL是否以https开头:', testCharacterUrl.startsWith('https://'));
+    
+    return {
+        config: COS_CONFIG,
+        testUrls: {
+            gallery: testUrl,
+            character: testCharacterUrl
+        }
+    };
+}
+
+// 页面加载时自动测试COS配置
+window.addEventListener('load', function() {
+    setTimeout(function() {
+        console.log('页面加载完成，开始COS配置测试...');
+        testCOSConfig();
+    }, 1000);
+});
 
 // 禁用下拉刷新
 function preventPullToRefresh() {
@@ -925,9 +1106,10 @@ function isValidFileType(file, allowedTypes = ['jpg', 'jpeg', 'png', 'gif', 'mp4
 
 // 动态加载GIF文件
 function loadGifFiles(folder, characterId, card) {
-    // 从COS文件夹中动态读取GIF文件
-    // 使用fetch请求获取文件夹内容
-    var cosUrl = COS_CONFIG.Domain + '/' + folder;
+    console.log('开始加载GIF文件:', characterId, '文件夹:', folder);
+    
+    // 确保文件夹路径正确（移除末尾斜杠，避免重复）
+    var cleanFolder = folder.replace(/\/$/, '');
     
     // 根据角色ID确定使用哪个GIF文件列表
     var commonGifFiles = [];
@@ -1150,31 +1332,46 @@ function loadGifFiles(folder, characterId, card) {
         ];
     }
     
+    console.log('GIF文件列表:', commonGifFiles);
+    
     var actionButtonsContainer = card.querySelector('#actions-' + characterId);
     var gifContainer = card.querySelector('#gif-' + characterId);
+    
+    if (!actionButtonsContainer || !gifContainer) {
+        console.error('找不到容器元素:', characterId);
+        return;
+    }
     
     // 动态检测GIF文件是否存在
     var buttonsHtml = '';
     var validGifFiles = [];
+    var checkedCount = 0;
     
     // 检查每个GIF文件是否存在
     function checkGifFile(file, index) {
-        var gifUrl = COS_CONFIG.Domain + '/' + folder + file;
+        // 正确构建URL路径
+        var gifUrl = COS_CONFIG.Domain + '/' + cleanFolder + '/' + file;
+        console.log('检查GIF文件:', gifUrl);
+        
         var img = new Image();
         
         img.onload = function() {
+            console.log('✅ GIF文件存在:', file);
             // 文件存在，添加到按钮列表
             validGifFiles.push(file);
-            if (validGifFiles.length === commonGifFiles.length) {
+            checkedCount++;
+            if (checkedCount === commonGifFiles.length) {
                 // 所有文件检查完成，创建按钮
                 createButtons();
             }
         };
         
         img.onerror = function() {
+            console.log('❌ GIF文件不存在:', file);
             // 文件不存在，跳过
-            if (index === commonGifFiles.length - 1) {
-                // 最后一个文件检查完成，创建按钮
+            checkedCount++;
+            if (checkedCount === commonGifFiles.length) {
+                // 所有文件检查完成，创建按钮
                 createButtons();
             }
         };
@@ -1184,14 +1381,16 @@ function loadGifFiles(folder, characterId, card) {
     
     // 创建按钮的函数
     function createButtons() {
+        console.log('创建按钮，有效文件数量:', validGifFiles.length);
+        
         if (validGifFiles.length === 0) {
-            actionButtonsContainer.innerHTML = '<p>未找到动作文件</p>';
+            actionButtonsContainer.innerHTML = '<p style="color: #999; text-align: center; padding: 20px;">未找到动作文件</p>';
             return;
         }
         
         validGifFiles.forEach(function(file) {
             var actionName = file.replace('.gif', '');
-            var gifUrl = COS_CONFIG.Domain + '/' + folder + file;
+            var gifUrl = COS_CONFIG.Domain + '/' + cleanFolder + '/' + file;
             
             buttonsHtml += `
                 <button class="action-btn" data-gif="${gifUrl}">
@@ -1420,6 +1619,8 @@ function openStore() {
         window.open(storeUrl, '_blank');
     }
 }
+
+
 
 // 添加全屏显示的事件监听
 document.addEventListener('DOMContentLoaded', function() {
