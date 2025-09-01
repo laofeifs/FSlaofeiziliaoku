@@ -510,13 +510,15 @@
     
     <!-- 智能设备检测和兼容性优化 -->
     <script>
+        // 全局移动端检测（确保在所有使用前定义）
+        var isMobile = /Mobile|Android|iPhone|iPad/.test(navigator.userAgent);
+        
         // 智能设备检测和兼容性优化
         (function() {
             // 全面的设备检测
             var isWeChat = /MicroMessenger/i.test(navigator.userAgent);
             var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
             var isAndroid = /Android/.test(navigator.userAgent);
-            var isMobile = /Mobile|Android|iPhone|iPad/.test(navigator.userAgent);
             var isDesktop = !isMobile;
             var isNewUser = !localStorage.getItem('hasVisited');
             

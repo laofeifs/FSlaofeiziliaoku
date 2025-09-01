@@ -2331,7 +2331,7 @@ function loadGifDirectly(gifUrl, actionName, container) {
 function checkMobileCompatibility() {
     console.log('🔍 检测移动端兼容性...');
     
-    const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    // isMobile 已在全局定义，这里不需要重复定义
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
     const isAndroid = /Android/.test(navigator.userAgent);
     const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
