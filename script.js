@@ -15,6 +15,9 @@ var COS_CONFIG = {
     ]
 };
 
+// 全局移动端标识，需在任何使用前定义
+const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
 // 移动端图片加载优化配置
 var MOBILE_IMAGE_CONFIG = {
     // 移动端图片加载重试次数
@@ -519,8 +522,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // 初始化职业排名功能
         initializeRanking();
         
-        // 移动端图片预加载
-        if (isMobile()) {
+        // 移动端图片预加载（使用布尔变量，避免未定义）
+        if (typeof isMobile !== 'undefined' ? isMobile : (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
             console.log('6. 移动端图片预加载');
             preloadMobileImages([
                 COS_CONFIG.Domain + '/gallery/超特图鉴.png',
@@ -2328,7 +2331,7 @@ function loadGifDirectly(gifUrl, actionName, container) {
 function checkMobileCompatibility() {
     console.log('🔍 检测移动端兼容性...');
     
-    const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    // isMobile 已在全局定义，这里不需要重复定义
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
     const isAndroid = /Android/.test(navigator.userAgent);
     const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
