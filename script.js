@@ -647,6 +647,10 @@ document.addEventListener('DOMContentLoaded', function() {
         // 初始化账号推荐功能
         initializeAccountRecommend();
         
+        console.log('6.6. 初始化图片模块');
+        // 初始化图片模块功能
+        initializeImages();
+        
         console.log('7. 初始化全屏显示');
         // 初始化全屏显示功能
         initializeFullscreen();
@@ -1595,6 +1599,15 @@ var accountRecommendData = [
     }
 ];
 
+// 图片模块数据
+var imagesData = [
+    {
+        id: 'image_1',
+        title: '课程二维码',
+        image: 'class/课程二维码.jpg'
+    }
+];
+
 // 初始化超特对比功能
 function initializeComparison() {
     loadComparisonImages();
@@ -1636,6 +1649,11 @@ function loadComparisonImages() {
 // 初始化账号推荐功能
 function initializeAccountRecommend() {
     loadAccountRecommendImages();
+}
+
+// 初始化图片模块功能
+function initializeImages() {
+    loadImages();
 }
 
 // 加载账号推荐图片
@@ -1680,6 +1698,53 @@ function loadAccountRecommendImages() {
     }, 1500);
     
     console.log('账号推荐图片已加载');
+}
+
+// 加载图片模块图片
+function loadImages() {
+    const imagesGrid = document.getElementById('images-grid');
+    if (!imagesGrid) return;
+    
+    imagesGrid.innerHTML = '';
+    
+    imagesData.forEach(item => {
+        const imageItem = document.createElement('div');
+        imageItem.className = 'image-item';
+        
+        const imageUrl = buildImageUrl(item.image);
+        const imageUrlWithTimestamp = `${imageUrl}?t=${Date.now()}`;
+        
+        imageItem.innerHTML = `
+            <img src="${imageUrlWithTimestamp}" 
+                 alt="${item.title}" 
+                 class="image-display" 
+                 oncontextmenu="handleLongPress(event, this)"
+                 onerror="handleImageError(this, '${item.title}')" 
+                 onload="handleImageLoad(this, '${item.title}')">
+            <div class="image-info">
+                <h3 class="image-title">${item.title}</h3>
+            </div>
+        `;
+        
+        imagesGrid.appendChild(imageItem);
+    });
+    
+    // 为图片添加触摸事件监听器
+    setTimeout(function() {
+        addTouchListenersToImages();
+    }, 300);
+    
+    // 再次尝试绑定（防止第一次失败）
+    setTimeout(function() {
+        addTouchListenersToImages();
+    }, 800);
+    
+    // 第三次尝试绑定（确保成功）
+    setTimeout(function() {
+        addTouchListenersToImages();
+    }, 1500);
+    
+    console.log('图片模块图片已加载');
 }
 
 // 打开全屏图片显示
@@ -2244,6 +2309,31 @@ function addTouchListenersToRecommendImages() {
     
     recommendImages.forEach(function(img, index) {
         console.log('为图片', index, '添加触摸事件监听器');
+        
+        // 清除之前的事件监听器（如果有的话）
+        img.removeEventListener('touchstart', handleTouchStart);
+        img.removeEventListener('touchmove', handleTouchMove);
+        img.removeEventListener('touchend', handleTouchEnd);
+        
+        // 触摸开始
+        img.addEventListener('touchstart', handleTouchStart, { passive: false });
+        
+        // 触摸移动
+        img.addEventListener('touchmove', handleTouchMove, { passive: true });
+        
+        // 触摸结束
+        img.addEventListener('touchend', handleTouchEnd, { passive: true });
+    });
+}
+
+// 为图片模块图片添加触摸事件监听器
+function addTouchListenersToImages() {
+    const images = document.querySelectorAll('.image-display');
+    
+    console.log('找到图片模块图片数量:', images.length);
+    
+    images.forEach(function(img, index) {
+        console.log('为图片模块图片', index, '添加触摸事件监听器');
         
         // 清除之前的事件监听器（如果有的话）
         img.removeEventListener('touchstart', handleTouchStart);
