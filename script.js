@@ -138,11 +138,11 @@ var charactersData = {
         },
         {
             id: '3_5_3',
-            name: '浩然',
+            name: '浩燃',
             generation: '3.5代超特',
             description: '三点五代超特角色',
-            image: 'characters/3.5代超特/浩然.png',
-            gifFolder: 'gifs/3.5代超特/浩然/'
+            image: 'characters/3.5代超特/浩燃.png',
+            gifFolder: 'gifs/3.5代超特/浩燃/'
         },
         {
             id: '3_5_4',
@@ -255,6 +255,16 @@ var charactersData = {
             description: '五代超特角色',
             image: 'characters/5代超特/杰罗.png',
             gifFolder: 'gifs/5代超特/杰罗/'
+        }
+    ],
+    '5_5': [
+        {
+            id: '5_5_1',
+            name: '5.5代超特角色1',
+            generation: '5.5代超特',
+            description: '五点五代超特角色',
+            image: 'characters/5.5代超特/5.5代超特角色1.png',
+            gifFolder: 'gifs/5.5代超特/5.5代超特角色1/'
         }
     ],
     '7': [
@@ -1209,8 +1219,8 @@ function loadGifFiles(folder, characterId, card) {
     // 根据角色ID确定使用哪个GIF文件列表
     var commonGifFiles = [];
     
-    // 2代、3代、3.5代、4代、4.5代超特通用GIF文件
-    if (characterId.includes('2_') || characterId.includes('3_') || characterId.includes('4_')) {
+    // 2代、3代、4代、4.5代、5.5代超特通用GIF文件（排除芙熙）
+    if ((characterId.includes('2_') || characterId.includes('3_') || characterId.includes('4_') || characterId.includes('5_5')) && characterId !== '3_5_4') {
         commonGifFiles = [
             'X.gif',
             '三分.gif',
@@ -1224,6 +1234,14 @@ function loadGifFiles(folder, characterId, card) {
             '近扣.gif',
             '远上.gif',
             '远扣.gif'
+        ];
+    } else if (characterId === '3_5_4') {
+        // 芙熙的GIF文件（多个动作合在一个gif中）
+        commonGifFiles = [
+            'X分球地板.gif',
+            '小冒大冒篮板.gif',
+            '投篮远扣.gif',
+            '近扣远上近上.gif'
         ];
     } else if (characterId.includes('5_')) {
         if (characterId === '5_1') {
@@ -1382,6 +1400,36 @@ function loadGifFiles(folder, characterId, card) {
                 '风远扣.gif'
             ];
         }
+    } else if (characterId.includes('7_') || characterId.includes('8_')) {
+        // 7代、8代超特通用GIF文件
+        commonGifFiles = [
+            'X.gif',
+            '不看人传球.gif',
+            '中手冒.gif',
+            '分球.gif',
+            '地板.gif',
+            '大手冒.gif',
+            '小手冒.gif',
+            '抢断.gif',
+            '篮板.gif',
+            '快速起来.gif',
+            'A分球.gif',
+            'A近扣.gif',
+            'A近上.gif',
+            'A篮板.gif',
+            'A三分.gif',
+            'A远扣.gif',
+            'A远上.gif',
+            'A中投.gif',
+            'B分球.gif',
+            'B近扣.gif',
+            'B近上.gif',
+            'B篮板.gif',
+            'B三分.gif',
+            'B远扣.gif',
+            'B远上.gif',
+            'B中投.gif'
+        ];
     } else {
         // 其他代数的通用GIF文件
         commonGifFiles = [

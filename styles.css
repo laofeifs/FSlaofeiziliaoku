@@ -1125,8 +1125,9 @@ html {
 
 .images-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 20px;
+    padding: 0 10px;
 }
 
 .image-item {
@@ -1145,7 +1146,7 @@ html {
 .image-display {
     width: 100%;
     height: auto;
-    max-height: 400px;
+    max-height: 600px;
     object-fit: contain;
     cursor: pointer;
     transition: transform 0.2s ease;
@@ -1298,13 +1299,17 @@ html {
     }
     
     .image-display {
-        max-height: 300px;
+        max-height: 500px;
         width: 100%;
         object-fit: contain;
     }
     
     .image-item {
-        margin: 0 10px;
+        margin: 0 5px;
+    }
+    
+    .images-grid {
+        padding: 0 5px;
     }
     
     .fullscreen-overlay {
