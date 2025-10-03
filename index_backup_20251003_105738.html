@@ -11,7 +11,7 @@
     <meta http-equiv="Expires" content="0">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:; img-src 'self' https: data: blob: *; connect-src 'self' https: *;">
     <title>老非FS资料库</title>
-    <link rel="stylesheet" href="styles.css?v=202510032900">
+    <link rel="stylesheet" href="styles.css?v=202510022004">
     <!-- 使用本地图标字体，避免CDN问题 -->
     <!-- 使用国内CDN，提高访问速度 -->
     <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous" referrerpolicy="no-referrer">
@@ -90,6 +90,13 @@
 
     <!-- 移动端导航栏 -->
     <nav class="mobile-nav">
+         <div class="mobile-nav-header">
+             <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+                 <span class="hamburger"></span>
+                 <span class="hamburger"></span>
+                 <span class="hamburger"></span>
+             </button>
+         </div>
         <div class="mobile-nav-menu active" id="mobile-nav-menu">
             <button class="mobile-nav-item active" data-section="home">
                 <i class="fas fa-home"></i>
@@ -103,21 +110,13 @@
                 <i class="fas fa-running"></i>
                 <span>超特动作</span>
             </button>
-             <button class="mobile-nav-item" data-section="ranking">
-                 <i class="fas fa-trophy"></i>
-                 <span>职业排名</span>
-             </button>
-             <button class="mobile-nav-item" data-section="comparison">
-                 <i class="fas fa-balance-scale"></i>
-                 <span>超特对比</span>
-             </button>
+            <button class="mobile-nav-item" data-section="ranking">
+                <i class="fas fa-trophy"></i>
+                <span>职业排名</span>
+            </button>
             <button class="mobile-nav-item" data-section="account">
                 <i class="fas fa-user-circle"></i>
                 <span>FS账号</span>
-            </button>
-            <button class="mobile-nav-item" data-section="account-recommend">
-                <i class="fas fa-star"></i>
-                <span>账号推荐</span>
             </button>
             <button class="mobile-nav-item" data-section="courses">
                 <i class="fas fa-graduation-cap"></i>
@@ -149,21 +148,13 @@
                     <i class="fas fa-running"></i>
                     <span>超特动作</span>
                 </button>
-                 <button class="nav-btn" data-section="ranking">
-                     <i class="fas fa-trophy"></i>
-                     <span>职业排名</span>
-                 </button>
-                 <button class="nav-btn" data-section="comparison">
-                     <i class="fas fa-balance-scale"></i>
-                     <span>超特对比</span>
-                 </button>
+                <button class="nav-btn" data-section="ranking">
+                    <i class="fas fa-trophy"></i>
+                    <span>职业排名</span>
+                </button>
                 <button class="nav-btn" data-section="account">
                     <i class="fas fa-user-circle"></i>
                     <span>FS账号</span>
-                </button>
-                <button class="nav-btn" data-section="account-recommend">
-                    <i class="fas fa-star"></i>
-                    <span>账号推荐</span>
                 </button>
                 <button class="nav-btn" data-section="courses">
                     <i class="fas fa-graduation-cap"></i>
@@ -264,25 +255,11 @@
                         <h3>超特动作</h3>
                     </div>
                     
-                     <div class="feature-card" onclick="switchToSection('ranking')">
-                         <div class="feature-icon">
-                             <i class="fas fa-trophy"></i>
-                         </div>
-                         <h3>职业排名</h3>
-                     </div>
-                     
-                     <div class="feature-card" onclick="switchToSection('comparison')">
-                         <div class="feature-icon">
-                             <i class="fas fa-balance-scale"></i>
-                         </div>
-                         <h3>超特对比</h3>
-                     </div>
-                    
-                    <div class="feature-card" onclick="switchToSection('account-recommend')">
+                    <div class="feature-card" onclick="switchToSection('ranking')">
                         <div class="feature-icon">
-                            <i class="fas fa-star"></i>
+                            <i class="fas fa-trophy"></i>
                         </div>
-                        <h3>账号推荐</h3>
+                        <h3>职业排名</h3>
                     </div>
                     
                     <div class="feature-card" onclick="switchToSection('courses')">
@@ -350,37 +327,13 @@
                 </div>
                 <div class="ranking-content">
                     <div id="c-ranking" class="ranking-item active">
-                        <img src="" alt="C排名" class="ranking-image" id="c-ranking-image" onclick="openFullscreen(this)">
+                        <img src="" alt="C排名" class="ranking-image" id="c-ranking-image">
                     </div>
                     <div id="pf-ranking" class="ranking-item">
-                        <img src="" alt="PF排名" class="ranking-image" id="pf-ranking-image" onclick="openFullscreen(this)">
+                        <img src="" alt="PF排名" class="ranking-image" id="pf-ranking-image">
                     </div>
                     <div id="pg-ranking" class="ranking-item">
-                        <img src="" alt="PG排名" class="ranking-image" id="pg-ranking-image" onclick="openFullscreen(this)">
-                    </div>
-                </div>
-            </div>
-
-            <!-- 超特对比区域 -->
-            <div id="comparison-section" class="content-section">
-                <h2>超特对比</h2>
-                <div class="comparison-content">
-                    <div class="comparison-grid" id="comparison-grid">
-                        <!-- 对比图片将在这里动态加载 -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- 账号推荐区域 -->
-            <div id="account-recommend-section" class="content-section">
-                <h2>账号推荐</h2>
-                <div class="account-recommend-content">
-                    <div class="recommend-tip">
-                        <i class="fas fa-info-circle"></i>
-                        <span>点击图片放大查看，长按图片可扫描二维码</span>
-                    </div>
-                    <div class="recommend-grid" id="recommend-grid">
-                        <!-- 推荐图片将在这里动态加载 -->
+                        <img src="" alt="PG排名" class="ranking-image" id="pg-ranking-image">
                     </div>
                 </div>
             </div>
@@ -403,7 +356,7 @@
                             <h3>查看老非FS账号店铺</h3>
                         </div>
                         <div class="module-content">
-                            <p class="store-desc">点击下方进入店铺浏览FS账号，选好发给老非问价<br>老非全区代售回收账号，估价上架</p>
+                            <p class="store-desc">浏览老非的FS账号店铺，选择心仪的账号</p>
                             <button class="store-btn" onclick="openStore()">
                                 <i class="fas fa-external-link-alt"></i>
                                 <span>进入店铺</span>
@@ -629,27 +582,7 @@
 
     <!-- 全屏显示容器 -->
     <div id="fullscreen-overlay" class="fullscreen-overlay">
-        <div class="fullscreen-close-btn" onclick="closeFullscreen()">
-            <i class="fas fa-times"></i>
-        </div>
         <img id="fullscreen-image" class="fullscreen-image" src="" alt="">
-    </div>
-
-    <!-- 分享悬浮窗 -->
-    <div id="share-float" class="share-float">
-        <div class="share-btn" onclick="toggleShareMenu()">
-            <i class="fas fa-share-alt"></i>
-        </div>
-        <div id="share-menu" class="share-menu">
-            <div class="share-option" onclick="shareToWeChat()">
-                <i class="fab fa-weixin"></i>
-                <span>微信好友</span>
-            </div>
-            <div class="share-option" onclick="copyLink()">
-                <i class="fas fa-link"></i>
-                <span>复制链接</span>
-            </div>
-        </div>
     </div>
 
     <!-- 网站备案信息 -->
@@ -666,7 +599,7 @@
         </div>
     </footer>
 
-     <script src="script.js?v=202510032900"></script>
+     <script src="script.js?v=202510030919"></script>
     
     <!-- 智能设备检测和兼容性优化 -->
     <script>
@@ -896,14 +829,14 @@
                 var cssLink = document.createElement('link');
                 cssLink.rel = 'preload';
                 cssLink.as = 'style';
-                 cssLink.href = 'styles.css?v=202510032900';
+                cssLink.href = 'styles.css?v=202510022004';
                 document.head.appendChild(cssLink);
                 
                 // 预加载JS
                 var jsLink = document.createElement('link');
                 jsLink.rel = 'preload';
                 jsLink.as = 'script';
-                 jsLink.href = 'script.js?v=202510032900';
+                 jsLink.href = 'script.js?v=202510030919';
                 document.head.appendChild(jsLink);
                 
                 // 预加载关键图片

@@ -286,9 +286,9 @@ var charactersData = {
     '9': [
         {
             id: '9_1',
-            name: '亚琪',
+            name: '亚琪/亚克',
             generation: '9代超特',
-            description: '九代超特角色',
+            description: '九代超特角色，共用一套动作',
             image: 'characters/9代超特/亚琪.png',
             actions: [
                 { name: '不看人传球', gif: 'gifs/9代超特/亚琪亚克/不看人传球.gif' },
@@ -320,40 +320,6 @@ var charactersData = {
         },
         {
             id: '9_2',
-            name: '亚克',
-            generation: '9代超特',
-            description: '九代超特角色',
-            image: 'characters/9代超特/亚克.png',
-            actions: [
-                { name: '不看人传球', gif: 'gifs/9代超特/亚琪亚克/不看人传球.gif' },
-                { name: '大手冒', gif: 'gifs/9代超特/亚琪亚克/大手冒.gif' },
-                { name: '地板', gif: 'gifs/9代超特/亚琪亚克/地板.gif' },
-                { name: '快速起来', gif: 'gifs/9代超特/亚琪亚克/快速起来.gif' },
-                { name: '篮板', gif: 'gifs/9代超特/亚琪亚克/篮板.gif' },
-                { name: '抢断', gif: 'gifs/9代超特/亚琪亚克/抢断.gif' },
-                { name: '小手冒', gif: 'gifs/9代超特/亚琪亚克/小手冒.gif' },
-                { name: '中手冒', gif: 'gifs/9代超特/亚琪亚克/中手冒.gif' },
-                { name: 'A分球', gif: 'gifs/9代超特/亚琪亚克/A分球.gif' },
-                { name: 'A近扣', gif: 'gifs/9代超特/亚琪亚克/A近扣.gif' },
-                { name: 'A近上', gif: 'gifs/9代超特/亚琪亚克/A近上.gif' },
-                { name: 'A篮板', gif: 'gifs/9代超特/亚琪亚克/A篮板.gif' },
-                { name: 'A三分', gif: 'gifs/9代超特/亚琪亚克/A三分.gif' },
-                { name: 'A远扣', gif: 'gifs/9代超特/亚琪亚克/A远扣.gif' },
-                { name: 'A远上', gif: 'gifs/9代超特/亚琪亚克/A远上.gif' },
-                { name: 'A中投', gif: 'gifs/9代超特/亚琪亚克/A中投.gif' },
-                { name: 'B分球', gif: 'gifs/9代超特/亚琪亚克/B分球.gif' },
-                { name: 'B近扣', gif: 'gifs/9代超特/亚琪亚克/B近扣.gif' },
-                { name: 'B近上', gif: 'gifs/9代超特/亚琪亚克/B近上.gif' },
-                { name: 'B篮板', gif: 'gifs/9代超特/亚琪亚克/B篮板.gif' },
-                { name: 'B三分', gif: 'gifs/9代超特/亚琪亚克/B三分.gif' },
-                { name: 'B远扣', gif: 'gifs/9代超特/亚琪亚克/B远扣.gif' },
-                { name: 'B远上', gif: 'gifs/9代超特/亚琪亚克/B远上.gif' },
-                { name: 'B中投', gif: 'gifs/9代超特/亚琪亚克/B中投.gif' },
-                { name: 'X', gif: 'gifs/9代超特/亚琪亚克/X.gif' }
-            ]
-        },
-        {
-            id: '9_3',
             name: '罗卡',
             generation: '9代超特',
             description: '九代超特角色',
@@ -384,44 +350,10 @@ var charactersData = {
             ]
         },
         {
-            id: '9_4',
-            name: '艾迪',
+            id: '9_3',
+            name: '艾迪/艾薇',
             generation: '9代超特',
-            description: '九代超特角色',
-            image: 'characters/9代超特/艾迪.png',
-            actions: [
-                { name: '不看人传球', gif: 'gifs/9代超特/艾迪艾薇/不看人传球.gif' },
-                { name: '大手冒', gif: 'gifs/9代超特/艾迪艾薇/大手冒.gif' },
-                { name: '地板', gif: 'gifs/9代超特/艾迪艾薇/地板.gif' },
-                { name: '快速起来', gif: 'gifs/9代超特/艾迪艾薇/快速起来.gif' },
-                { name: '篮板', gif: 'gifs/9代超特/艾迪艾薇/篮板.gif' },
-                { name: '抢断', gif: 'gifs/9代超特/艾迪艾薇/抢断.gif' },
-                { name: '小手冒', gif: 'gifs/9代超特/艾迪艾薇/小手冒.gif' },
-                { name: '中手冒', gif: 'gifs/9代超特/艾迪艾薇/中手冒.gif' },
-                { name: 'A分球', gif: 'gifs/9代超特/艾迪艾薇/A分球.gif' },
-                { name: 'A近扣', gif: 'gifs/9代超特/艾迪艾薇/A近扣.gif' },
-                { name: 'A近上', gif: 'gifs/9代超特/艾迪艾薇/A近上.gif' },
-                { name: 'A篮板', gif: 'gifs/9代超特/艾迪艾薇/A篮板.gif' },
-                { name: 'A三分', gif: 'gifs/9代超特/艾迪艾薇/A三分.gif' },
-                { name: 'A远扣', gif: 'gifs/9代超特/艾迪艾薇/A远扣.gif' },
-                { name: 'A远上', gif: 'gifs/9代超特/艾迪艾薇/A远上.gif' },
-                { name: 'A中投', gif: 'gifs/9代超特/艾迪艾薇/A中投.gif' },
-                { name: 'B分球', gif: 'gifs/9代超特/艾迪艾薇/B分球.gif' },
-                { name: 'B近扣', gif: 'gifs/9代超特/艾迪艾薇/B近扣.gif' },
-                { name: 'B近上', gif: 'gifs/9代超特/艾迪艾薇/B近上.gif' },
-                { name: 'B篮板', gif: 'gifs/9代超特/艾迪艾薇/B篮板.gif' },
-                { name: 'B三分', gif: 'gifs/9代超特/艾迪艾薇/B三分.gif' },
-                { name: 'B远扣', gif: 'gifs/9代超特/艾迪艾薇/B远扣.gif' },
-                { name: 'B远上', gif: 'gifs/9代超特/艾迪艾薇/B远上.gif' },
-                { name: 'B中投', gif: 'gifs/9代超特/艾迪艾薇/B中投.gif' },
-                { name: 'X', gif: 'gifs/9代超特/艾迪艾薇/X.gif' }
-            ]
-        },
-        {
-            id: '9_5',
-            name: '艾薇',
-            generation: '9代超特',
-            description: '九代超特角色',
+            description: '九代超特角色，共用一套动作',
             image: 'characters/9代超特/艾薇.png',
             actions: [
                 { name: '不看人传球', gif: 'gifs/9代超特/艾迪艾薇/不看人传球.gif' },
@@ -639,22 +571,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // 初始化职业排名功能
         initializeRanking();
         
-        console.log('6. 初始化超特对比');
-        // 初始化超特对比功能
-        initializeComparison();
-        
-        console.log('6.5. 初始化账号推荐');
-        // 初始化账号推荐功能
-        initializeAccountRecommend();
-        
-        console.log('7. 初始化全屏显示');
-        // 初始化全屏显示功能
-        initializeFullscreen();
-        
-        console.log('8. 初始化分享功能');
-        // 初始化分享功能
-        initializeShare();
-        
         console.log('页面功能初始化完成');
         
         // iOS设备特殊检查
@@ -804,6 +720,12 @@ function closeMobileMenu() {
 
 // 初始化移动端导航
 function initializeMobileNavigation() {
+    // 汉堡菜单切换
+    // 汉堡菜单现在不需要点击事件，因为导航菜单是常驻的
+    // const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    // if (mobileMenuToggle) {
+    //     mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+    // }
     
     // 移动端导航项点击事件
     const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
@@ -1571,121 +1493,6 @@ function initializeRanking() {
     });
 }
 
-// 超特对比数据
-var comparisonData = [
-    {
-        id: 'comparison_1',
-        title: '超特对比',
-        description: '超特角色对比图',
-        image: 'comparision/超特对比.jpg'
-    }
-];
-
-// 账号推荐数据
-var accountRecommendData = [
-    {
-        id: 'recommend_1',
-        title: '账号推荐1',
-        image: 'accountrec/账号推荐1.jpg'
-    },
-    {
-        id: 'recommend_2',
-        title: '账号推荐2',
-        image: 'accountrec/账号推荐2.jpg'
-    }
-];
-
-// 初始化超特对比功能
-function initializeComparison() {
-    loadComparisonImages();
-}
-
-// 加载超特对比图片
-function loadComparisonImages() {
-    const comparisonGrid = document.getElementById('comparison-grid');
-    if (!comparisonGrid) return;
-    
-    comparisonGrid.innerHTML = '';
-    
-    comparisonData.forEach(item => {
-        const comparisonItem = document.createElement('div');
-        comparisonItem.className = 'comparison-item';
-        
-        const imageUrl = buildImageUrl(item.image);
-        const imageUrlWithTimestamp = `${imageUrl}?t=${Date.now()}`;
-        
-        comparisonItem.innerHTML = `
-            <img src="${imageUrlWithTimestamp}" 
-                 alt="${item.title}" 
-                 class="comparison-image" 
-                 onclick="openFullscreen(this)"
-                 onerror="handleImageError(this, '${item.title}')" 
-                 onload="handleImageLoad(this, '${item.title}')">
-            <div class="comparison-info">
-                <h3 class="comparison-title">${item.title}</h3>
-                <p class="comparison-description">${item.description}</p>
-            </div>
-        `;
-        
-        comparisonGrid.appendChild(comparisonItem);
-    });
-    
-    console.log('超特对比图片已加载');
-}
-
-// 初始化账号推荐功能
-function initializeAccountRecommend() {
-    loadAccountRecommendImages();
-}
-
-// 加载账号推荐图片
-function loadAccountRecommendImages() {
-    const recommendGrid = document.getElementById('recommend-grid');
-    if (!recommendGrid) return;
-    
-    recommendGrid.innerHTML = '';
-    
-    accountRecommendData.forEach(item => {
-        const recommendItem = document.createElement('div');
-        recommendItem.className = 'recommend-item';
-        
-        const imageUrl = buildImageUrl(item.image);
-        const imageUrlWithTimestamp = `${imageUrl}?t=${Date.now()}`;
-        
-        recommendItem.innerHTML = `
-            <img src="${imageUrlWithTimestamp}" 
-                 alt="${item.title}" 
-                 class="recommend-image" 
-                 onclick="openFullscreenNoRotate(this)"
-                 oncontextmenu="handleLongPress(event, this)"
-                 onerror="handleImageError(this, '${item.title}')" 
-                 onload="handleImageLoad(this, '${item.title}')">
-        `;
-        
-        recommendGrid.appendChild(recommendItem);
-    });
-    
-    console.log('账号推荐图片已加载');
-}
-
-// 打开全屏图片显示
-function openFullscreen(imgElement) {
-    if (!imgElement) return;
-    
-    const src = imgElement.src;
-    const alt = imgElement.alt;
-    showFullscreenImage(src, alt);
-}
-
-// 打开全屏图片显示（不旋转）
-function openFullscreenNoRotate(imgElement) {
-    if (!imgElement) return;
-    
-    const src = imgElement.src;
-    const alt = imgElement.alt;
-    showFullscreenImageNoRotate(src, alt);
-}
-
 // 显示全屏图片
 function showFullscreenImage(src, alt) {
     const overlay = document.getElementById('fullscreen-overlay');
@@ -1694,10 +1501,6 @@ function showFullscreenImage(src, alt) {
     if (overlay && fullscreenImg) {
         fullscreenImg.src = src;
         fullscreenImg.alt = alt;
-        
-        // 自动添加旋转类，让图片旋转90度显示
-        fullscreenImg.classList.add('rotated');
-        
         overlay.style.display = 'flex';
         
         // 禁止页面滚动
@@ -1724,58 +1527,15 @@ function showFullscreenImage(src, alt) {
     }
 }
 
-// 显示全屏图片（不旋转）
-function showFullscreenImageNoRotate(src, alt) {
-    const overlay = document.getElementById('fullscreen-overlay');
-    const fullscreenImg = document.getElementById('fullscreen-image');
-    
-    if (overlay && fullscreenImg) {
-        fullscreenImg.src = src;
-        fullscreenImg.alt = alt;
-        
-        // 不添加旋转类，保持原始角度
-        fullscreenImg.classList.remove('rotated');
-        
-        overlay.style.display = 'flex';
-        
-        // 禁止页面滚动
-        document.body.style.overflow = 'hidden';
-        
-        // 添加历史记录，支持返回按钮
-        history.pushState({fullscreen: true}, '');
-        
-        // 移动端特殊处理
-        if (window.innerWidth <= 768) {
-            // 强制竖屏显示
-            overlay.style.flexDirection = 'column';
-            fullscreenImg.style.width = '100%';
-            fullscreenImg.style.height = '100%';
-            fullscreenImg.style.objectFit = 'contain';
-        }
-        
-        // 苹果手机特殊处理
-        if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
-            // 添加更多触摸事件
-            overlay.style.webkitUserSelect = 'none';
-            overlay.style.userSelect = 'none';
-        }
-    }
-}
+
 
 // 关闭全屏显示
 function closeFullscreen() {
     const overlay = document.getElementById('fullscreen-overlay');
-    const fullscreenImg = document.getElementById('fullscreen-image');
-    
     if (overlay) {
         overlay.style.display = 'none';
         // 恢复页面滚动
         document.body.style.overflow = 'auto';
-        
-        // 重置图片旋转状态
-        if (fullscreenImg) {
-            fullscreenImg.classList.remove('rotated');
-        }
         
         // 移除历史记录
         if (history.state && history.state.fullscreen) {
@@ -1783,7 +1543,6 @@ function closeFullscreen() {
         }
     }
 }
-
 
 // 打开课程链接
 function openCourse(url) {
@@ -1882,210 +1641,53 @@ function openStore() {
 
 
 
-// 初始化全屏显示功能
-function initializeFullscreen() {
+// 添加全屏显示的事件监听
+document.addEventListener('DOMContentLoaded', function() {
     const overlay = document.getElementById('fullscreen-overlay');
-    if (!overlay) return;
-    
-    // 点击背景关闭全屏（更精确的事件处理）
-    overlay.addEventListener('click', function(e) {
-        console.log('全屏点击事件:', e.target, e.target === overlay);
-        if (e.target === overlay || e.target.classList.contains('fullscreen-overlay')) {
-            closeFullscreen();
-        }
-    });
-    
-    // 触摸事件关闭全屏（移动端）
-    overlay.addEventListener('touchstart', function(e) {
-        if (e.target === overlay) {
-            e.preventDefault();
-            closeFullscreen();
-        }
-    });
-    
-    // 添加更多触摸事件处理，兼容苹果手机
-    overlay.addEventListener('touchend', function(e) {
-        if (e.target === overlay) {
-            e.preventDefault();
-            closeFullscreen();
-        }
-    });
-    
-    // 添加双击关闭功能
-    overlay.addEventListener('dblclick', function(e) {
-        if (e.target === overlay) {
-            closeFullscreen();
-        }
-    });
-    
-    // ESC键关闭全屏
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            closeFullscreen();
-        }
-    });
-    
-    // 添加返回按钮监听（移动端）
-    window.addEventListener('popstate', function() {
-        closeFullscreen();
-    });
-    
-    console.log('全屏显示功能已初始化');
-}
-
-// 分享功能
-function toggleShareMenu() {
-    const shareMenu = document.getElementById('share-menu');
-    if (shareMenu) {
-        shareMenu.classList.toggle('show');
-    }
-}
-
-// 分享到微信
-function shareToWeChat() {
-    const currentUrl = window.location.href;
-    const shareTitle = '老非FS资料库 - 街头篮球超特角色大全';
-    const shareDesc = '包含1-9代超特角色介绍、动作展示、职业排名等完整资料';
-    
-    // 检测是否在微信浏览器中
-    if (/MicroMessenger/i.test(navigator.userAgent)) {
-        // 在微信中，显示提示信息
-        alert('请点击右上角菜单，选择"发送给朋友"或"分享到朋友圈"');
-    } else {
-        // 不在微信中，尝试调用微信分享API
-        if (typeof WeixinJSBridge !== 'undefined') {
-            WeixinJSBridge.invoke('sendAppMessage', {
-                'appid': '',
-                'img_url': 'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/gallery/超特图鉴.png',
-                'img_width': '200',
-                'img_height': '200',
-                'link': currentUrl,
-                'desc': shareDesc,
-                'title': shareTitle
-            });
-        } else {
-            // 降级处理：复制链接到剪贴板
-            copyLink();
-        }
-    }
-    
-    // 关闭分享菜单
-    const shareMenu = document.getElementById('share-menu');
-    if (shareMenu) {
-        shareMenu.classList.remove('show');
-    }
-}
-
-// 复制链接
-function copyLink() {
-    const currentUrl = window.location.href;
-    
-    if (navigator.clipboard && window.isSecureContext) {
-        // 使用现代 Clipboard API
-        navigator.clipboard.writeText(currentUrl).then(function() {
-            showToast('链接已复制到剪贴板');
-        }).catch(function() {
-            fallbackCopyTextToClipboard(currentUrl);
-        });
-    } else {
-        // 降级处理
-        fallbackCopyTextToClipboard(currentUrl);
-    }
-    
-    // 关闭分享菜单
-    const shareMenu = document.getElementById('share-menu');
-    if (shareMenu) {
-        shareMenu.classList.remove('show');
-    }
-}
-
-// 降级复制方法
-function fallbackCopyTextToClipboard(text) {
-    const textArea = document.createElement('textarea');
-    textArea.value = text;
-    textArea.style.position = 'fixed';
-    textArea.style.left = '-999999px';
-    textArea.style.top = '-999999px';
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
-    
-    try {
-        const successful = document.execCommand('copy');
-        if (successful) {
-            showToast('链接已复制到剪贴板');
-        } else {
-            showToast('复制失败，请手动复制链接');
-        }
-    } catch (err) {
-        showToast('复制失败，请手动复制链接');
-    }
-    
-    document.body.removeChild(textArea);
-}
-
-// 显示提示信息
-function showToast(message) {
-    // 创建提示元素
-    const toast = document.createElement('div');
-    toast.style.cssText = `
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: rgba(0, 0, 0, 0.8);
-        color: white;
-        padding: 12px 20px;
-        border-radius: 8px;
-        font-size: 14px;
-        z-index: 10000;
-        transition: all 0.3s ease;
-    `;
-    toast.textContent = message;
-    
-    document.body.appendChild(toast);
-    
-    // 2秒后移除
-    setTimeout(function() {
-        toast.style.opacity = '0';
-        setTimeout(function() {
-            if (document.body.contains(toast)) {
-                document.body.removeChild(toast);
+    if (overlay) {
+        // 点击背景关闭全屏
+        overlay.addEventListener('click', function(e) {
+            if (e.target === overlay) {
+                closeFullscreen();
             }
-        }, 300);
-    }, 2000);
-}
-
-// 初始化分享功能
-function initializeShare() {
-    // 点击外部区域关闭分享菜单
-    document.addEventListener('click', function(e) {
-        const shareFloat = document.getElementById('share-float');
-        const shareMenu = document.getElementById('share-menu');
+        });
         
-        if (shareFloat && shareMenu && !shareFloat.contains(e.target)) {
-            shareMenu.classList.remove('show');
-        }
-    });
-    
-    console.log('分享功能已初始化');
-}
-
-// 处理长按事件
-function handleLongPress(event, imgElement) {
-    event.preventDefault();
-    
-    // 显示长按提示
-    showToast('长按功能：可以扫描图片中的二维码');
-    
-    // 在移动端，可以尝试调用系统相机扫描二维码
-    if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-        // 移动端提示用户使用相机扫描
-        setTimeout(function() {
-            showToast('请使用相机应用扫描图片中的二维码');
-        }, 2000);
+        // 触摸事件关闭全屏（移动端）
+        overlay.addEventListener('touchstart', function(e) {
+            if (e.target === overlay) {
+                e.preventDefault();
+                closeFullscreen();
+            }
+        });
+        
+        // 添加更多触摸事件处理，兼容苹果手机
+        overlay.addEventListener('touchend', function(e) {
+            if (e.target === overlay) {
+                e.preventDefault();
+                closeFullscreen();
+            }
+        });
+        
+        // 添加双击关闭功能
+        overlay.addEventListener('dblclick', function(e) {
+            if (e.target === overlay) {
+                closeFullscreen();
+            }
+        });
+        
+        // ESC键关闭全屏
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeFullscreen();
+            }
+        });
+        
+        // 添加返回按钮监听（移动端）
+        window.addEventListener('popstate', function() {
+            closeFullscreen();
+        });
     }
-}
+});
 
 // 导出函数供外部使用
 window.FSDataLibrary = {
