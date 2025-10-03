@@ -975,7 +975,8 @@ function createCharacterCard(character) {
                     // 显示对应的GIF
                     var gifUrl = this.getAttribute('data-gif');
                     var actionName = this.querySelector('span').textContent;
-                    gifContainer.innerHTML = '<img src="' + gifUrl + '" alt="' + actionName + '" class="action-gif"><p class="action-name">' + actionName + '</p>';
+                    var gifUrlWithCache = gifUrl + (gifUrl.includes('?') ? '&' : '?') + 'refresh=' + Date.now();
+                    gifContainer.innerHTML = '<img src="' + gifUrlWithCache + '" alt="' + actionName + '" class="action-gif"><p class="action-name">' + actionName + '</p>';
                     
                     return false; // 阻止页面滚动
                 };
@@ -1493,7 +1494,7 @@ function loadGifFiles(folder, characterId, card) {
     // 检查每个GIF文件是否存在
     function checkGifFile(file, index) {
         // 正确构建URL路径
-        var gifUrl = COS_CONFIG.Domain + '/' + cleanFolder + '/' + file;
+        var gifUrl = COS_CONFIG.Domain + '/' + cleanFolder + '/' + file + '?v=' + Date.now() + '&t=' + Math.random();
         console.log('检查GIF文件:', gifUrl);
         
         var img = new Image();
@@ -1533,7 +1534,7 @@ function loadGifFiles(folder, characterId, card) {
         
         validGifFiles.forEach(function(file) {
             var actionName = file.replace('.gif', '');
-            var gifUrl = COS_CONFIG.Domain + '/' + cleanFolder + '/' + file;
+            var gifUrl = COS_CONFIG.Domain + '/' + cleanFolder + '/' + file + '?v=' + Date.now() + '&t=' + Math.random();
             
             buttonsHtml += `
                 <button class="action-btn" data-gif="${gifUrl}">
@@ -1571,7 +1572,8 @@ function loadGifFiles(folder, characterId, card) {
                     // 显示对应的GIF
                     var gifUrl = this.getAttribute('data-gif');
                     var actionName = this.querySelector('span').textContent;
-                    gifContainer.innerHTML = '<img src="' + gifUrl + '" alt="' + actionName + '" class="action-gif"><p class="action-name">' + actionName + '</p>';
+                    var gifUrlWithCache = gifUrl + (gifUrl.includes('?') ? '&' : '?') + 'refresh=' + Date.now();
+                    gifContainer.innerHTML = '<img src="' + gifUrlWithCache + '" alt="' + actionName + '" class="action-gif"><p class="action-name">' + actionName + '</p>';
                     
                     return false; // 阻止页面滚动
                 };
@@ -1716,7 +1718,7 @@ function loadAccountRecommendImages() {
         recommendItem.className = 'recommend-item';
         
         const imageUrl = buildImageUrl(item.image);
-        const imageUrlWithTimestamp = `${imageUrl}?t=${Date.now()}`;
+        const imageUrlWithTimestamp = `${imageUrl}?v=${Date.now()}&t=${Math.random()}`;
         
         recommendItem.innerHTML = `
             <img src="${imageUrlWithTimestamp}" 
@@ -1760,7 +1762,7 @@ function loadImages() {
         imageItem.className = 'image-item';
         
         const imageUrl = buildImageUrl(item.image);
-        const imageUrlWithTimestamp = `${imageUrl}?t=${Date.now()}`;
+        const imageUrlWithTimestamp = `${imageUrl}?v=${Date.now()}&t=${Math.random()}`;
         
         imageItem.innerHTML = `
             <img src="${imageUrlWithTimestamp}" 
