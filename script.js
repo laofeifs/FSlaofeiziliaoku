@@ -1656,16 +1656,24 @@ function loadAccountRecommendImages() {
             <img src="${imageUrlWithTimestamp}" 
                  alt="${item.title}" 
                  class="recommend-image" 
-                 onclick="openFullscreenNoRotate(this)"
+                 onclick="handleImageClick(event, this)"
                  oncontextmenu="handleLongPress(event, this)"
-                 ontouchstart="handleTouchStart(event, this)"
-                 ontouchend="handleTouchEnd(event, this)"
                  onerror="handleImageError(this, '${item.title}')" 
                  onload="handleImageLoad(this, '${item.title}')">
         `;
         
         recommendGrid.appendChild(recommendItem);
     });
+    
+    // 为账号推荐图片添加触摸事件监听器
+    setTimeout(function() {
+        addTouchListenersToRecommendImages();
+    }, 500);
+    
+    // 再次尝试绑定（防止第一次失败）
+    setTimeout(function() {
+        addTouchListenersToRecommendImages();
+    }, 1000);
     
     console.log('账号推荐图片已加载');
 }
@@ -2187,34 +2195,27 @@ function initializeImageZoom(imgElement) {
 let longPressTimer = null;
 let longPressStartTime = 0;
 let isLongPress = false;
+let touchStartX = 0;
+let touchStartY = 0;
 
-// 处理触摸开始事件
-function handleTouchStart(event, imgElement) {
-    longPressStartTime = Date.now();
-    isLongPress = false;
+// 处理图片点击事件（兼容微信浏览器）
+function handleImageClick(event, imgElement) {
+    console.log('图片点击事件触发');
+    const currentTime = Date.now();
+    const touchDuration = currentTime - longPressStartTime;
     
-    // 设置长按定时器（800毫秒后触发长按）
-    longPressTimer = setTimeout(function() {
-        isLongPress = true;
-        handleLongPress(event, imgElement);
-    }, 800);
-}
-
-// 处理触摸结束事件
-function handleTouchEnd(event, imgElement) {
-    const touchDuration = Date.now() - longPressStartTime;
-    
-    // 清除长按定时器
-    if (longPressTimer) {
-        clearTimeout(longPressTimer);
-        longPressTimer = null;
-    }
+    console.log('触摸持续时间:', touchDuration, '是否长按:', isLongPress);
     
     // 如果触摸时间超过800毫秒，说明是长按
     if (touchDuration >= 800 && isLongPress) {
-        // 长按事件已在handleLongPress中处理
+        console.log('长按事件，不执行点击');
+        // 长按事件已在handleLongPress中处理，不执行点击
         return;
     }
+    
+    // 短按：打开全屏显示
+    console.log('短按事件，打开全屏');
+    openFullscreenNoRotate(imgElement);
 }
 
 // 处理长按事件
@@ -2230,6 +2231,84 @@ function handleLongPress(event, imgElement) {
         setTimeout(function() {
             showToast('请使用相机应用扫描图片中的二维码');
         }, 2000);
+    }
+}
+
+// 为账号推荐图片添加触摸事件监听器
+function addTouchListenersToRecommendImages() {
+    const recommendImages = document.querySelectorAll('.recommend-image');
+    
+    console.log('找到账号推荐图片数量:', recommendImages.length);
+    
+    recommendImages.forEach(function(img, index) {
+        console.log('为图片', index, '添加触摸事件监听器');
+        
+        // 清除之前的事件监听器（如果有的话）
+        img.removeEventListener('touchstart', handleTouchStart);
+        img.removeEventListener('touchmove', handleTouchMove);
+        img.removeEventListener('touchend', handleTouchEnd);
+        
+        // 触摸开始
+        img.addEventListener('touchstart', handleTouchStart, { passive: false });
+        
+        // 触摸移动
+        img.addEventListener('touchmove', handleTouchMove, { passive: true });
+        
+        // 触摸结束
+        img.addEventListener('touchend', handleTouchEnd, { passive: true });
+    });
+}
+
+// 触摸开始处理函数
+function handleTouchStart(e) {
+    console.log('触摸开始');
+    longPressStartTime = Date.now();
+    isLongPress = false;
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    
+    // 设置长按定时器（800毫秒后触发长按）
+    longPressTimer = setTimeout(function() {
+        console.log('触发长按');
+        isLongPress = true;
+        handleLongPress(e, e.target);
+    }, 800);
+}
+
+// 触摸移动处理函数
+function handleTouchMove(e) {
+    // 如果移动距离过大，取消长按
+    if (e.touches.length > 0) {
+        const deltaX = Math.abs(e.touches[0].clientX - touchStartX);
+        const deltaY = Math.abs(e.touches[0].clientY - touchStartY);
+        
+        if (deltaX > 10 || deltaY > 10) {
+            console.log('移动距离过大，取消长按');
+            if (longPressTimer) {
+                clearTimeout(longPressTimer);
+                longPressTimer = null;
+            }
+            isLongPress = false;
+        }
+    }
+}
+
+// 触摸结束处理函数
+function handleTouchEnd(e) {
+    console.log('触摸结束');
+    const touchDuration = Date.now() - longPressStartTime;
+    
+    // 清除长按定时器
+    if (longPressTimer) {
+        clearTimeout(longPressTimer);
+        longPressTimer = null;
+    }
+    
+    // 如果触摸时间超过800毫秒，说明是长按
+    if (touchDuration >= 800 && isLongPress) {
+        console.log('确认长按事件');
+        // 长按事件已在handleLongPress中处理
+        return;
     }
 }
 
