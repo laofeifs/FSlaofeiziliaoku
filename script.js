@@ -1656,7 +1656,6 @@ function loadAccountRecommendImages() {
             <img src="${imageUrlWithTimestamp}" 
                  alt="${item.title}" 
                  class="recommend-image" 
-                 onclick="handleImageClick(event, this)"
                  oncontextmenu="handleLongPress(event, this)"
                  onerror="handleImageError(this, '${item.title}')" 
                  onload="handleImageLoad(this, '${item.title}')">
@@ -1668,12 +1667,17 @@ function loadAccountRecommendImages() {
     // 为账号推荐图片添加触摸事件监听器
     setTimeout(function() {
         addTouchListenersToRecommendImages();
-    }, 500);
+    }, 300);
     
     // 再次尝试绑定（防止第一次失败）
     setTimeout(function() {
         addTouchListenersToRecommendImages();
-    }, 1000);
+    }, 800);
+    
+    // 第三次尝试绑定（确保成功）
+    setTimeout(function() {
+        addTouchListenersToRecommendImages();
+    }, 1500);
     
     console.log('账号推荐图片已加载');
 }
@@ -2198,29 +2202,13 @@ let isLongPress = false;
 let touchStartX = 0;
 let touchStartY = 0;
 
-// 处理图片点击事件（兼容微信浏览器）
-function handleImageClick(event, imgElement) {
-    console.log('图片点击事件触发');
-    const currentTime = Date.now();
-    const touchDuration = currentTime - longPressStartTime;
-    
-    console.log('触摸持续时间:', touchDuration, '是否长按:', isLongPress);
-    
-    // 如果触摸时间超过800毫秒，说明是长按
-    if (touchDuration >= 800 && isLongPress) {
-        console.log('长按事件，不执行点击');
-        // 长按事件已在handleLongPress中处理，不执行点击
-        return;
-    }
-    
-    // 短按：打开全屏显示
-    console.log('短按事件，打开全屏');
-    openFullscreenNoRotate(imgElement);
-}
+// 处理图片点击事件（已移除，仅保留长按功能）
 
 // 处理长按事件
 function handleLongPress(event, imgElement) {
     event.preventDefault();
+    
+    console.log('长按事件触发，显示扫描选项');
     
     // 显示长按提示
     showToast('长按功能：可以扫描图片中的二维码');
@@ -2230,7 +2218,7 @@ function handleLongPress(event, imgElement) {
         // 移动端提示用户使用相机扫描
         setTimeout(function() {
             showToast('请使用相机应用扫描图片中的二维码');
-        }, 2000);
+        }, 1500);
     }
 }
 
@@ -2267,12 +2255,12 @@ function handleTouchStart(e) {
     touchStartX = e.touches[0].clientX;
     touchStartY = e.touches[0].clientY;
     
-    // 设置长按定时器（800毫秒后触发长按）
+    // 设置长按定时器（600毫秒后触发长按，提高响应速度）
     longPressTimer = setTimeout(function() {
         console.log('触发长按');
         isLongPress = true;
         handleLongPress(e, e.target);
-    }, 800);
+    }, 600);
 }
 
 // 触摸移动处理函数
@@ -2304,8 +2292,8 @@ function handleTouchEnd(e) {
         longPressTimer = null;
     }
     
-    // 如果触摸时间超过800毫秒，说明是长按
-    if (touchDuration >= 800 && isLongPress) {
+    // 如果触摸时间超过600毫秒，说明是长按
+    if (touchDuration >= 600 && isLongPress) {
         console.log('确认长按事件');
         // 长按事件已在handleLongPress中处理
         return;
