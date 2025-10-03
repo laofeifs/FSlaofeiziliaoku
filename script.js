@@ -5,14 +5,18 @@ var COS_CONFIG = {
     SecretKey: 'YOUR_SECRET_KEY',
     Bucket: 'laofei-1259209256',
     Region: 'ap-nanjing', // 南京地域
-    // COS访问域名，使用新存储桶域名
-    Domain: 'https://laofei-1259209256.cos-website.ap-nanjing.myqcloud.com',
-    // 备用域名，如果主域名有问题
-    BackupDomain: 'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com'
+    
+    // COS访问域名
+    Domain: 'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com',
 };
 
 // 当前选中的代次
 var currentGeneration = '9';
+
+// 图片URL构建函数
+function buildImageUrl(imagePath) {
+    return COS_CONFIG.Domain + '/' + imagePath;
+}
 
 // 图鉴数据 - 所有代数共用一张图片
 var galleryData = {
@@ -285,7 +289,7 @@ var charactersData = {
             name: '亚琪/亚克',
             generation: '9代超特',
             description: '九代超特角色，共用一套动作',
-            image: 'characters/9代超特/亚琪亚克.png',
+            image: 'characters/9代超特/亚琪.png',
             actions: [
                 { name: '不看人传球', gif: 'gifs/9代超特/亚琪亚克/不看人传球.gif' },
                 { name: '大手冒', gif: 'gifs/9代超特/亚琪亚克/大手冒.gif' },
@@ -343,6 +347,40 @@ var charactersData = {
                 { name: 'B远上', gif: 'gifs/9代超特/罗卡/B远上.gif' },
                 { name: 'B中投', gif: 'gifs/9代超特/罗卡/B中投.gif' },
                 { name: 'X', gif: 'gifs/9代超特/罗卡/X.gif' }
+            ]
+        },
+        {
+            id: '9_3',
+            name: '艾迪/艾薇',
+            generation: '9代超特',
+            description: '九代超特角色，共用一套动作',
+            image: 'characters/9代超特/艾薇.png',
+            actions: [
+                { name: '不看人传球', gif: 'gifs/9代超特/艾迪艾薇/不看人传球.gif' },
+                { name: '大手冒', gif: 'gifs/9代超特/艾迪艾薇/大手冒.gif' },
+                { name: '地板', gif: 'gifs/9代超特/艾迪艾薇/地板.gif' },
+                { name: '快速起来', gif: 'gifs/9代超特/艾迪艾薇/快速起来.gif' },
+                { name: '篮板', gif: 'gifs/9代超特/艾迪艾薇/篮板.gif' },
+                { name: '抢断', gif: 'gifs/9代超特/艾迪艾薇/抢断.gif' },
+                { name: '小手冒', gif: 'gifs/9代超特/艾迪艾薇/小手冒.gif' },
+                { name: '中手冒', gif: 'gifs/9代超特/艾迪艾薇/中手冒.gif' },
+                { name: 'A分球', gif: 'gifs/9代超特/艾迪艾薇/A分球.gif' },
+                { name: 'A近扣', gif: 'gifs/9代超特/艾迪艾薇/A近扣.gif' },
+                { name: 'A近上', gif: 'gifs/9代超特/艾迪艾薇/A近上.gif' },
+                { name: 'A篮板', gif: 'gifs/9代超特/艾迪艾薇/A篮板.gif' },
+                { name: 'A三分', gif: 'gifs/9代超特/艾迪艾薇/A三分.gif' },
+                { name: 'A远扣', gif: 'gifs/9代超特/艾迪艾薇/A远扣.gif' },
+                { name: 'A远上', gif: 'gifs/9代超特/艾迪艾薇/A远上.gif' },
+                { name: 'A中投', gif: 'gifs/9代超特/艾迪艾薇/A中投.gif' },
+                { name: 'B分球', gif: 'gifs/9代超特/艾迪艾薇/B分球.gif' },
+                { name: 'B近扣', gif: 'gifs/9代超特/艾迪艾薇/B近扣.gif' },
+                { name: 'B近上', gif: 'gifs/9代超特/艾迪艾薇/B近上.gif' },
+                { name: 'B篮板', gif: 'gifs/9代超特/艾迪艾薇/B篮板.gif' },
+                { name: 'B三分', gif: 'gifs/9代超特/艾迪艾薇/B三分.gif' },
+                { name: 'B远扣', gif: 'gifs/9代超特/艾迪艾薇/B远扣.gif' },
+                { name: 'B远上', gif: 'gifs/9代超特/艾迪艾薇/B远上.gif' },
+                { name: 'B中投', gif: 'gifs/9代超特/艾迪艾薇/B中投.gif' },
+                { name: 'X', gif: 'gifs/9代超特/艾迪艾薇/X.gif' }
             ]
         }
     ],
@@ -510,13 +548,20 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('2. 初始化筛选');
         initializeFilters();
         
+        console.log('2.5. 初始化移动端导航');
+        initializeMobileNavigation();
+        
         console.log('3. 加载角色');
         loadCharacters(currentGeneration);
         
         console.log('4. 加载图鉴');
         loadGallery(currentGeneration);
         
-        // 默认隐藏筛选按钮（因为默认是gallery页面）
+        // 默认显示首页
+        console.log('5. 设置默认页面为首页');
+        switchSection('home');
+        
+        // 默认隐藏筛选按钮（因为默认是home页面）
         var filterContainer = document.querySelector('.filter-container');
         if (filterContainer) {
             filterContainer.style.display = 'none';
@@ -598,6 +643,16 @@ function switchSection(sectionName) {
     const sections = document.querySelectorAll('.content-section');
     sections.forEach(section => section.classList.remove('active'));
     
+    // 控制content-area的显示
+    const contentArea = document.querySelector('.content-area');
+    if (sectionName === 'home') {
+        // 首页时隐藏content-area
+        contentArea.classList.remove('active');
+    } else {
+        // 其他页面显示content-area
+        contentArea.classList.add('active');
+    }
+    
     // 显示选中的内容区域
     const targetSection = document.getElementById(sectionName + '-section');
     if (targetSection) {
@@ -613,6 +668,85 @@ function switchSection(sectionName) {
         // 其他页面隐藏筛选按钮
         filterContainer.style.display = 'none';
     }
+}
+
+// 全局函数，供HTML中的onclick调用
+function switchToSection(sectionName) {
+    // 更新桌面端导航按钮状态
+    const navButtons = document.querySelectorAll('.nav-btn');
+    navButtons.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-section') === sectionName) {
+            btn.classList.add('active');
+        }
+    });
+    
+    // 更新移动端导航按钮状态
+    const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
+    mobileNavItems.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-section') === sectionName) {
+            btn.classList.add('active');
+        }
+    });
+    
+    // 关闭移动端菜单
+    closeMobileMenu();
+    
+    // 切换内容区域
+    switchSection(sectionName);
+}
+
+// 移动端菜单控制
+function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-nav-menu');
+    const toggle = document.getElementById('mobile-menu-toggle');
+    
+    if (menu && toggle) {
+        menu.classList.toggle('active');
+        toggle.classList.toggle('active');
+    }
+}
+
+function closeMobileMenu() {
+    const menu = document.getElementById('mobile-nav-menu');
+    const toggle = document.getElementById('mobile-menu-toggle');
+    
+    if (menu && toggle) {
+        menu.classList.remove('active');
+        toggle.classList.remove('active');
+    }
+}
+
+// 初始化移动端导航
+function initializeMobileNavigation() {
+    // 汉堡菜单切换
+    // 汉堡菜单现在不需要点击事件，因为导航菜单是常驻的
+    // const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    // if (mobileMenuToggle) {
+    //     mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+    // }
+    
+    // 移动端导航项点击事件
+    const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
+    mobileNavItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const section = this.getAttribute('data-section');
+            switchToSection(section);
+        });
+    });
+    
+    // 点击页面其他地方关闭菜单
+    document.addEventListener('click', function(e) {
+        const mobileNav = document.querySelector('.mobile-nav');
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        
+        if (mobileNav && mobileMenuToggle && 
+            !mobileNav.contains(e.target) && 
+            !mobileMenuToggle.contains(e.target)) {
+            closeMobileMenu();
+        }
+    });
 }
 
 // 加载角色数据
@@ -663,7 +797,7 @@ function createCharacterCard(character) {
     // 构建图片URL（使用腾讯云COS，添加时间戳避免缓存）
     var imageUrl = '';
     if (character.image) {
-        imageUrl = COS_CONFIG.Domain + '/' + character.image;
+        imageUrl = buildImageUrl(character.image);
         console.log('角色图片URL:', imageUrl);
         
         // 所有设备都添加时间戳避免缓存问题
@@ -682,7 +816,7 @@ function createCharacterCard(character) {
                 <h4>动作技能</h4>
                 <div class="action-buttons">
                     ${character.actions.map(action => `
-                        <button class="action-btn" data-gif="${COS_CONFIG.Domain}/${action.gif}">
+                        <button class="action-btn" data-gif="${buildImageUrl(action.gif)}">
                             <i class="fas fa-play"></i>
                             <span>${action.name}</span>
                         </button>
@@ -784,8 +918,8 @@ function createGalleryCard() {
     const card = document.createElement('div');
     card.className = 'gallery-card-full';
     
-    // 构建图片URL（使用腾讯云COS）
-    const imageUrl = galleryData.image ? `${COS_CONFIG.Domain}/${galleryData.image}` : '';
+    // 构建图片URL（使用CDN优化）
+    const imageUrl = galleryData.image ? buildImageUrl(galleryData.image) : '';
     console.log('图鉴图片URL:', imageUrl);
     
     // 添加时间戳避免缓存问题
@@ -1321,9 +1455,9 @@ function initializeRanking() {
     // 设置职业排名图片路径（添加时间戳防止缓存）
     const timestamp = new Date().getTime();
     const rankingImages = {
-        'c': `${COS_CONFIG.Domain}/ranking/C排名.png?v=${timestamp}`,
-        'pf': `${COS_CONFIG.Domain}/ranking/PF排名.png?v=${timestamp}`,
-        'pg': `${COS_CONFIG.Domain}/ranking/PG排名.png?v=${timestamp}`
+        'c': `${buildImageUrl('ranking/C排名.png')}?v=${timestamp}`,
+        'pf': `${buildImageUrl('ranking/PF排名.png')}?v=${timestamp}`,
+        'pg': `${buildImageUrl('ranking/PG排名.png')}?v=${timestamp}`
     };
     
     // 加载图片
@@ -1423,8 +1557,14 @@ function openCourse(url) {
 }
 
 // 复制微信号
-function copyWechat() {
-    const wechatNumber = document.getElementById('wechat-number').textContent;
+function copyWechat(elementId = 'wechat-number') {
+    const wechatElement = document.getElementById(elementId);
+    if (!wechatElement) {
+        console.error('找不到微信号元素:', elementId);
+        return;
+    }
+    
+    const wechatNumber = wechatElement.textContent;
     
     // 尝试使用现代浏览器的 Clipboard API
     if (navigator.clipboard && window.isSecureContext) {
