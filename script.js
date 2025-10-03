@@ -1818,13 +1818,27 @@ function closeFullscreen() {
 
 // 打开课程链接
 function openCourse(url) {
-    // 检测是否在微信浏览器中
-    if (/MicroMessenger/i.test(navigator.userAgent)) {
-        // 微信浏览器中，尝试使用微信内置浏览器打开
-        window.location.href = url;
-    } else {
-        // 其他浏览器，直接打开
-        window.open(url, '_blank');
+    console.log('尝试打开课程链接:', url);
+    
+    try {
+        // 检测是否在微信浏览器中
+        if (/MicroMessenger/i.test(navigator.userAgent)) {
+            console.log('在微信浏览器中，使用微信内置浏览器打开');
+            // 微信浏览器中，尝试使用微信内置浏览器打开
+            window.location.href = url;
+        } else {
+            console.log('在普通浏览器中，新窗口打开');
+            // 其他浏览器，直接打开
+            const newWindow = window.open(url, '_blank');
+            if (!newWindow) {
+                console.log('弹窗被阻止，尝试直接跳转');
+                window.location.href = url;
+            }
+        }
+    } catch (error) {
+        console.error('打开课程链接失败:', error);
+        // 如果所有方法都失败，显示提示
+        alert('无法打开课程链接，请手动复制链接到浏览器中打开');
     }
 }
 
