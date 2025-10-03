@@ -1658,6 +1658,8 @@ function loadAccountRecommendImages() {
                  class="recommend-image" 
                  onclick="openFullscreenNoRotate(this)"
                  oncontextmenu="handleLongPress(event, this)"
+                 ontouchstart="handleTouchStart(event, this)"
+                 ontouchend="handleTouchEnd(event, this)"
                  onerror="handleImageError(this, '${item.title}')" 
                  onload="handleImageLoad(this, '${item.title}')">
         `;
@@ -2178,6 +2180,40 @@ function initializeImageZoom(imgElement) {
         const dx = touch1.clientX - touch2.clientX;
         const dy = touch1.clientY - touch2.clientY;
         return Math.sqrt(dx * dx + dy * dy);
+    }
+}
+
+// 长按检测变量
+let longPressTimer = null;
+let longPressStartTime = 0;
+let isLongPress = false;
+
+// 处理触摸开始事件
+function handleTouchStart(event, imgElement) {
+    longPressStartTime = Date.now();
+    isLongPress = false;
+    
+    // 设置长按定时器（800毫秒后触发长按）
+    longPressTimer = setTimeout(function() {
+        isLongPress = true;
+        handleLongPress(event, imgElement);
+    }, 800);
+}
+
+// 处理触摸结束事件
+function handleTouchEnd(event, imgElement) {
+    const touchDuration = Date.now() - longPressStartTime;
+    
+    // 清除长按定时器
+    if (longPressTimer) {
+        clearTimeout(longPressTimer);
+        longPressTimer = null;
+    }
+    
+    // 如果触摸时间超过800毫秒，说明是长按
+    if (touchDuration >= 800 && isLongPress) {
+        // 长按事件已在handleLongPress中处理
+        return;
     }
 }
 
