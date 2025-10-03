@@ -915,6 +915,15 @@ html {
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease;
     /* 移除默认旋转，改为可控制 */
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.fullscreen-image:active {
+    cursor: grabbing;
 }
 
 .fullscreen-image.rotated {
@@ -1033,9 +1042,66 @@ html {
     font-weight: 500;
 }
 
-/* 账号推荐样式 */
+/* 账号推荐按钮样式 */
+.nav-btn[data-section="account-recommend"] {
+    background: linear-gradient(135deg, #dc2626, #b91c1c) !important;
+    color: white !important;
+    border: 2px solid #ef4444 !important;
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3) !important;
+    animation: pulse-red 2s infinite !important;
+    font-weight: bold !important;
+}
+
+.nav-btn[data-section="account-recommend"]:hover {
+    background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+    box-shadow: 0 6px 16px rgba(220, 38, 38, 0.5) !important;
+    transform: translateY(-2px) !important;
+}
+
+.mobile-nav-item[data-section="account-recommend"] {
+    background: linear-gradient(135deg, #dc2626, #b91c1c) !important;
+    color: white !important;
+    border: 2px solid #ef4444 !important;
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3) !important;
+    animation: pulse-red 2s infinite !important;
+    font-weight: bold !important;
+}
+
+.mobile-nav-item[data-section="account-recommend"]:hover {
+    background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+    box-shadow: 0 6px 16px rgba(220, 38, 38, 0.5) !important;
+}
+
+@keyframes pulse-red {
+    0% {
+        box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+    }
+    50% {
+        box-shadow: 0 4px 20px rgba(220, 38, 38, 0.6);
+    }
+    100% {
+        box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+    }
+}
+
+/* 账号推荐内容样式 */
 .account-recommend-content {
     width: 100%;
+}
+
+/* 账号推荐页面标题特殊样式 */
+#account-recommend-section h2 {
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+    color: white !important;
+    padding: 15px 25px;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.8rem;
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+    animation: pulse-red 2s infinite;
+    margin-bottom: 30px;
+    border: 2px solid #ef4444;
 }
 
 .recommend-tip {
@@ -1816,6 +1882,32 @@ html {
     transform: translateY(-5px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     border-color: #4ade80;
+}
+
+/* 账号推荐特色卡片特殊样式 */
+.feature-card[onclick*="account-recommend"] {
+    background: linear-gradient(135deg, #dc2626, #b91c1c) !important;
+    color: white !important;
+    border: 2px solid #ef4444 !important;
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3) !important;
+    animation: pulse-red 2s infinite !important;
+}
+
+.feature-card[onclick*="account-recommend"]:hover {
+    background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+    box-shadow: 0 8px 20px rgba(220, 38, 38, 0.5) !important;
+    transform: translateY(-8px) !important;
+    border-color: #dc2626 !important;
+}
+
+.feature-card[onclick*="account-recommend"] .feature-icon {
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+}
+
+.feature-card[onclick*="account-recommend"] h3 {
+    color: white !important;
+    font-weight: bold !important;
 }
 
 .feature-icon {

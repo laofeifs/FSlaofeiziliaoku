@@ -1698,6 +1698,10 @@ function showFullscreenImage(src, alt) {
         // 自动添加旋转类，让图片旋转90度显示
         fullscreenImg.classList.add('rotated');
         
+        // 重置缩放状态
+        fullscreenImg.style.transform = 'rotate(-90deg) scale(1)';
+        fullscreenImg.style.transformOrigin = 'center center';
+        
         overlay.style.display = 'flex';
         
         // 禁止页面滚动
@@ -1721,6 +1725,9 @@ function showFullscreenImage(src, alt) {
             overlay.style.webkitUserSelect = 'none';
             overlay.style.userSelect = 'none';
         }
+        
+        // 初始化缩放功能
+        initializeImageZoom(fullscreenImg);
     }
 }
 
@@ -1736,6 +1743,10 @@ function showFullscreenImageNoRotate(src, alt) {
         // 不添加旋转类，保持原始角度
         fullscreenImg.classList.remove('rotated');
         
+        // 重置缩放状态
+        fullscreenImg.style.transform = 'scale(1)';
+        fullscreenImg.style.transformOrigin = 'center center';
+        
         overlay.style.display = 'flex';
         
         // 禁止页面滚动
@@ -1759,6 +1770,9 @@ function showFullscreenImageNoRotate(src, alt) {
             overlay.style.webkitUserSelect = 'none';
             overlay.style.userSelect = 'none';
         }
+        
+        // 初始化缩放功能
+        initializeImageZoom(fullscreenImg);
     }
 }
 
@@ -1772,9 +1786,12 @@ function closeFullscreen() {
         // 恢复页面滚动
         document.body.style.overflow = 'auto';
         
-        // 重置图片旋转状态
+        // 重置图片状态
         if (fullscreenImg) {
             fullscreenImg.classList.remove('rotated');
+            // 重置缩放状态
+            fullscreenImg.style.transform = '';
+            fullscreenImg.style.transformOrigin = '';
         }
         
         // 移除历史记录
@@ -1887,21 +1904,8 @@ function initializeFullscreen() {
     const overlay = document.getElementById('fullscreen-overlay');
     if (!overlay) return;
     
-    // 点击背景关闭全屏（更精确的事件处理）
-    overlay.addEventListener('click', function(e) {
-        console.log('全屏点击事件:', e.target, e.target === overlay);
-        if (e.target === overlay || e.target.classList.contains('fullscreen-overlay')) {
-            closeFullscreen();
-        }
-    });
-    
-    // 触摸事件关闭全屏（移动端）
-    overlay.addEventListener('touchstart', function(e) {
-        if (e.target === overlay) {
-            e.preventDefault();
-            closeFullscreen();
-        }
-    });
+    // 移除点击背景关闭功能，避免误触
+    // 只保留关闭按钮和ESC键关闭功能
     
     // 添加更多触摸事件处理，兼容苹果手机
     overlay.addEventListener('touchend', function(e) {
@@ -2069,6 +2073,112 @@ function initializeShare() {
     });
     
     console.log('分享功能已初始化');
+}
+
+// 初始化图片缩放功能
+function initializeImageZoom(imgElement) {
+    if (!imgElement) return;
+    
+    let scale = 1;
+    let isDragging = false;
+    let startX = 0;
+    let startY = 0;
+    let translateX = 0;
+    let translateY = 0;
+    let lastDistance = 0;
+    
+    // 重置状态
+    scale = 1;
+    translateX = 0;
+    translateY = 0;
+    updateTransform();
+    
+    // 触摸开始
+    imgElement.addEventListener('touchstart', function(e) {
+        if (e.touches.length === 1) {
+            // 单指拖拽
+            isDragging = true;
+            startX = e.touches[0].clientX - translateX;
+            startY = e.touches[0].clientY - translateY;
+        } else if (e.touches.length === 2) {
+            // 双指缩放
+            isDragging = false;
+            const distance = getDistance(e.touches[0], e.touches[1]);
+            lastDistance = distance;
+        }
+        e.preventDefault();
+    });
+    
+    // 触摸移动
+    imgElement.addEventListener('touchmove', function(e) {
+        e.preventDefault();
+        
+        if (e.touches.length === 1 && isDragging) {
+            // 单指拖拽
+            translateX = e.touches[0].clientX - startX;
+            translateY = e.touches[0].clientY - startY;
+            updateTransform();
+        } else if (e.touches.length === 2) {
+            // 双指缩放
+            isDragging = false;
+            const distance = getDistance(e.touches[0], e.touches[1]);
+            const scaleChange = distance / lastDistance;
+            scale *= scaleChange;
+            
+            // 限制缩放范围
+            scale = Math.max(0.5, Math.min(scale, 5));
+            
+            lastDistance = distance;
+            updateTransform();
+        }
+    });
+    
+    // 触摸结束
+    imgElement.addEventListener('touchend', function(e) {
+        isDragging = false;
+        
+        // 如果缩放小于1，自动回到1
+        if (scale < 1) {
+            scale = 1;
+            translateX = 0;
+            translateY = 0;
+            updateTransform();
+        }
+    });
+    
+    // 鼠标滚轮缩放（桌面端）
+    imgElement.addEventListener('wheel', function(e) {
+        e.preventDefault();
+        
+        const delta = e.deltaY > 0 ? 0.9 : 1.1;
+        scale *= delta;
+        scale = Math.max(0.5, Math.min(scale, 5));
+        
+        updateTransform();
+    });
+    
+    // 更新变换
+    function updateTransform() {
+        const currentTransform = imgElement.style.transform;
+        let baseTransform = '';
+        
+        // 保持原有的旋转
+        if (currentTransform.includes('rotate')) {
+            const rotateMatch = currentTransform.match(/rotate\([^)]+\)/);
+            if (rotateMatch) {
+                baseTransform = rotateMatch[0] + ' ';
+            }
+        }
+        
+        imgElement.style.transform = baseTransform + `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
+    }
+    
+    // 计算两点间距离
+    function getDistance(touch1, touch2) {
+        const dx = touch1.clientX - touch2.clientX;
+        const dy = touch1.clientY - touch2.clientY;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
 }
 
 // 处理长按事件
