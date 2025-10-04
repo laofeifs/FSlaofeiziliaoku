@@ -1599,26 +1599,28 @@ html {
 }
 
 .store-btn {
-    background: linear-gradient(135deg, #f59e0b, #d97706);
+    background: linear-gradient(135deg, #22c55e, #16a34a);
     color: white;
     border: none;
     border-radius: 12px;
-    padding: 15px 30px;
-    font-size: 1.1rem;
+    padding: 18px 20px;
+    font-size: 1.2rem;
     font-weight: 600;
     cursor: pointer;
     display: flex;
     align-items: center;
     gap: 10px;
     transition: all 0.3s ease;
-    width: 100%;
+    width: auto;
+    min-width: 140px;
     justify-content: center;
+    margin: 0 auto;
 }
 
 .store-btn:hover {
-    background: linear-gradient(135deg, #d97706, #b45309);
+    background: linear-gradient(135deg, #16a34a, #15803d);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(245, 158, 11, 0.3);
+    box-shadow: 0 6px 20px rgba(34, 197, 94, 0.3);
 }
 
 .store-btn:active {
@@ -1696,9 +1698,10 @@ html {
     }
     
     .store-btn {
-        padding: 8px 12px;
-        font-size: 0.9rem;
-        border-radius: 6px;
+        padding: 15px 15px;
+        font-size: 1rem;
+        border-radius: 10px;
+        min-width: 120px;
     }
 }
 

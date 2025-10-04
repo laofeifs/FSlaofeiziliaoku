@@ -257,14 +257,22 @@ var charactersData = {
             gifFolder: 'gifs/5代超特/杰罗/'
         }
     ],
-    '5_5': [
+    '6_5': [
         {
-            id: '5_5_1',
-            name: '5.5代超特角色1',
-            generation: '5.5代超特',
-            description: '五点五代超特角色',
-            image: 'characters/5.5代超特/5.5代超特角色1.png',
-            gifFolder: 'gifs/5.5代超特/5.5代超特角色1/'
+            id: '6_5_1',
+            name: '洛克斯C',
+            generation: '6.5代超特',
+            description: '六点五代超特角色',
+            image: 'characters/6.5代超特/洛克斯C.png',
+            gifFolder: 'gifs/6.5代超特/洛克斯C/'
+        },
+        {
+            id: '6_5_2',
+            name: '超觉醒雷龙',
+            generation: '6.5代超特',
+            description: '六点五代超特角色',
+            image: 'characters/6.5代超特/超觉醒雷龙.png',
+            gifFolder: 'gifs/6.5代超特/超觉醒雷龙/'
         }
     ],
     '7': [
@@ -291,6 +299,16 @@ var charactersData = {
             description: '七代超特角色',
             image: 'characters/7代超特/月儿.png',
             gifFolder: 'gifs/7代超特/月儿/'
+        }
+    ],
+    '7_5': [
+        {
+            id: '7_5_1',
+            name: '洛克斯PG',
+            generation: '7.5代超特',
+            description: '七点五代超特角色',
+            image: 'characters/7.5代超特/洛克斯PG.png',
+            gifFolder: 'gifs/7.5代超特/洛克斯PG/'
         }
     ],
     '9': [
@@ -532,7 +550,7 @@ function autoForceRefresh() {
         console.log('检测到微信内置浏览器，检查是否需要刷新');
         // 只在版本不匹配时才刷新
         var storedVersion = localStorage.getItem('fs_version');
-        var currentVersion = '202508291605';
+        var currentVersion = '202510036100';
         
         if (storedVersion !== currentVersion) {
             console.log('版本不匹配，执行强制刷新');
@@ -1220,8 +1238,58 @@ function loadGifFiles(folder, characterId, card) {
     // 根据角色ID确定使用哪个GIF文件列表
     var commonGifFiles = [];
     
-    // 2代、3代、4代、4.5代、5.5代超特通用GIF文件（排除芙熙）
-    if ((characterId.includes('2_') || characterId.includes('3_') || characterId.includes('4_') || characterId.includes('5_5')) && characterId !== '3_5_4') {
+    // 2代、3代、4代、4.5代、6.5代、7.5代超特通用GIF文件（排除芙熙）
+    if ((characterId.includes('2_') || characterId.includes('3_') || characterId.includes('4_') || characterId.includes('6_5') || characterId.includes('7_5')) && characterId !== '3_5_4' && characterId !== '6_5_1' && characterId !== '6_5_2' && characterId !== '7_5_1') {
+        commonGifFiles = [
+            'X.gif',
+            '三分.gif',
+            '中手冒.gif',
+            '中投.gif',
+            '大手冒.gif',
+            '小手冒.gif',
+            '抢断.gif',
+            '篮板.gif',
+            '近上.gif',
+            '近扣.gif',
+            '远上.gif',
+            '远扣.gif'
+        ];
+    } else if (characterId === '6_5_1') {
+        // 6.5代超特洛克斯C的GIF文件
+        commonGifFiles = [
+            'X.gif',
+            '三分.gif',
+            '中手冒.gif',
+            '中投.gif',
+            '大手冒.gif',
+            '小手冒.gif',
+            '抢断.gif',
+            '篮板.gif',
+            '近上.gif',
+            '近扣.gif',
+            '远上.gif',
+            '远扣.gif'
+        ];
+    } else if (characterId === '6_5_2') {
+        // 6.5代超特超觉醒雷龙的GIF文件
+        commonGifFiles = [
+            'X.gif',
+            '三分.gif',
+            '中手冒.gif',
+            '中投.gif',
+            '大手冒.gif',
+            '小手冒.gif',
+            '悠闲起身.gif',
+            '抢断.gif',
+            '正面防守.gif',
+            '篮板.gif',
+            '近上.gif',
+            '近扣.gif',
+            '远上.gif',
+            '远扣.gif'
+        ];
+    } else if (characterId === '7_5_1') {
+        // 7.5代超特角色1的GIF文件
         commonGifFiles = [
             'X.gif',
             '三分.gif',
