@@ -556,7 +556,7 @@ function autoForceRefresh() {
             console.log('版本不匹配，执行强制刷新');
             setTimeout(function() {
                 forceRefresh();
-            }, 1000);
+            }, 3000);
         } else {
             console.log('版本匹配，无需刷新');
         }
@@ -565,6 +565,13 @@ function autoForceRefresh() {
 
 // 通用版本检查和强制刷新（适用于所有浏览器）
 function checkAndForceRefresh() {
+    // 检查是否已经刷新过，避免无限循环
+    var refreshFlag = sessionStorage.getItem('fs_refresh_flag');
+    if (refreshFlag === 'true') {
+        console.log('已经刷新过，跳过版本检查');
+        return;
+    }
+    
     var storedVersion = localStorage.getItem('fs_version');
     var currentVersion = '202510036400';
     
@@ -573,6 +580,9 @@ function checkAndForceRefresh() {
     
     if (storedVersion !== currentVersion) {
         console.log('检测到版本更新，执行强制刷新');
+        
+        // 设置刷新标志，避免重复刷新
+        sessionStorage.setItem('fs_refresh_flag', 'true');
         localStorage.setItem('fs_version', currentVersion);
         
         // 清除所有缓存
@@ -585,13 +595,10 @@ function checkAndForceRefresh() {
             });
         }
         
-        // 清除localStorage中的其他缓存
-        sessionStorage.clear();
-        
         // 强制重新加载
         setTimeout(function() {
             window.location.reload(true);
-        }, 100);
+        }, 1000);
     } else {
         console.log('版本匹配，无需刷新');
     }
@@ -611,7 +618,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 首先检查版本并强制刷新（适用于所有浏览器）
     setTimeout(function() {
         checkAndForceRefresh();
-    }, 500);
+    }, 2000);
     
     // iOS Safari特殊处理
     var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
