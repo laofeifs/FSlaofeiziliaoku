@@ -737,6 +737,25 @@
                 preloadResources();
             }
             
+            // 确保预加载的资源版本与当前版本一致
+            setTimeout(function() {
+                var currentVersion = '202510036500';
+                var cssLinks = document.querySelectorAll('link[rel="preload"][as="style"]');
+                var jsLinks = document.querySelectorAll('link[rel="preload"][as="script"]');
+                
+                cssLinks.forEach(function(link) {
+                    if (link.href.includes('styles.css')) {
+                        link.href = 'styles.css?v=' + currentVersion;
+                    }
+                });
+                
+                jsLinks.forEach(function(link) {
+                    if (link.href.includes('script.js')) {
+                        link.href = 'script.js?v=' + currentVersion;
+                    }
+                });
+            }, 100);
+            
             // HTTPS强制检查（仅对网络访问生效）
             if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.protocol !== 'file:') {
                 safeDebugInfo('检测到非HTTPS协议，重定向到HTTPS');

@@ -567,8 +567,10 @@ function autoForceRefresh() {
 function checkAndForceRefresh() {
     // 检查是否已经刷新过，避免无限循环
     var refreshFlag = sessionStorage.getItem('fs_refresh_flag');
-    if (refreshFlag === 'true') {
-        console.log('已经刷新过，跳过版本检查');
+    var pageStable = sessionStorage.getItem('fs_page_stable');
+    
+    if (refreshFlag === 'true' || pageStable === 'true') {
+        console.log('页面已稳定，跳过版本检查');
         return;
     }
     
@@ -601,6 +603,8 @@ function checkAndForceRefresh() {
         }, 1000);
     } else {
         console.log('版本匹配，无需刷新');
+        // 设置页面稳定标志
+        sessionStorage.setItem('fs_page_stable', 'true');
     }
 }
 
@@ -620,15 +624,28 @@ document.addEventListener('DOMContentLoaded', function() {
         checkAndForceRefresh();
     }, 2000);
     
-    // 额外强制刷新，确保所有内容更新
+    // 设置页面稳定标志，防止重复刷新
     setTimeout(function() {
-        var refreshFlag = sessionStorage.getItem('fs_extra_refresh');
-        if (!refreshFlag) {
-            console.log('执行额外刷新，确保内容更新');
-            sessionStorage.setItem('fs_extra_refresh', 'true');
-            window.location.reload(true);
-        }
-    }, 5000);
+        sessionStorage.setItem('fs_page_stable', 'true');
+    }, 3000);
+    
+    // 移除额外强制刷新，避免无限循环
+    
+    // 清理预加载警告
+    setTimeout(function() {
+        var preloadLinks = document.querySelectorAll('link[rel="preload"]');
+        preloadLinks.forEach(function(link) {
+            if (link.href.includes('styles.css') || link.href.includes('script.js')) {
+                link.remove();
+            }
+        });
+    }, 10000);
+    
+    // 清理调试日志，减少控制台输出
+    setTimeout(function() {
+        console.clear();
+        console.log('页面加载完成，调试日志已清理');
+    }, 15000);
     
     // iOS Safari特殊处理
     var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
