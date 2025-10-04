@@ -550,7 +550,7 @@ function autoForceRefresh() {
         console.log('检测到微信内置浏览器，检查是否需要刷新');
         // 只在版本不匹配时才刷新
         var storedVersion = localStorage.getItem('fs_version');
-        var currentVersion = '202510036200';
+        var currentVersion = '202510036300';
         
         if (storedVersion !== currentVersion) {
             console.log('版本不匹配，执行强制刷新');
@@ -560,6 +560,29 @@ function autoForceRefresh() {
         } else {
             console.log('版本匹配，无需刷新');
         }
+    }
+}
+
+// 通用版本检查和强制刷新（适用于所有浏览器）
+function checkAndForceRefresh() {
+    var storedVersion = localStorage.getItem('fs_version');
+    var currentVersion = '202510036300';
+    
+    if (storedVersion !== currentVersion) {
+        console.log('检测到版本更新，执行强制刷新');
+        localStorage.setItem('fs_version', currentVersion);
+        // 清除所有缓存
+        if ('caches' in window) {
+            caches.keys().then(function(names) {
+                names.forEach(function(name) {
+                    caches.delete(name);
+                });
+            });
+        }
+        // 强制重新加载
+        window.location.reload(true);
+    } else {
+        console.log('版本匹配，无需刷新');
     }
 }
 
@@ -573,6 +596,9 @@ function checkVersion() {
 // 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM加载完成');
+    
+    // 首先检查版本并强制刷新（适用于所有浏览器）
+    checkAndForceRefresh();
     
     // iOS Safari特殊处理
     var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
