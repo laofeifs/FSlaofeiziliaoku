@@ -975,7 +975,8 @@ function createCharacterCard(character) {
                     // 显示对应的GIF
                     var gifUrl = this.getAttribute('data-gif');
                     var actionName = this.querySelector('span').textContent;
-                    gifContainer.innerHTML = '<img src="' + gifUrl + '" alt="' + actionName + '" class="action-gif"><p class="action-name">' + actionName + '</p>';
+                    var gifUrlWithCache = gifUrl + (gifUrl.includes('?') ? '&' : '?') + 'refresh=' + Date.now();
+                    gifContainer.innerHTML = '<img src="' + gifUrlWithCache + '" alt="' + actionName + '" class="action-gif"><p class="action-name">' + actionName + '</p>';
                     
                     return false; // 阻止页面滚动
                 };
@@ -1493,7 +1494,7 @@ function loadGifFiles(folder, characterId, card) {
     // 检查每个GIF文件是否存在
     function checkGifFile(file, index) {
         // 正确构建URL路径
-        var gifUrl = COS_CONFIG.Domain + '/' + cleanFolder + '/' + file;
+        var gifUrl = COS_CONFIG.Domain + '/' + cleanFolder + '/' + file + '?v=' + Date.now() + '&t=' + Math.random();
         console.log('检查GIF文件:', gifUrl);
         
         var img = new Image();
@@ -1533,7 +1534,7 @@ function loadGifFiles(folder, characterId, card) {
         
         validGifFiles.forEach(function(file) {
             var actionName = file.replace('.gif', '');
-            var gifUrl = COS_CONFIG.Domain + '/' + cleanFolder + '/' + file;
+            var gifUrl = COS_CONFIG.Domain + '/' + cleanFolder + '/' + file + '?v=' + Date.now() + '&t=' + Math.random();
             
             buttonsHtml += `
                 <button class="action-btn" data-gif="${gifUrl}">
@@ -1571,7 +1572,8 @@ function loadGifFiles(folder, characterId, card) {
                     // 显示对应的GIF
                     var gifUrl = this.getAttribute('data-gif');
                     var actionName = this.querySelector('span').textContent;
-                    gifContainer.innerHTML = '<img src="' + gifUrl + '" alt="' + actionName + '" class="action-gif"><p class="action-name">' + actionName + '</p>';
+                    var gifUrlWithCache = gifUrl + (gifUrl.includes('?') ? '&' : '?') + 'refresh=' + Date.now();
+                    gifContainer.innerHTML = '<img src="' + gifUrlWithCache + '" alt="' + actionName + '" class="action-gif"><p class="action-name">' + actionName + '</p>';
                     
                     return false; // 阻止页面滚动
                 };
@@ -1716,7 +1718,7 @@ function loadAccountRecommendImages() {
         recommendItem.className = 'recommend-item';
         
         const imageUrl = buildImageUrl(item.image);
-        const imageUrlWithTimestamp = `${imageUrl}?t=${Date.now()}`;
+        const imageUrlWithTimestamp = `${imageUrl}?v=${Date.now()}&t=${Math.random()}`;
         
         recommendItem.innerHTML = `
             <img src="${imageUrlWithTimestamp}" 
@@ -1760,7 +1762,7 @@ function loadImages() {
         imageItem.className = 'image-item';
         
         const imageUrl = buildImageUrl(item.image);
-        const imageUrlWithTimestamp = `${imageUrl}?t=${Date.now()}`;
+        const imageUrlWithTimestamp = `${imageUrl}?v=${Date.now()}&t=${Math.random()}`;
         
         imageItem.innerHTML = `
             <img src="${imageUrlWithTimestamp}" 
@@ -1955,74 +1957,6 @@ function openCourse(url) {
     }
 }
 
-// 复制微信号
-function copyWechat(elementId = 'wechat-number') {
-    const wechatElement = document.getElementById(elementId);
-    if (!wechatElement) {
-        console.error('找不到微信号元素:', elementId);
-        return;
-    }
-    
-    const wechatNumber = wechatElement.textContent;
-    
-    // 尝试使用现代浏览器的 Clipboard API
-    if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(wechatNumber).then(() => {
-            showCopySuccess();
-        }).catch(() => {
-            fallbackCopyTextToClipboard(wechatNumber);
-        });
-    } else {
-        // 降级方案
-        fallbackCopyTextToClipboard(wechatNumber);
-    }
-}
-
-// 降级复制方案
-function fallbackCopyTextToClipboard(text) {
-    const textArea = document.createElement("textarea");
-    textArea.value = text;
-    textArea.style.top = "0";
-    textArea.style.left = "0";
-    textArea.style.position = "fixed";
-    textArea.style.opacity = "0";
-    
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
-    
-    try {
-        const successful = document.execCommand('copy');
-        if (successful) {
-            showCopySuccess();
-        } else {
-            showCopyError();
-        }
-    } catch (err) {
-        showCopyError();
-    }
-    
-    document.body.removeChild(textArea);
-}
-
-// 显示复制成功提示
-function showCopySuccess() {
-    const copyBtn = document.querySelector('.copy-btn');
-    const originalText = copyBtn.innerHTML;
-    
-    copyBtn.innerHTML = '<i class="fas fa-check"></i><span>已复制</span>';
-    copyBtn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
-    
-    setTimeout(() => {
-        copyBtn.innerHTML = originalText;
-        copyBtn.style.background = 'linear-gradient(135deg, #3b82f6, #1d4ed8)';
-    }, 2000);
-}
-
-// 显示复制失败提示
-function showCopyError() {
-    alert('复制失败，请手动复制微信号：laofei90186');
-}
 
 // 打开店铺
 function openStore() {

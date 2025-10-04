@@ -2098,9 +2098,6 @@ html {
     box-shadow: 0 6px 20px rgba(74, 222, 128, 0.3);
 }
 
-.home-contact {
-    margin-top: 20px;
-}
 
 .contact-card {
     background: linear-gradient(135deg, #1e3a5f, #2d4a6b) !important;
@@ -2670,43 +2667,6 @@ html {
 }
 
 
-/* 最终强制修复联系卡片背景 */
-.home-contact .contact-card {
-    background: linear-gradient(135deg, #1e3a5f, #2d4a6b) !important;
-    color: white !important;
-    border: none !important;
-    box-shadow: 0 8px 25px rgba(30, 58, 95, 0.3) !important;
-}
-
-.home-contact .contact-card * {
-    color: inherit !important;
-}
-
-.home-contact .contact-card h4 {
-    color: #4ade80 !important;
-}
-
-.home-contact .contact-card .wechat-label {
-    color: #ffffff !important;
-}
-
-.home-contact .contact-card .service-desc {
-    color: #ffffff !important;
-}
-
-.home-contact .contact-card .copy-tip {
-    color: #ffffff !important;
-    opacity: 0.8;
-}
-
-.home-contact .contact-card .wechat-number {
-    color: #4ade80 !important;
-}
-
-.home-contact .contact-card .wechat-display {
-    background: rgba(255, 255, 255, 0.1) !important;
-    border: 1px solid rgba(74, 222, 128, 0.3) !important;
-}
 
 
 /* 移动端导航提示文字 */
