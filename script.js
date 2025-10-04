@@ -544,68 +544,16 @@ function forceRefresh() {
                     // window.location.reload(true); // 注释掉自动刷新
 }
 
-// 自动强制刷新（如果检测到微信浏览器）
+// 自动强制刷新（如果检测到微信浏览器）- 已禁用
 function autoForceRefresh() {
-    if (isWeChat()) {
-        console.log('检测到微信内置浏览器，检查是否需要刷新');
-        // 只在版本不匹配时才刷新
-        var storedVersion = localStorage.getItem('fs_version');
-        var currentVersion = '202510036500';
-        
-        if (storedVersion !== currentVersion) {
-            console.log('版本不匹配，执行强制刷新');
-            setTimeout(function() {
-                forceRefresh();
-            }, 3000);
-        } else {
-            console.log('版本匹配，无需刷新');
-        }
-    }
+    console.log('微信浏览器自动刷新功能已禁用');
+    return;
 }
 
-// 通用版本检查和强制刷新（适用于所有浏览器）
+// 通用版本检查和强制刷新（适用于所有浏览器）- 已禁用
 function checkAndForceRefresh() {
-    // 检查是否已经刷新过，避免无限循环
-    var refreshFlag = sessionStorage.getItem('fs_refresh_flag');
-    var pageStable = sessionStorage.getItem('fs_page_stable');
-    
-    if (refreshFlag === 'true' || pageStable === 'true') {
-        console.log('页面已稳定，跳过版本检查');
-        return;
-    }
-    
-    var storedVersion = localStorage.getItem('fs_version');
-    var currentVersion = '202510036500';
-    
-    console.log('当前存储版本:', storedVersion);
-    console.log('当前代码版本:', currentVersion);
-    
-    if (storedVersion !== currentVersion) {
-        console.log('检测到版本更新，执行强制刷新');
-        
-        // 设置刷新标志，避免重复刷新
-        sessionStorage.setItem('fs_refresh_flag', 'true');
-        localStorage.setItem('fs_version', currentVersion);
-        
-        // 清除所有缓存
-        if ('caches' in window) {
-            caches.keys().then(function(names) {
-                console.log('清除缓存:', names);
-                names.forEach(function(name) {
-                    caches.delete(name);
-                });
-            });
-        }
-        
-        // 强制重新加载
-        setTimeout(function() {
-            window.location.reload(true);
-        }, 1000);
-    } else {
-        console.log('版本匹配，无需刷新');
-        // 设置页面稳定标志
-        sessionStorage.setItem('fs_page_stable', 'true');
-    }
+    console.log('版本检查功能已禁用');
+    return;
 }
 
 // 版本检查功能已移除，简化代码
@@ -619,10 +567,8 @@ function checkVersion() {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM加载完成');
     
-    // 首先检查版本并强制刷新（适用于所有浏览器）
-    setTimeout(function() {
-        checkAndForceRefresh();
-    }, 2000);
+    // 禁用自动刷新功能，避免无限循环
+    console.log('自动刷新功能已禁用');
     
     // 设置页面稳定标志，防止重复刷新
     setTimeout(function() {
