@@ -550,7 +550,7 @@ function autoForceRefresh() {
         console.log('检测到微信内置浏览器，检查是否需要刷新');
         // 只在版本不匹配时才刷新
         var storedVersion = localStorage.getItem('fs_version');
-        var currentVersion = '202510036100';
+        var currentVersion = '202510036200';
         
         if (storedVersion !== currentVersion) {
             console.log('版本不匹配，执行强制刷新');
