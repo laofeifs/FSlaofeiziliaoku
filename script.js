@@ -580,7 +580,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 设置页面稳定标志，防止重复刷新
     setTimeout(function() {
         sessionStorage.setItem('fs_page_stable', 'true');
-    }, 3000);
+    }, 5000);
     
     // 移除额外强制刷新，避免无限循环
     
@@ -599,6 +599,41 @@ document.addEventListener('DOMContentLoaded', function() {
         console.clear();
         console.log('页面加载完成，调试日志已清理');
     }, 15000);
+    
+    // 防止频繁请求，设置请求间隔
+    var lastRequestTime = 0;
+    var requestInterval = 2000; // 2秒间隔
+    
+    // 重写fetch函数，添加请求限制
+    if (window.fetch) {
+        var originalFetch = window.fetch;
+        window.fetch = function(url, options) {
+            var now = Date.now();
+            if (now - lastRequestTime < requestInterval) {
+                console.log('请求过于频繁，跳过:', url);
+                return Promise.reject(new Error('Request too frequent'));
+            }
+            lastRequestTime = now;
+            return originalFetch(url, options);
+        };
+    }
+    
+    // 重写XMLHttpRequest，添加请求限制
+    var originalXHR = window.XMLHttpRequest;
+    window.XMLHttpRequest = function() {
+        var xhr = new originalXHR();
+        var originalOpen = xhr.open;
+        xhr.open = function(method, url, async, user, password) {
+            var now = Date.now();
+            if (now - lastRequestTime < requestInterval) {
+                console.log('XHR请求过于频繁，跳过:', url);
+                return;
+            }
+            lastRequestTime = now;
+            return originalOpen.call(this, method, url, async, user, password);
+        };
+        return xhr;
+    };
     
     // iOS Safari特殊处理
     var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -1034,7 +1069,7 @@ function createCharacterCard(character) {
                             gifContainer.innerHTML = '<div class="gif-error"><i class="fas fa-exclamation-triangle"></i><p>加载失败</p></div>';
                         };
                         img.src = gifUrlWithCache;
-                    }, 500);
+                    }, 1000);
                     
                     return false; // 阻止页面滚动
                 };
@@ -1142,7 +1177,7 @@ function handleImageError(img, characterName) {
                 console.log('iOS重试URL:', retryUrl);
                 img.src = retryUrl;
             }
-        }, 1000);
+        }, 2000);
     }
     
     // 移除COS诊断提示
@@ -1695,7 +1730,7 @@ function loadGifFiles(folder, characterId, card) {
                             gifContainer.innerHTML = '<div class="gif-error"><i class="fas fa-exclamation-triangle"></i><p>加载失败</p></div>';
                         };
                         img.src = gifUrlWithCache;
-                    }, 500);
+                    }, 1000);
                     
                     return false; // 阻止页面滚动
                 };
@@ -1853,20 +1888,10 @@ function loadAccountRecommendImages() {
         recommendGrid.appendChild(recommendItem);
     });
     
-    // 为账号推荐图片添加触摸事件监听器
+    // 为账号推荐图片添加触摸事件监听器（减少重复绑定）
     setTimeout(function() {
         addTouchListenersToRecommendImages();
-    }, 300);
-    
-    // 再次尝试绑定（防止第一次失败）
-    setTimeout(function() {
-        addTouchListenersToRecommendImages();
-    }, 800);
-    
-    // 第三次尝试绑定（确保成功）
-    setTimeout(function() {
-        addTouchListenersToRecommendImages();
-    }, 1500);
+    }, 1000);
     
     console.log('账号推荐图片已加载');
 }
@@ -1900,20 +1925,10 @@ function loadImages() {
         imagesGrid.appendChild(imageItem);
     });
     
-    // 为图片添加触摸事件监听器
+    // 为图片添加触摸事件监听器（减少重复绑定）
     setTimeout(function() {
         addTouchListenersToImages();
-    }, 300);
-    
-    // 再次尝试绑定（防止第一次失败）
-    setTimeout(function() {
-        addTouchListenersToImages();
-    }, 800);
-    
-    // 第三次尝试绑定（确保成功）
-    setTimeout(function() {
-        addTouchListenersToImages();
-    }, 1500);
+    }, 1000);
     
     console.log('图片模块图片已加载');
 }
