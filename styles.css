@@ -774,6 +774,38 @@ html {
     margin-top: 8px;
 }
 
+/* GIF加载状态样式 */
+.gif-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    color: #666;
+    font-size: 14px;
+}
+
+.gif-loading i {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #007bff;
+}
+
+.gif-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    color: #dc3545;
+    font-size: 14px;
+}
+
+.gif-error i {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
 
 
 

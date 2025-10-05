@@ -8,6 +8,8 @@ var COS_CONFIG = {
     
     // COS访问域名
     Domain: 'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com',
+    // 当前版本号，用于缓存控制
+    Version: '202510036600'
 };
 
 // 当前选中的代次
@@ -16,6 +18,11 @@ var currentGeneration = '9';
 // 图片URL构建函数
 function buildImageUrl(imagePath) {
     return COS_CONFIG.Domain + '/' + imagePath;
+}
+
+// 带版本号的URL构建函数（用于缓存控制）
+function buildImageUrlWithVersion(imagePath) {
+    return COS_CONFIG.Domain + '/' + imagePath + '?v=' + COS_CONFIG.Version;
 }
 
 // 图鉴数据 - 所有代数共用一张图片
@@ -929,9 +936,9 @@ function createCharacterCard(character) {
         imageUrl = buildImageUrl(character.image);
         console.log('角色图片URL:', imageUrl);
         
-        // 所有设备都添加时间戳避免缓存问题
-        imageUrl += '?t=' + new Date().getTime();
-        console.log('添加时间戳后的URL:', imageUrl);
+        // 所有设备都添加版本号避免缓存问题
+        imageUrl += '?v=' + COS_CONFIG.Version;
+        console.log('添加版本号后的URL:', imageUrl);
     } else {
         console.warn('角色没有图片路径:', character.name);
     }
@@ -1009,11 +1016,25 @@ function createCharacterCard(character) {
                     // 添加当前按钮的激活状态
                     this.classList.add('active');
                     
-                    // 显示对应的GIF
+                    // 显示对应的GIF（优化流量使用）
                     var gifUrl = this.getAttribute('data-gif');
                     var actionName = this.querySelector('span').textContent;
-                    var gifUrlWithCache = gifUrl + (gifUrl.includes('?') ? '&' : '?') + 'refresh=' + Date.now();
-                    gifContainer.innerHTML = '<img src="' + gifUrlWithCache + '" alt="' + actionName + '" class="action-gif"><p class="action-name">' + actionName + '</p>';
+                    
+                    // 显示加载提示
+                    gifContainer.innerHTML = '<div class="gif-loading"><i class="fas fa-spinner fa-spin"></i><p>加载中...</p></div>';
+                    
+                    // 延迟加载GIF，减少流量消耗
+                    setTimeout(function() {
+                        var gifUrlWithCache = gifUrl + (gifUrl.includes('?') ? '&' : '?') + 'v=' + COS_CONFIG.Version;
+                        var img = new Image();
+                        img.onload = function() {
+                            gifContainer.innerHTML = '<img src="' + gifUrlWithCache + '" alt="' + actionName + '" class="action-gif"><p class="action-name">' + actionName + '</p>';
+                        };
+                        img.onerror = function() {
+                            gifContainer.innerHTML = '<div class="gif-error"><i class="fas fa-exclamation-triangle"></i><p>加载失败</p></div>';
+                        };
+                        img.src = gifUrlWithCache;
+                    }, 500);
                     
                     return false; // 阻止页面滚动
                 };
@@ -1052,9 +1073,9 @@ function createGalleryCard() {
     const imageUrl = galleryData.image ? buildImageUrl(galleryData.image) : '';
     console.log('图鉴图片URL:', imageUrl);
     
-    // 添加时间戳避免缓存问题
-    const imageUrlWithTimestamp = imageUrl ? `${imageUrl}?t=${Date.now()}` : '';
-    console.log('带时间戳的图鉴图片URL:', imageUrlWithTimestamp);
+    // 添加版本号避免缓存问题
+    const imageUrlWithTimestamp = imageUrl ? `${imageUrl}?v=${COS_CONFIG.Version}` : '';
+    console.log('带版本号的图鉴图片URL:', imageUrlWithTimestamp);
     
     card.innerHTML = `
         <div class="gallery-image-full">
@@ -1116,8 +1137,8 @@ function handleImageError(img, characterName) {
         console.log('iOS设备图片加载失败，尝试重新加载');
         // iOS设备尝试重新加载图片
         setTimeout(function() {
-            if (img.src.indexOf('?t=') === -1) {
-                var retryUrl = img.src + '?t=' + new Date().getTime();
+            if (img.src.indexOf('?v=') === -1) {
+                var retryUrl = img.src + '?v=' + COS_CONFIG.Version;
                 console.log('iOS重试URL:', retryUrl);
                 img.src = retryUrl;
             }
@@ -1581,7 +1602,7 @@ function loadGifFiles(folder, characterId, card) {
     // 检查每个GIF文件是否存在
     function checkGifFile(file, index) {
         // 正确构建URL路径
-        var gifUrl = COS_CONFIG.Domain + '/' + cleanFolder + '/' + file + '?v=' + Date.now() + '&t=' + Math.random();
+        var gifUrl = COS_CONFIG.Domain + '/' + cleanFolder + '/' + file + '?v=' + COS_CONFIG.Version;
         console.log('检查GIF文件:', gifUrl);
         
         var img = new Image();
@@ -1621,7 +1642,7 @@ function loadGifFiles(folder, characterId, card) {
         
         validGifFiles.forEach(function(file) {
             var actionName = file.replace('.gif', '');
-            var gifUrl = COS_CONFIG.Domain + '/' + cleanFolder + '/' + file + '?v=' + Date.now() + '&t=' + Math.random();
+            var gifUrl = COS_CONFIG.Domain + '/' + cleanFolder + '/' + file + '?v=' + COS_CONFIG.Version;
             
             buttonsHtml += `
                 <button class="action-btn" data-gif="${gifUrl}">
@@ -1656,11 +1677,25 @@ function loadGifFiles(folder, characterId, card) {
                     // 添加当前按钮的激活状态
                     this.classList.add('active');
                     
-                    // 显示对应的GIF
+                    // 显示对应的GIF（优化流量使用）
                     var gifUrl = this.getAttribute('data-gif');
                     var actionName = this.querySelector('span').textContent;
-                    var gifUrlWithCache = gifUrl + (gifUrl.includes('?') ? '&' : '?') + 'refresh=' + Date.now();
-                    gifContainer.innerHTML = '<img src="' + gifUrlWithCache + '" alt="' + actionName + '" class="action-gif"><p class="action-name">' + actionName + '</p>';
+                    
+                    // 显示加载提示
+                    gifContainer.innerHTML = '<div class="gif-loading"><i class="fas fa-spinner fa-spin"></i><p>加载中...</p></div>';
+                    
+                    // 延迟加载GIF，减少流量消耗
+                    setTimeout(function() {
+                        var gifUrlWithCache = gifUrl + (gifUrl.includes('?') ? '&' : '?') + 'v=' + COS_CONFIG.Version;
+                        var img = new Image();
+                        img.onload = function() {
+                            gifContainer.innerHTML = '<img src="' + gifUrlWithCache + '" alt="' + actionName + '" class="action-gif"><p class="action-name">' + actionName + '</p>';
+                        };
+                        img.onerror = function() {
+                            gifContainer.innerHTML = '<div class="gif-error"><i class="fas fa-exclamation-triangle"></i><p>加载失败</p></div>';
+                        };
+                        img.src = gifUrlWithCache;
+                    }, 500);
                     
                     return false; // 阻止页面滚动
                 };
@@ -1671,12 +1706,11 @@ function loadGifFiles(folder, characterId, card) {
 
 // 初始化职业排名功能
 function initializeRanking() {
-    // 设置职业排名图片路径（添加时间戳防止缓存）
-    const timestamp = new Date().getTime();
+    // 设置职业排名图片路径（添加版本号防止缓存）
     const rankingImages = {
-        'c': `${buildImageUrl('ranking/C排名.png')}?v=${timestamp}`,
-        'pf': `${buildImageUrl('ranking/PF排名.png')}?v=${timestamp}`,
-        'pg': `${buildImageUrl('ranking/PG排名.png')}?v=${timestamp}`
+        'c': `${buildImageUrl('ranking/C排名.png')}?v=${COS_CONFIG.Version}`,
+        'pf': `${buildImageUrl('ranking/PF排名.png')}?v=${COS_CONFIG.Version}`,
+        'pg': `${buildImageUrl('ranking/PG排名.png')}?v=${COS_CONFIG.Version}`
     };
     
     // 加载图片
@@ -1762,7 +1796,7 @@ function loadComparisonImages() {
         comparisonItem.className = 'comparison-item';
         
         const imageUrl = buildImageUrl(item.image);
-        const imageUrlWithTimestamp = `${imageUrl}?t=${Date.now()}`;
+        const imageUrlWithTimestamp = `${imageUrl}?v=${COS_CONFIG.Version}`;
         
         comparisonItem.innerHTML = `
             <img src="${imageUrlWithTimestamp}" 
@@ -1805,7 +1839,7 @@ function loadAccountRecommendImages() {
         recommendItem.className = 'recommend-item';
         
         const imageUrl = buildImageUrl(item.image);
-        const imageUrlWithTimestamp = `${imageUrl}?v=${Date.now()}&t=${Math.random()}`;
+        const imageUrlWithTimestamp = `${imageUrl}?v=${COS_CONFIG.Version}`;
         
         recommendItem.innerHTML = `
             <img src="${imageUrlWithTimestamp}" 
@@ -1849,7 +1883,7 @@ function loadImages() {
         imageItem.className = 'image-item';
         
         const imageUrl = buildImageUrl(item.image);
-        const imageUrlWithTimestamp = `${imageUrl}?v=${Date.now()}&t=${Math.random()}`;
+        const imageUrlWithTimestamp = `${imageUrl}?v=${COS_CONFIG.Version}`;
         
         imageItem.innerHTML = `
             <img src="${imageUrlWithTimestamp}" 
