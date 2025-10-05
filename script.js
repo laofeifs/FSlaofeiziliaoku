@@ -6,8 +6,10 @@ var COS_CONFIG = {
     Bucket: 'laofei-1259209256',
     Region: 'ap-nanjing', // 南京地域
     
-    // COS访问域名
+    // COS访问域名（直接访问）
     Domain: 'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com',
+    // CDN访问域名（推荐使用，减少流量费用）
+    CDNDomain: 'https://cdn.laofeifs.com',
     // 当前版本号，用于缓存控制
     Version: '202510036600'
 };
@@ -15,14 +17,14 @@ var COS_CONFIG = {
 // 当前选中的代次
 var currentGeneration = '9';
 
-// 图片URL构建函数
+// 图片URL构建函数（使用CDN域名，减少流量费用）
 function buildImageUrl(imagePath) {
-    return COS_CONFIG.Domain + '/' + imagePath;
+    return COS_CONFIG.CDNDomain + '/' + imagePath;
 }
 
 // 带版本号的URL构建函数（用于缓存控制）
 function buildImageUrlWithVersion(imagePath) {
-    return COS_CONFIG.Domain + '/' + imagePath + '?v=' + COS_CONFIG.Version;
+    return COS_CONFIG.CDNDomain + '/' + imagePath + '?v=' + COS_CONFIG.Version;
 }
 
 // 图鉴数据 - 所有代数共用一张图片
@@ -1231,17 +1233,17 @@ function handleImageError(img, characterName) {
         isIOS: /iPad|iPhone|iPod/.test(navigator.userAgent),
         isAndroid: /Android/.test(navigator.userAgent),
         networkOnline: navigator.onLine,
-        cosDomain: COS_CONFIG.Domain
+        cosDomain: COS_CONFIG.CDNDomain
     };
     
     console.log('详细错误信息:', errorInfo);
     
-    // 检查是否是COS域名问题
-    if (img.src.indexOf(COS_CONFIG.Domain) === -1) {
-        console.error('❌ 图片URL不是COS域名，可能是配置问题');
+    // 检查是否是CDN域名问题
+    if (img.src.indexOf(COS_CONFIG.CDNDomain) === -1) {
+        console.error('❌ 图片URL不是CDN域名，可能是配置问题');
         console.error('当前图片URL:', img.src);
-        console.error('期望的COS域名:', COS_CONFIG.Domain);
-        console.error('URL是否包含COS域名:', img.src.indexOf(COS_CONFIG.Domain));
+        console.error('期望的CDN域名:', COS_CONFIG.CDNDomain);
+        console.error('URL是否包含CDN域名:', img.src.indexOf(COS_CONFIG.CDNDomain));
     }
     
     // 检查网络连接
@@ -1276,9 +1278,9 @@ function handleGalleryImageError(img, characterName) {
     console.log('失败URL: ' + img.src);
     
     // 尝试切换域名
-    if (img.src.indexOf(COS_CONFIG.Domain) !== -1 && COS_CONFIG.BackupDomain) {
-        console.log('尝试切换到备用域名');
-        const backupUrl = img.src.replace(COS_CONFIG.Domain, COS_CONFIG.BackupDomain);
+    if (img.src.indexOf(COS_CONFIG.CDNDomain) !== -1 && COS_CONFIG.Domain) {
+        console.log('尝试切换到COS直连域名');
+        const backupUrl = img.src.replace(COS_CONFIG.CDNDomain, COS_CONFIG.Domain);
         console.log('备用URL:', backupUrl);
         img.src = backupUrl;
         return;
@@ -1355,7 +1357,7 @@ async function uploadToCOS(file, path) {
         // 示例：模拟上传成功
         return {
             success: true,
-            url: `${COS_CONFIG.Domain}/${path}`
+            url: `${COS_CONFIG.CDNDomain}/${path}`
         };
     } catch (error) {
         console.error('上传文件失败:', error);
@@ -1720,7 +1722,7 @@ function loadGifFiles(folder, characterId, card) {
     // 检查每个GIF文件是否存在
     function checkGifFile(file, index) {
         // 正确构建URL路径
-        var gifUrl = COS_CONFIG.Domain + '/' + cleanFolder + '/' + file + '?v=' + COS_CONFIG.Version;
+        var gifUrl = COS_CONFIG.CDNDomain + '/' + cleanFolder + '/' + file + '?v=' + COS_CONFIG.Version;
         console.log('检查GIF文件:', gifUrl);
         
         var img = new Image();
@@ -1760,7 +1762,7 @@ function loadGifFiles(folder, characterId, card) {
         
         validGifFiles.forEach(function(file) {
             var actionName = file.replace('.gif', '');
-            var gifUrl = COS_CONFIG.Domain + '/' + cleanFolder + '/' + file + '?v=' + COS_CONFIG.Version;
+            var gifUrl = COS_CONFIG.CDNDomain + '/' + cleanFolder + '/' + file + '?v=' + COS_CONFIG.Version;
             
             buttonsHtml += `
                 <button class="action-btn" data-gif="${gifUrl}">
