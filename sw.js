@@ -16,10 +16,10 @@ const STATIC_FILES = [
 
 // 需要缓存的COS资源（带时间戳）
 const COS_RESOURCES = [
-    'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/gallery/超特图鉴.png?v=' + Date.now(),
-    'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/ranking/C排名.png?v=' + Date.now(),
-    'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/ranking/PF排名.png?v=' + Date.now(),
-    'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/ranking/PG排名.png?v=' + Date.now()
+    'https://cdn.laofeifs.com/gallery/超特图鉴.png?v=202510036600',
+    'https://cdn.laofeifs.com/ranking/C排名.png?v=202510036600',
+    'https://cdn.laofeifs.com/ranking/PF排名.png?v=202510036600',
+    'https://cdn.laofeifs.com/ranking/PG排名.png?v=202510036600'
 ];
 
 // 安装事件 - 缓存静态资源
@@ -130,7 +130,7 @@ self.addEventListener('fetch', (event) => {
     }
     
     // COS资源缓存策略
-    if (request.url.includes('laofei-1259209256.cos.ap-nanjing.myqcloud.com')) {
+    if (request.url.includes('cdn.laofeifs.com')) {
         event.respondWith(
             caches.open(DYNAMIC_CACHE).then((cache) => {
                 return cache.match(request).then((response) => {

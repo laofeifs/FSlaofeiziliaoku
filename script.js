@@ -2256,7 +2256,7 @@ function shareToWeChat() {
         if (typeof WeixinJSBridge !== 'undefined') {
             WeixinJSBridge.invoke('sendAppMessage', {
                 'appid': '',
-                'img_url': 'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com/gallery/超特图鉴.png',
+                'img_url': 'https://cdn.laofeifs.com/gallery/超特图鉴.png',
                 'img_width': '200',
                 'img_height': '200',
                 'link': currentUrl,

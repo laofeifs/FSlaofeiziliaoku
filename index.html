@@ -419,7 +419,7 @@
                     <div class="images-tip">
                         <i class="fas fa-info-circle"></i>
                         <span>长按图片可扫描二维码</span>
-                    </div>
+                                    </div>
                     <div class="images-grid" id="images-grid">
                         <!-- 图片将在这里动态加载 -->
                     </div>
@@ -720,7 +720,7 @@
                 
                 for (var i = 0; i < imageUrls.length; i++) {
                     var img = new Image();
-                    img.src = imageUrls[i] + '?v=' + Date.now();
+                    img.src = imageUrls[i] + '?v=202510036600';
                     img.onload = function() {
                         safeDebugInfo('图片预加载成功: ' + this.src);
                     };
@@ -773,7 +773,7 @@
                     safeDebugInfo('CORS检查失败 - 图片加载失败');
                     // 移除微信警告提示
                 };
-                testImage.src = 'https://cdn.laofeifs.com/gallery/超特图鉴.png?v=' + new Date().getTime();
+                testImage.src = 'https://cdn.laofeifs.com/gallery/超特图鉴.png?v=202510036600';
             }
             
             if (isWeChat) {
