@@ -580,7 +580,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // 设置页面稳定标志，防止重复刷新
     setTimeout(function() {
         sessionStorage.setItem('fs_page_stable', 'true');
-    }, 5000);
+        console.log('页面已稳定，防止频繁刷新');
+    }, 15000);
     
     // 移除额外强制刷新，避免无限循环
     
@@ -598,21 +599,37 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(function() {
         console.clear();
         console.log('页面加载完成，调试日志已清理');
-    }, 15000);
+    }, 20000);
     
-    // 防止频繁请求，设置请求间隔
+    // 防止频繁请求，设置请求间隔（避免514错误）
     var lastRequestTime = 0;
-    var requestInterval = 2000; // 2秒间隔
+    var requestInterval = 10000; // 10秒间隔，避免CDN频率限制
+    var requestCount = 0;
+    var maxRequestsPerMinute = 5; // 每分钟最多5个请求，保守设置
     
     // 重写fetch函数，添加请求限制
     if (window.fetch) {
         var originalFetch = window.fetch;
         window.fetch = function(url, options) {
             var now = Date.now();
+            requestCount++;
+            
+            // 每分钟重置计数器
+            if (now - lastRequestTime > 60000) {
+                requestCount = 0;
+                lastRequestTime = now;
+            }
+            
+            if (requestCount > maxRequestsPerMinute) {
+                console.log('请求次数超限，跳过:', url);
+                return Promise.reject(new Error('Request limit exceeded'));
+            }
+            
             if (now - lastRequestTime < requestInterval) {
                 console.log('请求过于频繁，跳过:', url);
                 return Promise.reject(new Error('Request too frequent'));
             }
+            
             lastRequestTime = now;
             return originalFetch(url, options);
         };
@@ -625,14 +642,80 @@ document.addEventListener('DOMContentLoaded', function() {
         var originalOpen = xhr.open;
         xhr.open = function(method, url, async, user, password) {
             var now = Date.now();
+            requestCount++;
+            
+            // 每分钟重置计数器
+            if (now - lastRequestTime > 60000) {
+                requestCount = 0;
+                lastRequestTime = now;
+            }
+            
+            if (requestCount > maxRequestsPerMinute) {
+                console.log('XHR请求次数超限，跳过:', url);
+                return;
+            }
+            
             if (now - lastRequestTime < requestInterval) {
                 console.log('XHR请求过于频繁，跳过:', url);
                 return;
             }
+            
             lastRequestTime = now;
             return originalOpen.call(this, method, url, async, user, password);
         };
         return xhr;
+    };
+    
+    // 防止页面频繁刷新
+    var lastReloadTime = 0;
+    var reloadInterval = 30000; // 30秒间隔，避免CDN频率限制
+    
+    // 重写location.reload
+    var originalReload = window.location.reload;
+    window.location.reload = function(forceReload) {
+        var now = Date.now();
+        if (now - lastReloadTime < reloadInterval) {
+            console.log('页面刷新过于频繁，跳过');
+            return;
+        }
+        lastReloadTime = now;
+        return originalReload.call(this, forceReload);
+    };
+    
+    // 防止图片频繁加载
+    var imageLoadCount = 0;
+    var maxImagesPerMinute = 10; // 每分钟最多10张图片，避免CDN限制
+    
+    // 重写Image构造函数
+    var originalImage = window.Image;
+    window.Image = function() {
+        var img = new originalImage();
+        var originalSrc = Object.getOwnPropertyDescriptor(HTMLImageElement.prototype, 'src');
+        
+        Object.defineProperty(img, 'src', {
+            get: function() {
+                return originalSrc.get.call(this);
+            },
+            set: function(value) {
+                var now = Date.now();
+                imageLoadCount++;
+                
+                // 每分钟重置计数器
+                if (now - lastRequestTime > 60000) {
+                    imageLoadCount = 0;
+                    lastRequestTime = now;
+                }
+                
+                if (imageLoadCount > maxImagesPerMinute) {
+                    console.log('图片加载次数超限，跳过:', value);
+                    return;
+                }
+                
+                return originalSrc.set.call(this, value);
+            }
+        });
+        
+        return img;
     };
     
     // iOS Safari特殊处理
@@ -1069,7 +1152,7 @@ function createCharacterCard(character) {
                             gifContainer.innerHTML = '<div class="gif-error"><i class="fas fa-exclamation-triangle"></i><p>加载失败</p></div>';
                         };
                         img.src = gifUrlWithCache;
-                    }, 1000);
+                    }, 3000);
                     
                     return false; // 阻止页面滚动
                 };
@@ -1177,7 +1260,7 @@ function handleImageError(img, characterName) {
                 console.log('iOS重试URL:', retryUrl);
                 img.src = retryUrl;
             }
-        }, 2000);
+        }, 5000);
     }
     
     // 移除COS诊断提示
@@ -1730,7 +1813,7 @@ function loadGifFiles(folder, characterId, card) {
                             gifContainer.innerHTML = '<div class="gif-error"><i class="fas fa-exclamation-triangle"></i><p>加载失败</p></div>';
                         };
                         img.src = gifUrlWithCache;
-                    }, 1000);
+                    }, 3000);
                     
                     return false; // 阻止页面滚动
                 };
@@ -1891,7 +1974,7 @@ function loadAccountRecommendImages() {
     // 为账号推荐图片添加触摸事件监听器（减少重复绑定）
     setTimeout(function() {
         addTouchListenersToRecommendImages();
-    }, 1000);
+    }, 5000);
     
     console.log('账号推荐图片已加载');
 }
@@ -1928,7 +2011,7 @@ function loadImages() {
     // 为图片添加触摸事件监听器（减少重复绑定）
     setTimeout(function() {
         addTouchListenersToImages();
-    }, 1000);
+    }, 5000);
     
     console.log('图片模块图片已加载');
 }
