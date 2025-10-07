@@ -129,7 +129,7 @@ self.addEventListener('fetch', (event) => {
         return;
     }
     
-    // COS资源缓存策略
+    // COS资源缓存策略（仅支持CDN）
     if (request.url.includes('cdn.laofeifs.com')) {
         event.respondWith(
             caches.open(DYNAMIC_CACHE).then((cache) => {

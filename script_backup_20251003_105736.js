@@ -7,7 +7,7 @@ var COS_CONFIG = {
     Region: 'ap-nanjing', // 南京地域
     
     // COS访问域名
-    Domain: 'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com',
+    Domain: 'https://cdn.laofeifs.com',
 };
 
 // 当前选中的代次

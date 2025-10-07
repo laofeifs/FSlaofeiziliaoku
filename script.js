@@ -6,21 +6,38 @@ var COS_CONFIG = {
     Bucket: 'laofei-1259209256',
     Region: 'ap-nanjing', // 南京地域
     
-    // COS访问域名（直接访问）
-    Domain: 'https://laofei-1259209256.cos.ap-nanjing.myqcloud.com',
+    // COS访问域名（已改为CDN域名，避免直连COS产生流量费用）
+    Domain: 'https://cdn.laofeifs.com',
     // CDN访问域名（推荐使用，减少流量费用）
     CDNDomain: 'https://cdn.laofeifs.com',
     // 当前版本号，用于缓存控制
-    Version: '202510036600'
+    Version: '202510036700'
 };
 
 // 当前选中的代次
 var currentGeneration = '9';
 
-// 图片URL构建函数（使用CDN域名，减少流量费用）
+// 图片URL构建函数（优先使用CDN域名，减少流量费用）
 function buildImageUrl(imagePath) {
     return COS_CONFIG.CDNDomain + '/' + imagePath;
 }
+
+// 检查CDN是否可用
+function checkCDNAvailability() {
+    return new Promise((resolve) => {
+        const testImg = new Image();
+        testImg.onload = () => resolve(true);
+        testImg.onerror = () => resolve(false);
+        testImg.src = COS_CONFIG.CDNDomain + '/gallery/超特图鉴.png?v=' + Date.now();
+        // 5秒超时
+        setTimeout(() => resolve(false), 5000);
+    });
+}
+
+// 备用图片URL构建函数（已移除，仅使用CDN）
+// function buildImageUrlBackup(imagePath) {
+//     return COS_CONFIG.Domain + '/' + imagePath;
+// }
 
 // 带版本号的URL构建函数（用于缓存控制）
 function buildImageUrlWithVersion(imagePath) {
@@ -576,6 +593,22 @@ function checkVersion() {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM加载完成');
     
+    // 检查CDN可用性
+    checkCDNAvailability().then(isAvailable => {
+        if (!isAvailable) {
+            console.error('❌ CDN不可用，返回514错误');
+            console.error('CDN域名:', COS_CONFIG.CDNDomain);
+            console.error('可能的原因:');
+            console.error('1. CDN服务异常 - 需要联系腾讯云技术支持');
+            console.error('2. 源站连接问题 - 检查COS源站状态');
+            console.error('3. CDN配置错误 - 检查域名配置');
+            console.error('4. 其他访问控制规则 - 检查防盗链、IP限制等');
+            console.error('建议: 联系腾讯云技术支持或检查CDN服务状态');
+        } else {
+            console.log('✅ CDN可用');
+        }
+    });
+    
     // 禁用自动刷新功能，避免无限循环
     console.log('自动刷新功能已禁用');
     
@@ -605,9 +638,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 防止频繁请求，设置请求间隔（避免514错误）
     var lastRequestTime = 0;
-    var requestInterval = 10000; // 10秒间隔，避免CDN频率限制
+    var requestInterval = 30000; // 30秒间隔，避免CDN频率限制
     var requestCount = 0;
-    var maxRequestsPerMinute = 5; // 每分钟最多5个请求，保守设置
+    var maxRequestsPerMinute = 2; // 每分钟最多2个请求，保守设置
     
     // 重写fetch函数，添加请求限制
     if (window.fetch) {
@@ -686,7 +719,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 防止图片频繁加载
     var imageLoadCount = 0;
-    var maxImagesPerMinute = 10; // 每分钟最多10张图片，避免CDN限制
+    var maxImagesPerMinute = 3; // 每分钟最多3张图片，避免CDN限制
     
     // 重写Image构造函数
     var originalImage = window.Image;
@@ -1151,7 +1184,14 @@ function createCharacterCard(character) {
                             gifContainer.innerHTML = '<img src="' + gifUrlWithCache + '" alt="' + actionName + '" class="action-gif"><p class="action-name">' + actionName + '</p>';
                         };
                         img.onerror = function() {
-                            gifContainer.innerHTML = '<div class="gif-error"><i class="fas fa-exclamation-triangle"></i><p>加载失败</p></div>';
+                            console.error('❌ GIF CDN加载失败');
+                            console.error('失败URL:', gifUrlWithCache);
+                            console.error('可能的原因:');
+                            console.error('1. CORS策略未配置 - 需要在CDN控制台配置跨域访问');
+                            console.error('2. SSL证书问题 - 证书未正确绑定到cdn.laofeifs.com');
+                            console.error('3. CDN服务异常 - 检查CDN服务状态');
+                            console.error('4. GIF文件不存在 - 检查文件路径是否正确');
+                            gifContainer.innerHTML = '<div class="gif-error"><i class="fas fa-exclamation-triangle"></i><p>CDN加载失败</p></div>';
                         };
                         img.src = gifUrlWithCache;
                     }, 3000);
@@ -1246,6 +1286,18 @@ function handleImageError(img, characterName) {
         console.error('URL是否包含CDN域名:', img.src.indexOf(COS_CONFIG.CDNDomain));
     }
     
+    // CDN加载失败，显示详细错误信息
+    if (img.src.indexOf(COS_CONFIG.CDNDomain) !== -1) {
+        console.error('❌ CDN图片加载失败');
+        console.error('失败URL:', img.src);
+        console.error('可能的原因:');
+        console.error('1. CORS策略未配置 - 需要在CDN控制台配置跨域访问');
+        console.error('2. SSL证书问题 - 证书未正确绑定到cdn.laofeifs.com');
+        console.error('3. CDN服务异常 - 检查CDN服务状态');
+        console.error('4. 资源不存在 - 检查文件路径是否正确');
+        return;
+    }
+    
     // 检查网络连接
     if (!navigator.onLine) {
         console.error('❌ 网络连接已断开');
@@ -1277,12 +1329,14 @@ function handleGalleryImageError(img, characterName) {
     console.log('❌ ' + characterName + ' 图鉴图片加载失败');
     console.log('失败URL: ' + img.src);
     
-    // 尝试切换域名
-    if (img.src.indexOf(COS_CONFIG.CDNDomain) !== -1 && COS_CONFIG.Domain) {
-        console.log('尝试切换到COS直连域名');
-        const backupUrl = img.src.replace(COS_CONFIG.CDNDomain, COS_CONFIG.Domain);
-        console.log('备用URL:', backupUrl);
-        img.src = backupUrl;
+    // CDN访问失败，显示详细错误信息
+    if (img.src.indexOf(COS_CONFIG.CDNDomain) !== -1) {
+        console.error('❌ CDN图鉴图片加载失败');
+        console.error('失败URL:', img.src);
+        console.error('可能的原因:');
+        console.error('1. CORS策略未配置 - 需要在CDN控制台配置跨域访问');
+        console.error('2. SSL证书问题 - 证书未正确绑定到cdn.laofeifs.com');
+        console.error('3. CDN服务异常 - 检查CDN服务状态');
         return;
     }
     
@@ -1812,7 +1866,14 @@ function loadGifFiles(folder, characterId, card) {
                             gifContainer.innerHTML = '<img src="' + gifUrlWithCache + '" alt="' + actionName + '" class="action-gif"><p class="action-name">' + actionName + '</p>';
                         };
                         img.onerror = function() {
-                            gifContainer.innerHTML = '<div class="gif-error"><i class="fas fa-exclamation-triangle"></i><p>加载失败</p></div>';
+                            console.error('❌ GIF CDN加载失败');
+                            console.error('失败URL:', gifUrlWithCache);
+                            console.error('可能的原因:');
+                            console.error('1. CORS策略未配置 - 需要在CDN控制台配置跨域访问');
+                            console.error('2. SSL证书问题 - 证书未正确绑定到cdn.laofeifs.com');
+                            console.error('3. CDN服务异常 - 检查CDN服务状态');
+                            console.error('4. GIF文件不存在 - 检查文件路径是否正确');
+                            gifContainer.innerHTML = '<div class="gif-error"><i class="fas fa-exclamation-triangle"></i><p>CDN加载失败</p></div>';
                         };
                         img.src = gifUrlWithCache;
                     }, 3000);

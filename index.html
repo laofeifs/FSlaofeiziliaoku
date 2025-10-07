@@ -712,7 +712,7 @@
                  jsLink.href = 'script.js?v=202510036600';
                 document.head.appendChild(jsLink);
                 
-                // 预加载关键图片
+                // 预加载关键图片（使用CDN域名，避免直连COS产生流量费用）
                 var imageUrls = [
                     'https://cdn.laofeifs.com/gallery/超特图鉴.png',
                     'https://cdn.laofeifs.com/ranking/C排名.png'
