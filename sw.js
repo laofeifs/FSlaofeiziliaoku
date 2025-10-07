@@ -1,5 +1,5 @@
 // Service Worker for 老非FS资料库
-const CACHE_VERSION = '202510037100';
+const CACHE_VERSION = '202510038600';
 const STATIC_CACHE = 'static-v' + CACHE_VERSION;
 const DYNAMIC_CACHE = 'dynamic-v' + CACHE_VERSION;
 
@@ -16,10 +16,10 @@ const STATIC_FILES = [
 
 // 需要缓存的COS资源（带时间戳）
 const COS_RESOURCES = [
-    'https://cdn.laofeifs.com/gallery/超特图鉴.png?v=202510037100',
-    'https://cdn.laofeifs.com/ranking/C排名.png?v=202510037100',
-    'https://cdn.laofeifs.com/ranking/PF排名.png?v=202510037100',
-    'https://cdn.laofeifs.com/ranking/PG排名.png?v=202510037100'
+    'https://cdn.laofeifs.com/gallery/超特图鉴.png?v=202510038600',
+    'https://cdn.laofeifs.com/ranking/C排名.png?v=202510038600',
+    'https://cdn.laofeifs.com/ranking/PF排名.png?v=202510038600',
+    'https://cdn.laofeifs.com/ranking/PG排名.png?v=202510038600'
 ];
 
 // 安装事件 - 缓存静态资源

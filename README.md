@@ -20,6 +20,13 @@
 ├── sw.js               # Service Worker
 ├── version.txt         # 版本号
 ├── README.md           # 项目说明
+├── .gitignore          # Git忽略文件配置
+├── development_tools/  # 开发工具文件夹（不上传）
+│   ├── generate-*.js           # 数据生成脚本
+│   ├── package.json            # Node.js依赖
+│   ├── node_modules/           # Node.js模块
+│   ├── *_backup_*.js          # 备份文件
+│   └── *.md                   # 开发文档
 └── tools_and_backups/  # 工具和备份文件夹（不上传）
     ├── backup_*/                # 备份文件夹
     ├── script-ios.js           # 旧版本脚本

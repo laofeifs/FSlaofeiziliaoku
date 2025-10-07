@@ -11,7 +11,7 @@ var COS_CONFIG = {
     // CDN访问域名（推荐使用，减少流量费用）
     CDNDomain: 'https://cdn.laofeifs.com',
     // 当前版本号，用于缓存控制
-    Version: '202510037100'
+    Version: '202510038600'
 };
 
 // 当前选中的代次
@@ -54,486 +54,1039 @@ var galleryData = {
 
 // 角色数据示例（你可以根据实际情况修改）
 var charactersData = {
-    '1': [
+    "1": [
         {
-            id: '1_1',
-            name: '小芸',
-            generation: '1代超特',
-            description: '一代超特角色',
-            image: 'characters/1代超特/小芸.png'
+            "id": "1_1",
+            "name": "小芸",
+            "generation": "1代超特",
+            "description": "1代超特角色",
+            "image": "characters/1代超特/小芸.png",
+            "gifFolder": "gifs/1代超特/小芸/"
         },
         {
-            id: '1_2',
-            name: '雷龙',
-            generation: '1代超特',
-            description: '一代超特角色',
-            image: 'characters/1代超特/雷龙.png'
+            "id": "1_2",
+            "name": "蛇姬",
+            "generation": "1代超特",
+            "description": "1代超特角色",
+            "image": "characters/1代超特/蛇姬.png",
+            "gifFolder": "gifs/1代超特/蛇姬/"
+        }
+    ],
+    "2": [
+        {
+            "id": "2_1",
+            "name": "安杰拉",
+            "generation": "2代超特",
+            "description": "2代超特角色",
+            "image": "characters/2代超特/安杰拉.png",
+            "gifFolder": "gifs/2代超特/安杰拉/"
         },
         {
-            id: '1_3',
-            name: '蛇姬',
-            generation: '1代超特',
-            description: '一代超特角色',
-            image: 'characters/1代超特/蛇姬.png'
+            "id": "2_2",
+            "name": "沃顿",
+            "generation": "2代超特",
+            "description": "2代超特角色",
+            "image": "characters/2代超特/沃顿.png",
+            "gifFolder": "gifs/2代超特/沃顿/"
+        },
+        {
+            "id": "2_3",
+            "name": "莉莉斯",
+            "generation": "2代超特",
+            "description": "2代超特角色",
+            "image": "characters/2代超特/莉莉斯.png",
+            "gifFolder": "gifs/2代超特/莉莉斯/"
+        },
+        {
+            "id": "2_4",
+            "name": "路西法",
+            "generation": "2代超特",
+            "description": "2代超特角色",
+            "image": "characters/2代超特/路西法.png",
+            "gifFolder": "gifs/2代超特/路西法/"
+        }
+    ],
+    "3": [
+        {
+            "id": "3_1",
+            "name": "凤凰",
+            "generation": "3代超特",
+            "description": "3代超特角色",
+            "image": "characters/3代超特/凤凰.png",
+            "gifFolder": "gifs/3代超特/凤凰/"
+        },
+        {
+            "id": "3_2",
+            "name": "白虎",
+            "generation": "3代超特",
+            "description": "3代超特角色",
+            "image": "characters/3代超特/白虎.png",
+            "gifFolder": "gifs/3代超特/白虎/"
+        },
+        {
+            "id": "3_3",
+            "name": "酒鬼",
+            "generation": "3代超特",
+            "description": "3代超特角色",
+            "image": "characters/3代超特/酒鬼.png",
+            "gifFolder": "gifs/3代超特/酒鬼/"
+        },
+        {
+            "id": "3_4",
+            "name": "麒麟",
+            "generation": "3代超特",
+            "description": "3代超特角色",
+            "image": "characters/3代超特/麒麟.png",
+            "gifFolder": "gifs/3代超特/麒麟/"
+        }
+    ],
+    "4": [
+        {
+            "id": "4_1",
+            "name": "丽雅",
+            "generation": "4代超特",
+            "description": "4代超特角色",
+            "image": "characters/4代超特/丽雅.png",
+            "actions": [
+                {"name": "分球", "gif": "gifs/4代超特/丽雅/分球.gif"},
+                {"name": "大手冒", "gif": "gifs/4代超特/丽雅/大手冒.gif"},
+                {"name": "小手冒", "gif": "gifs/4代超特/丽雅/小手冒.gif"},
+                {"name": "投篮", "gif": "gifs/4代超特/丽雅/投篮.gif"},
+                {"name": "篮板", "gif": "gifs/4代超特/丽雅/篮板.gif"},
+                {"name": "近上", "gif": "gifs/4代超特/丽雅/近上.gif"},
+                {"name": "近扣", "gif": "gifs/4代超特/丽雅/近扣.gif"},
+                {"name": "远上", "gif": "gifs/4代超特/丽雅/远上.gif"},
+                {"name": "远扣", "gif": "gifs/4代超特/丽雅/远扣.gif"}
+            ]
+        },
+        {
+            "id": "4_2",
+            "name": "狐狸",
+            "generation": "4代超特",
+            "description": "4代超特角色",
+            "image": "characters/4代超特/狐狸.png",
+            "actions": [
+                {"name": "地板", "gif": "gifs/4代超特/狐狸/地板.gif"},
+                {"name": "大手冒", "gif": "gifs/4代超特/狐狸/大手冒.gif"},
+                {"name": "小手冒", "gif": "gifs/4代超特/狐狸/小手冒.gif"},
+                {"name": "投篮", "gif": "gifs/4代超特/狐狸/投篮.gif"},
+                {"name": "篮板", "gif": "gifs/4代超特/狐狸/篮板.gif"},
+                {"name": "走路", "gif": "gifs/4代超特/狐狸/走路.gif"},
+                {"name": "近上", "gif": "gifs/4代超特/狐狸/近上.gif"},
+                {"name": "近扣", "gif": "gifs/4代超特/狐狸/近扣.gif"},
+                {"name": "远上", "gif": "gifs/4代超特/狐狸/远上.gif"},
+                {"name": "远扣", "gif": "gifs/4代超特/狐狸/远扣.gif"},
+                {"name": "鬼魅拦截", "gif": "gifs/4代超特/狐狸/鬼魅拦截.gif"}
+            ]
+        },
+        {
+            "id": "4_3",
+            "name": "玛丽",
+            "generation": "4代超特",
+            "description": "4代超特角色",
+            "image": "characters/4代超特/玛丽.png",
+            "actions": [
+                {"name": "地板", "gif": "gifs/4代超特/玛丽/地板.gif"},
+                {"name": "大手冒", "gif": "gifs/4代超特/玛丽/大手冒.gif"},
+                {"name": "小手冒", "gif": "gifs/4代超特/玛丽/小手冒.gif"},
+                {"name": "投篮", "gif": "gifs/4代超特/玛丽/投篮.gif"},
+                {"name": "篮板", "gif": "gifs/4代超特/玛丽/篮板.gif"},
+                {"name": "近上", "gif": "gifs/4代超特/玛丽/近上.gif"},
+                {"name": "近扣", "gif": "gifs/4代超特/玛丽/近扣.gif"},
+                {"name": "远上", "gif": "gifs/4代超特/玛丽/远上.gif"},
+                {"name": "远扣", "gif": "gifs/4代超特/玛丽/远扣.gif"},
+                {"name": "鬼魅拦截", "gif": "gifs/4代超特/玛丽/鬼魅拦截.gif"}
+            ]
+        },
+        {
+            "id": "4_4",
+            "name": "雷鸣",
+            "generation": "4代超特",
+            "description": "4代超特角色",
+            "image": "characters/4代超特/雷鸣.png",
+            "actions": [
+                {"name": "大手冒", "gif": "gifs/4代超特/雷鸣/大手冒.gif"},
+                {"name": "小手冒", "gif": "gifs/4代超特/雷鸣/小手冒.gif"},
+                {"name": "投篮", "gif": "gifs/4代超特/雷鸣/投篮.gif"},
+                {"name": "篮板", "gif": "gifs/4代超特/雷鸣/篮板.gif"},
+                {"name": "补扣", "gif": "gifs/4代超特/雷鸣/补扣.gif"},
+                {"name": "近上", "gif": "gifs/4代超特/雷鸣/近上.gif"},
+                {"name": "近扣", "gif": "gifs/4代超特/雷鸣/近扣.gif"},
+                {"name": "远上", "gif": "gifs/4代超特/雷鸣/远上.gif"},
+                {"name": "远扣", "gif": "gifs/4代超特/雷鸣/远扣.gif"},
+                {"name": "鬼力拦截", "gif": "gifs/4代超特/雷鸣/鬼力拦截.gif"}
+            ]
+        },
+        {
+            "id": "4_5",
+            "name": "露美",
+            "generation": "4代超特",
+            "description": "4代超特角色",
+            "image": "characters/4代超特/露美.png",
+            "actions": [
+                {"name": "地板", "gif": "gifs/4代超特/露美/地板.gif"},
+                {"name": "大手冒", "gif": "gifs/4代超特/露美/大手冒.gif"},
+                {"name": "小手冒", "gif": "gifs/4代超特/露美/小手冒.gif"},
+                {"name": "投篮", "gif": "gifs/4代超特/露美/投篮.gif"},
+                {"name": "拦截", "gif": "gifs/4代超特/露美/拦截.gif"},
+                {"name": "篮板", "gif": "gifs/4代超特/露美/篮板.gif"},
+                {"name": "近上", "gif": "gifs/4代超特/露美/近上.gif"},
+                {"name": "近扣", "gif": "gifs/4代超特/露美/近扣.gif"},
+                {"name": "远上", "gif": "gifs/4代超特/露美/远上.gif"},
+                {"name": "远扣", "gif": "gifs/4代超特/露美/远扣.gif"}
+            ]
+        }
+    ],
+    "5": [
+        {
+            "id": "5_1",
+            "name": "艾达",
+            "generation": "5代超特",
+            "description": "5代超特角色",
+            "image": "characters/5代超特/艾达.png",
+            "actions": [
+                {"name": "X", "gif": "gifs/5代超特/艾达/X.gif"},
+                {"name": "三分", "gif": "gifs/5代超特/艾达/三分.gif"},
+                {"name": "中手冒", "gif": "gifs/5代超特/艾达/中手冒.gif"},
+                {"name": "中投", "gif": "gifs/5代超特/艾达/中投.gif"},
+                {"name": "大手冒", "gif": "gifs/5代超特/艾达/大手冒.gif"},
+                {"name": "小手冒", "gif": "gifs/5代超特/艾达/小手冒.gif"},
+                {"name": "抢断", "gif": "gifs/5代超特/艾达/抢断.gif"},
+                {"name": "篮板", "gif": "gifs/5代超特/艾达/篮板.gif"},
+                {"name": "近上", "gif": "gifs/5代超特/艾达/近上.gif"},
+                {"name": "近扣", "gif": "gifs/5代超特/艾达/近扣.gif"},
+                {"name": "远上", "gif": "gifs/5代超特/艾达/远上.gif"},
+                {"name": "远扣", "gif": "gifs/5代超特/艾达/远扣.gif"}
+            ]
+        },
+        {
+            "id": "5_2",
+            "name": "杰罗",
+            "generation": "5代超特",
+            "description": "5代超特角色",
+            "image": "characters/5代超特/杰罗.png",
+            "actions": [
+                {"name": "X", "gif": "gifs/5代超特/杰罗/X.gif"},
+                {"name": "中手", "gif": "gifs/5代超特/杰罗/中手.gif"},
+                {"name": "中投", "gif": "gifs/5代超特/杰罗/中投.gif"},
+                {"name": "分球", "gif": "gifs/5代超特/杰罗/分球.gif"},
+                {"name": "地板", "gif": "gifs/5代超特/杰罗/地板.gif"},
+                {"name": "大手冒", "gif": "gifs/5代超特/杰罗/大手冒.gif"},
+                {"name": "小手冒", "gif": "gifs/5代超特/杰罗/小手冒.gif"},
+                {"name": "快速跑传", "gif": "gifs/5代超特/杰罗/快速跑传.gif"},
+                {"name": "投篮", "gif": "gifs/5代超特/杰罗/投篮.gif"},
+                {"name": "灌篮盖帽", "gif": "gifs/5代超特/杰罗/灌篮盖帽.gif"},
+                {"name": "篮板", "gif": "gifs/5代超特/杰罗/篮板.gif"},
+                {"name": "近上", "gif": "gifs/5代超特/杰罗/近上.gif"},
+                {"name": "近扣", "gif": "gifs/5代超特/杰罗/近扣.gif"},
+                {"name": "远上", "gif": "gifs/5代超特/杰罗/远上.gif"},
+                {"name": "远扣", "gif": "gifs/5代超特/杰罗/远扣.gif"}
+            ]
+        }
+    ],
+    "6": [
+        {
+            "id": "6_1",
+            "name": "光暗",
+            "generation": "6代超特",
+            "description": "6代超特角色",
+            "image": "characters/6代超特/光暗.png",
+            "actions": [
+                {"name": "光X", "gif": "gifs/6代超特/光暗/光X.gif"},
+                {"name": "光三分", "gif": "gifs/6代超特/光暗/光三分.gif"},
+                {"name": "光中手", "gif": "gifs/6代超特/光暗/光中手.gif"},
+                {"name": "光中投", "gif": "gifs/6代超特/光暗/光中投.gif"},
+                {"name": "光分球", "gif": "gifs/6代超特/光暗/光分球.gif"},
+                {"name": "光地板", "gif": "gifs/6代超特/光暗/光地板.gif"},
+                {"name": "光大手", "gif": "gifs/6代超特/光暗/光大手.gif"},
+                {"name": "光小手", "gif": "gifs/6代超特/光暗/光小手.gif"},
+                {"name": "光篮板", "gif": "gifs/6代超特/光暗/光篮板.gif"},
+                {"name": "光近上", "gif": "gifs/6代超特/光暗/光近上.gif"},
+                {"name": "光近扣", "gif": "gifs/6代超特/光暗/光近扣.gif"},
+                {"name": "光远上", "gif": "gifs/6代超特/光暗/光远上.gif"},
+                {"name": "光远扣", "gif": "gifs/6代超特/光暗/光远扣.gif"},
+                {"name": "暗X", "gif": "gifs/6代超特/光暗/暗X.gif"},
+                {"name": "暗三分", "gif": "gifs/6代超特/光暗/暗三分.gif"},
+                {"name": "暗中手", "gif": "gifs/6代超特/光暗/暗中手.gif"},
+                {"name": "暗分球", "gif": "gifs/6代超特/光暗/暗分球.gif"},
+                {"name": "暗地板", "gif": "gifs/6代超特/光暗/暗地板.gif"},
+                {"name": "暗大手", "gif": "gifs/6代超特/光暗/暗大手.gif"},
+                {"name": "暗小手冒", "gif": "gifs/6代超特/光暗/暗小手冒.gif"},
+                {"name": "暗篮板", "gif": "gifs/6代超特/光暗/暗篮板.gif"},
+                {"name": "暗近上", "gif": "gifs/6代超特/光暗/暗近上.gif"},
+                {"name": "暗近扣", "gif": "gifs/6代超特/光暗/暗近扣.gif"},
+                {"name": "暗远上", "gif": "gifs/6代超特/光暗/暗远上.gif"},
+                {"name": "暗远扣", "gif": "gifs/6代超特/光暗/暗远扣.gif"}
+            ]
+        },
+        {
+            "id": "6_2",
+            "name": "冰火",
+            "generation": "6代超特",
+            "description": "6代超特角色",
+            "image": "characters/6代超特/冰火.png",
+            "actions": [
+                {"name": "水X", "gif": "gifs/6代超特/冰火/水X.gif"},
+                {"name": "水三分", "gif": "gifs/6代超特/冰火/水三分.gif"},
+                {"name": "水中投", "gif": "gifs/6代超特/冰火/水中投.gif"},
+                {"name": "水分球", "gif": "gifs/6代超特/冰火/水分球.gif"},
+                {"name": "水地板", "gif": "gifs/6代超特/冰火/水地板.gif"},
+                {"name": "水大手冒", "gif": "gifs/6代超特/冰火/水大手冒.gif"},
+                {"name": "水小手冒", "gif": "gifs/6代超特/冰火/水小手冒.gif"},
+                {"name": "水篮板", "gif": "gifs/6代超特/冰火/水篮板.gif"},
+                {"name": "水近上", "gif": "gifs/6代超特/冰火/水近上.gif"},
+                {"name": "水近扣", "gif": "gifs/6代超特/冰火/水近扣.gif"},
+                {"name": "水远上", "gif": "gifs/6代超特/冰火/水远上.gif"},
+                {"name": "水远扣", "gif": "gifs/6代超特/冰火/水远扣.gif"},
+                {"name": "火X", "gif": "gifs/6代超特/冰火/火X.gif"},
+                {"name": "火三分", "gif": "gifs/6代超特/冰火/火三分.gif"},
+                {"name": "火中投", "gif": "gifs/6代超特/冰火/火中投.gif"},
+                {"name": "火分球", "gif": "gifs/6代超特/冰火/火分球.gif"},
+                {"name": "火地板", "gif": "gifs/6代超特/冰火/火地板.gif"},
+                {"name": "火大手冒", "gif": "gifs/6代超特/冰火/火大手冒.gif"},
+                {"name": "火小手冒", "gif": "gifs/6代超特/冰火/火小手冒.gif"},
+                {"name": "火篮板", "gif": "gifs/6代超特/冰火/火篮板.gif"},
+                {"name": "火近上", "gif": "gifs/6代超特/冰火/火近上.gif"},
+                {"name": "火近扣", "gif": "gifs/6代超特/冰火/火近扣.gif"},
+                {"name": "火远上", "gif": "gifs/6代超特/冰火/火远上.gif"},
+                {"name": "火远扣", "gif": "gifs/6代超特/冰火/火远扣.gif"}
+            ]
+        },
+        {
+            "id": "6_3",
+            "name": "钢铁剧毒",
+            "generation": "6代超特",
+            "description": "6代超特角色",
+            "image": "characters/6代超特/钢铁剧毒.png",
+            "actions": [
+                {"name": "剧毒X", "gif": "gifs/6代超特/钢铁剧毒/剧毒X.gif"},
+                {"name": "剧毒三分", "gif": "gifs/6代超特/钢铁剧毒/剧毒三分.gif"},
+                {"name": "剧毒中投", "gif": "gifs/6代超特/钢铁剧毒/剧毒中投.gif"},
+                {"name": "剧毒分球", "gif": "gifs/6代超特/钢铁剧毒/剧毒分球.gif"},
+                {"name": "剧毒地板", "gif": "gifs/6代超特/钢铁剧毒/剧毒地板.gif"},
+                {"name": "剧毒大手冒", "gif": "gifs/6代超特/钢铁剧毒/剧毒大手冒.gif"},
+                {"name": "剧毒小手冒", "gif": "gifs/6代超特/钢铁剧毒/剧毒小手冒.gif"},
+                {"name": "剧毒篮板", "gif": "gifs/6代超特/钢铁剧毒/剧毒篮板.gif"},
+                {"name": "剧毒近上", "gif": "gifs/6代超特/钢铁剧毒/剧毒近上.gif"},
+                {"name": "剧毒近扣", "gif": "gifs/6代超特/钢铁剧毒/剧毒近扣.gif"},
+                {"name": "剧毒远上", "gif": "gifs/6代超特/钢铁剧毒/剧毒远上.gif"},
+                {"name": "剧毒远扣", "gif": "gifs/6代超特/钢铁剧毒/剧毒远扣.gif"},
+                {"name": "毒液中投", "gif": "gifs/6代超特/钢铁剧毒/毒液中投.gif"},
+                {"name": "钢铁X", "gif": "gifs/6代超特/钢铁剧毒/钢铁X.gif"},
+                {"name": "钢铁XX", "gif": "gifs/6代超特/钢铁剧毒/钢铁XX.gif"},
+                {"name": "钢铁三分", "gif": "gifs/6代超特/钢铁剧毒/钢铁三分.gif"},
+                {"name": "钢铁中投", "gif": "gifs/6代超特/钢铁剧毒/钢铁中投.gif"},
+                {"name": "钢铁分球", "gif": "gifs/6代超特/钢铁剧毒/钢铁分球.gif"},
+                {"name": "钢铁地板", "gif": "gifs/6代超特/钢铁剧毒/钢铁地板.gif"},
+                {"name": "钢铁大手冒", "gif": "gifs/6代超特/钢铁剧毒/钢铁大手冒.gif"},
+                {"name": "钢铁小手冒", "gif": "gifs/6代超特/钢铁剧毒/钢铁小手冒.gif"},
+                {"name": "钢铁篮板", "gif": "gifs/6代超特/钢铁剧毒/钢铁篮板.gif"},
+                {"name": "钢铁近上", "gif": "gifs/6代超特/钢铁剧毒/钢铁近上.gif"},
+                {"name": "钢铁近扣", "gif": "gifs/6代超特/钢铁剧毒/钢铁近扣.gif"},
+                {"name": "钢铁远上", "gif": "gifs/6代超特/钢铁剧毒/钢铁远上.gif"},
+                {"name": "钢铁远扣", "gif": "gifs/6代超特/钢铁剧毒/钢铁远扣.gif"}
+            ]
+        },
+        {
+            "id": "6_4",
+            "name": "风雷",
+            "generation": "6代超特",
+            "description": "6代超特角色",
+            "image": "characters/6代超特/风雷.png",
+            "actions": [
+                {"name": "雷X", "gif": "gifs/6代超特/风雷/雷X.gif"},
+                {"name": "雷三分", "gif": "gifs/6代超特/风雷/雷三分.gif"},
+                {"name": "雷中投", "gif": "gifs/6代超特/风雷/雷中投.gif"},
+                {"name": "雷分球", "gif": "gifs/6代超特/风雷/雷分球.gif"},
+                {"name": "雷地板", "gif": "gifs/6代超特/风雷/雷地板.gif"},
+                {"name": "雷大手冒", "gif": "gifs/6代超特/风雷/雷大手冒.gif"},
+                {"name": "雷小手冒", "gif": "gifs/6代超特/风雷/雷小手冒.gif"},
+                {"name": "雷篮板", "gif": "gifs/6代超特/风雷/雷篮板.gif"},
+                {"name": "雷近上", "gif": "gifs/6代超特/风雷/雷近上.gif"},
+                {"name": "雷近扣", "gif": "gifs/6代超特/风雷/雷近扣.gif"},
+                {"name": "雷远上", "gif": "gifs/6代超特/风雷/雷远上.gif"},
+                {"name": "雷远扣", "gif": "gifs/6代超特/风雷/雷远扣.gif"},
+                {"name": "风X", "gif": "gifs/6代超特/风雷/风X.gif"},
+                {"name": "风三分", "gif": "gifs/6代超特/风雷/风三分.gif"},
+                {"name": "风中投", "gif": "gifs/6代超特/风雷/风中投.gif"},
+                {"name": "风分球", "gif": "gifs/6代超特/风雷/风分球.gif"},
+                {"name": "风地板", "gif": "gifs/6代超特/风雷/风地板.gif"},
+                {"name": "风大手冒", "gif": "gifs/6代超特/风雷/风大手冒.gif"},
+                {"name": "风小手冒", "gif": "gifs/6代超特/风雷/风小手冒.gif"},
+                {"name": "风篮板", "gif": "gifs/6代超特/风雷/风篮板.gif"},
+                {"name": "风近上", "gif": "gifs/6代超特/风雷/风近上.gif"},
+                {"name": "风近扣", "gif": "gifs/6代超特/风雷/风近扣.gif"},
+                {"name": "风远上", "gif": "gifs/6代超特/风雷/风远上.gif"},
+                {"name": "风远扣", "gif": "gifs/6代超特/风雷/风远扣.gif"}
+            ]
+        }
+    ],
+    "7": [
+        {
+            "id": "7_1",
+            "name": "玄武",
+            "generation": "7代超特",
+            "description": "7代超特角色",
+            "image": "characters/7代超特/玄武.png",
+            "actions": [
+                {"name": "X", "gif": "gifs/7代超特/玄武/X.gif"},
+                {"name": "中手冒", "gif": "gifs/7代超特/玄武/中手冒.gif"},
+                {"name": "分球", "gif": "gifs/7代超特/玄武/分球.gif"},
+                {"name": "地板", "gif": "gifs/7代超特/玄武/地板.gif"},
+                {"name": "大手冒", "gif": "gifs/7代超特/玄武/大手冒.gif"},
+                {"name": "小手冒", "gif": "gifs/7代超特/玄武/小手冒.gif"},
+                {"name": "篮板", "gif": "gifs/7代超特/玄武/篮板.gif"},
+                {"name": "阳三分", "gif": "gifs/7代超特/玄武/阳三分.gif"},
+                {"name": "阳中投", "gif": "gifs/7代超特/玄武/阳中投.gif"},
+                {"name": "阳近上", "gif": "gifs/7代超特/玄武/阳近上.gif"},
+                {"name": "阳近扣", "gif": "gifs/7代超特/玄武/阳近扣.gif"},
+                {"name": "阳远上", "gif": "gifs/7代超特/玄武/阳远上.gif"},
+                {"name": "阳远扣", "gif": "gifs/7代超特/玄武/阳远扣.gif"},
+                {"name": "阴三分", "gif": "gifs/7代超特/玄武/阴三分.gif"},
+                {"name": "阴中投", "gif": "gifs/7代超特/玄武/阴中投.gif"},
+                {"name": "阴近上", "gif": "gifs/7代超特/玄武/阴近上.gif"},
+                {"name": "阴近扣", "gif": "gifs/7代超特/玄武/阴近扣.gif"},
+                {"name": "阴远上", "gif": "gifs/7代超特/玄武/阴远上.gif"},
+                {"name": "阴远扣", "gif": "gifs/7代超特/玄武/阴远扣.gif"}
+            ]
+        },
+        {
+            "id": "7_2",
+            "name": "雪舞",
+            "generation": "7代超特",
+            "description": "7代超特角色",
+            "image": "characters/7代超特/雪舞.png",
+            "actions": [
+                {"name": "X", "gif": "gifs/7代超特/雪舞/X.gif"},
+                {"name": "中手", "gif": "gifs/7代超特/雪舞/中手.gif"},
+                {"name": "中手冒", "gif": "gifs/7代超特/雪舞/中手冒.gif"},
+                {"name": "分球", "gif": "gifs/7代超特/雪舞/分球.gif"},
+                {"name": "地板", "gif": "gifs/7代超特/雪舞/地板.gif"},
+                {"name": "大手冒", "gif": "gifs/7代超特/雪舞/大手冒.gif"},
+                {"name": "小手冒", "gif": "gifs/7代超特/雪舞/小手冒.gif"},
+                {"name": "篮板", "gif": "gifs/7代超特/雪舞/篮板.gif"},
+                {"name": "阳三分", "gif": "gifs/7代超特/雪舞/阳三分.gif"},
+                {"name": "阳中投", "gif": "gifs/7代超特/雪舞/阳中投.gif"},
+                {"name": "阳近上", "gif": "gifs/7代超特/雪舞/阳近上.gif"},
+                {"name": "阳近扣", "gif": "gifs/7代超特/雪舞/阳近扣.gif"},
+                {"name": "阳远上", "gif": "gifs/7代超特/雪舞/阳远上.gif"},
+                {"name": "阳远扣", "gif": "gifs/7代超特/雪舞/阳远扣.gif"},
+                {"name": "阴三分", "gif": "gifs/7代超特/雪舞/阴三分.gif"},
+                {"name": "阴中投", "gif": "gifs/7代超特/雪舞/阴中投.gif"},
+                {"name": "阴近上", "gif": "gifs/7代超特/雪舞/阴近上.gif"},
+                {"name": "阴近扣", "gif": "gifs/7代超特/雪舞/阴近扣.gif"},
+                {"name": "阴远上", "gif": "gifs/7代超特/雪舞/阴远上.gif"},
+                {"name": "阴远扣", "gif": "gifs/7代超特/雪舞/阴远扣.gif"}
+            ]
+        },
+        {
+            "id": "7_3",
+            "name": "月儿",
+            "generation": "7代超特",
+            "description": "7代超特角色",
+            "image": "characters/7代超特/月儿.png",
+            "actions": [
+                {"name": "X", "gif": "gifs/7代超特/月儿/X.gif"},
+                {"name": "中手", "gif": "gifs/7代超特/月儿/中手.gif"},
+                {"name": "分球", "gif": "gifs/7代超特/月儿/分球.gif"},
+                {"name": "地板", "gif": "gifs/7代超特/月儿/地板.gif"},
+                {"name": "大手冒", "gif": "gifs/7代超特/月儿/大手冒.gif"},
+                {"name": "小手冒", "gif": "gifs/7代超特/月儿/小手冒.gif"},
+                {"name": "篮板", "gif": "gifs/7代超特/月儿/篮板.gif"},
+                {"name": "阳三分", "gif": "gifs/7代超特/月儿/阳三分.gif"},
+                {"name": "阳中投", "gif": "gifs/7代超特/月儿/阳中投.gif"},
+                {"name": "阳近上", "gif": "gifs/7代超特/月儿/阳近上.gif"},
+                {"name": "阳近扣", "gif": "gifs/7代超特/月儿/阳近扣.gif"},
+                {"name": "阳远上", "gif": "gifs/7代超特/月儿/阳远上.gif"},
+                {"name": "阳远扣", "gif": "gifs/7代超特/月儿/阳远扣.gif"},
+                {"name": "阴三分", "gif": "gifs/7代超特/月儿/阴三分.gif"},
+                {"name": "阴中投", "gif": "gifs/7代超特/月儿/阴中投.gif"},
+                {"name": "阴近上", "gif": "gifs/7代超特/月儿/阴近上.gif"},
+                {"name": "阴近扣", "gif": "gifs/7代超特/月儿/阴近扣.gif"},
+                {"name": "阴远上", "gif": "gifs/7代超特/月儿/阴远上.gif"},
+                {"name": "阴远扣", "gif": "gifs/7代超特/月儿/阴远扣.gif"}
+            ]
+        }
+    ],
+    "8": [
+        {
+            "id": "8_1",
+            "name": "奥丁",
+            "generation": "8代超特",
+            "description": "8代超特角色",
+            "image": "characters/8代超特/奥丁.png",
+            "actions": [
+                {"name": "X", "gif": "gifs/8代超特/奥丁/X.gif"},
+                {"name": "不看人传球", "gif": "gifs/8代超特/奥丁/不看人传球.gif"},
+                {"name": "中手冒", "gif": "gifs/8代超特/奥丁/中手冒.gif"},
+                {"name": "分球", "gif": "gifs/8代超特/奥丁/分球.gif"},
+                {"name": "地板", "gif": "gifs/8代超特/奥丁/地板.gif"},
+                {"name": "大手冒", "gif": "gifs/8代超特/奥丁/大手冒.gif"},
+                {"name": "小手冒", "gif": "gifs/8代超特/奥丁/小手冒.gif"},
+                {"name": "抢断", "gif": "gifs/8代超特/奥丁/抢断.gif"},
+                {"name": "篮板", "gif": "gifs/8代超特/奥丁/篮板.gif"},
+                {"name": "间接进攻手", "gif": "gifs/8代超特/奥丁/间接进攻手.gif"},
+                {"name": "阳三分", "gif": "gifs/8代超特/奥丁/阳三分.gif"},
+                {"name": "阳中投", "gif": "gifs/8代超特/奥丁/阳中投.gif"},
+                {"name": "阳近上", "gif": "gifs/8代超特/奥丁/阳近上.gif"},
+                {"name": "阳近扣", "gif": "gifs/8代超特/奥丁/阳近扣.gif"},
+                {"name": "阳远上", "gif": "gifs/8代超特/奥丁/阳远上.gif"},
+                {"name": "阳远扣", "gif": "gifs/8代超特/奥丁/阳远扣.gif"},
+                {"name": "阴三分", "gif": "gifs/8代超特/奥丁/阴三分.gif"},
+                {"name": "阴中投", "gif": "gifs/8代超特/奥丁/阴中投.gif"},
+                {"name": "阴近上", "gif": "gifs/8代超特/奥丁/阴近上.gif"},
+                {"name": "阴近扣", "gif": "gifs/8代超特/奥丁/阴近扣.gif"},
+                {"name": "阴远上", "gif": "gifs/8代超特/奥丁/阴远上.gif"},
+                {"name": "阴远扣", "gif": "gifs/8代超特/奥丁/阴远扣.gif"}
+            ]
+        },
+        {
+            "id": "8_2",
+            "name": "月神",
+            "generation": "8代超特",
+            "description": "8代超特角色",
+            "image": "characters/8代超特/月神.png",
+            "actions": [
+                {"name": "X", "gif": "gifs/8代超特/月神/X.gif"},
+                {"name": "三分", "gif": "gifs/8代超特/月神/三分.gif"},
+                {"name": "三分阳", "gif": "gifs/8代超特/月神/三分阳.gif"},
+                {"name": "不看人传球", "gif": "gifs/8代超特/月神/不看人传球.gif"},
+                {"name": "中手冒", "gif": "gifs/8代超特/月神/中手冒.gif"},
+                {"name": "分球", "gif": "gifs/8代超特/月神/分球.gif"},
+                {"name": "地板", "gif": "gifs/8代超特/月神/地板.gif"},
+                {"name": "大手冒", "gif": "gifs/8代超特/月神/大手冒.gif"},
+                {"name": "小手冒", "gif": "gifs/8代超特/月神/小手冒.gif"},
+                {"name": "抢断", "gif": "gifs/8代超特/月神/抢断.gif"},
+                {"name": "篮板", "gif": "gifs/8代超特/月神/篮板.gif"},
+                {"name": "间接进攻手", "gif": "gifs/8代超特/月神/间接进攻手.gif"},
+                {"name": "阳三分", "gif": "gifs/8代超特/月神/阳三分.gif"},
+                {"name": "阳中投", "gif": "gifs/8代超特/月神/阳中投.gif"},
+                {"name": "阳近上", "gif": "gifs/8代超特/月神/阳近上.gif"},
+                {"name": "阳近扣", "gif": "gifs/8代超特/月神/阳近扣.gif"},
+                {"name": "阳远上", "gif": "gifs/8代超特/月神/阳远上.gif"},
+                {"name": "阳远扣", "gif": "gifs/8代超特/月神/阳远扣.gif"},
+                {"name": "阴三分", "gif": "gifs/8代超特/月神/阴三分.gif"},
+                {"name": "阴中投", "gif": "gifs/8代超特/月神/阴中投.gif"},
+                {"name": "阴近上", "gif": "gifs/8代超特/月神/阴近上.gif"},
+                {"name": "阴近扣", "gif": "gifs/8代超特/月神/阴近扣.gif"},
+                {"name": "阴远上", "gif": "gifs/8代超特/月神/阴远上.gif"},
+                {"name": "阴远扣", "gif": "gifs/8代超特/月神/阴远扣.gif"},
+                {"name": "阴远哭", "gif": "gifs/8代超特/月神/阴远哭.gif"}
+            ]
+        },
+        {
+            "id": "8_3",
+            "name": "哈托尔",
+            "generation": "8代超特",
+            "description": "8代超特角色",
+            "image": "characters/8代超特/哈托尔.png",
+            "actions": [
+                {"name": "X", "gif": "gifs/8代超特/哈托尔/X.gif"},
+                {"name": "不看人传球", "gif": "gifs/8代超特/哈托尔/不看人传球.gif"},
+                {"name": "中手冒", "gif": "gifs/8代超特/哈托尔/中手冒.gif"},
+                {"name": "分球", "gif": "gifs/8代超特/哈托尔/分球.gif"},
+                {"name": "地板", "gif": "gifs/8代超特/哈托尔/地板.gif"},
+                {"name": "大手冒", "gif": "gifs/8代超特/哈托尔/大手冒.gif"},
+                {"name": "小手冒", "gif": "gifs/8代超特/哈托尔/小手冒.gif"},
+                {"name": "抢断", "gif": "gifs/8代超特/哈托尔/抢断.gif"},
+                {"name": "篮板", "gif": "gifs/8代超特/哈托尔/篮板.gif"},
+                {"name": "间接进攻手", "gif": "gifs/8代超特/哈托尔/间接进攻手.gif"},
+                {"name": "阳三分", "gif": "gifs/8代超特/哈托尔/阳三分.gif"},
+                {"name": "阳中投", "gif": "gifs/8代超特/哈托尔/阳中投.gif"},
+                {"name": "阳近上", "gif": "gifs/8代超特/哈托尔/阳近上.gif"},
+                {"name": "阳近扣", "gif": "gifs/8代超特/哈托尔/阳近扣.gif"},
+                {"name": "阳远上", "gif": "gifs/8代超特/哈托尔/阳远上.gif"},
+                {"name": "阳远扣", "gif": "gifs/8代超特/哈托尔/阳远扣.gif"},
+                {"name": "阴三分", "gif": "gifs/8代超特/哈托尔/阴三分.gif"},
+                {"name": "阴中投", "gif": "gifs/8代超特/哈托尔/阴中投.gif"},
+                {"name": "阴近上", "gif": "gifs/8代超特/哈托尔/阴近上.gif"},
+                {"name": "阴近扣", "gif": "gifs/8代超特/哈托尔/阴近扣.gif"},
+                {"name": "阴远上", "gif": "gifs/8代超特/哈托尔/阴远上.gif"},
+                {"name": "阴远扣", "gif": "gifs/8代超特/哈托尔/阴远扣.gif"}
+            ]
+        }
+    ],
+    "9": [
+        {
+            "id": "9_1",
+            "name": "亚琪",
+            "generation": "9代超特",
+            "description": "9代超特角色",
+            "image": "characters/9代超特/亚琪亚克.png",
+            "actions": [
+                {
+                    "name": "A三分",
+                    "gif": "gifs/9代超特/亚琪亚克/A三分.gif"
+                },
+                {
+                    "name": "A中投",
+                    "gif": "gifs/9代超特/亚琪亚克/A中投.gif"
+                },
+                {
+                    "name": "A分球",
+                    "gif": "gifs/9代超特/亚琪亚克/A分球.gif"
+                },
+                {
+                    "name": "A篮板",
+                    "gif": "gifs/9代超特/亚琪亚克/A篮板.gif"
+                },
+                {
+                    "name": "A近上",
+                    "gif": "gifs/9代超特/亚琪亚克/A近上.gif"
+                },
+                {
+                    "name": "A近扣",
+                    "gif": "gifs/9代超特/亚琪亚克/A近扣.gif"
+                },
+                {
+                    "name": "A远上",
+                    "gif": "gifs/9代超特/亚琪亚克/A远上.gif"
+                },
+                {
+                    "name": "A远扣",
+                    "gif": "gifs/9代超特/亚琪亚克/A远扣.gif"
+                },
+                {
+                    "name": "B三分",
+                    "gif": "gifs/9代超特/亚琪亚克/B三分.gif"
+                },
+                {
+                    "name": "B中投",
+                    "gif": "gifs/9代超特/亚琪亚克/B中投.gif"
+                },
+                {
+                    "name": "B分球",
+                    "gif": "gifs/9代超特/亚琪亚克/B分球.gif"
+                },
+                {
+                    "name": "B篮板",
+                    "gif": "gifs/9代超特/亚琪亚克/B篮板.gif"
+                },
+                {
+                    "name": "B近上",
+                    "gif": "gifs/9代超特/亚琪亚克/B近上.gif"
+                },
+                {
+                    "name": "B近扣",
+                    "gif": "gifs/9代超特/亚琪亚克/B近扣.gif"
+                },
+                {
+                    "name": "B远上",
+                    "gif": "gifs/9代超特/亚琪亚克/B远上.gif"
+                },
+                {
+                    "name": "B远扣",
+                    "gif": "gifs/9代超特/亚琪亚克/B远扣.gif"
+                },
+                {
+                    "name": "X",
+                    "gif": "gifs/9代超特/亚琪亚克/X.gif"
+                },
+                {
+                    "name": "不看人传球",
+                    "gif": "gifs/9代超特/亚琪亚克/不看人传球.gif"
+                },
+                {
+                    "name": "中手冒",
+                    "gif": "gifs/9代超特/亚琪亚克/中手冒.gif"
+                },
+                {
+                    "name": "地板",
+                    "gif": "gifs/9代超特/亚琪亚克/地板.gif"
+                },
+                {
+                    "name": "大手冒",
+                    "gif": "gifs/9代超特/亚琪亚克/大手冒.gif"
+                },
+                {
+                    "name": "小手冒",
+                    "gif": "gifs/9代超特/亚琪亚克/小手冒.gif"
+                },
+                {
+                    "name": "快速起来",
+                    "gif": "gifs/9代超特/亚琪亚克/快速起来.gif"
+                },
+                {
+                    "name": "抢断",
+                    "gif": "gifs/9代超特/亚琪亚克/抢断.gif"
+                },
+                {
+                    "name": "篮板",
+                    "gif": "gifs/9代超特/亚琪亚克/篮板.gif"
                 }
-    ],
-    '2': [
-        {
-            id: '2_1',
-            name: '安杰拉',
-            generation: '2代超特',
-            description: '二代超特角色',
-            image: 'characters/2代超特/安杰拉.png',
-            gifFolder: 'gifs/2代超特/安杰拉/'
-        },
-        {
-            id: '2_2',
-            name: '沃顿',
-            generation: '2代超特',
-            description: '二代超特角色',
-            image: 'characters/2代超特/沃顿.png',
-            gifFolder: 'gifs/2代超特/沃顿/'
-        },
-        {
-            id: '2_3',
-            name: '莉莉斯',
-            generation: '2代超特',
-            description: '二代超特角色',
-            image: 'characters/2代超特/莉莉斯.png',
-            gifFolder: 'gifs/2代超特/莉莉斯/'
-        },
-        {
-            id: '2_4',
-            name: '路西法',
-            generation: '2代超特',
-            description: '二代超特角色',
-            image: 'characters/2代超特/路西法.png',
-            gifFolder: 'gifs/2代超特/路西法/'
-        }
-    ],
-    '3': [
-        {
-            id: '3_1',
-            name: '凤凰',
-            generation: '3代超特',
-            description: '三代超特角色',
-            image: 'characters/3代超特/凤凰.png',
-            gifFolder: 'gifs/3代超特/凤凰/'
-        },
-        {
-            id: '3_2',
-            name: '白虎',
-            generation: '3代超特',
-            description: '三代超特角色',
-            image: 'characters/3代超特/白虎.png',
-            gifFolder: 'gifs/3代超特/白虎/'
-        },
-        {
-            id: '3_3',
-            name: '酒鬼',
-            generation: '3代超特',
-            description: '三代超特角色',
-            image: 'characters/3代超特/酒鬼.png',
-            gifFolder: 'gifs/3代超特/酒鬼/'
-        },
-        {
-            id: '3_4',
-            name: '麒麟',
-            generation: '3代超特',
-            description: '三代超特角色',
-            image: 'characters/3代超特/麒麟.png',
-            gifFolder: 'gifs/3代超特/麒麟/'
-        }
-    ],
-    '3_5': [
-        {
-            id: '3_5_1',
-            name: '悠夏',
-            generation: '3.5代超特',
-            description: '三点五代超特角色',
-            image: 'characters/3.5代超特/悠夏.png',
-            gifFolder: 'gifs/3.5代超特/悠夏/'
-        },
-        {
-            id: '3_5_2',
-            name: '托姆斯',
-            generation: '3.5代超特',
-            description: '三点五代超特角色',
-            image: 'characters/3.5代超特/托姆斯.png',
-            gifFolder: 'gifs/3.5代超特/托姆斯/'
-        },
-        {
-            id: '3_5_3',
-            name: '浩燃',
-            generation: '3.5代超特',
-            description: '三点五代超特角色',
-            image: 'characters/3.5代超特/浩燃.png',
-            gifFolder: 'gifs/3.5代超特/浩燃/'
-        },
-        {
-            id: '3_5_4',
-            name: '芙熙',
-            generation: '3.5代超特',
-            description: '三点五代超特角色',
-            image: 'characters/3.5代超特/芙熙.png',
-            gifFolder: 'gifs/3.5代超特/芙熙/'
-        }
-    ],
-    '4': [
-        {
-            id: '4_1',
-            name: '丽雅',
-            generation: '4代超特',
-            description: '四代超特角色',
-            image: 'characters/4代超特/丽雅.png',
-            gifFolder: 'gifs/4代超特/丽雅/'
-        },
-        {
-            id: '4_2',
-            name: '狐狸',
-            generation: '4代超特',
-            description: '四代超特角色',
-            image: 'characters/4代超特/狐狸.png',
-            gifFolder: 'gifs/4代超特/狐狸/'
-        },
-        {
-            id: '4_3',
-            name: '玛丽',
-            generation: '4代超特',
-            description: '四代超特角色',
-            image: 'characters/4代超特/玛丽.png',
-            gifFolder: 'gifs/4代超特/玛丽/'
-        },
-        {
-            id: '4_4',
-            name: '雷鸣',
-            generation: '4代超特',
-            description: '四代超特角色',
-            image: 'characters/4代超特/雷鸣.png',
-            gifFolder: 'gifs/4代超特/雷鸣/'
-        },
-        {
-            id: '4_5',
-            name: '露美',
-            generation: '4代超特',
-            description: '四代超特角色',
-            image: 'characters/4代超特/露美.png',
-            gifFolder: 'gifs/4代超特/露美/'
-        }
-    ],
-    '4_5': [
-        {
-            id: '4_5_1',
-            name: '夏洛梅特',
-            generation: '4.5代超特',
-            description: '四点五代超特角色',
-            image: 'characters/4.5代超特/夏洛梅特.png',
-            gifFolder: 'gifs/4.5代超特/夏洛梅特/'
-        }
-    ],
-    '6': [
-        {
-            id: '6_1',
-            name: '光暗',
-            generation: '6代超特',
-            description: '光暗双属性角色',
-            image: 'characters/6代超特/光暗.png',
-            gifFolder: 'gifs/6代超特/光暗/'
-        },
-        {
-            id: '6_2',
-            name: '冰火',
-            generation: '6代超特',
-            description: '冰火双属性角色',
-            image: 'characters/6代超特/冰火.png',
-            gifFolder: 'gifs/6代超特/冰火/'
-        },
-        {
-            id: '6_3',
-            name: '钢铁剧毒',
-            generation: '6代超特',
-            description: '钢铁剧毒双属性角色',
-            image: 'characters/6代超特/钢铁剧毒.png',
-            gifFolder: 'gifs/6代超特/钢铁剧毒/'
-        },
-        {
-            id: '6_4',
-            name: '风雷',
-            generation: '6代超特',
-            description: '风雷双属性角色',
-            image: 'characters/6代超特/风雷.png',
-            gifFolder: 'gifs/6代超特/风雷/'
-        }
-    ],
-    '5': [
-        {
-            id: '5_1',
-            name: '艾达',
-            generation: '5代超特',
-            description: '五代超特角色',
-            image: 'characters/5代超特/艾达.png',
-            gifFolder: 'gifs/5代超特/艾达/'
-        },
-        {
-            id: '5_2',
-            name: '杰罗',
-            generation: '5代超特',
-            description: '五代超特角色',
-            image: 'characters/5代超特/杰罗.png',
-            gifFolder: 'gifs/5代超特/杰罗/'
-        }
-    ],
-    '6_5': [
-        {
-            id: '6_5_1',
-            name: '洛克斯C',
-            generation: '6.5代超特',
-            description: '六点五代超特角色',
-            image: 'characters/6.5代超特/洛克斯C.png',
-            gifFolder: 'gifs/6.5代超特/洛克斯C/'
-        },
-        {
-            id: '6_5_2',
-            name: '超觉醒雷龙',
-            generation: '6.5代超特',
-            description: '六点五代超特角色',
-            image: 'characters/6.5代超特/超觉醒雷龙.png',
-            gifFolder: 'gifs/6.5代超特/超觉醒雷龙/'
-        }
-    ],
-    '7': [
-        {
-            id: '7_1',
-            name: '玄武',
-            generation: '7代超特',
-            description: '七代超特角色',
-            image: 'characters/7代超特/玄武.png',
-            gifFolder: 'gifs/7代超特/玄武/'
-        },
-        {
-            id: '7_2',
-            name: '雪舞',
-            generation: '7代超特',
-            description: '七代超特角色',
-            image: 'characters/7代超特/雪舞.png',
-            gifFolder: 'gifs/7代超特/雪舞/'
-        },
-        {
-            id: '7_3',
-            name: '月儿',
-            generation: '7代超特',
-            description: '七代超特角色',
-            image: 'characters/7代超特/月儿.png',
-            gifFolder: 'gifs/7代超特/月儿/'
-        }
-    ],
-    '7_5': [
-        {
-            id: '7_5_1',
-            name: '洛克斯PG',
-            generation: '7.5代超特',
-            description: '七点五代超特角色',
-            image: 'characters/7.5代超特/洛克斯PG.png',
-            gifFolder: 'gifs/7.5代超特/洛克斯PG/'
-        }
-    ],
-    '9': [
-        {
-            id: '9_1',
-            name: '亚琪',
-            generation: '9代超特',
-            description: '九代超特角色',
-            image: 'characters/9代超特/亚琪.png',
-            actions: [
-                { name: '不看人传球', gif: 'gifs/9代超特/亚琪亚克/不看人传球.gif' },
-                { name: '大手冒', gif: 'gifs/9代超特/亚琪亚克/大手冒.gif' },
-                { name: '地板', gif: 'gifs/9代超特/亚琪亚克/地板.gif' },
-                { name: '快速起来', gif: 'gifs/9代超特/亚琪亚克/快速起来.gif' },
-                { name: '篮板', gif: 'gifs/9代超特/亚琪亚克/篮板.gif' },
-                { name: '抢断', gif: 'gifs/9代超特/亚琪亚克/抢断.gif' },
-                { name: '小手冒', gif: 'gifs/9代超特/亚琪亚克/小手冒.gif' },
-                { name: '中手冒', gif: 'gifs/9代超特/亚琪亚克/中手冒.gif' },
-                { name: 'A分球', gif: 'gifs/9代超特/亚琪亚克/A分球.gif' },
-                { name: 'A近扣', gif: 'gifs/9代超特/亚琪亚克/A近扣.gif' },
-                { name: 'A近上', gif: 'gifs/9代超特/亚琪亚克/A近上.gif' },
-                { name: 'A篮板', gif: 'gifs/9代超特/亚琪亚克/A篮板.gif' },
-                { name: 'A三分', gif: 'gifs/9代超特/亚琪亚克/A三分.gif' },
-                { name: 'A远扣', gif: 'gifs/9代超特/亚琪亚克/A远扣.gif' },
-                { name: 'A远上', gif: 'gifs/9代超特/亚琪亚克/A远上.gif' },
-                { name: 'A中投', gif: 'gifs/9代超特/亚琪亚克/A中投.gif' },
-                { name: 'B分球', gif: 'gifs/9代超特/亚琪亚克/B分球.gif' },
-                { name: 'B近扣', gif: 'gifs/9代超特/亚琪亚克/B近扣.gif' },
-                { name: 'B近上', gif: 'gifs/9代超特/亚琪亚克/B近上.gif' },
-                { name: 'B篮板', gif: 'gifs/9代超特/亚琪亚克/B篮板.gif' },
-                { name: 'B三分', gif: 'gifs/9代超特/亚琪亚克/B三分.gif' },
-                { name: 'B远扣', gif: 'gifs/9代超特/亚琪亚克/B远扣.gif' },
-                { name: 'B远上', gif: 'gifs/9代超特/亚琪亚克/B远上.gif' },
-                { name: 'B中投', gif: 'gifs/9代超特/亚琪亚克/B中投.gif' },
-                { name: 'X', gif: 'gifs/9代超特/亚琪亚克/X.gif' }
             ]
         },
         {
-            id: '9_2',
-            name: '亚克',
-            generation: '9代超特',
-            description: '九代超特角色',
-            image: 'characters/9代超特/亚克.png',
-            actions: [
-                { name: '不看人传球', gif: 'gifs/9代超特/亚琪亚克/不看人传球.gif' },
-                { name: '大手冒', gif: 'gifs/9代超特/亚琪亚克/大手冒.gif' },
-                { name: '地板', gif: 'gifs/9代超特/亚琪亚克/地板.gif' },
-                { name: '快速起来', gif: 'gifs/9代超特/亚琪亚克/快速起来.gif' },
-                { name: '篮板', gif: 'gifs/9代超特/亚琪亚克/篮板.gif' },
-                { name: '抢断', gif: 'gifs/9代超特/亚琪亚克/抢断.gif' },
-                { name: '小手冒', gif: 'gifs/9代超特/亚琪亚克/小手冒.gif' },
-                { name: '中手冒', gif: 'gifs/9代超特/亚琪亚克/中手冒.gif' },
-                { name: 'A分球', gif: 'gifs/9代超特/亚琪亚克/A分球.gif' },
-                { name: 'A近扣', gif: 'gifs/9代超特/亚琪亚克/A近扣.gif' },
-                { name: 'A近上', gif: 'gifs/9代超特/亚琪亚克/A近上.gif' },
-                { name: 'A篮板', gif: 'gifs/9代超特/亚琪亚克/A篮板.gif' },
-                { name: 'A三分', gif: 'gifs/9代超特/亚琪亚克/A三分.gif' },
-                { name: 'A远扣', gif: 'gifs/9代超特/亚琪亚克/A远扣.gif' },
-                { name: 'A远上', gif: 'gifs/9代超特/亚琪亚克/A远上.gif' },
-                { name: 'A中投', gif: 'gifs/9代超特/亚琪亚克/A中投.gif' },
-                { name: 'B分球', gif: 'gifs/9代超特/亚琪亚克/B分球.gif' },
-                { name: 'B近扣', gif: 'gifs/9代超特/亚琪亚克/B近扣.gif' },
-                { name: 'B近上', gif: 'gifs/9代超特/亚琪亚克/B近上.gif' },
-                { name: 'B篮板', gif: 'gifs/9代超特/亚琪亚克/B篮板.gif' },
-                { name: 'B三分', gif: 'gifs/9代超特/亚琪亚克/B三分.gif' },
-                { name: 'B远扣', gif: 'gifs/9代超特/亚琪亚克/B远扣.gif' },
-                { name: 'B远上', gif: 'gifs/9代超特/亚琪亚克/B远上.gif' },
-                { name: 'B中投', gif: 'gifs/9代超特/亚琪亚克/B中投.gif' },
-                { name: 'X', gif: 'gifs/9代超特/亚琪亚克/X.gif' }
+            "id": "9_2",
+            "name": "亚克",
+            "generation": "9代超特",
+            "description": "9代超特角色",
+            "image": "characters/9代超特/亚克.png",
+            "actions": [
+                {"name": "A三分", "gif": "gifs/9代超特/亚克/A三分.gif"},
+                {"name": "A中投", "gif": "gifs/9代超特/亚克/A中投.gif"},
+                {"name": "A分球", "gif": "gifs/9代超特/亚克/A分球.gif"},
+                {"name": "A篮板", "gif": "gifs/9代超特/亚克/A篮板.gif"},
+                {"name": "A近上", "gif": "gifs/9代超特/亚克/A近上.gif"},
+                {"name": "A近扣", "gif": "gifs/9代超特/亚克/A近扣.gif"},
+                {"name": "A远上", "gif": "gifs/9代超特/亚克/A远上.gif"},
+                {"name": "A远扣", "gif": "gifs/9代超特/亚克/A远扣.gif"},
+                {"name": "B三分", "gif": "gifs/9代超特/亚克/B三分.gif"},
+                {"name": "B中投", "gif": "gifs/9代超特/亚克/B中投.gif"},
+                {"name": "B分球", "gif": "gifs/9代超特/亚克/B分球.gif"},
+                {"name": "B篮板", "gif": "gifs/9代超特/亚克/B篮板.gif"},
+                {"name": "B近上", "gif": "gifs/9代超特/亚克/B近上.gif"},
+                {"name": "B近扣", "gif": "gifs/9代超特/亚克/B近扣.gif"},
+                {"name": "B远上", "gif": "gifs/9代超特/亚克/B远上.gif"},
+                {"name": "B远扣", "gif": "gifs/9代超特/亚克/B远扣.gif"},
+                {"name": "X", "gif": "gifs/9代超特/亚克/X.gif"},
+                {"name": "不看人传球", "gif": "gifs/9代超特/亚克/不看人传球.gif"},
+                {"name": "中手冒", "gif": "gifs/9代超特/亚克/中手冒.gif"},
+                {"name": "地板", "gif": "gifs/9代超特/亚克/地板.gif"},
+                {"name": "大手冒", "gif": "gifs/9代超特/亚克/大手冒.gif"},
+                {"name": "小手冒", "gif": "gifs/9代超特/亚克/小手冒.gif"},
+                {"name": "快速起来", "gif": "gifs/9代超特/亚克/快速起来.gif"},
+                {"name": "抢断", "gif": "gifs/9代超特/亚克/抢断.gif"},
+                {"name": "篮板", "gif": "gifs/9代超特/亚克/篮板.gif"}
             ]
         },
         {
-            id: '9_3',
-            name: '罗卡',
-            generation: '9代超特',
-            description: '九代超特角色',
-            image: 'characters/9代超特/罗卡.png',
-            actions: [
-                { name: '不看人传球', gif: 'gifs/9代超特/罗卡/不看人传球.gif' },
-                { name: '大手冒', gif: 'gifs/9代超特/罗卡/大手冒.gif' },
-                { name: '地板', gif: 'gifs/9代超特/罗卡/地板.gif' },
-                { name: '小手冒', gif: 'gifs/9代超特/罗卡/小手冒.gif' },
-                { name: '中手冒', gif: 'gifs/9代超特/罗卡/中手冒.gif' },
-                { name: 'A分球', gif: 'gifs/9代超特/罗卡/A分球.gif' },
-                { name: 'A近扣', gif: 'gifs/9代超特/罗卡/A近扣.gif' },
-                { name: 'A近上', gif: 'gifs/9代超特/罗卡/A近上.gif' },
-                { name: 'A篮板', gif: 'gifs/9代超特/罗卡/A篮板.gif' },
-                { name: 'A三分', gif: 'gifs/9代超特/罗卡/A三分.gif' },
-                { name: 'A远扣', gif: 'gifs/9代超特/罗卡/A远扣.gif' },
-                { name: 'A远上', gif: 'gifs/9代超特/罗卡/A远上.gif' },
-                { name: 'A中投', gif: 'gifs/9代超特/罗卡/A中投.gif' },
-                { name: 'B分球', gif: 'gifs/9代超特/罗卡/B分球.gif' },
-                { name: 'B近扣', gif: 'gifs/9代超特/罗卡/B近扣.gif' },
-                { name: 'B近上', gif: 'gifs/9代超特/罗卡/B近上.gif' },
-                { name: 'B篮板', gif: 'gifs/9代超特/罗卡/B篮板.gif' },
-                { name: 'B三分', gif: 'gifs/9代超特/罗卡/B三分.gif' },
-                { name: 'B远扣', gif: 'gifs/9代超特/罗卡/B远扣.gif' },
-                { name: 'B远上', gif: 'gifs/9代超特/罗卡/B远上.gif' },
-                { name: 'B中投', gif: 'gifs/9代超特/罗卡/B中投.gif' },
-                { name: 'X', gif: 'gifs/9代超特/罗卡/X.gif' }
+            "id": "9_3",
+            "name": "罗卡",
+            "generation": "9代超特",
+            "description": "9代超特角色",
+            "image": "characters/9代超特/罗卡.png",
+            "actions": [
+                {
+                    "name": "A三分",
+                    "gif": "gifs/9代超特/罗卡/A三分.gif"
+                },
+                {
+                    "name": "A中投",
+                    "gif": "gifs/9代超特/罗卡/A中投.gif"
+                },
+                {
+                    "name": "A分球",
+                    "gif": "gifs/9代超特/罗卡/A分球.gif"
+                },
+                {
+                    "name": "A篮板",
+                    "gif": "gifs/9代超特/罗卡/A篮板.gif"
+                },
+                {
+                    "name": "A近上",
+                    "gif": "gifs/9代超特/罗卡/A近上.gif"
+                },
+                {
+                    "name": "A近扣",
+                    "gif": "gifs/9代超特/罗卡/A近扣.gif"
+                },
+                {
+                    "name": "A远上",
+                    "gif": "gifs/9代超特/罗卡/A远上.gif"
+                },
+                {
+                    "name": "A远扣",
+                    "gif": "gifs/9代超特/罗卡/A远扣.gif"
+                },
+                {
+                    "name": "B三分",
+                    "gif": "gifs/9代超特/罗卡/B三分.gif"
+                },
+                {
+                    "name": "B中投",
+                    "gif": "gifs/9代超特/罗卡/B中投.gif"
+                },
+                {
+                    "name": "B分球",
+                    "gif": "gifs/9代超特/罗卡/B分球.gif"
+                },
+                {
+                    "name": "B篮板",
+                    "gif": "gifs/9代超特/罗卡/B篮板.gif"
+                },
+                {
+                    "name": "B近上",
+                    "gif": "gifs/9代超特/罗卡/B近上.gif"
+                },
+                {
+                    "name": "B近扣",
+                    "gif": "gifs/9代超特/罗卡/B近扣.gif"
+                },
+                {
+                    "name": "B远上",
+                    "gif": "gifs/9代超特/罗卡/B远上.gif"
+                },
+                {
+                    "name": "B远扣",
+                    "gif": "gifs/9代超特/罗卡/B远扣.gif"
+                },
+                {
+                    "name": "X",
+                    "gif": "gifs/9代超特/罗卡/X.gif"
+                },
+                {
+                    "name": "不看人传球",
+                    "gif": "gifs/9代超特/罗卡/不看人传球.gif"
+                },
+                {
+                    "name": "中手冒",
+                    "gif": "gifs/9代超特/罗卡/中手冒.gif"
+                },
+                {
+                    "name": "地板",
+                    "gif": "gifs/9代超特/罗卡/地板.gif"
+                },
+                {
+                    "name": "大手冒",
+                    "gif": "gifs/9代超特/罗卡/大手冒.gif"
+                },
+                {
+                    "name": "小手冒",
+                    "gif": "gifs/9代超特/罗卡/小手冒.gif"
+                }
             ]
         },
         {
-            id: '9_4',
-            name: '艾迪',
-            generation: '9代超特',
-            description: '九代超特角色',
-            image: 'characters/9代超特/艾迪.png',
-            actions: [
-                { name: '不看人传球', gif: 'gifs/9代超特/艾迪艾薇/不看人传球.gif' },
-                { name: '大手冒', gif: 'gifs/9代超特/艾迪艾薇/大手冒.gif' },
-                { name: '地板', gif: 'gifs/9代超特/艾迪艾薇/地板.gif' },
-                { name: '快速起来', gif: 'gifs/9代超特/艾迪艾薇/快速起来.gif' },
-                { name: '篮板', gif: 'gifs/9代超特/艾迪艾薇/篮板.gif' },
-                { name: '抢断', gif: 'gifs/9代超特/艾迪艾薇/抢断.gif' },
-                { name: '小手冒', gif: 'gifs/9代超特/艾迪艾薇/小手冒.gif' },
-                { name: '中手冒', gif: 'gifs/9代超特/艾迪艾薇/中手冒.gif' },
-                { name: 'A分球', gif: 'gifs/9代超特/艾迪艾薇/A分球.gif' },
-                { name: 'A近扣', gif: 'gifs/9代超特/艾迪艾薇/A近扣.gif' },
-                { name: 'A近上', gif: 'gifs/9代超特/艾迪艾薇/A近上.gif' },
-                { name: 'A篮板', gif: 'gifs/9代超特/艾迪艾薇/A篮板.gif' },
-                { name: 'A三分', gif: 'gifs/9代超特/艾迪艾薇/A三分.gif' },
-                { name: 'A远扣', gif: 'gifs/9代超特/艾迪艾薇/A远扣.gif' },
-                { name: 'A远上', gif: 'gifs/9代超特/艾迪艾薇/A远上.gif' },
-                { name: 'A中投', gif: 'gifs/9代超特/艾迪艾薇/A中投.gif' },
-                { name: 'B分球', gif: 'gifs/9代超特/艾迪艾薇/B分球.gif' },
-                { name: 'B近扣', gif: 'gifs/9代超特/艾迪艾薇/B近扣.gif' },
-                { name: 'B近上', gif: 'gifs/9代超特/艾迪艾薇/B近上.gif' },
-                { name: 'B篮板', gif: 'gifs/9代超特/艾迪艾薇/B篮板.gif' },
-                { name: 'B三分', gif: 'gifs/9代超特/艾迪艾薇/B三分.gif' },
-                { name: 'B远扣', gif: 'gifs/9代超特/艾迪艾薇/B远扣.gif' },
-                { name: 'B远上', gif: 'gifs/9代超特/艾迪艾薇/B远上.gif' },
-                { name: 'B中投', gif: 'gifs/9代超特/艾迪艾薇/B中投.gif' },
-                { name: 'X', gif: 'gifs/9代超特/艾迪艾薇/X.gif' }
+            "id": "9_4",
+            "name": "艾迪",
+            "generation": "9代超特",
+            "description": "9代超特角色",
+            "image": "characters/9代超特/艾迪.png",
+            "actions": [
+                {"name": "A三分", "gif": "gifs/9代超特/艾迪/A三分.gif"},
+                {"name": "A中投", "gif": "gifs/9代超特/艾迪/A中投.gif"},
+                {"name": "A分球", "gif": "gifs/9代超特/艾迪/A分球.gif"},
+                {"name": "A篮板", "gif": "gifs/9代超特/艾迪/A篮板.gif"},
+                {"name": "A近上", "gif": "gifs/9代超特/艾迪/A近上.gif"},
+                {"name": "A近扣", "gif": "gifs/9代超特/艾迪/A近扣.gif"},
+                {"name": "A远上", "gif": "gifs/9代超特/艾迪/A远上.gif"},
+                {"name": "A远扣", "gif": "gifs/9代超特/艾迪/A远扣.gif"},
+                {"name": "B三分", "gif": "gifs/9代超特/艾迪/B三分.gif"},
+                {"name": "B中投", "gif": "gifs/9代超特/艾迪/B中投.gif"},
+                {"name": "B分球", "gif": "gifs/9代超特/艾迪/B分球.gif"},
+                {"name": "B篮板", "gif": "gifs/9代超特/艾迪/B篮板.gif"},
+                {"name": "B近上", "gif": "gifs/9代超特/艾迪/B近上.gif"},
+                {"name": "B近扣", "gif": "gifs/9代超特/艾迪/B近扣.gif"},
+                {"name": "B远上", "gif": "gifs/9代超特/艾迪/B远上.gif"},
+                {"name": "B远扣", "gif": "gifs/9代超特/艾迪/B远扣.gif"},
+                {"name": "不看人传球", "gif": "gifs/9代超特/艾迪/不看人传球.gif"},
+                {"name": "中手冒", "gif": "gifs/9代超特/艾迪/中手冒.gif"},
+                {"name": "地板", "gif": "gifs/9代超特/艾迪/地板.gif"},
+                {"name": "大手冒", "gif": "gifs/9代超特/艾迪/大手冒.gif"},
+                {"name": "小手冒", "gif": "gifs/9代超特/艾迪/小手冒.gif"},
+                {"name": "快速补防", "gif": "gifs/9代超特/艾迪/快速补防.gif"},
+                {"name": "抢断", "gif": "gifs/9代超特/艾迪/抢断.gif"}
             ]
         },
         {
-            id: '9_5',
-            name: '艾薇',
-            generation: '9代超特',
-            description: '九代超特角色',
-            image: 'characters/9代超特/艾薇.png',
-            actions: [
-                { name: '不看人传球', gif: 'gifs/9代超特/艾迪艾薇/不看人传球.gif' },
-                { name: '大手冒', gif: 'gifs/9代超特/艾迪艾薇/大手冒.gif' },
-                { name: '地板', gif: 'gifs/9代超特/艾迪艾薇/地板.gif' },
-                { name: '快速起来', gif: 'gifs/9代超特/艾迪艾薇/快速起来.gif' },
-                { name: '篮板', gif: 'gifs/9代超特/艾迪艾薇/篮板.gif' },
-                { name: '抢断', gif: 'gifs/9代超特/艾迪艾薇/抢断.gif' },
-                { name: '小手冒', gif: 'gifs/9代超特/艾迪艾薇/小手冒.gif' },
-                { name: '中手冒', gif: 'gifs/9代超特/艾迪艾薇/中手冒.gif' },
-                { name: 'A分球', gif: 'gifs/9代超特/艾迪艾薇/A分球.gif' },
-                { name: 'A近扣', gif: 'gifs/9代超特/艾迪艾薇/A近扣.gif' },
-                { name: 'A近上', gif: 'gifs/9代超特/艾迪艾薇/A近上.gif' },
-                { name: 'A篮板', gif: 'gifs/9代超特/艾迪艾薇/A篮板.gif' },
-                { name: 'A三分', gif: 'gifs/9代超特/艾迪艾薇/A三分.gif' },
-                { name: 'A远扣', gif: 'gifs/9代超特/艾迪艾薇/A远扣.gif' },
-                { name: 'A远上', gif: 'gifs/9代超特/艾迪艾薇/A远上.gif' },
-                { name: 'A中投', gif: 'gifs/9代超特/艾迪艾薇/A中投.gif' },
-                { name: 'B分球', gif: 'gifs/9代超特/艾迪艾薇/B分球.gif' },
-                { name: 'B近扣', gif: 'gifs/9代超特/艾迪艾薇/B近扣.gif' },
-                { name: 'B近上', gif: 'gifs/9代超特/艾迪艾薇/B近上.gif' },
-                { name: 'B篮板', gif: 'gifs/9代超特/艾迪艾薇/B篮板.gif' },
-                { name: 'B三分', gif: 'gifs/9代超特/艾迪艾薇/B三分.gif' },
-                { name: 'B远扣', gif: 'gifs/9代超特/艾迪艾薇/B远扣.gif' },
-                { name: 'B远上', gif: 'gifs/9代超特/艾迪艾薇/B远上.gif' },
-                { name: 'B中投', gif: 'gifs/9代超特/艾迪艾薇/B中投.gif' },
-                { name: 'X', gif: 'gifs/9代超特/艾迪艾薇/X.gif' }
+            "id": "9_5",
+            "name": "艾薇",
+            "generation": "9代超特",
+            "description": "9代超特角色",
+            "image": "characters/9代超特/艾薇.png",
+            "actions": [
+                {"name": "A三分", "gif": "gifs/9代超特/艾薇/A三分.gif"},
+                {"name": "A中投", "gif": "gifs/9代超特/艾薇/A中投.gif"},
+                {"name": "A分球", "gif": "gifs/9代超特/艾薇/A分球.gif"},
+                {"name": "A篮板", "gif": "gifs/9代超特/艾薇/A篮板.gif"},
+                {"name": "A近上", "gif": "gifs/9代超特/艾薇/A近上.gif"},
+                {"name": "A近扣", "gif": "gifs/9代超特/艾薇/A近扣.gif"},
+                {"name": "A远上", "gif": "gifs/9代超特/艾薇/A远上.gif"},
+                {"name": "A远扣", "gif": "gifs/9代超特/艾薇/A远扣.gif"},
+                {"name": "B三分", "gif": "gifs/9代超特/艾薇/B三分.gif"},
+                {"name": "B中投", "gif": "gifs/9代超特/艾薇/B中投.gif"},
+                {"name": "B分球", "gif": "gifs/9代超特/艾薇/B分球.gif"},
+                {"name": "B篮板", "gif": "gifs/9代超特/艾薇/B篮板.gif"},
+                {"name": "B近上", "gif": "gifs/9代超特/艾薇/B近上.gif"},
+                {"name": "B近扣", "gif": "gifs/9代超特/艾薇/B近扣.gif"},
+                {"name": "B远上", "gif": "gifs/9代超特/艾薇/B远上.gif"},
+                {"name": "B远扣", "gif": "gifs/9代超特/艾薇/B远扣.gif"},
+                {"name": "不看人传球", "gif": "gifs/9代超特/艾薇/不看人传球.gif"},
+                {"name": "中手冒", "gif": "gifs/9代超特/艾薇/中手冒.gif"},
+                {"name": "地板", "gif": "gifs/9代超特/艾薇/地板.gif"},
+                {"name": "大手冒", "gif": "gifs/9代超特/艾薇/大手冒.gif"},
+                {"name": "小手冒", "gif": "gifs/9代超特/艾薇/小手冒.gif"},
+                {"name": "快速补防", "gif": "gifs/9代超特/艾薇/快速补防.gif"},
+                {"name": "抢断", "gif": "gifs/9代超特/艾薇/抢断.gif"}
             ]
         }
     ],
-    '8': [
+    "3_5": [
         {
-            id: '8_1',
-            name: '奥丁',
-            generation: '8代超特',
-            description: '八代超特角色',
-            image: 'characters/8代超特/奥丁.png',
-            gifFolder: 'gifs/8代超特/奥丁/'
+            "id": "3_5_1",
+            "name": "悠夏",
+            "generation": "3.5代超特",
+            "description": "3.5代超特角色",
+            "image": "characters/3.5代超特/悠夏.png",
+            "actions": [
+                {"name": "X", "gif": "gifs/3.5代超特/悠夏/X.gif"},
+                {"name": "分球", "gif": "gifs/3.5代超特/悠夏/分球.gif"},
+                {"name": "地板", "gif": "gifs/3.5代超特/悠夏/地板.gif"},
+                {"name": "大手冒", "gif": "gifs/3.5代超特/悠夏/大手冒.gif"},
+                {"name": "小手冒", "gif": "gifs/3.5代超特/悠夏/小手冒.gif"},
+                {"name": "投篮", "gif": "gifs/3.5代超特/悠夏/投篮.gif"},
+                {"name": "篮板", "gif": "gifs/3.5代超特/悠夏/篮板.gif"},
+                {"name": "近上", "gif": "gifs/3.5代超特/悠夏/近上.gif"},
+                {"name": "近扣", "gif": "gifs/3.5代超特/悠夏/近扣.gif"},
+                {"name": "远上", "gif": "gifs/3.5代超特/悠夏/远上.gif"},
+                {"name": "远扣", "gif": "gifs/3.5代超特/悠夏/远扣.gif"}
+            ]
         },
         {
-            id: '8_2',
-            name: '月神',
-            generation: '8代超特',
-            description: '八代超特角色',
-            image: 'characters/8代超特/月神.png',
-            gifFolder: 'gifs/8代超特/月神/'
+            "id": "3_5_2",
+            "name": "托姆斯",
+            "generation": "3.5代超特",
+            "description": "3.5代超特角色",
+            "image": "characters/3.5代超特/托姆斯.png",
+            "actions": [
+                {"name": "X", "gif": "gifs/3.5代超特/托姆斯/X.gif"},
+                {"name": "分球", "gif": "gifs/3.5代超特/托姆斯/分球.gif"},
+                {"name": "地板", "gif": "gifs/3.5代超特/托姆斯/地板.gif"},
+                {"name": "大手冒", "gif": "gifs/3.5代超特/托姆斯/大手冒.gif"},
+                {"name": "小手冒", "gif": "gifs/3.5代超特/托姆斯/小手冒.gif"},
+                {"name": "投篮", "gif": "gifs/3.5代超特/托姆斯/投篮.gif"},
+                {"name": "篮板", "gif": "gifs/3.5代超特/托姆斯/篮板.gif"},
+                {"name": "近上", "gif": "gifs/3.5代超特/托姆斯/近上.gif"},
+                {"name": "近扣", "gif": "gifs/3.5代超特/托姆斯/近扣.gif"},
+                {"name": "远上", "gif": "gifs/3.5代超特/托姆斯/远上.gif"},
+                {"name": "远扣", "gif": "gifs/3.5代超特/托姆斯/远扣.gif"}
+            ]
         },
         {
-            id: '8_3',
-            name: '哈托尔',
-            generation: '8代超特',
-            description: '八代超特角色',
-            image: 'characters/8代超特/哈托尔.png',
-            gifFolder: 'gifs/8代超特/哈托尔/'
+            "id": "3_5_3",
+            "name": "浩燃",
+            "generation": "3.5代超特",
+            "description": "3.5代超特角色",
+            "image": "characters/3.5代超特/浩燃.png",
+            "actions": [
+                {"name": "X", "gif": "gifs/3.5代超特/浩燃/X.gif"},
+                {"name": "分球", "gif": "gifs/3.5代超特/浩燃/分球.gif"},
+                {"name": "地板", "gif": "gifs/3.5代超特/浩燃/地板.gif"},
+                {"name": "大手冒", "gif": "gifs/3.5代超特/浩燃/大手冒.gif"},
+                {"name": "小手冒", "gif": "gifs/3.5代超特/浩燃/小手冒.gif"},
+                {"name": "投篮", "gif": "gifs/3.5代超特/浩燃/投篮.gif"},
+                {"name": "近上", "gif": "gifs/3.5代超特/浩燃/近上.gif"},
+                {"name": "近扣", "gif": "gifs/3.5代超特/浩燃/近扣.gif"},
+                {"name": "远上", "gif": "gifs/3.5代超特/浩燃/远上.gif"},
+                {"name": "远扣", "gif": "gifs/3.5代超特/浩燃/远扣.gif"}
+            ]
+        },
+        {
+            "id": "3_5_4",
+            "name": "芙熙",
+            "generation": "3.5代超特",
+            "description": "3.5代超特角色",
+            "image": "characters/3.5代超特/芙熙.png",
+            "actions": [
+                {"name": "X分球地板", "gif": "gifs/3.5代超特/芙熙/X分球地板.gif"},
+                {"name": "小冒大冒篮板", "gif": "gifs/3.5代超特/芙熙/小冒大冒篮板.gif"},
+                {"name": "投篮远扣", "gif": "gifs/3.5代超特/芙熙/投篮远扣.gif"},
+                {"name": "近扣远上近上", "gif": "gifs/3.5代超特/芙熙/近扣远上近上.gif"}
+            ]
+        }
+    ],
+    "4_5": [
+        {
+            "id": "4_5_1",
+            "name": "夏洛梅特",
+            "generation": "4.5代超特",
+            "description": "4.5代超特角色",
+            "image": "characters/4.5代超特/夏洛梅特.png",
+            "gifFolder": "gifs/4.5代超特/夏洛梅特/"
+        }
+    ],
+    "5_5": [
+        {
+            "id": "5_5_1",
+            "name": "洛克斯C",
+            "generation": "5.5代超特",
+            "description": "5.5代超特角色",
+            "image": "characters/5.5代超特/洛克斯C.png",
+            "gifFolder": "gifs/5.5代超特/洛克斯C/"
+        },
+        {
+            "id": "5_5_2",
+            "name": "超觉醒雷龙",
+            "generation": "5.5代超特",
+            "description": "5.5代超特角色",
+            "image": "characters/5.5代超特/超觉醒雷龙.png",
+            "gifFolder": "gifs/5.5代超特/超觉醒雷龙/"
+        }
+    ],
+    "6_5": [
+        {
+            "id": "6_5_1",
+            "name": "洛克斯C",
+            "generation": "6.5代超特",
+            "description": "6.5代超特角色",
+            "image": "characters/6.5代超特/洛克斯C.png",
+            "actions": [
+                {"name": "X", "gif": "gifs/6.5代超特/洛克斯C/X.gif"},
+                {"name": "三分", "gif": "gifs/6.5代超特/洛克斯C/三分.gif"},
+                {"name": "中投", "gif": "gifs/6.5代超特/洛克斯C/中投.gif"},
+                {"name": "分球", "gif": "gifs/6.5代超特/洛克斯C/分球.gif"},
+                {"name": "地板", "gif": "gifs/6.5代超特/洛克斯C/地板.gif"},
+                {"name": "大手冒", "gif": "gifs/6.5代超特/洛克斯C/大手冒.gif"},
+                {"name": "小手冒", "gif": "gifs/6.5代超特/洛克斯C/小手冒.gif"},
+                {"name": "投篮", "gif": "gifs/6.5代超特/洛克斯C/投篮.gif"},
+                {"name": "篮板", "gif": "gifs/6.5代超特/洛克斯C/篮板.gif"},
+                {"name": "近上", "gif": "gifs/6.5代超特/洛克斯C/近上.gif"},
+                {"name": "近扣", "gif": "gifs/6.5代超特/洛克斯C/近扣.gif"},
+                {"name": "远上", "gif": "gifs/6.5代超特/洛克斯C/远上.gif"},
+                {"name": "远扣", "gif": "gifs/6.5代超特/洛克斯C/远扣.gif"}
+            ]
+        },
+        {
+            "id": "6_5_2",
+            "name": "超觉醒雷龙",
+            "generation": "6.5代超特",
+            "description": "6.5代超特角色",
+            "image": "characters/6.5代超特/超觉醒雷龙.png",
+            "actions": [
+                {"name": "X", "gif": "gifs/6.5代超特/超觉醒雷龙/X.gif"},
+                {"name": "三分", "gif": "gifs/6.5代超特/超觉醒雷龙/三分.gif"},
+                {"name": "中投", "gif": "gifs/6.5代超特/超觉醒雷龙/中投.gif"},
+                {"name": "分球", "gif": "gifs/6.5代超特/超觉醒雷龙/分球.gif"},
+                {"name": "地板", "gif": "gifs/6.5代超特/超觉醒雷龙/地板.gif"},
+                {"name": "大手冒", "gif": "gifs/6.5代超特/超觉醒雷龙/大手冒.gif"},
+                {"name": "小手冒", "gif": "gifs/6.5代超特/超觉醒雷龙/小手冒.gif"},
+                {"name": "投篮", "gif": "gifs/6.5代超特/超觉醒雷龙/投篮.gif"},
+                {"name": "篮板", "gif": "gifs/6.5代超特/超觉醒雷龙/篮板.gif"},
+                {"name": "近上", "gif": "gifs/6.5代超特/超觉醒雷龙/近上.gif"},
+                {"name": "近扣", "gif": "gifs/6.5代超特/超觉醒雷龙/近扣.gif"},
+                {"name": "远上", "gif": "gifs/6.5代超特/超觉醒雷龙/远上.gif"},
+                {"name": "远扣", "gif": "gifs/6.5代超特/超觉醒雷龙/远扣.gif"}
+            ]
+        }
+    ],
+    "7_5": [
+        {
+            "id": "7_5_1",
+            "name": "洛克斯PG",
+            "generation": "7.5代超特",
+            "description": "7.5代超特角色",
+            "image": "characters/7.5代超特/洛克斯PG.png",
+            "actions": [
+                {"name": "X", "gif": "gifs/7.5代超特/洛克斯PG/X.gif"},
+                {"name": "中手", "gif": "gifs/7.5代超特/洛克斯PG/中手.gif"},
+                {"name": "中投", "gif": "gifs/7.5代超特/洛克斯PG/中投.gif"},
+                {"name": "分球", "gif": "gifs/7.5代超特/洛克斯PG/分球.gif"},
+                {"name": "地板", "gif": "gifs/7.5代超特/洛克斯PG/地板.gif"},
+                {"name": "大手冒", "gif": "gifs/7.5代超特/洛克斯PG/大手冒.gif"},
+                {"name": "小手冒", "gif": "gifs/7.5代超特/洛克斯PG/小手冒.gif"},
+                {"name": "投篮", "gif": "gifs/7.5代超特/洛克斯PG/投篮.gif"},
+                {"name": "篮板", "gif": "gifs/7.5代超特/洛克斯PG/篮板.gif"},
+                {"name": "近上", "gif": "gifs/7.5代超特/洛克斯PG/近上.gif"},
+                {"name": "近扣", "gif": "gifs/7.5代超特/洛克斯PG/近扣.gif"},
+                {"name": "远上", "gif": "gifs/7.5代超特/洛克斯PG/远上.gif"},
+                {"name": "远扣", "gif": "gifs/7.5代超特/洛克斯PG/远扣.gif"},
+                {"name": "阴远扣", "gif": "gifs/7.5代超特/洛克斯PG/阴远扣.gif"}
+            ]
         }
     ]
-    // 其他代次的角色数据...
 };
+
 
 // 检测微信内置浏览器
 function isWeChat() {
@@ -719,7 +1272,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 防止图片频繁加载
     var imageLoadCount = 0;
-    var maxImagesPerMinute = 100; // 每分钟最多100张图片，为GIF检查预留更多空间
+    var maxImagesPerMinute = 200; // 每分钟最多200张图片，为GIF检查预留更多空间
     
     // 重写Image构造函数
     var originalImage = window.Image;
@@ -743,7 +1296,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // 为GIF文件检查添加例外，允许更多请求
                 var isGifCheck = value.includes('?v=') && (value.includes('.gif') || value.includes('gifs/'));
-                var maxAllowed = isGifCheck ? maxImagesPerMinute * 5 : maxImagesPerMinute; // GIF检查允许5倍请求量
+                var maxAllowed = isGifCheck ? maxImagesPerMinute * 10 : maxImagesPerMinute; // GIF检查允许10倍请求量
                 
                 if (imageLoadCount > maxAllowed) {
                     console.log('图片加载次数超限，跳过:', value);
@@ -1156,7 +1709,7 @@ function createCharacterCard(character) {
     
     // 添加动作按钮事件监听
     if (character.actions && character.actions.length > 0) {
-        // 9代超特使用预设动作列表
+        // 9代超特使用预设动作列表（直接显示，用户体验更好）
         var actionButtons = card.querySelectorAll('.action-btn');
         var gifContainer = card.querySelector('#gif-' + character.id);
         
@@ -1190,23 +1743,18 @@ function createCharacterCard(character) {
                         img.onerror = function() {
                             console.error('❌ GIF CDN加载失败');
                             console.error('失败URL:', gifUrlWithCache);
-                            console.error('可能的原因:');
-                            console.error('1. CORS策略未配置 - 需要在CDN控制台配置跨域访问');
-                            console.error('2. SSL证书问题 - 证书未正确绑定到cdn.laofeifs.com');
-                            console.error('3. CDN服务异常 - 检查CDN服务状态');
-                            console.error('4. GIF文件不存在 - 检查文件路径是否正确');
                             gifContainer.innerHTML = '<div class="gif-error"><i class="fas fa-exclamation-triangle"></i><p>CDN加载失败</p></div>';
                         };
                         img.src = gifUrlWithCache;
-                    }, 500);
+                    }, 200);
                     
                     return false; // 阻止页面滚动
                 };
             })(actionButtons[i]);
         }
     } else if (character.gifFolder) {
-        // 8代超特动态加载GIF文件
-        loadGifFiles(character.gifFolder, character.id, card);
+        // 8代超特动态加载GIF文件（懒加载模式）
+        setupLazyGifLoading(character.gifFolder, character.id, card);
     }
     
     return card;
@@ -1446,7 +1994,140 @@ function isValidFileType(file, allowedTypes = ['jpg', 'jpeg', 'png', 'gif', 'mp4
     return allowedTypes.includes(extension);
 }
 
-// 动态加载GIF文件
+// 9代超特懒加载动作设置（按需加载，节省流量）
+function setupLazyActionsLoading(character, card) {
+    console.log('设置9代超特懒加载动作:', character.id);
+    
+    var actionButtonsContainer = card.querySelector('#actions-' + character.id);
+    var gifContainer = card.querySelector('#gif-' + character.id);
+    
+    if (!actionButtonsContainer || !gifContainer) {
+        console.error('找不到容器元素:', character.id);
+        return;
+    }
+    
+    // 显示占位符，提示用户点击加载
+    actionButtonsContainer.innerHTML = '<div class="lazy-load-tip"><i class="fas fa-mouse-pointer"></i><p>点击加载动作</p></div>';
+    
+    // 添加点击事件，用户点击时才真正显示动作按钮
+    actionButtonsContainer.addEventListener('click', function() {
+        if (!this.classList.contains('actions-loaded')) {
+            this.classList.add('actions-loaded');
+            loadActionsButtons(character, card);
+        }
+    });
+    
+    // 添加视觉提示
+    actionButtonsContainer.style.cursor = 'pointer';
+    actionButtonsContainer.style.border = '2px dashed #4CAF50';
+    actionButtonsContainer.style.padding = '20px';
+    actionButtonsContainer.style.textAlign = 'center';
+    actionButtonsContainer.style.borderRadius = '8px';
+    actionButtonsContainer.style.backgroundColor = '#f8f9fa';
+}
+
+// 加载9代超特动作按钮
+function loadActionsButtons(character, card) {
+    console.log('加载9代超特动作按钮:', character.id);
+    
+    var actionButtonsContainer = card.querySelector('#actions-' + character.id);
+    var gifContainer = card.querySelector('#gif-' + character.id);
+    
+    // 生成动作按钮HTML
+    var actionsHtml = '<div class="actions-grid">';
+    for (var i = 0; i < character.actions.length; i++) {
+        var action = character.actions[i];
+        actionsHtml += `
+            <button class="action-btn" data-gif="${action.gif}">
+                <span>${action.name}</span>
+            </button>
+        `;
+    }
+    actionsHtml += '</div>';
+    
+    // 更新HTML
+    actionButtonsContainer.innerHTML = actionsHtml;
+    actionButtonsContainer.style.cursor = 'default';
+    actionButtonsContainer.style.border = 'none';
+    actionButtonsContainer.style.padding = '0';
+    actionButtonsContainer.style.backgroundColor = 'transparent';
+    
+    // 添加按钮事件监听
+    var actionButtons = actionButtonsContainer.querySelectorAll('.action-btn');
+    for (var i = 0; i < actionButtons.length; i++) {
+        (function(button) {
+            button.onclick = function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // 移除所有按钮的激活状态
+                for (var j = 0; j < actionButtons.length; j++) {
+                    actionButtons[j].classList.remove('active');
+                }
+                // 添加当前按钮的激活状态
+                this.classList.add('active');
+                
+                // 显示对应的GIF（优化流量使用）
+                var gifUrl = this.getAttribute('data-gif');
+                var actionName = this.querySelector('span').textContent;
+                
+                // 显示加载提示
+                gifContainer.innerHTML = '<div class="gif-loading"><i class="fas fa-spinner fa-spin"></i><p>加载中...</p></div>';
+                
+                // 延迟加载GIF，减少流量消耗
+                setTimeout(function() {
+                    var gifUrlWithCache = gifUrl + (gifUrl.includes('?') ? '&' : '?') + 'v=' + COS_CONFIG.Version;
+                    var img = new Image();
+                    img.onload = function() {
+                        gifContainer.innerHTML = '<img src="' + gifUrlWithCache + '" alt="' + actionName + '" class="action-gif"><p class="action-name">' + actionName + '</p>';
+                    };
+                    img.onerror = function() {
+                        console.error('❌ GIF CDN加载失败');
+                        console.error('失败URL:', gifUrlWithCache);
+                        gifContainer.innerHTML = '<div class="gif-error"><i class="fas fa-exclamation-triangle"></i><p>CDN加载失败</p></div>';
+                    };
+                    img.src = gifUrlWithCache;
+                }, 200);
+                
+                return false;
+            };
+        })(actionButtons[i]);
+    }
+}
+
+// 懒加载GIF文件设置（按需加载，节省流量）
+function setupLazyGifLoading(folder, characterId, card) {
+    console.log('设置懒加载GIF:', characterId, '文件夹:', folder);
+    
+    var actionButtonsContainer = card.querySelector('#actions-' + characterId);
+    var gifContainer = card.querySelector('#gif-' + characterId);
+    
+    if (!actionButtonsContainer || !gifContainer) {
+        console.error('找不到容器元素:', characterId);
+        return;
+    }
+    
+    // 显示占位符，提示用户点击加载
+    actionButtonsContainer.innerHTML = '<div class="lazy-load-tip"><i class="fas fa-mouse-pointer"></i><p>点击加载动作</p></div>';
+    
+    // 添加点击事件，用户点击时才真正加载GIF
+    actionButtonsContainer.addEventListener('click', function() {
+        if (!this.classList.contains('gif-loaded')) {
+            this.classList.add('gif-loaded');
+            loadGifFiles(folder, characterId, card);
+        }
+    });
+    
+    // 添加视觉提示
+    actionButtonsContainer.style.cursor = 'pointer';
+    actionButtonsContainer.style.border = '2px dashed #4CAF50';
+    actionButtonsContainer.style.padding = '20px';
+    actionButtonsContainer.style.textAlign = 'center';
+    actionButtonsContainer.style.borderRadius = '8px';
+    actionButtonsContainer.style.backgroundColor = '#f8f9fa';
+}
+
+// 动态加载GIF文件（实际加载函数）
 function loadGifFiles(folder, characterId, card) {
     console.log('开始加载GIF文件:', characterId, '文件夹:', folder);
     
@@ -1777,39 +2458,67 @@ function loadGifFiles(folder, characterId, card) {
     var validGifFiles = [];
     var checkedCount = 0;
     
-    // 检查每个GIF文件是否存在（添加延迟避免请求限制）
-    function checkGifFile(file, index) {
-        // 添加延迟，避免同时发起太多请求
-        setTimeout(function() {
-            // 正确构建URL路径
-            var gifUrl = COS_CONFIG.CDNDomain + '/' + cleanFolder + '/' + file + '?v=' + COS_CONFIG.Version;
-            console.log('检查GIF文件:', gifUrl);
+    // 批量检查GIF文件是否存在（优化速度）
+    function checkGifFilesBatch() {
+        // 将文件分成小批次，每批5个文件
+        var batchSize = 5;
+        var batches = [];
+        for (var i = 0; i < commonGifFiles.length; i += batchSize) {
+            batches.push(commonGifFiles.slice(i, i + batchSize));
+        }
+        
+        // 检查每个批次
+        function checkBatch(batchIndex) {
+            if (batchIndex >= batches.length) {
+                // 所有批次检查完成
+                createButtons();
+                return;
+            }
             
-            var img = new Image();
+            var batch = batches[batchIndex];
+            var batchCheckedCount = 0;
             
-            img.onload = function() {
-                console.log('✅ GIF文件存在:', file);
-                // 文件存在，添加到按钮列表
-                validGifFiles.push(file);
-                checkedCount++;
-                if (checkedCount === commonGifFiles.length) {
-                    // 所有文件检查完成，创建按钮
-                    createButtons();
-                }
-            };
-            
-            img.onerror = function() {
-                console.log('❌ GIF文件不存在:', file);
-                // 文件不存在，跳过
-                checkedCount++;
-                if (checkedCount === commonGifFiles.length) {
-                    // 所有文件检查完成，创建按钮
-                    createButtons();
-                }
-            };
-            
-            img.src = gifUrl;
-        }, index * 100); // 每个请求延迟100ms，加快检查速度
+            // 并行检查当前批次的所有文件
+            for (var i = 0; i < batch.length; i++) {
+                var file = batch[i];
+                var gifUrl = COS_CONFIG.CDNDomain + '/' + cleanFolder + '/' + file + '?v=' + COS_CONFIG.Version;
+        console.log('检查GIF文件:', gifUrl);
+        
+        var img = new Image();
+        
+                img.onload = function(fileName) {
+                    return function() {
+                        console.log('✅ GIF文件存在:', fileName);
+                        validGifFiles.push(fileName);
+                        batchCheckedCount++;
+                        if (batchCheckedCount === batch.length) {
+                            // 当前批次检查完成，检查下一批次
+                            setTimeout(function() {
+                                checkBatch(batchIndex + 1);
+                            }, 100); // 批次间延迟100ms
+                        }
+                    };
+                }(file);
+                
+                img.onerror = function(fileName) {
+                    return function() {
+                        console.log('❌ GIF文件不存在:', fileName);
+                        batchCheckedCount++;
+                        if (batchCheckedCount === batch.length) {
+                            // 当前批次检查完成，检查下一批次
+                            setTimeout(function() {
+                                checkBatch(batchIndex + 1);
+                            }, 100); // 批次间延迟100ms
+                        }
+                    };
+                }(file);
+        
+        img.src = gifUrl;
+            }
+        }
+        
+        // 开始检查第一个批次
+        checkBatch(0);
     }
     
     // 创建按钮的函数
@@ -1837,10 +2546,8 @@ function loadGifFiles(folder, characterId, card) {
         addButtonEvents();
     }
     
-    // 开始检查文件
-    commonGifFiles.forEach(function(file, index) {
-        checkGifFile(file, index);
-    });
+    // 开始批量检查文件
+    checkGifFilesBatch();
     
     // 添加按钮事件监听的函数
     function addButtonEvents() {
@@ -1883,7 +2590,7 @@ function loadGifFiles(folder, characterId, card) {
                             gifContainer.innerHTML = '<div class="gif-error"><i class="fas fa-exclamation-triangle"></i><p>CDN加载失败</p></div>';
                         };
                         img.src = gifUrlWithCache;
-                    }, 500);
+                    }, 200);
                     
                     return false; // 阻止页面滚动
                 };

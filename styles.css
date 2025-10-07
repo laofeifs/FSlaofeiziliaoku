@@ -806,6 +806,47 @@ html {
     margin-bottom: 10px;
 }
 
+/* 懒加载提示样式 */
+.lazy-load-tip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: #4CAF50;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.lazy-load-tip:hover {
+    color: #45a049;
+    transform: scale(1.05);
+}
+
+.lazy-load-tip i {
+    font-size: 32px;
+    margin-bottom: 10px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.6; }
+    100% { opacity: 1; }
+}
+
+/* 懒加载容器样式 */
+.actions-container[style*="cursor: pointer"] {
+    transition: all 0.3s ease;
+}
+
+.actions-container[style*="cursor: pointer"]:hover {
+    background-color: #e8f5e8 !important;
+    border-color: #45a049 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(76, 175, 80, 0.2);
+}
+
 
 
 
