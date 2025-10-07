@@ -11,7 +11,7 @@ var COS_CONFIG = {
     // CDN访问域名（推荐使用，减少流量费用）
     CDNDomain: 'https://cdn.laofeifs.com',
     // 当前版本号，用于缓存控制
-    Version: '202510036700'
+    Version: '202510037100'
 };
 
 // 当前选中的代次
@@ -638,9 +638,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 防止频繁请求，设置请求间隔（避免514错误）
     var lastRequestTime = 0;
-    var requestInterval = 30000; // 30秒间隔，避免CDN频率限制
+    var requestInterval = 1000; // 1秒间隔，避免CDN频率限制
     var requestCount = 0;
-    var maxRequestsPerMinute = 2; // 每分钟最多2个请求，保守设置
+    var maxRequestsPerMinute = 30; // 每分钟最多30个请求，合理设置
     
     // 重写fetch函数，添加请求限制
     if (window.fetch) {
@@ -719,7 +719,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 防止图片频繁加载
     var imageLoadCount = 0;
-    var maxImagesPerMinute = 3; // 每分钟最多3张图片，避免CDN限制
+    var maxImagesPerMinute = 100; // 每分钟最多100张图片，为GIF检查预留更多空间
     
     // 重写Image构造函数
     var originalImage = window.Image;
@@ -741,7 +741,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     lastRequestTime = now;
                 }
                 
-                if (imageLoadCount > maxImagesPerMinute) {
+                // 为GIF文件检查添加例外，允许更多请求
+                var isGifCheck = value.includes('?v=') && (value.includes('.gif') || value.includes('gifs/'));
+                var maxAllowed = isGifCheck ? maxImagesPerMinute * 5 : maxImagesPerMinute; // GIF检查允许5倍请求量
+                
+                if (imageLoadCount > maxAllowed) {
                     console.log('图片加载次数超限，跳过:', value);
                     return;
                 }
@@ -1194,7 +1198,7 @@ function createCharacterCard(character) {
                             gifContainer.innerHTML = '<div class="gif-error"><i class="fas fa-exclamation-triangle"></i><p>CDN加载失败</p></div>';
                         };
                         img.src = gifUrlWithCache;
-                    }, 3000);
+                    }, 500);
                     
                     return false; // 阻止页面滚动
                 };
@@ -1773,36 +1777,39 @@ function loadGifFiles(folder, characterId, card) {
     var validGifFiles = [];
     var checkedCount = 0;
     
-    // 检查每个GIF文件是否存在
+    // 检查每个GIF文件是否存在（添加延迟避免请求限制）
     function checkGifFile(file, index) {
-        // 正确构建URL路径
-        var gifUrl = COS_CONFIG.CDNDomain + '/' + cleanFolder + '/' + file + '?v=' + COS_CONFIG.Version;
-        console.log('检查GIF文件:', gifUrl);
-        
-        var img = new Image();
-        
-        img.onload = function() {
-            console.log('✅ GIF文件存在:', file);
-            // 文件存在，添加到按钮列表
-            validGifFiles.push(file);
-            checkedCount++;
-            if (checkedCount === commonGifFiles.length) {
-                // 所有文件检查完成，创建按钮
-                createButtons();
-            }
-        };
-        
-        img.onerror = function() {
-            console.log('❌ GIF文件不存在:', file);
-            // 文件不存在，跳过
-            checkedCount++;
-            if (checkedCount === commonGifFiles.length) {
-                // 所有文件检查完成，创建按钮
-                createButtons();
-            }
-        };
-        
-        img.src = gifUrl;
+        // 添加延迟，避免同时发起太多请求
+        setTimeout(function() {
+            // 正确构建URL路径
+            var gifUrl = COS_CONFIG.CDNDomain + '/' + cleanFolder + '/' + file + '?v=' + COS_CONFIG.Version;
+            console.log('检查GIF文件:', gifUrl);
+            
+            var img = new Image();
+            
+            img.onload = function() {
+                console.log('✅ GIF文件存在:', file);
+                // 文件存在，添加到按钮列表
+                validGifFiles.push(file);
+                checkedCount++;
+                if (checkedCount === commonGifFiles.length) {
+                    // 所有文件检查完成，创建按钮
+                    createButtons();
+                }
+            };
+            
+            img.onerror = function() {
+                console.log('❌ GIF文件不存在:', file);
+                // 文件不存在，跳过
+                checkedCount++;
+                if (checkedCount === commonGifFiles.length) {
+                    // 所有文件检查完成，创建按钮
+                    createButtons();
+                }
+            };
+            
+            img.src = gifUrl;
+        }, index * 100); // 每个请求延迟100ms，加快检查速度
     }
     
     // 创建按钮的函数
@@ -1876,7 +1883,7 @@ function loadGifFiles(folder, characterId, card) {
                             gifContainer.innerHTML = '<div class="gif-error"><i class="fas fa-exclamation-triangle"></i><p>CDN加载失败</p></div>';
                         };
                         img.src = gifUrlWithCache;
-                    }, 3000);
+                    }, 500);
                     
                     return false; // 阻止页面滚动
                 };

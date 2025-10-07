@@ -9,16 +9,19 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Last-Modified" content="0">
+    <meta http-equiv="ETag" content="0">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:; img-src 'self' https: data: blob: *; connect-src 'self' https: *;">
     <title>老非FS资料库</title>
-    <link rel="stylesheet" href="styles.css?v=202510036600">
+    <link rel="stylesheet" href="styles.css?v=202510037100">
     <!-- 使用本地图标字体，避免CDN问题 -->
     <!-- 使用国内CDN，提高访问速度 -->
     <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" crossorigin="anonymous" referrerpolicy="no-referrer">
     
     <!-- Service Worker 注册 -->
     <script>
-        if ('serviceWorker' in navigator) {
+        // 检查是否支持Service Worker且不在file://协议下
+        if ('serviceWorker' in navigator && location.protocol !== 'file:') {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js?v=202510022004')
                     .then((registration) => {
@@ -52,8 +55,16 @@
                     });
             });
         } else {
-            if (typeof addDebugInfo === 'function') {
-                addDebugInfo('浏览器不支持Service Worker');
+            if (location.protocol === 'file:') {
+                console.log('本地文件模式，跳过Service Worker注册');
+                if (typeof addDebugInfo === 'function') {
+                    addDebugInfo('本地文件模式，跳过Service Worker注册');
+                }
+            } else {
+                console.log('浏览器不支持Service Worker');
+                if (typeof addDebugInfo === 'function') {
+                    addDebugInfo('浏览器不支持Service Worker');
+                }
             }
         }
     </script>
@@ -472,7 +483,7 @@
         </div>
     </footer>
 
-     <script src="script.js?v=202510036600"></script>
+     <script src="script.js?v=202510037100"></script>
     
     <!-- 智能设备检测和兼容性优化 -->
     <script>
@@ -702,14 +713,14 @@
                 var cssLink = document.createElement('link');
                 cssLink.rel = 'preload';
                 cssLink.as = 'style';
-                 cssLink.href = 'styles.css?v=202510036600';
+                 cssLink.href = 'styles.css?v=202510037100';
                 document.head.appendChild(cssLink);
                 
                 // 预加载JS
                 var jsLink = document.createElement('link');
                 jsLink.rel = 'preload';
                 jsLink.as = 'script';
-                 jsLink.href = 'script.js?v=202510036600';
+                 jsLink.href = 'script.js?v=202510037100';
                 document.head.appendChild(jsLink);
                 
                 // 预加载关键图片（使用CDN域名，避免直连COS产生流量费用）
@@ -720,7 +731,7 @@
                 
                 for (var i = 0; i < imageUrls.length; i++) {
                     var img = new Image();
-                    img.src = imageUrls[i] + '?v=202510036600';
+                    img.src = imageUrls[i] + '?v=202510037100';
                     img.onload = function() {
                         safeDebugInfo('图片预加载成功: ' + this.src);
                     };
@@ -739,7 +750,7 @@
             
             // 确保预加载的资源版本与当前版本一致
             setTimeout(function() {
-                var currentVersion = '202510036600';
+                var currentVersion = '202510037100';
                 var cssLinks = document.querySelectorAll('link[rel="preload"][as="style"]');
                 var jsLinks = document.querySelectorAll('link[rel="preload"][as="script"]');
                 
@@ -773,7 +784,7 @@
                     safeDebugInfo('CORS检查失败 - 图片加载失败');
                     // 移除微信警告提示
                 };
-                testImage.src = 'https://cdn.laofeifs.com/gallery/超特图鉴.png?v=202510036600';
+                testImage.src = 'https://cdn.laofeifs.com/gallery/超特图鉴.png?v=202510037100';
             }
             
             if (isWeChat) {
