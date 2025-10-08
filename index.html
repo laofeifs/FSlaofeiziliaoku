@@ -23,7 +23,7 @@
         // 检查是否支持Service Worker且不在file://协议下
         if ('serviceWorker' in navigator && location.protocol !== 'file:') {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js?v=202510038600')
+                navigator.serviceWorker.register('./sw.js?v=202510038900')
                     .then((registration) => {
                         console.log('Service Worker registered with scope:', registration.scope);
                         // 安全的调试信息调用
@@ -469,11 +469,37 @@
         </div>
     </div>
 
+    <!-- 欢迎弹窗 -->
+    <div id="welcomeModal" class="welcome-modal">
+        <div class="welcome-modal-content">
+            <div class="welcome-header">
+                <h2>欢迎使用FS资料库</h2>
+            </div>
+            <div class="welcome-body">
+                <p>内含超特角色介绍、动作预览和账号、老非教学等丰富内容，希望能够帮助你快速适应FS</p>
+            </div>
+            <div class="welcome-buttons">
+                <button id="startExploreBtn" class="welcome-btn start-btn">
+                    <i class="fas fa-rocket"></i>
+                    开始探索
+                </button>
+                <button id="contactBtn" class="welcome-btn contact-btn">
+                    <i class="fas fa-comments"></i>
+                    联系老非
+                </button>
+            </div>
+            <div class="wechat-info" id="wechatInfo" style="display: none;">
+                <p>微信号：<span id="wechatNumber" class="wechat-number">laofei90186</span></p>
+                <p class="copy-tip">点击微信号可复制</p>
+            </div>
+        </div>
+    </div>
+
     <!-- 网站备案信息 -->
     <footer class="website-footer">
         <div class="footer-content">
             <div class="footer-info">
-                <p class="footer-text">© 2025 老非FS资料库. All rights reserved.</p>
+                <p class="footer-text">© 2025 老非FS资料库.</p>
                 <p class="footer-beian">
                     <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">
                         鲁ICP备2025184972号-1
@@ -750,7 +776,7 @@
             
             // 确保预加载的资源版本与当前版本一致
             setTimeout(function() {
-                var currentVersion = '202510038600';
+                var currentVersion = '202510038900';
                 var cssLinks = document.querySelectorAll('link[rel="preload"][as="style"]');
                 var jsLinks = document.querySelectorAll('link[rel="preload"][as="script"]');
                 

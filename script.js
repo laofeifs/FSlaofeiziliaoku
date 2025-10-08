@@ -11,7 +11,7 @@ var COS_CONFIG = {
     // CDN访问域名（推荐使用，减少流量费用）
     CDNDomain: 'https://cdn.laofeifs.com',
     // 当前版本号，用于缓存控制
-    Version: '202510038600'
+    Version: '202510038900'
 };
 
 // 当前选中的代次
@@ -612,7 +612,7 @@ var charactersData = {
             "name": "亚琪",
             "generation": "9代超特",
             "description": "9代超特角色",
-            "image": "characters/9代超特/亚琪亚克.png",
+            "image": "characters/9代超特/亚琪.png",
             "actions": [
                 {
                     "name": "A三分",
@@ -1142,9 +1142,118 @@ function checkVersion() {
 
 
 
+// 欢迎弹窗功能
+function initWelcomeModal() {
+    const welcomeModal = document.getElementById('welcomeModal');
+    const startExploreBtn = document.getElementById('startExploreBtn');
+    const contactBtn = document.getElementById('contactBtn');
+    const wechatInfo = document.getElementById('wechatInfo');
+    const wechatNumber = document.getElementById('wechatNumber');
+    
+    // 检查是否已经显示过弹窗（使用sessionStorage）
+    const hasShownWelcome = sessionStorage.getItem('hasShownWelcome');
+    
+    if (!hasShownWelcome) {
+        // 显示弹窗
+        welcomeModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // 禁止背景滚动
+        
+        // 记录已显示
+        sessionStorage.setItem('hasShownWelcome', 'true');
+    }
+    
+    // 开始探索按钮点击事件
+    startExploreBtn.addEventListener('click', function() {
+        welcomeModal.style.display = 'none';
+        document.body.style.overflow = 'auto'; // 恢复背景滚动
+        wechatInfo.style.display = 'none'; // 隐藏微信号信息
+    });
+    
+    // 联系老非按钮点击事件
+    contactBtn.addEventListener('click', function() {
+        if (wechatInfo.style.display === 'none' || wechatInfo.style.display === '') {
+            wechatInfo.style.display = 'block';
+        } else {
+            wechatInfo.style.display = 'none';
+        }
+    });
+    
+    // 微信号点击复制功能
+    wechatNumber.addEventListener('click', function() {
+        // 始终复制原始微信号，而不是当前显示的文本
+        const originalText = 'laofei90186';
+        
+        // 使用现代浏览器的Clipboard API
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(originalText).then(function() {
+                showCopySuccess();
+            }).catch(function() {
+                fallbackCopyTextToClipboard(originalText);
+            });
+        } else {
+            // 降级方案
+            fallbackCopyTextToClipboard(originalText);
+        }
+    });
+    
+    // 降级复制方案
+    function fallbackCopyTextToClipboard(text) {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.top = "0";
+        textArea.style.left = "0";
+        textArea.style.position = "fixed";
+        textArea.style.opacity = "0";
+        
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        
+        try {
+            const successful = document.execCommand('copy');
+            if (successful) {
+                showCopySuccess();
+            } else {
+                showCopyError();
+            }
+        } catch (err) {
+            showCopyError();
+        }
+        
+        document.body.removeChild(textArea);
+    }
+    
+    // 显示复制成功提示
+    function showCopySuccess() {
+        const originalText = wechatNumber.textContent;
+        wechatNumber.textContent = '已复制！';
+        wechatNumber.style.background = 'rgba(76, 175, 80, 0.3)';
+        
+        setTimeout(function() {
+            wechatNumber.textContent = originalText;
+            wechatNumber.style.background = 'rgba(255, 255, 255, 0.2)';
+        }, 1500);
+    }
+    
+    // 显示复制失败提示
+    function showCopyError() {
+        const originalText = wechatNumber.textContent;
+        wechatNumber.textContent = '复制失败';
+        wechatNumber.style.background = 'rgba(244, 67, 54, 0.3)';
+        
+        setTimeout(function() {
+            wechatNumber.textContent = originalText;
+            wechatNumber.style.background = 'rgba(255, 255, 255, 0.2)';
+        }, 1500);
+    }
+}
+
 // 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM加载完成');
+    
+    // 初始化欢迎弹窗
+    initWelcomeModal();
     
     // 检查CDN可用性
     checkCDNAvailability().then(isAvailable => {
