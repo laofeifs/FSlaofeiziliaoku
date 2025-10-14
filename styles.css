@@ -1174,6 +1174,71 @@ html {
     width: 100%;
 }
 
+/* 分区按钮样式 */
+.district-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.district-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 25px;
+    background: #fff;
+    color: #666;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.district-btn:hover {
+    border-color: #007bff;
+    color: #007bff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,123,255,0.2);
+}
+
+.district-btn.active {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    border-color: #007bff;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(0,123,255,0.3);
+}
+
+.district-btn i {
+    font-size: 16px;
+}
+
+/* 移动端分区按钮适配 */
+@media (max-width: 768px) {
+    .district-buttons {
+        gap: 8px;
+        margin-bottom: 15px;
+    }
+    
+    .district-btn {
+        padding: 10px 16px;
+        font-size: 13px;
+        flex: 1;
+        min-width: 0;
+        justify-content: center;
+    }
+    
+    .district-btn span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
 /* 图片模块样式 */
 .images-container {
     width: 100%;

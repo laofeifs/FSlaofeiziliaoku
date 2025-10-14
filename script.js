@@ -2764,13 +2764,39 @@ var comparisonData = [
 var accountRecommendData = [
     {
         id: 'recommend_1',
-        title: '账号推荐1',
-        image: 'accountrec/账号推荐1.jpg'
+        title: '一区账号1',
+        district: '一区',
+        image: 'accountrec/一区账号1.jpeg'
     },
     {
         id: 'recommend_2',
-        title: '账号推荐2',
-        image: 'accountrec/账号推荐2.jpg'
+        title: '一区账号2',
+        district: '一区',
+        image: 'accountrec/一区账号2.jpeg'
+    },
+    {
+        id: 'recommend_3',
+        title: '二区账号1',
+        district: '二区',
+        image: 'accountrec/二区账号1.jpeg'
+    },
+    {
+        id: 'recommend_4',
+        title: '二区账号2',
+        district: '二区',
+        image: 'accountrec/二区账号2.jpeg'
+    },
+    {
+        id: 'recommend_5',
+        title: '四区账号1',
+        district: '四区',
+        image: 'accountrec/四区账号1.jpeg'
+    },
+    {
+        id: 'recommend_6',
+        title: '四区账号2',
+        district: '四区',
+        image: 'accountrec/四区账号2.jpeg'
     }
 ];
 
@@ -2824,6 +2850,7 @@ function loadComparisonImages() {
 // 初始化账号推荐功能
 function initializeAccountRecommend() {
     loadAccountRecommendImages();
+    initializeDistrictButtons();
 }
 
 // 初始化图片模块功能
@@ -2832,13 +2859,18 @@ function initializeImages() {
 }
 
 // 加载账号推荐图片
-function loadAccountRecommendImages() {
+function loadAccountRecommendImages(selectedDistrict = 'all') {
     const recommendGrid = document.getElementById('recommend-grid');
     if (!recommendGrid) return;
     
     recommendGrid.innerHTML = '';
     
-    accountRecommendData.forEach(item => {
+    // 根据选择的分区过滤数据
+    const filteredData = selectedDistrict === 'all' 
+        ? accountRecommendData 
+        : accountRecommendData.filter(item => item.district === selectedDistrict);
+    
+    filteredData.forEach(item => {
         const recommendItem = document.createElement('div');
         recommendItem.className = 'recommend-item';
         
@@ -2862,7 +2894,32 @@ function loadAccountRecommendImages() {
         addTouchListenersToRecommendImages();
     }, 5000);
     
-    console.log('账号推荐图片已加载');
+    console.log(`账号推荐图片已加载，显示分区：${selectedDistrict}，共${filteredData.length}张图片`);
+}
+
+// 初始化分区按钮
+function initializeDistrictButtons() {
+    const districtButtons = document.querySelectorAll('.district-btn');
+    
+    districtButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // 移除所有按钮的active类
+            districtButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // 为当前按钮添加active类
+            this.classList.add('active');
+            
+            // 获取选择的分区
+            const selectedDistrict = this.getAttribute('data-district');
+            
+            // 重新加载对应分区的图片
+            loadAccountRecommendImages(selectedDistrict);
+            
+            console.log(`切换到分区：${selectedDistrict}`);
+        });
+    });
+    
+    console.log('分区按钮已初始化');
 }
 
 // 加载图片模块图片
