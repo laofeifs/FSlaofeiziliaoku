@@ -2800,12 +2800,47 @@ var accountRecommendData = [
     }
 ];
 
-// 图片模块数据
-var imagesData = [
+// 老非课程数据
+var courseData = [
     {
-        id: 'image_1',
-        title: '课程二维码',
-        image: 'class/课程二维码.jpg'
+        id: 'course_1',
+        title: 'PG跑位课',
+        image: 'class/PG跑位课.jpg'
+    },
+    {
+        id: 'course_2',
+        title: 'TT综合打法课',
+        image: 'class/TT综合打法课.jpg'
+    },
+    {
+        id: 'course_3',
+        title: '盖帽课',
+        image: 'class/盖帽课.jpg'
+    },
+    {
+        id: 'course_4',
+        title: '碎步合集课',
+        image: 'class/碎步合集课.jpg'
+    },
+    {
+        id: 'course_5',
+        title: '篮板课',
+        image: 'class/篮板课.jpg'
+    },
+    {
+        id: 'course_6',
+        title: '精准传球课',
+        image: 'class/精准传球课.jpg'
+    },
+    {
+        id: 'course_7',
+        title: '跑扣课',
+        image: 'class/跑扣课.jpg'
+    },
+    {
+        id: 'course_8',
+        title: '躲吸与牵制课',
+        image: 'class/躲吸与牵制课.jpg'
     }
 ];
 
@@ -2922,34 +2957,49 @@ function initializeDistrictButtons() {
     console.log('分区按钮已初始化');
 }
 
-// 加载图片模块图片
+// 加载老非课程页面
 function loadImages() {
     const imagesGrid = document.getElementById('images-grid');
     if (!imagesGrid) return;
     
     imagesGrid.innerHTML = '';
     
-    imagesData.forEach(item => {
-        const imageItem = document.createElement('div');
-        imageItem.className = 'image-item';
-        
-        const imageUrl = buildImageUrl(item.image);
-        const imageUrlWithTimestamp = `${imageUrl}?v=${COS_CONFIG.Version}`;
-        
-        imageItem.innerHTML = `
-            <img src="${imageUrlWithTimestamp}" 
-                 alt="${item.title}" 
-                 class="image-display" 
-                 oncontextmenu="handleLongPress(event, this)"
-                 onerror="handleImageError(this, '${item.title}')" 
-                 onload="handleImageLoad(this, '${item.title}')">
-            <div class="image-info">
-                <h3 class="image-title">${item.title}</h3>
-            </div>
+    // 创建课程按钮区域
+    const courseButtonsContainer = document.createElement('div');
+    courseButtonsContainer.className = 'course-buttons-container';
+    
+    // 创建合集按钮
+    const collectionButton = document.createElement('button');
+    collectionButton.className = 'course-btn collection-btn';
+    collectionButton.innerHTML = `
+        <i class="fas fa-th-large"></i>
+        <span>查看合集</span>
+    `;
+    collectionButton.onclick = () => showCourseCollection();
+    courseButtonsContainer.appendChild(collectionButton);
+    
+    // 创建单个课程按钮
+    courseData.forEach(course => {
+        const courseButton = document.createElement('button');
+        courseButton.className = 'course-btn';
+        courseButton.setAttribute('data-course-id', course.id);
+        courseButton.innerHTML = `
+            <i class="fas fa-play-circle"></i>
+            <span>${course.title}</span>
         `;
-        
-        imagesGrid.appendChild(imageItem);
+        courseButton.onclick = () => showSingleCourse(course);
+        courseButtonsContainer.appendChild(courseButton);
     });
+    
+    imagesGrid.appendChild(courseButtonsContainer);
+    
+    // 创建课程显示区域
+    const courseDisplayArea = document.createElement('div');
+    courseDisplayArea.id = 'course-display-area';
+    courseDisplayArea.className = 'course-display-area';
+    courseDisplayArea.style.display = 'none';
+    
+    imagesGrid.appendChild(courseDisplayArea);
     
     // 为图片添加触摸事件监听器（减少重复绑定）
     setTimeout(function() {
@@ -3579,6 +3629,208 @@ function openFSPLActivity() {
 // 确保函数在全局作用域中可用
 window.openFSPLActivity = openFSPLActivity;
 
+// 显示单个课程
+function showSingleCourse(course) {
+    const displayArea = document.getElementById('course-display-area');
+    if (!displayArea) return;
+    
+    // 移除所有按钮的选中状态
+    const allButtons = document.querySelectorAll('.course-btn');
+    allButtons.forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    // 为当前选中的按钮添加选中状态
+    const currentButton = document.querySelector(`[data-course-id="${course.id}"]`);
+    if (currentButton) {
+        currentButton.classList.add('active');
+    }
+    
+    const imageUrl = buildImageUrl(course.image);
+    const imageUrlWithTimestamp = `${imageUrl}?v=${COS_CONFIG.Version}`;
+    
+    displayArea.innerHTML = `
+        <div class="single-course-display">
+            <h3 class="course-title">${course.title}</h3>
+            <img src="${imageUrlWithTimestamp}" 
+                 alt="${course.title}" 
+                 class="course-image" 
+                 oncontextmenu="handleLongPress(event, this)"
+                 onerror="handleImageError(this, '${course.title}')" 
+                 onload="handleImageLoad(this, '${course.title}')">
+            <div class="image-scan-tip">
+                <i class="fas fa-qrcode"></i>
+                <span>长按图片扫描二维码</span>
+            </div>
+        </div>
+        <div class="contact-tip">
+            <div class="contact-info">
+                <i class="fas fa-info-circle"></i>
+                <span>若无法观看联系老非微信：</span>
+                <span class="wechat-number" onclick="copyWechatNumber('laofei90186')">laofei90186</span>
+                <button class="copy-wechat-btn" onclick="copyWechatNumber('laofei90186')">
+                    <i class="fas fa-copy"></i>
+                    <span>点击复制</span>
+                </button>
+            </div>
+        </div>
+    `;
+    
+    displayArea.style.display = 'block';
+}
+
+// 显示课程合集
+function showCourseCollection() {
+    const displayArea = document.getElementById('course-display-area');
+    if (!displayArea) return;
+    
+    // 移除所有按钮的选中状态
+    const allButtons = document.querySelectorAll('.course-btn');
+    allButtons.forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    // 为合集按钮添加选中状态
+    const collectionButton = document.querySelector('.collection-btn');
+    if (collectionButton) {
+        collectionButton.classList.add('active');
+    }
+    
+    let coursesHtml = `
+        <div class="course-collection">
+            <h3 class="collection-title">老非课程合集</h3>
+            <div class="collection-grid">
+    `;
+    
+    courseData.forEach(course => {
+        const imageUrl = buildImageUrl(course.image);
+        const imageUrlWithTimestamp = `${imageUrl}?v=${COS_CONFIG.Version}`;
+        
+        coursesHtml += `
+            <div class="collection-item">
+                <h4 class="course-name">${course.title}</h4>
+                <img src="${imageUrlWithTimestamp}" 
+                     alt="${course.title}" 
+                     class="collection-image" 
+                     oncontextmenu="handleLongPress(event, this)"
+                     onerror="handleImageError(this, '${course.title}')" 
+                     onload="handleImageLoad(this, '${course.title}')">
+                <div class="collection-scan-tip">
+                    <i class="fas fa-qrcode"></i>
+                    <span>长按图片扫描二维码</span>
+                </div>
+            </div>
+        `;
+    });
+    
+    coursesHtml += `
+            </div>
+        </div>
+        <div class="contact-tip">
+            <div class="contact-info">
+                <i class="fas fa-info-circle"></i>
+                <span>若无法观看联系老非微信：</span>
+                <span class="wechat-number" onclick="copyWechatNumber('laofei90186')">laofei90186</span>
+                <button class="copy-wechat-btn" onclick="copyWechatNumber('laofei90186')">
+                    <i class="fas fa-copy"></i>
+                    <span>点击复制</span>
+                </button>
+            </div>
+        </div>
+    `;
+    
+    displayArea.innerHTML = coursesHtml;
+    displayArea.style.display = 'block';
+}
+
+// 复制微信号函数
+function copyWechatNumber(wechatNumber) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(wechatNumber).then(() => {
+            showCopySuccess();
+        }).catch(() => {
+            fallbackCopyTextToClipboard(wechatNumber);
+        });
+    } else {
+        fallbackCopyTextToClipboard(wechatNumber);
+    }
+}
+
+// 备用复制方法
+function fallbackCopyTextToClipboard(text) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.top = "0";
+    textArea.style.left = "0";
+    textArea.style.position = "fixed";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+            showCopySuccess();
+        } else {
+            showCopyError();
+        }
+    } catch (err) {
+        showCopyError();
+    }
+    
+    document.body.removeChild(textArea);
+}
+
+// 显示复制成功提示
+function showCopySuccess() {
+    const tip = document.createElement('div');
+    tip.className = 'copy-success-tip';
+    tip.innerHTML = '<i class="fas fa-check"></i> 微信号已复制';
+    tip.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        z-index: 10000;
+        font-size: 14px;
+    `;
+    
+    document.body.appendChild(tip);
+    
+    setTimeout(() => {
+        document.body.removeChild(tip);
+    }, 2000);
+}
+
+// 显示复制失败提示
+function showCopyError() {
+    const tip = document.createElement('div');
+    tip.className = 'copy-error-tip';
+    tip.innerHTML = '<i class="fas fa-exclamation-triangle"></i> 复制失败，请手动复制';
+    tip.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #f44336;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        z-index: 10000;
+        font-size: 14px;
+    `;
+    
+    document.body.appendChild(tip);
+    
+    setTimeout(() => {
+        document.body.removeChild(tip);
+    }, 3000);
+}
+
 // 导出函数供外部使用
 window.FSDataLibrary = {
     loadCharacters,
@@ -3586,5 +3838,8 @@ window.FSDataLibrary = {
     getCOSFileList,
     loadGifFiles,
     COS_CONFIG,
-    openFSPLActivity
+    openFSPLActivity,
+    showSingleCourse,
+    showCourseCollection,
+    copyWechatNumber
 };
