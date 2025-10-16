@@ -3650,6 +3650,10 @@ function showSingleCourse(course) {
     const imageUrlWithTimestamp = `${imageUrl}?v=${COS_CONFIG.Version}`;
     
     displayArea.innerHTML = `
+        <div class="course-access-tip">
+            <i class="fas fa-info-circle"></i>
+            <span>长按图片扫码➡️点击继续访问即可看课</span>
+        </div>
         <div class="single-course-display">
             <h3 class="course-title">${course.title}</h3>
             <img src="${imageUrlWithTimestamp}" 
@@ -3697,6 +3701,10 @@ function showCourseCollection() {
     }
     
     let coursesHtml = `
+        <div class="course-access-tip">
+            <i class="fas fa-info-circle"></i>
+            <span>长按图片扫码➡️点击继续访问即可看课</span>
+        </div>
         <div class="course-collection">
             <h3 class="collection-title">老非课程合集</h3>
             <div class="collection-grid">
