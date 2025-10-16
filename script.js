@@ -3550,21 +3550,34 @@ function handleTouchEnd(e) {
 
 // FSPL活动跳转函数
 function openFSPLActivity() {
-    // FSPL活动页面URL
-    const fsplUrl = 'https://hd.t2cn.com/t2cnevent/unmgnt/fspl2025Handbook.shtml';
-    
-    // 检测设备类型
-    const isMobile = /Mobile|Android|iPhone|iPad/.test(navigator.userAgent);
-    const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
-    
-    if (isMobile || isWeChat) {
-        // 移动端和微信浏览器直接跳转
-        window.location.href = fsplUrl;
-    } else {
-        // 桌面端在新标签页打开
-        window.open(fsplUrl, '_blank', 'noopener,noreferrer');
+    try {
+        // FSPL活动页面URL
+        const fsplUrl = 'https://hd.t2cn.com/t2cnevent/unmgnt/fspl2025Handbook.shtml';
+        
+        // 检测设备类型
+        const isMobile = /Mobile|Android|iPhone|iPad/.test(navigator.userAgent);
+        const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
+        
+        console.log('FSPL活动跳转 - 设备检测:', {isMobile, isWeChat});
+        
+        if (isMobile || isWeChat) {
+            // 移动端和微信浏览器直接跳转
+            console.log('移动端跳转到:', fsplUrl);
+            window.location.href = fsplUrl;
+        } else {
+            // 桌面端在新标签页打开
+            console.log('桌面端新标签页打开:', fsplUrl);
+            window.open(fsplUrl, '_blank', 'noopener,noreferrer');
+        }
+    } catch (error) {
+        console.error('FSPL活动跳转失败:', error);
+        // 备用跳转方案
+        window.location.href = 'https://hd.t2cn.com/t2cnevent/unmgnt/fspl2025Handbook.shtml';
     }
 }
+
+// 确保函数在全局作用域中可用
+window.openFSPLActivity = openFSPLActivity;
 
 // 导出函数供外部使用
 window.FSDataLibrary = {

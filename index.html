@@ -531,6 +531,31 @@
 
      <script src="script.js?v=202510038900"></script>
     
+    <!-- FSPL活动跳转函数 - 提前定义确保移动端可用 -->
+    <script>
+        // 提前定义FSPL活动跳转函数，确保移动端第一次点击就能工作
+        window.openFSPLActivity = function() {
+            try {
+                const fsplUrl = 'https://hd.t2cn.com/t2cnevent/unmgnt/fspl2025Handbook.shtml';
+                const isMobile = /Mobile|Android|iPhone|iPad/.test(navigator.userAgent);
+                const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
+                
+                console.log('FSPL活动跳转 - 设备检测:', {isMobile, isWeChat});
+                
+                if (isMobile || isWeChat) {
+                    console.log('移动端跳转到:', fsplUrl);
+                    window.location.href = fsplUrl;
+                } else {
+                    console.log('桌面端新标签页打开:', fsplUrl);
+                    window.open(fsplUrl, '_blank', 'noopener,noreferrer');
+                }
+            } catch (error) {
+                console.error('FSPL活动跳转失败:', error);
+                window.location.href = 'https://hd.t2cn.com/t2cnevent/unmgnt/fspl2025Handbook.shtml';
+            }
+        };
+    </script>
+
     <!-- 智能设备检测和兼容性优化 -->
     <script>
         // 智能设备检测和兼容性优化
