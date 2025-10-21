@@ -11,7 +11,7 @@ var COS_CONFIG = {
     // CDN访问域名（推荐使用，减少流量费用）
     CDNDomain: 'https://cdn.laofeifs.com',
     // 当前版本号，用于缓存控制
-    Version: '202510038900'
+    Version: '202510038901'
 };
 
 // 当前选中的代次
