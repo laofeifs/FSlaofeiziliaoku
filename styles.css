@@ -1127,45 +1127,52 @@ html {
     font-weight: 500;
 }
 
-/* 账号推荐按钮样式 */
-.nav-btn[data-section="account-recommend"] {
-    background: linear-gradient(135deg, #dc2626, #b91c1c) !important;
-    color: white !important;
-    border: 2px solid #ef4444 !important;
-    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3) !important;
-    animation: pulse-red 2s infinite !important;
-    font-weight: bold !important;
+/* FS账号按钮高亮样式 */
+.nav-btn[data-section="account"] {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: 2px solid #4ade80;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    animation: pulse-highlight 2s infinite;
+    font-weight: bold;
+    position: relative;
+    overflow: hidden;
 }
 
-.nav-btn[data-section="account-recommend"]:hover {
-    background: linear-gradient(135deg, #ef4444, #dc2626) !important;
-    box-shadow: 0 6px 16px rgba(220, 38, 38, 0.5) !important;
-    transform: translateY(-2px) !important;
+.nav-btn[data-section="account"]:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    transform: translateY(-2px);
 }
 
-.mobile-nav-item[data-section="account-recommend"] {
-    background: linear-gradient(135deg, #dc2626, #b91c1c) !important;
-    color: white !important;
-    border: 2px solid #ef4444 !important;
-    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3) !important;
-    animation: pulse-red 2s infinite !important;
-    font-weight: bold !important;
+.mobile-nav-item[data-section="account"] {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: 2px solid #4ade80;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    animation: pulse-highlight 2s infinite;
+    font-weight: bold;
+    position: relative;
+    overflow: hidden;
 }
 
-.mobile-nav-item[data-section="account-recommend"]:hover {
-    background: linear-gradient(135deg, #ef4444, #dc2626) !important;
-    box-shadow: 0 6px 16px rgba(220, 38, 38, 0.5) !important;
+.mobile-nav-item[data-section="account"]:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
 }
 
-@keyframes pulse-red {
+@keyframes pulse-highlight {
     0% {
-        box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        border-color: #4ade80;
     }
     50% {
-        box-shadow: 0 4px 20px rgba(220, 38, 38, 0.6);
+        box-shadow: 0 4px 25px rgba(102, 126, 234, 0.7);
+        border-color: #22c55e;
     }
     100% {
-        box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        border-color: #4ade80;
     }
 }
 
@@ -1306,19 +1313,19 @@ html {
     margin: 0;
 }
 
-/* 账号推荐页面标题特殊样式 */
-#account-recommend-section h2 {
-    background: linear-gradient(135deg, #dc2626, #b91c1c);
+/* FS账号页面标题高亮样式 */
+#account-section h2 {
+    background: linear-gradient(135deg, #667eea, #764ba2);
     color: white !important;
     padding: 15px 25px;
     border-radius: 12px;
     text-align: center;
     font-weight: bold;
     font-size: 1.8rem;
-    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
-    animation: pulse-red 2s infinite;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    animation: pulse-highlight 2s infinite;
     margin-bottom: 30px;
-    border: 2px solid #ef4444;
+    border: 2px solid #4ade80;
 }
 
 .recommend-tip {
@@ -2138,28 +2145,28 @@ html {
     border-color: #4ade80;
 }
 
-/* 账号推荐特色卡片特殊样式 */
-.feature-card[onclick*="account-recommend"] {
-    background: linear-gradient(135deg, #dc2626, #b91c1c) !important;
+/* FS账号特色卡片高亮样式 */
+.feature-card[onclick*="account"] {
+    background: linear-gradient(135deg, #667eea, #764ba2) !important;
     color: white !important;
-    border: 2px solid #ef4444 !important;
-    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3) !important;
-    animation: pulse-red 2s infinite !important;
+    border: 2px solid #4ade80 !important;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4) !important;
+    animation: pulse-highlight 2s infinite !important;
 }
 
-.feature-card[onclick*="account-recommend"]:hover {
-    background: linear-gradient(135deg, #ef4444, #dc2626) !important;
-    box-shadow: 0 8px 20px rgba(220, 38, 38, 0.5) !important;
+.feature-card[onclick*="account"]:hover {
+    background: linear-gradient(135deg, #764ba2, #667eea) !important;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6) !important;
     transform: translateY(-8px) !important;
-    border-color: #dc2626 !important;
+    border-color: #22c55e !important;
 }
 
-.feature-card[onclick*="account-recommend"] .feature-icon {
+.feature-card[onclick*="account"] .feature-icon {
     background: rgba(255, 255, 255, 0.2) !important;
     color: white !important;
 }
 
-.feature-card[onclick*="account-recommend"] h3 {
+.feature-card[onclick*="account"] h3 {
     color: white !important;
     font-weight: bold !important;
 }
@@ -3486,5 +3493,136 @@ html {
         font-size: 11px;
         padding: 8px 10px;
         margin-bottom: 10px;
+    }
+}
+
+/* 电脑配置页面样式 */
+.computer-config-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.config-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    border: 1px solid #e9ecef;
+}
+
+.config-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 25px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    border-left: 4px solid #667eea;
+    transition: all 0.3s ease;
+}
+
+.config-item:hover {
+    background: #e3f2fd;
+    border-left-color: #2196f3;
+    transform: translateX(5px);
+}
+
+.config-item:last-child {
+    margin-bottom: 0;
+}
+
+.config-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 120px;
+    font-weight: 600;
+    color: #374151;
+    font-size: 16px;
+}
+
+.config-label i {
+    font-size: 18px;
+    color: #667eea;
+    width: 20px;
+    text-align: center;
+}
+
+.config-value {
+    flex: 1;
+    color: #1f2937;
+    font-size: 15px;
+    line-height: 1.6;
+    margin-left: 20px;
+}
+
+.config-value div {
+    margin-bottom: 5px;
+}
+
+.config-value div:last-child {
+    margin-bottom: 0;
+}
+
+/* 特殊配置项样式 */
+.config-item:nth-child(1) .config-label i { color: #f59e0b; } /* 处理器 - 橙色 */
+.config-item:nth-child(2) .config-label i { color: #10b981; } /* 主板 - 绿色 */
+.config-item:nth-child(3) .config-label i { color: #8b5cf6; } /* 内存 - 紫色 */
+.config-item:nth-child(4) .config-label i { color: #ef4444; } /* 显卡 - 红色 */
+.config-item:nth-child(5) .config-label i { color: #06b6d4; } /* 显示器 - 青色 */
+.config-item:nth-child(6) .config-label i { color: #f97316; } /* 磁盘 - 橙色 */
+.config-item:nth-child(7) .config-label i { color: #84cc16; } /* 声卡 - 绿色 */
+.config-item:nth-child(8) .config-label i { color: #3b82f6; } /* 网卡 - 蓝色 */
+
+/* 移动端优化 */
+@media (max-width: 768px) {
+    .computer-config-container {
+        padding: 15px;
+    }
+    
+    .config-card {
+        padding: 20px;
+    }
+    
+    .config-item {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .config-label {
+        min-width: auto;
+        margin-bottom: 10px;
+        font-size: 15px;
+    }
+    
+    .config-value {
+        margin-left: 0;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .computer-config-container {
+        padding: 10px;
+    }
+    
+    .config-card {
+        padding: 15px;
+    }
+    
+    .config-item {
+        padding: 12px;
+        margin-bottom: 15px;
+    }
+    
+    .config-label {
+        font-size: 14px;
+    }
+    
+    .config-value {
+        font-size: 13px;
     }
 }
