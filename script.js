@@ -3598,17 +3598,17 @@ function handleTouchEnd(e) {
     }
 }
 
-// FSPL活动跳转函数
+// 最新活动跳转函数
 function openFSPLActivity() {
     try {
-        // FSPL活动页面URL
-        const fsplUrl = 'https://hd.t2cn.com/t2cnevent/unmgnt/fspl2025Handbook.shtml';
+        // 最新活动页面URL
+        const fsplUrl = 'https://hd.t2cn.com/t2cnevent/unmgnt/dreamStarLeaderboard.shtml';
         
         // 检测设备类型
         const isMobile = /Mobile|Android|iPhone|iPad/.test(navigator.userAgent);
         const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
         
-        console.log('FSPL活动跳转 - 设备检测:', {isMobile, isWeChat});
+        console.log('最新活动跳转 - 设备检测:', {isMobile, isWeChat});
         
         if (isMobile || isWeChat) {
             // 移动端和微信浏览器直接跳转
@@ -3620,9 +3620,9 @@ function openFSPLActivity() {
             window.open(fsplUrl, '_blank', 'noopener,noreferrer');
         }
     } catch (error) {
-        console.error('FSPL活动跳转失败:', error);
+        console.error('最新活动跳转失败:', error);
         // 备用跳转方案
-        window.location.href = 'https://hd.t2cn.com/t2cnevent/unmgnt/fspl2025Handbook.shtml';
+        window.location.href = 'https://hd.t2cn.com/t2cnevent/unmgnt/dreamStarLeaderboard.shtml';
     }
 }
 

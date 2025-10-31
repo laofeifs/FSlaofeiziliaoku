@@ -139,7 +139,7 @@
             </button>
             <button class="mobile-nav-item" onclick="openFSPLActivity()">
                 <i class="fas fa-trophy"></i>
-                <span>FSPL活动</span>
+                <span>最新活动</span>
             </button>
             <button class="mobile-nav-item" data-section="computer-config">
                 <i class="fas fa-desktop"></i>
@@ -190,7 +190,7 @@
                 </button>
                 <button class="nav-btn" onclick="openFSPLActivity()">
                     <i class="fas fa-trophy"></i>
-                    <span>FSPL活动</span>
+                    <span>最新活动</span>
                 </button>
                 <button class="nav-btn" data-section="computer-config">
                     <i class="fas fa-desktop"></i>
@@ -617,16 +617,16 @@
 
      <script src="script.js?v=202510038901"></script>
     
-    <!-- FSPL活动跳转函数 - 提前定义确保移动端可用 -->
+    <!-- 最新活动跳转函数 - 提前定义确保移动端可用 -->
     <script>
-        // 提前定义FSPL活动跳转函数，确保移动端第一次点击就能工作
+        // 提前定义最新活动跳转函数，确保移动端第一次点击就能工作
         window.openFSPLActivity = function() {
             try {
-                const fsplUrl = 'https://hd.t2cn.com/t2cnevent/unmgnt/fspl2025Handbook.shtml';
+                const fsplUrl = 'https://hd.t2cn.com/t2cnevent/unmgnt/dreamStarLeaderboard.shtml';
                 const isMobile = /Mobile|Android|iPhone|iPad/.test(navigator.userAgent);
                 const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
                 
-                console.log('FSPL活动跳转 - 设备检测:', {isMobile, isWeChat});
+                console.log('最新活动跳转 - 设备检测:', {isMobile, isWeChat});
                 
                 if (isMobile || isWeChat) {
                     console.log('移动端跳转到:', fsplUrl);
@@ -636,8 +636,8 @@
                     window.open(fsplUrl, '_blank', 'noopener,noreferrer');
                 }
             } catch (error) {
-                console.error('FSPL活动跳转失败:', error);
-                window.location.href = 'https://hd.t2cn.com/t2cnevent/unmgnt/fspl2025Handbook.shtml';
+                console.error('最新活动跳转失败:', error);
+                window.location.href = 'https://hd.t2cn.com/t2cnevent/unmgnt/dreamStarLeaderboard.shtml';
             }
         };
     </script>
