@@ -3172,7 +3172,7 @@ function openCourse(url) {
 
 // 打开店铺
 function openStore() {
-    const storeUrl = 'https://k.youshop10.com/6HZaEV6N';
+    const storeUrl = 'https://weidian.com/?userid=1871868933&share_relation=1e219cc7c1e55142_1867411671_1&wfr=wxBuyerShare';
     
     // 检测是否在微信浏览器中
     if (/MicroMessenger/i.test(navigator.userAgent)) {
