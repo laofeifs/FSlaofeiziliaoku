@@ -3602,7 +3602,7 @@ function handleTouchEnd(e) {
 function openFSPLActivity() {
     try {
         // 最新活动页面URL
-        const fsplUrl = 'https://hd.t2cn.com/t2cnevent/unmgnt/dreamStarLeaderboard.shtml';
+        const fsplUrl = 'https://hd.t2cn.com/t2cnevent/unmgnt/TracySignUp.shtml';
         
         // 检测设备类型
         const isMobile = /Mobile|Android|iPhone|iPad/.test(navigator.userAgent);
@@ -3622,7 +3622,7 @@ function openFSPLActivity() {
     } catch (error) {
         console.error('最新活动跳转失败:', error);
         // 备用跳转方案
-        window.location.href = 'https://hd.t2cn.com/t2cnevent/unmgnt/dreamStarLeaderboard.shtml';
+        window.location.href = 'https://hd.t2cn.com/t2cnevent/unmgnt/TracySignUp.shtml';
     }
 }
 

@@ -139,7 +139,7 @@
             </button>
             <button class="mobile-nav-item" onclick="openFSPLActivity()">
                 <i class="fas fa-trophy"></i>
-                <span>最新活动</span>
+                <span>预约麦迪</span>
             </button>
             <button class="mobile-nav-item" data-section="computer-config">
                 <i class="fas fa-desktop"></i>
@@ -190,7 +190,7 @@
                 </button>
                 <button class="nav-btn" onclick="openFSPLActivity()">
                     <i class="fas fa-trophy"></i>
-                    <span>最新活动</span>
+                    <span>预约麦迪</span>
                 </button>
                 <button class="nav-btn" data-section="computer-config">
                     <i class="fas fa-desktop"></i>
@@ -622,7 +622,7 @@
         // 提前定义最新活动跳转函数，确保移动端第一次点击就能工作
         window.openFSPLActivity = function() {
             try {
-                const fsplUrl = 'https://hd.t2cn.com/t2cnevent/unmgnt/dreamStarLeaderboard.shtml';
+                const fsplUrl = 'https://hd.t2cn.com/t2cnevent/unmgnt/TracySignUp.shtml';
                 const isMobile = /Mobile|Android|iPhone|iPad/.test(navigator.userAgent);
                 const isWeChat = /MicroMessenger/i.test(navigator.userAgent);
                 
@@ -637,7 +637,7 @@
                 }
             } catch (error) {
                 console.error('最新活动跳转失败:', error);
-                window.location.href = 'https://hd.t2cn.com/t2cnevent/unmgnt/dreamStarLeaderboard.shtml';
+                window.location.href = 'https://hd.t2cn.com/t2cnevent/unmgnt/TracySignUp.shtml';
             }
         };
     </script>
