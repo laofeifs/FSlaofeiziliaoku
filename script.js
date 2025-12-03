@@ -1516,8 +1516,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // 初始化超特对比功能
         initializeComparison();
         
-        console.log('6.5. 初始化账号推荐');
-        // 初始化账号推荐功能
+        console.log('6.5. 初始化粉丝套');
+        // 初始化粉丝套功能
         initializeAccountRecommend();
         
         console.log('6.6. 初始化图片模块');
@@ -2760,43 +2760,19 @@ var comparisonData = [
     }
 ];
 
-// 账号推荐数据
+// 粉丝套数据
 var accountRecommendData = [
     {
         id: 'recommend_1',
-        title: '一区账号1',
-        district: '一区',
-        image: 'accountrec/一区账号1.jpeg'
+        title: '2025FSPL职业套',
+        district: 'all',
+        image: 'FSPL/微信图片_20251203205632_208.jpg'
     },
     {
         id: 'recommend_2',
-        title: '一区账号2',
-        district: '一区',
-        image: 'accountrec/一区账号2.jpeg'
-    },
-    {
-        id: 'recommend_3',
-        title: '二区账号1',
-        district: '二区',
-        image: 'accountrec/二区账号1.jpeg'
-    },
-    {
-        id: 'recommend_4',
-        title: '二区账号2',
-        district: '二区',
-        image: 'accountrec/二区账号2.jpeg'
-    },
-    {
-        id: 'recommend_5',
-        title: '四区账号1',
-        district: '四区',
-        image: 'accountrec/四区账号1.jpeg'
-    },
-    {
-        id: 'recommend_6',
-        title: '四区账号2',
-        district: '四区',
-        image: 'accountrec/四区账号2.jpeg'
+        title: '2025FSPL粉丝套',
+        district: 'all',
+        image: 'FSPL/微信图片_20251203205632_209.jpg'
     }
 ];
 
@@ -2882,10 +2858,9 @@ function loadComparisonImages() {
     console.log('超特对比图片已加载');
 }
 
-// 初始化账号推荐功能
+// 初始化粉丝套功能
 function initializeAccountRecommend() {
     loadAccountRecommendImages();
-    initializeDistrictButtons();
 }
 
 // 初始化图片模块功能
@@ -2893,19 +2868,15 @@ function initializeImages() {
     loadImages();
 }
 
-// 加载账号推荐图片
+// 加载粉丝套图片
 function loadAccountRecommendImages(selectedDistrict = 'all') {
     const recommendGrid = document.getElementById('recommend-grid');
     if (!recommendGrid) return;
     
     recommendGrid.innerHTML = '';
     
-    // 根据选择的分区过滤数据
-    const filteredData = selectedDistrict === 'all' 
-        ? accountRecommendData 
-        : accountRecommendData.filter(item => item.district === selectedDistrict);
-    
-    filteredData.forEach(item => {
+    // 显示所有粉丝套图片
+    accountRecommendData.forEach(item => {
         const recommendItem = document.createElement('div');
         recommendItem.className = 'recommend-item';
         
@@ -2924,37 +2895,12 @@ function loadAccountRecommendImages(selectedDistrict = 'all') {
         recommendGrid.appendChild(recommendItem);
     });
     
-    // 为账号推荐图片添加触摸事件监听器（减少重复绑定）
+    // 为粉丝套图片添加触摸事件监听器（减少重复绑定）
     setTimeout(function() {
         addTouchListenersToRecommendImages();
-    }, 5000);
+    }, 500);
     
-    console.log(`账号推荐图片已加载，显示分区：${selectedDistrict}，共${filteredData.length}张图片`);
-}
-
-// 初始化分区按钮
-function initializeDistrictButtons() {
-    const districtButtons = document.querySelectorAll('.district-btn');
-    
-    districtButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            // 移除所有按钮的active类
-            districtButtons.forEach(btn => btn.classList.remove('active'));
-            
-            // 为当前按钮添加active类
-            this.classList.add('active');
-            
-            // 获取选择的分区
-            const selectedDistrict = this.getAttribute('data-district');
-            
-            // 重新加载对应分区的图片
-            loadAccountRecommendImages(selectedDistrict);
-            
-            console.log(`切换到分区：${selectedDistrict}`);
-        });
-    });
-    
-    console.log('分区按钮已初始化');
+    console.log(`粉丝套图片已加载，共${accountRecommendData.length}张图片`);
 }
 
 // 加载老非课程页面
@@ -3495,11 +3441,11 @@ function handleLongPress(event, imgElement) {
     }
 }
 
-// 为账号推荐图片添加触摸事件监听器
+// 为粉丝套图片添加触摸事件监听器
 function addTouchListenersToRecommendImages() {
     const recommendImages = document.querySelectorAll('.recommend-image');
     
-    console.log('找到账号推荐图片数量:', recommendImages.length);
+    console.log('找到粉丝套图片数量:', recommendImages.length);
     
     recommendImages.forEach(function(img, index) {
         console.log('为图片', index, '添加触摸事件监听器');
