@@ -434,11 +434,11 @@ html {
 }
 
 .subnav-menu.active {
-    display: flex !important;
+    display: grid !important;
     width: 100%;
+    grid-template-columns: repeat(2, 1fr);
     gap: 15px;
     align-items: stretch;
-    flex-wrap: nowrap;
 }
 
 .subnav-btn {
@@ -492,45 +492,75 @@ html {
     transition: transform 0.3s ease;
 }
 
-.mobile-submenu {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+.mobile-nav-item.has-submenu.active .submenu-arrow {
+    transform: rotate(180deg);
+}
+
+/* 移动端二级导航容器（在导航栏下方显示） */
+.mobile-subnav-container {
     background: white;
-    z-index: 1001;
+    border-top: 2px solid #4ade80;
     display: none;
-    flex-direction: column;
-    padding: 20px;
-    overflow-y: auto;
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.mobile-submenu.active {
-    display: flex;
+.mobile-subnav-container[style*="block"] {
+    display: block !important;
 }
 
-.mobile-submenu-back {
+.mobile-subnav-menu {
+    display: none;
+    width: 100%;
+    padding: 10px;
+    gap: 8px;
+}
+
+.mobile-subnav-menu.active {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.mobile-subnav-btn {
+    background: white;
+    border: 1px solid #e5e7eb;
+    color: #374151;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 12px;
-    background: #f3f4f6;
-    border: none;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    cursor: pointer;
-    font-size: 0.95rem;
-    color: #374151;
-    font-weight: 500;
+    gap: 6px;
+    justify-content: center;
+    flex: 1 1 0;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
-.mobile-submenu h3 {
-    font-size: 1.2rem;
-    color: #1f2937;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #e5e7eb;
+.mobile-subnav-btn:hover {
+    border-color: #22c55e;
+    color: #22c55e;
+}
+
+.mobile-subnav-btn.active {
+    background-color: #22c55e;
+    color: white;
+    border-color: #22c55e;
+}
+
+.mobile-subnav-btn i {
+    font-size: 0.8rem;
+    color: #fbbf24;
+}
+
+.mobile-subnav-btn.active i {
+    color: white;
 }
 
 /* 筛选容器 */
@@ -545,9 +575,9 @@ html {
 
 .filter-buttons {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 12px;
-    max-width: 800px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    max-width: 100%;
     margin: 0 auto;
 }
 
@@ -2105,13 +2135,13 @@ html {
     }
     
     .filter-buttons {
-        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-        gap: 8px;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
     }
     
     .filter-btn {
-        padding: 8px 12px;
-        font-size: 0.8rem;
+        padding: 10px 16px;
+        font-size: 0.85rem;
         min-width: 0;
     }
     
@@ -2220,12 +2250,12 @@ html {
     
     .filter-buttons {
         grid-template-columns: repeat(3, 1fr);
-        gap: 6px;
+        gap: 12px;
     }
     
     .filter-btn {
-        padding: 6px 8px;
-        font-size: 0.75rem;
+        padding: 8px 12px;
+        font-size: 0.8rem;
         min-width: 0;
     }
     
@@ -2644,6 +2674,24 @@ html {
     font-size: 0.5rem;
     font-weight: 500;
     line-height: 1.1;
+    word-break: break-all;
+    text-align: center;
+}
+
+/* 移动端子菜单中的导航项样式 */
+.mobile-submenu .mobile-nav-item {
+    width: 100%;
+    min-width: 100%;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.mobile-submenu .mobile-nav-item span {
+    font-size: 0.9rem;
+    text-align: left;
 }
 
 /* 移动端响应式设计 */
@@ -2653,7 +2701,12 @@ html {
     }
     
     .nav-container {
-        display: none;
+        display: none !important;
+    }
+    
+    /* 移动端隐藏桌面端二级导航 */
+    .subnav-container {
+        display: none !important;
     }
     
     .main-content {
@@ -2680,6 +2733,20 @@ html {
     .contact-tag {
         font-size: 0.8rem;
         padding: 6px 12px;
+    }
+    
+    /* 移动端图片样式优化 */
+    .club-image,
+    .fs-single-image {
+        width: 100%;
+        max-width: 100%;
+        border-radius: 8px;
+    }
+    
+    .club-image-container,
+    .fs-single-image-container {
+        padding: 10px;
+        margin: 10px 0;
     }
     
 }

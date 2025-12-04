@@ -1572,6 +1572,14 @@ function initializeNavigation() {
             var parent = this.getAttribute('data-parent');
             if (parent) {
                 e.stopPropagation();
+                // 先隐藏所有内容区域
+                const sections = document.querySelectorAll('.content-section');
+                sections.forEach(section => section.classList.remove('active'));
+                // 隐藏content-area
+                const contentArea = document.querySelector('.content-area');
+                if (contentArea) {
+                    contentArea.classList.remove('active');
+                }
                 // 切换子菜单显示
                 toggleSubnav(parent);
                 // 激活当前按钮
@@ -1611,20 +1619,11 @@ function initializeNavigation() {
                 
                 console.log('点击二级导航按钮:', subnavBtn.getAttribute('data-section'));
                 
-                // 移除所有二级按钮的活动状态
-                var allSubnavButtons = document.querySelectorAll('.subnav-btn');
-                allSubnavButtons.forEach(function(b) {
-                    b.classList.remove('active');
-                });
-                
-                // 激活当前二级按钮
-                subnavBtn.classList.add('active');
-                
-                // 切换内容区域
+                // 获取section名称
                 var section = subnavBtn.getAttribute('data-section');
                 if (section) {
-                    console.log('切换到页面:', section);
-                    switchSection(section);
+                    // 直接调用switchToSection，它会处理所有状态更新
+                    switchToSection(section);
                 }
             }
         });
@@ -1635,6 +1634,17 @@ function initializeNavigation() {
 
 // 切换二级导航显示
 function toggleSubnav(parent) {
+    // 只在桌面端显示，移动端隐藏
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+        // 移动端不显示桌面端子菜单
+        const subnavContainer = document.getElementById('subnav-container');
+        if (subnavContainer) {
+            subnavContainer.style.display = 'none';
+        }
+        return;
+    }
+    
     var subnavContainer = document.getElementById('subnav-container');
     var subnav = document.getElementById(parent + '-subnav');
     
@@ -1647,28 +1657,73 @@ function toggleSubnav(parent) {
     
     var isActive = subnav.classList.contains('active');
     
-    // 先关闭所有二级导航
-    closeAllSubnavs();
+    // 先关闭所有二级导航菜单
+    var allSubnavs = document.querySelectorAll('.subnav-menu');
+    allSubnavs.forEach(function(menu) {
+        menu.classList.remove('active');
+    });
     
-    // 如果当前二级导航未激活，则激活它
+    // 确保移动端子菜单隐藏
+    const mobileSubnavContainer = document.getElementById('mobile-subnav-container');
+    if (mobileSubnavContainer) {
+        mobileSubnavContainer.style.display = 'none';
+    }
+    
+    // 如果当前二级导航未激活，则激活它并显示容器
     if (!isActive) {
         subnavContainer.style.display = 'block';
         subnav.classList.add('active');
         console.log('显示二级导航:', parent);
     } else {
+        // 如果已经激活，则关闭容器
         subnavContainer.style.display = 'none';
         console.log('隐藏二级导航:', parent);
     }
 }
 
+// 处理首页功能卡片点击
+function handleHomeFeatureClick(parent) {
+    // 切换到对应的导航按钮并显示二级导航
+    var navBtn = document.querySelector(`[data-parent="${parent}"]`);
+    if (navBtn) {
+        // 激活导航按钮
+        var allNavButtons = document.querySelectorAll('.nav-btn');
+        allNavButtons.forEach(function(btn) {
+            btn.classList.remove('active');
+        });
+        navBtn.classList.add('active');
+        
+        // 显示二级导航
+        toggleSubnav(parent);
+        
+        // 切换到第一个子页面
+        var subnav = document.getElementById(parent + '-subnav');
+        if (subnav) {
+            var firstSubnavBtn = subnav.querySelector('.subnav-btn');
+            if (firstSubnavBtn) {
+                var section = firstSubnavBtn.getAttribute('data-section');
+                if (section) {
+                    switchToSection(section);
+                }
+            }
+        }
+    }
+}
+
+// 确保函数在全局作用域中可用
+window.toggleSubnav = toggleSubnav;
+window.handleHomeFeatureClick = handleHomeFeatureClick;
+
 // 关闭所有二级导航
 function closeAllSubnavs() {
     var subnavContainer = document.getElementById('subnav-container');
-    var subnavs = document.querySelectorAll('.subnav-menu');
-    subnavs.forEach(function(subnav) {
-        subnav.classList.remove('active');
-    });
     if (subnavContainer) {
+        // 先关闭所有子菜单
+        var subnavs = document.querySelectorAll('.subnav-menu');
+        subnavs.forEach(function(subnav) {
+            subnav.classList.remove('active');
+        });
+        // 然后隐藏容器
         subnavContainer.style.display = 'none';
     }
 }
@@ -1706,6 +1761,7 @@ function switchSection(sectionName) {
         // 首页时隐藏content-area和二级导航
         contentArea.classList.remove('active');
         closeAllSubnavs();
+        closeMobileSubnav();
     } else {
         // 其他页面显示content-area
         contentArea.classList.add('active');
@@ -1744,9 +1800,93 @@ function switchSection(sectionName) {
 
 // 全局函数，供HTML中的onclick调用
 function switchToSection(sectionName) {
-    // 关闭所有二级导航
-    closeAllSubnavs();
-    closeSubmenu();
+    // 先确定这个section属于哪个父级菜单
+    let parentId = null;
+    
+    // 检查桌面端二级导航按钮
+    const subnavButtons = document.querySelectorAll('.subnav-btn');
+    subnavButtons.forEach(btn => {
+        if (btn.getAttribute('data-section') === sectionName) {
+            const subnav = btn.closest('.subnav-menu');
+            if (subnav) {
+                parentId = subnav.id.replace('-subnav', '');
+            }
+        }
+    });
+    
+    // 如果没找到，检查移动端
+    if (!parentId) {
+        const mobileSubnavButtons = document.querySelectorAll('.mobile-subnav-btn');
+        mobileSubnavButtons.forEach(btn => {
+            if (btn.getAttribute('data-section') === sectionName) {
+                const subnav = btn.closest('.mobile-subnav-menu');
+                if (subnav) {
+                    parentId = subnav.id.replace('-mobile-subnav', '');
+                }
+            }
+        });
+    }
+    
+    // 关闭所有二级导航，但保留当前父级的子菜单
+    if (parentId) {
+        // 只关闭其他父级的子菜单
+        const allSubnavs = document.querySelectorAll('.subnav-menu');
+        allSubnavs.forEach(menu => {
+            const menuParentId = menu.id.replace('-subnav', '');
+            if (menuParentId !== parentId) {
+                menu.classList.remove('active');
+            }
+        });
+        const allMobileSubnavs = document.querySelectorAll('.mobile-subnav-menu');
+        allMobileSubnavs.forEach(menu => {
+            const menuParentId = menu.id.replace('-mobile-subnav', '');
+            if (menuParentId !== parentId) {
+                menu.classList.remove('active');
+            }
+        });
+        
+        // 确保当前父级的子菜单显示（但不重复显示）
+        // 检测是否为移动端
+        const isMobile = window.innerWidth <= 768;
+        
+        if (isMobile) {
+            // 移动端：只显示移动端子菜单，隐藏桌面端子菜单
+            const mobileSubnavContainer = document.getElementById('mobile-subnav-container');
+            const mobileSubnav = document.getElementById(parentId + '-mobile-subnav');
+            if (mobileSubnavContainer && mobileSubnav) {
+                // 只有当容器隐藏时才显示，避免重复显示
+                if (mobileSubnavContainer.style.display === 'none' || !mobileSubnav.classList.contains('active')) {
+                    mobileSubnavContainer.style.display = 'block';
+                    mobileSubnav.classList.add('active');
+                }
+            }
+            // 确保桌面端子菜单隐藏
+            const subnavContainer = document.getElementById('subnav-container');
+            if (subnavContainer) {
+                subnavContainer.style.display = 'none';
+            }
+        } else {
+            // 桌面端：只显示桌面端子菜单，隐藏移动端子菜单
+            const subnavContainer = document.getElementById('subnav-container');
+            const subnav = document.getElementById(parentId + '-subnav');
+            if (subnavContainer && subnav) {
+                // 只有当容器隐藏时才显示，避免重复显示
+                if (subnavContainer.style.display === 'none' || !subnav.classList.contains('active')) {
+                    subnavContainer.style.display = 'block';
+                    subnav.classList.add('active');
+                }
+            }
+            // 确保移动端子菜单隐藏
+            const mobileSubnavContainer = document.getElementById('mobile-subnav-container');
+            if (mobileSubnavContainer) {
+                mobileSubnavContainer.style.display = 'none';
+            }
+        }
+    } else {
+        // 如果没有父级菜单，关闭所有二级导航
+        closeAllSubnavs();
+        closeMobileSubnav();
+    }
     
     // 更新桌面端导航按钮状态
     const navButtons = document.querySelectorAll('.nav-btn');
@@ -1754,31 +1894,33 @@ function switchToSection(sectionName) {
         btn.classList.remove('active');
         if (btn.getAttribute('data-section') === sectionName) {
             btn.classList.add('active');
+        } else if (parentId && btn.getAttribute('data-parent') === parentId) {
+            btn.classList.add('active');
         }
     });
     
     // 更新二级导航按钮状态
-    const subnavButtons = document.querySelectorAll('.subnav-btn');
     subnavButtons.forEach(btn => {
         btn.classList.remove('active');
         if (btn.getAttribute('data-section') === sectionName) {
             btn.classList.add('active');
-            // 激活对应的父级按钮和显示二级导航
-            const subnav = btn.closest('.subnav-menu');
-            if (subnav) {
-                const parentId = subnav.id.replace('-subnav', '');
-                const parentBtn = document.querySelector(`[data-parent="${parentId}"]`);
-                if (parentBtn) {
-                    parentBtn.classList.add('active');
-                    toggleSubnav(parentId);
-                }
-            }
         }
     });
     
     // 更新移动端导航按钮状态
     const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
     mobileNavItems.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-section') === sectionName) {
+            btn.classList.add('active');
+        } else if (parentId && btn.getAttribute('data-parent') === parentId) {
+            btn.classList.add('active');
+        }
+    });
+    
+    // 更新移动端二级导航按钮状态
+    const mobileSubnavButtons = document.querySelectorAll('.mobile-subnav-btn');
+    mobileSubnavButtons.forEach(btn => {
         btn.classList.remove('active');
         if (btn.getAttribute('data-section') === sectionName) {
             btn.classList.add('active');
@@ -1825,15 +1967,39 @@ function initializeMobileNavigation() {
             const section = this.getAttribute('data-section');
             
             if (parent) {
-                // 有父级菜单，显示子菜单
-                showMobileSubmenu(parent);
+                // 有父级菜单，在下方显示子导航，不跳转页面
+                // 先隐藏所有内容区域
+                const sections = document.querySelectorAll('.content-section');
+                sections.forEach(section => section.classList.remove('active'));
+                // 隐藏content-area
+                const contentArea = document.querySelector('.content-area');
+                if (contentArea) {
+                    contentArea.classList.remove('active');
+                }
+                toggleMobileSubnav(parent);
             } else if (section) {
-                // 直接切换页面
-                closeSubmenu(); // 关闭子菜单（如果打开）
+                // 直接切换页面，关闭子导航
+                closeMobileSubnav();
                 switchToSection(section);
             }
         });
     });
+    
+    // 移动端二级导航按钮点击事件（使用事件委托）
+    const mobileSubnavContainer = document.getElementById('mobile-subnav-container');
+    if (mobileSubnavContainer) {
+        mobileSubnavContainer.addEventListener('click', function(e) {
+            const mobileSubnavBtn = e.target.closest('.mobile-subnav-btn');
+            if (mobileSubnavBtn) {
+                e.stopPropagation();
+                e.preventDefault();
+                const section = mobileSubnavBtn.getAttribute('data-section');
+                if (section) {
+                    switchToSection(section);
+                }
+            }
+        });
+    }
     
     // 点击页面其他地方关闭菜单
     document.addEventListener('click', function(e) {
@@ -1844,34 +2010,75 @@ function initializeMobileNavigation() {
             !mobileNav.contains(e.target) && 
             !mobileMenuToggle.contains(e.target)) {
             closeMobileMenu();
-            closeSubmenu();
+            closeMobileSubnav();
         }
     });
 }
 
-// 显示移动端子菜单
-function showMobileSubmenu(parent) {
-    const mainMenu = document.getElementById('mobile-nav-menu');
-    const submenu = document.getElementById(parent + '-submenu');
+// 切换移动端二级导航显示（在导航栏下方）
+function toggleMobileSubnav(parent) {
+    // 只在移动端显示，桌面端隐藏
+    const isMobile = window.innerWidth <= 768;
+    if (!isMobile) {
+        // 桌面端不显示移动端子菜单
+        const mobileSubnavContainer = document.getElementById('mobile-subnav-container');
+        if (mobileSubnavContainer) {
+            mobileSubnavContainer.style.display = 'none';
+        }
+        return;
+    }
     
-    if (mainMenu && submenu) {
-        mainMenu.classList.remove('active');
-        submenu.classList.add('active');
+    const subnavContainer = document.getElementById('mobile-subnav-container');
+    const subnav = document.getElementById(parent + '-mobile-subnav');
+    
+    if (!subnavContainer || !subnav) {
+        console.error('找不到移动端二级导航元素');
+        return;
+    }
+    
+    var isActive = subnav.classList.contains('active');
+    
+    // 先关闭所有二级导航菜单
+    var allSubnavs = document.querySelectorAll('.mobile-subnav-menu');
+    allSubnavs.forEach(function(menu) {
+        menu.classList.remove('active');
+    });
+    
+    // 确保桌面端子菜单隐藏
+    const desktopSubnavContainer = document.getElementById('subnav-container');
+    if (desktopSubnavContainer) {
+        desktopSubnavContainer.style.display = 'none';
+    }
+    
+    // 如果当前二级导航未激活，则激活它并显示容器
+    if (!isActive) {
+        subnavContainer.style.display = 'block';
+        subnav.classList.add('active');
+        console.log('显示移动端二级导航:', parent);
+    } else {
+        // 如果已经激活，则关闭容器
+        subnavContainer.style.display = 'none';
+        console.log('隐藏移动端二级导航:', parent);
     }
 }
 
-// 关闭移动端子菜单
-function closeSubmenu() {
-    const submenus = document.querySelectorAll('.mobile-submenu');
-    const mainMenu = document.getElementById('mobile-nav-menu');
-    
-    submenus.forEach(submenu => {
-        submenu.classList.remove('active');
-    });
-    
-    if (mainMenu) {
-        mainMenu.classList.add('active');
+// 关闭移动端二级导航
+function closeMobileSubnav() {
+    const subnavContainer = document.getElementById('mobile-subnav-container');
+    if (subnavContainer) {
+        // 先关闭所有子菜单
+        const subnavs = document.querySelectorAll('.mobile-subnav-menu');
+        subnavs.forEach(subnav => {
+            subnav.classList.remove('active');
+        });
+        // 然后隐藏容器
+        subnavContainer.style.display = 'none';
     }
+}
+
+// 兼容旧函数名
+function closeSubmenu() {
+    closeMobileSubnav();
 }
 
 // 加载角色数据
@@ -4064,3 +4271,4 @@ window.FSDataLibrary = {
     showCourseCollection,
     copyWechatNumber
 };
+

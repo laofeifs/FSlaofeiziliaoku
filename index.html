@@ -109,12 +109,10 @@
             <button class="mobile-nav-item has-submenu" data-parent="strategy">
                 <i class="fas fa-book"></i>
                 <span>超特攻略</span>
-                <i class="fas fa-chevron-right submenu-arrow"></i>
             </button>
             <button class="mobile-nav-item has-submenu" data-parent="props">
                 <i class="fas fa-box"></i>
                 <span>FS道具</span>
-                <i class="fas fa-chevron-right submenu-arrow"></i>
             </button>
             <button class="mobile-nav-item" data-section="images">
                 <i class="fas fa-graduation-cap"></i>
@@ -133,44 +131,36 @@
                 <span>最新活动</span>
             </button>
         </div>
-        <!-- 二级导航菜单 -->
-        <div class="mobile-submenu" id="strategy-submenu">
-            <button class="mobile-submenu-back" onclick="closeSubmenu()">
-                <i class="fas fa-chevron-left"></i>
-                <span>返回</span>
-            </button>
-            <h3>超特攻略</h3>
-            <button class="mobile-nav-item" data-section="gallery">
-                <i class="fas fa-images"></i>
-                <span>超特图鉴</span>
-            </button>
-            <button class="mobile-nav-item" data-section="characters">
-                <i class="fas fa-running"></i>
-                <span>超特动作</span>
-            </button>
-            <button class="mobile-nav-item" data-section="ranking">
-                <i class="fas fa-trophy"></i>
-                <span>职业排名</span>
-            </button>
-            <button class="mobile-nav-item" data-section="comparison">
-                <i class="fas fa-balance-scale"></i>
-                <span>超特对比</span>
-            </button>
-        </div>
-        <div class="mobile-submenu" id="props-submenu">
-            <button class="mobile-submenu-back" onclick="closeSubmenu()">
-                <i class="fas fa-chevron-left"></i>
-                <span>返回</span>
-            </button>
-            <h3>FS道具</h3>
-            <button class="mobile-nav-item" data-section="account-recommend">
-                <i class="fas fa-star"></i>
-                <span>职业&粉丝套</span>
-            </button>
-            <button class="mobile-nav-item" data-section="fs-single">
-                <i class="fas fa-font"></i>
-                <span>FS单字</span>
-            </button>
+        <!-- 移动端二级导航菜单（在导航栏下方显示） -->
+        <div class="mobile-subnav-container" id="mobile-subnav-container">
+            <div class="mobile-subnav-menu" id="strategy-mobile-subnav">
+                <button class="mobile-subnav-btn" data-section="gallery">
+                    <i class="fas fa-images"></i>
+                    <span>超特图鉴</span>
+                </button>
+                <button class="mobile-subnav-btn" data-section="characters">
+                    <i class="fas fa-running"></i>
+                    <span>超特动作</span>
+                </button>
+                <button class="mobile-subnav-btn" data-section="ranking">
+                    <i class="fas fa-trophy"></i>
+                    <span>职业排名</span>
+                </button>
+                <button class="mobile-subnav-btn" data-section="comparison">
+                    <i class="fas fa-balance-scale"></i>
+                    <span>超特对比</span>
+                </button>
+            </div>
+            <div class="mobile-subnav-menu" id="props-mobile-subnav">
+                <button class="mobile-subnav-btn" data-section="account-recommend">
+                    <i class="fas fa-star"></i>
+                    <span>职业&粉丝套</span>
+                </button>
+                <button class="mobile-subnav-btn" data-section="fs-single">
+                    <i class="fas fa-font"></i>
+                    <span>FS单字</span>
+                </button>
+            </div>
         </div>
     </nav>
 
@@ -249,55 +239,55 @@
             <div class="filter-buttons">
                 <button class="filter-btn" data-generation="1">
                     <i class="fas fa-bolt"></i>
-                    <span>1代超特</span>
+                    <span>1代</span>
                 </button>
                 <button class="filter-btn" data-generation="2">
                     <i class="fas fa-bolt"></i>
-                    <span>2代超特</span>
+                    <span>2代</span>
                 </button>
                 <button class="filter-btn" data-generation="3">
                     <i class="fas fa-bolt"></i>
-                    <span>3代超特</span>
+                    <span>3代</span>
                 </button>
                 <button class="filter-btn" data-generation="3_5">
                     <i class="fas fa-bolt"></i>
-                    <span>3.5代超特</span>
+                    <span>3.5代</span>
                 </button>
                 <button class="filter-btn" data-generation="4">
                     <i class="fas fa-bolt"></i>
-                    <span>4代超特</span>
+                    <span>4代</span>
                 </button>
                 <button class="filter-btn" data-generation="4_5">
                     <i class="fas fa-bolt"></i>
-                    <span>4.5代超特</span>
+                    <span>4.5代</span>
                 </button>
                 <button class="filter-btn" data-generation="5">
                     <i class="fas fa-bolt"></i>
-                    <span>5代超特</span>
+                    <span>5代</span>
                 </button>
                 <button class="filter-btn" data-generation="6">
                     <i class="fas fa-bolt"></i>
-                    <span>6代超特</span>
+                    <span>6代</span>
                 </button>
                 <button class="filter-btn" data-generation="6_5">
                     <i class="fas fa-bolt"></i>
-                    <span>6.5代超特</span>
+                    <span>6.5代</span>
                 </button>
                 <button class="filter-btn" data-generation="7">
                     <i class="fas fa-bolt"></i>
-                    <span>7代超特</span>
+                    <span>7代</span>
                 </button>
                 <button class="filter-btn" data-generation="7_5">
                     <i class="fas fa-bolt"></i>
-                    <span>7.5代超特</span>
+                    <span>7.5代</span>
                 </button>
                 <button class="filter-btn" data-generation="8">
                     <i class="fas fa-bolt"></i>
-                    <span>8代超特</span>
+                    <span>8代</span>
                 </button>
                 <button class="filter-btn active" data-generation="9">
                     <i class="fas fa-bolt"></i>
-                    <span>9代超特</span>
+                    <span>9代</span>
                 </button>
             </div>
         </div>
@@ -305,56 +295,35 @@
         <!-- 首页介绍区域 -->
         <div id="home-section" class="content-section active">
             <div class="home-container">
-                <div class="home-hero">
-                    <h2 class="home-title">老非FS资料库</h2>
-                    <p class="home-subtitle">专业街头篮球超特角色资料平台</p>
-                </div>
-                
                 <div class="home-features">
-                    <div class="feature-card" onclick="switchToSection('gallery')">
+                    <div class="feature-card" onclick="handleHomeFeatureClick('strategy')">
                         <div class="feature-icon">
-                            <i class="fas fa-images"></i>
+                            <i class="fas fa-book"></i>
                         </div>
-                        <h3>超特图鉴</h3>
+                        <h3>超特攻略</h3>
                     </div>
                     
-                    <div class="feature-card" onclick="switchToSection('characters')">
+                    <div class="feature-card" onclick="handleHomeFeatureClick('props')">
                         <div class="feature-icon">
-                            <i class="fas fa-running"></i>
+                            <i class="fas fa-box"></i>
                         </div>
-                        <h3>超特动作</h3>
-                    </div>
-                    
-                     <div class="feature-card" onclick="switchToSection('ranking')">
-                         <div class="feature-icon">
-                             <i class="fas fa-trophy"></i>
-                         </div>
-                         <h3>职业排名</h3>
-                     </div>
-                     
-                     <div class="feature-card" onclick="switchToSection('comparison')">
-                         <div class="feature-icon">
-                             <i class="fas fa-balance-scale"></i>
-                         </div>
-                         <h3>超特对比</h3>
-                     </div>
-                    
-                    <div class="feature-card" onclick="switchToSection('account-recommend')">
-                        <div class="feature-icon">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <h3>职业&粉丝套</h3>
+                        <h3>FS道具</h3>
                     </div>
                     
                     <div class="feature-card" onclick="switchToSection('images')">
                         <div class="feature-icon">
                             <i class="fas fa-graduation-cap"></i>
                         </div>
-                        <h3>老非课程</h3>
+                        <h3>老非教程</h3>
+                    </div>
+                    
+                    <div class="feature-card" onclick="switchToSection('club')">
+                        <div class="feature-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>俱乐部</h3>
                     </div>
                 </div>
-                
-                
             </div>
         </div>
 
