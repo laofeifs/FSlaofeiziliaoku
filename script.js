@@ -1516,13 +1516,20 @@ document.addEventListener('DOMContentLoaded', function() {
         // 初始化超特对比功能
         initializeComparison();
         
-        console.log('6.5. 初始化粉丝套');
-        // 初始化粉丝套功能
+        console.log('6.5. 初始化职业&粉丝套');
+        // 初始化职业&粉丝套功能
         initializeAccountRecommend();
         
         console.log('6.6. 初始化图片模块');
         // 初始化图片模块功能
         initializeImages();
+        
+        console.log('6.7. 初始化俱乐部');
+        // 初始化俱乐部功能
+        initializeClub();
+        
+        console.log('6.8. 初始化FS单字');
+        // FS单字图片在切换到页面时加载，不需要在初始化时加载
         
         console.log('7. 初始化全屏显示');
         // 初始化全屏显示功能
@@ -1560,7 +1567,24 @@ function initializeNavigation() {
     var navButtons = document.querySelectorAll('.nav-btn');
     
     for (var i = 0; i < navButtons.length; i++) {
-        navButtons[i].addEventListener('click', function() {
+        navButtons[i].addEventListener('click', function(e) {
+            // 检查是否有子菜单
+            var parent = this.getAttribute('data-parent');
+            if (parent) {
+                e.stopPropagation();
+                // 切换子菜单显示
+                toggleSubnav(parent);
+                // 激活当前按钮
+                navButtons.forEach(function(btn) {
+                    btn.classList.remove('active');
+                });
+                this.classList.add('active');
+                return;
+            }
+            
+            // 关闭所有子菜单
+            closeAllSubnavs();
+            
             // 移除所有活动状态
             for (var j = 0; j < navButtons.length; j++) {
                 navButtons[j].classList.remove('active');
@@ -1570,10 +1594,82 @@ function initializeNavigation() {
             
             // 切换内容区域
             var section = this.getAttribute('data-section');
-            
-            // 正常切换内容区域
-            switchSection(section);
+            if (section) {
+                switchSection(section);
+            }
         });
+    }
+    
+    // 使用事件委托处理二级导航按钮点击事件
+    var subnavContainer = document.getElementById('subnav-container');
+    if (subnavContainer) {
+        subnavContainer.addEventListener('click', function(e) {
+            var subnavBtn = e.target.closest('.subnav-btn');
+            if (subnavBtn) {
+                e.stopPropagation();
+                e.preventDefault();
+                
+                console.log('点击二级导航按钮:', subnavBtn.getAttribute('data-section'));
+                
+                // 移除所有二级按钮的活动状态
+                var allSubnavButtons = document.querySelectorAll('.subnav-btn');
+                allSubnavButtons.forEach(function(b) {
+                    b.classList.remove('active');
+                });
+                
+                // 激活当前二级按钮
+                subnavBtn.classList.add('active');
+                
+                // 切换内容区域
+                var section = subnavBtn.getAttribute('data-section');
+                if (section) {
+                    console.log('切换到页面:', section);
+                    switchSection(section);
+                }
+            }
+        });
+    } else {
+        console.error('找不到二级导航容器');
+    }
+}
+
+// 切换二级导航显示
+function toggleSubnav(parent) {
+    var subnavContainer = document.getElementById('subnav-container');
+    var subnav = document.getElementById(parent + '-subnav');
+    
+    console.log('切换二级导航:', parent, '容器:', subnavContainer, '菜单:', subnav);
+    
+    if (!subnavContainer || !subnav) {
+        console.error('找不到二级导航元素');
+        return;
+    }
+    
+    var isActive = subnav.classList.contains('active');
+    
+    // 先关闭所有二级导航
+    closeAllSubnavs();
+    
+    // 如果当前二级导航未激活，则激活它
+    if (!isActive) {
+        subnavContainer.style.display = 'block';
+        subnav.classList.add('active');
+        console.log('显示二级导航:', parent);
+    } else {
+        subnavContainer.style.display = 'none';
+        console.log('隐藏二级导航:', parent);
+    }
+}
+
+// 关闭所有二级导航
+function closeAllSubnavs() {
+    var subnavContainer = document.getElementById('subnav-container');
+    var subnavs = document.querySelectorAll('.subnav-menu');
+    subnavs.forEach(function(subnav) {
+        subnav.classList.remove('active');
+    });
+    if (subnavContainer) {
+        subnavContainer.style.display = 'none';
     }
 }
 
@@ -1607,8 +1703,9 @@ function switchSection(sectionName) {
     // 控制content-area的显示
     const contentArea = document.querySelector('.content-area');
     if (sectionName === 'home') {
-        // 首页时隐藏content-area
+        // 首页时隐藏content-area和二级导航
         contentArea.classList.remove('active');
+        closeAllSubnavs();
     } else {
         // 其他页面显示content-area
         contentArea.classList.add('active');
@@ -1618,6 +1715,20 @@ function switchSection(sectionName) {
     const targetSection = document.getElementById(sectionName + '-section');
     if (targetSection) {
         targetSection.classList.add('active');
+    }
+    
+    // 根据页面加载相应的内容
+    if (sectionName === 'fs-single') {
+        // 切换到FS单字页面时加载图片（延迟一点确保DOM已更新）
+        setTimeout(function() {
+            console.log('切换到FS单字页面，准备加载图片');
+            loadFSSingleImage();
+        }, 200);
+    } else if (sectionName === 'club') {
+        // 切换到俱乐部页面时加载图片（延迟一点确保DOM已更新）
+        setTimeout(function() {
+            loadClubImage();
+        }, 200);
     }
     
     // 控制筛选按钮的显示/隐藏
@@ -1633,12 +1744,35 @@ function switchSection(sectionName) {
 
 // 全局函数，供HTML中的onclick调用
 function switchToSection(sectionName) {
+    // 关闭所有二级导航
+    closeAllSubnavs();
+    closeSubmenu();
+    
     // 更新桌面端导航按钮状态
     const navButtons = document.querySelectorAll('.nav-btn');
     navButtons.forEach(btn => {
         btn.classList.remove('active');
         if (btn.getAttribute('data-section') === sectionName) {
             btn.classList.add('active');
+        }
+    });
+    
+    // 更新二级导航按钮状态
+    const subnavButtons = document.querySelectorAll('.subnav-btn');
+    subnavButtons.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-section') === sectionName) {
+            btn.classList.add('active');
+            // 激活对应的父级按钮和显示二级导航
+            const subnav = btn.closest('.subnav-menu');
+            if (subnav) {
+                const parentId = subnav.id.replace('-subnav', '');
+                const parentBtn = document.querySelector(`[data-parent="${parentId}"]`);
+                if (parentBtn) {
+                    parentBtn.classList.add('active');
+                    toggleSubnav(parentId);
+                }
+            }
         }
     });
     
@@ -1685,9 +1819,19 @@ function initializeMobileNavigation() {
     // 移动端导航项点击事件
     const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
     mobileNavItems.forEach(item => {
-        item.addEventListener('click', function() {
+        item.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const parent = this.getAttribute('data-parent');
             const section = this.getAttribute('data-section');
-            switchToSection(section);
+            
+            if (parent) {
+                // 有父级菜单，显示子菜单
+                showMobileSubmenu(parent);
+            } else if (section) {
+                // 直接切换页面
+                closeSubmenu(); // 关闭子菜单（如果打开）
+                switchToSection(section);
+            }
         });
     });
     
@@ -1700,8 +1844,34 @@ function initializeMobileNavigation() {
             !mobileNav.contains(e.target) && 
             !mobileMenuToggle.contains(e.target)) {
             closeMobileMenu();
+            closeSubmenu();
         }
     });
+}
+
+// 显示移动端子菜单
+function showMobileSubmenu(parent) {
+    const mainMenu = document.getElementById('mobile-nav-menu');
+    const submenu = document.getElementById(parent + '-submenu');
+    
+    if (mainMenu && submenu) {
+        mainMenu.classList.remove('active');
+        submenu.classList.add('active');
+    }
+}
+
+// 关闭移动端子菜单
+function closeSubmenu() {
+    const submenus = document.querySelectorAll('.mobile-submenu');
+    const mainMenu = document.getElementById('mobile-nav-menu');
+    
+    submenus.forEach(submenu => {
+        submenu.classList.remove('active');
+    });
+    
+    if (mainMenu) {
+        mainMenu.classList.add('active');
+    }
 }
 
 // 加载角色数据
@@ -2760,7 +2930,7 @@ var comparisonData = [
     }
 ];
 
-// 粉丝套数据
+// 职业&粉丝套数据
 var accountRecommendData = [
     {
         id: 'recommend_1',
@@ -2858,7 +3028,7 @@ function loadComparisonImages() {
     console.log('超特对比图片已加载');
 }
 
-// 初始化粉丝套功能
+// 初始化职业&粉丝套功能
 function initializeAccountRecommend() {
     loadAccountRecommendImages();
 }
@@ -2868,14 +3038,111 @@ function initializeImages() {
     loadImages();
 }
 
-// 加载粉丝套图片
+// 初始化俱乐部功能
+function initializeClub() {
+    loadClubImage();
+}
+
+// 加载俱乐部图片
+function loadClubImage() {
+    const clubImage = document.getElementById('club-image');
+    if (!clubImage) return;
+    
+    const imagePath = 'club/club.jpg';
+    const imageUrl = buildImageUrl(imagePath);
+    const imageUrlWithTimestamp = `${imageUrl}?v=${COS_CONFIG.Version}`;
+    
+    clubImage.src = imageUrlWithTimestamp;
+    clubImage.alt = '俱乐部';
+    
+    console.log('俱乐部图片已加载:', imageUrlWithTimestamp);
+}
+
+// 加载FS单字图片
+function loadFSSingleImage() {
+    console.log('=== 开始加载FS单字图片 ===');
+    
+    // 先检查页面是否可见
+    const fsSingleSection = document.getElementById('fs-single-section');
+    if (!fsSingleSection) {
+        console.error('找不到FS单字页面区域');
+        return;
+    }
+    
+    console.log('找到FS单字页面区域，是否激活:', fsSingleSection.classList.contains('active'));
+    
+    const fsSingleImage = document.getElementById('fs-single-image');
+    if (!fsSingleImage) {
+        console.error('找不到FS单字图片元素，ID: fs-single-image');
+        console.log('尝试查找所有图片元素...');
+        const allImages = document.querySelectorAll('img');
+        console.log('页面中图片元素数量:', allImages.length);
+        // 尝试再次查找
+        setTimeout(function() {
+            const retryImage = document.getElementById('fs-single-image');
+            if (retryImage) {
+                console.log('重试找到图片元素');
+                loadFSSingleImage();
+            } else {
+                console.error('重试后仍然找不到图片元素');
+            }
+        }, 300);
+        return;
+    }
+    
+    console.log('✅ 找到FS单字图片元素');
+    console.log('图片元素当前src:', fsSingleImage.src);
+    
+    const imagePath = 'singleworld/single.jpg';
+    const imageUrl = buildImageUrl(imagePath);
+    const imageUrlWithTimestamp = `${imageUrl}?v=${COS_CONFIG.Version}`;
+    
+    console.log('图片路径:', imagePath);
+    console.log('CDN域名:', COS_CONFIG.CDNDomain);
+    console.log('完整图片URL:', imageUrlWithTimestamp);
+    
+    // 检查图片是否已经有src且相同
+    if (fsSingleImage.src && fsSingleImage.src.includes('single.jpg')) {
+        console.log('图片已有src，但重新加载以确保显示');
+    }
+    
+    // 强制设置图片src
+    fsSingleImage.src = '';
+    fsSingleImage.src = imageUrlWithTimestamp;
+    fsSingleImage.alt = 'FS单字';
+    
+    console.log('已设置图片src为:', imageUrlWithTimestamp);
+    
+    // 添加错误处理
+    fsSingleImage.onerror = function(e) {
+        console.error('❌ FS单字图片加载失败');
+        console.error('错误事件:', e);
+        console.error('图片URL:', imageUrlWithTimestamp);
+        console.error('当前src:', fsSingleImage.src);
+        console.error('可能的原因:');
+        console.error('1. 图片路径不正确 - 请检查COS中路径是否为 singleworld/single.jpg');
+        console.error('2. CDN配置问题 - 请检查CDN是否正确配置');
+        console.error('3. 跨域问题 - 请检查CORS配置');
+        console.error('4. 图片权限问题 - 请检查COS访问权限');
+    };
+    
+    fsSingleImage.onload = function() {
+        console.log('✅ FS单字图片加载成功！');
+        console.log('图片URL:', imageUrlWithTimestamp);
+        console.log('图片尺寸:', fsSingleImage.naturalWidth, 'x', fsSingleImage.naturalHeight);
+    };
+    
+    console.log('=== FS单字图片加载函数执行完成 ===');
+}
+
+// 加载职业&粉丝套图片
 function loadAccountRecommendImages(selectedDistrict = 'all') {
     const recommendGrid = document.getElementById('recommend-grid');
     if (!recommendGrid) return;
     
     recommendGrid.innerHTML = '';
     
-    // 显示所有粉丝套图片
+    // 显示所有职业&粉丝套图片
     accountRecommendData.forEach(item => {
         const recommendItem = document.createElement('div');
         recommendItem.className = 'recommend-item';
@@ -2895,12 +3162,12 @@ function loadAccountRecommendImages(selectedDistrict = 'all') {
         recommendGrid.appendChild(recommendItem);
     });
     
-    // 为粉丝套图片添加触摸事件监听器（减少重复绑定）
+    // 为职业&粉丝套图片添加触摸事件监听器（减少重复绑定）
     setTimeout(function() {
         addTouchListenersToRecommendImages();
     }, 500);
     
-    console.log(`粉丝套图片已加载，共${accountRecommendData.length}张图片`);
+    console.log(`职业&粉丝套图片已加载，共${accountRecommendData.length}张图片`);
 }
 
 // 加载老非课程页面
@@ -3441,11 +3708,11 @@ function handleLongPress(event, imgElement) {
     }
 }
 
-// 为粉丝套图片添加触摸事件监听器
+// 为职业&粉丝套图片添加触摸事件监听器
 function addTouchListenersToRecommendImages() {
     const recommendImages = document.querySelectorAll('.recommend-image');
     
-    console.log('找到粉丝套图片数量:', recommendImages.length);
+    console.log('找到职业&粉丝套图片数量:', recommendImages.length);
     
     recommendImages.forEach(function(img, index) {
         console.log('为图片', index, '添加触摸事件监听器');

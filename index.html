@@ -106,6 +106,40 @@
                 <i class="fas fa-home"></i>
                 <span>首页</span>
             </button>
+            <button class="mobile-nav-item has-submenu" data-parent="strategy">
+                <i class="fas fa-book"></i>
+                <span>超特攻略</span>
+                <i class="fas fa-chevron-right submenu-arrow"></i>
+            </button>
+            <button class="mobile-nav-item has-submenu" data-parent="props">
+                <i class="fas fa-box"></i>
+                <span>FS道具</span>
+                <i class="fas fa-chevron-right submenu-arrow"></i>
+            </button>
+            <button class="mobile-nav-item" data-section="images">
+                <i class="fas fa-graduation-cap"></i>
+                <span>老非教程</span>
+            </button>
+            <button class="mobile-nav-item" data-section="computer-config">
+                <i class="fas fa-desktop"></i>
+                <span>电脑配置</span>
+            </button>
+            <button class="mobile-nav-item" data-section="club">
+                <i class="fas fa-users"></i>
+                <span>俱乐部</span>
+            </button>
+            <button class="mobile-nav-item" data-section="events">
+                <i class="fas fa-calendar-alt"></i>
+                <span>最新活动</span>
+            </button>
+        </div>
+        <!-- 二级导航菜单 -->
+        <div class="mobile-submenu" id="strategy-submenu">
+            <button class="mobile-submenu-back" onclick="closeSubmenu()">
+                <i class="fas fa-chevron-left"></i>
+                <span>返回</span>
+            </button>
+            <h3>超特攻略</h3>
             <button class="mobile-nav-item" data-section="gallery">
                 <i class="fas fa-images"></i>
                 <span>超特图鉴</span>
@@ -114,36 +148,28 @@
                 <i class="fas fa-running"></i>
                 <span>超特动作</span>
             </button>
-             <button class="mobile-nav-item" data-section="ranking">
-                 <i class="fas fa-trophy"></i>
-                 <span>职业排名</span>
-             </button>
-             <button class="mobile-nav-item" data-section="comparison">
-                 <i class="fas fa-balance-scale"></i>
-                 <span>超特对比</span>
-             </button>
-            <button class="mobile-nav-item" data-section="account">
-                <i class="fas fa-user-circle"></i>
-                <span>FS账号</span>
+            <button class="mobile-nav-item" data-section="ranking">
+                <i class="fas fa-trophy"></i>
+                <span>职业排名</span>
             </button>
+            <button class="mobile-nav-item" data-section="comparison">
+                <i class="fas fa-balance-scale"></i>
+                <span>超特对比</span>
+            </button>
+        </div>
+        <div class="mobile-submenu" id="props-submenu">
+            <button class="mobile-submenu-back" onclick="closeSubmenu()">
+                <i class="fas fa-chevron-left"></i>
+                <span>返回</span>
+            </button>
+            <h3>FS道具</h3>
             <button class="mobile-nav-item" data-section="account-recommend">
                 <i class="fas fa-star"></i>
-                <span>粉丝套</span>
+                <span>职业&粉丝套</span>
             </button>
-            <button class="mobile-nav-item" data-section="images">
-                <i class="fas fa-graduation-cap"></i>
-                <span>老非课程</span>
-            </button>
-            <button class="mobile-nav-item" data-section="skills">
-                <span>广告招商</span>
-            </button>
-            <button class="mobile-nav-item" onclick="openFSPLActivity()">
-                <i class="fas fa-trophy"></i>
-                <span>预约麦迪</span>
-            </button>
-            <button class="mobile-nav-item" data-section="computer-config">
-                <i class="fas fa-desktop"></i>
-                <span>电脑配置</span>
+            <button class="mobile-nav-item" data-section="fs-single">
+                <i class="fas fa-font"></i>
+                <span>FS单字</span>
             </button>
         </div>
     </nav>
@@ -157,46 +183,64 @@
                     <i class="fas fa-home"></i>
                     <span>首页</span>
                 </button>
-                <button class="nav-btn" data-section="gallery">
-                    <i class="fas fa-images"></i>
-                    <span>超特图鉴</span>
+                <button class="nav-btn" data-parent="strategy">
+                    <i class="fas fa-book"></i>
+                    <span>超特攻略</span>
                 </button>
-                <button class="nav-btn" data-section="characters">
-                    <i class="fas fa-running"></i>
-                    <span>超特动作</span>
-                </button>
-                 <button class="nav-btn" data-section="ranking">
-                     <i class="fas fa-trophy"></i>
-                     <span>职业排名</span>
-                 </button>
-                 <button class="nav-btn" data-section="comparison">
-                     <i class="fas fa-balance-scale"></i>
-                     <span>超特对比</span>
-                 </button>
-                <button class="nav-btn" data-section="account">
-                    <i class="fas fa-user-circle"></i>
-                    <span>FS账号</span>
-                </button>
-                <button class="nav-btn" data-section="account-recommend">
-                    <i class="fas fa-star"></i>
-                    <span>粉丝套</span>
+                <button class="nav-btn" data-parent="props">
+                    <i class="fas fa-box"></i>
+                    <span>FS道具</span>
                 </button>
                 <button class="nav-btn" data-section="images">
                     <i class="fas fa-graduation-cap"></i>
-                    <span>老非课程</span>
-                </button>
-                <button class="nav-btn" data-section="skills">
-                    <span>广告招商</span>
-                </button>
-                <button class="nav-btn" onclick="openFSPLActivity()">
-                    <i class="fas fa-trophy"></i>
-                    <span>预约麦迪</span>
+                    <span>老非教程</span>
                 </button>
                 <button class="nav-btn" data-section="computer-config">
                     <i class="fas fa-desktop"></i>
                     <span>电脑配置</span>
                 </button>
-
+                <button class="nav-btn" data-section="club">
+                    <i class="fas fa-users"></i>
+                    <span>俱乐部</span>
+                </button>
+                <button class="nav-btn" data-section="events">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>最新活动</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- 二级导航菜单容器 -->
+        <div class="subnav-container" id="subnav-container">
+            <!-- 超特攻略子菜单 -->
+            <div class="subnav-menu" id="strategy-subnav">
+                <button class="subnav-btn" data-section="gallery">
+                    <i class="fas fa-images"></i>
+                    <span>超特图鉴</span>
+                </button>
+                <button class="subnav-btn" data-section="characters">
+                    <i class="fas fa-running"></i>
+                    <span>超特动作</span>
+                </button>
+                <button class="subnav-btn" data-section="ranking">
+                    <i class="fas fa-trophy"></i>
+                    <span>职业排名</span>
+                </button>
+                <button class="subnav-btn" data-section="comparison">
+                    <i class="fas fa-balance-scale"></i>
+                    <span>超特对比</span>
+                </button>
+            </div>
+            <!-- FS道具子菜单 -->
+            <div class="subnav-menu" id="props-subnav">
+                <button class="subnav-btn" data-section="account-recommend">
+                    <i class="fas fa-star"></i>
+                    <span>职业&粉丝套</span>
+                </button>
+                <button class="subnav-btn" data-section="fs-single">
+                    <i class="fas fa-font"></i>
+                    <span>FS单字</span>
+                </button>
             </div>
         </div>
 
@@ -299,7 +343,7 @@
                         <div class="feature-icon">
                             <i class="fas fa-star"></i>
                         </div>
-                        <h3>粉丝套</h3>
+                        <h3>职业&粉丝套</h3>
                     </div>
                     
                     <div class="feature-card" onclick="switchToSection('images')">
@@ -369,28 +413,50 @@
                 </div>
             </div>
 
-            <!-- 粉丝套区域 -->
+            <!-- 职业&粉丝套区域 -->
             <div id="account-recommend-section" class="content-section">
-                <h2>粉丝套</h2>
+                <h2>职业&粉丝套</h2>
                 <div class="account-recommend-content">
                     <div class="recommend-tip">
                         <i class="fas fa-info-circle"></i>
                         <span>长按图片扫描二维码查看</span>
                     </div>
                     <div class="recommend-grid" id="recommend-grid">
-                        <!-- 粉丝套图片将在这里动态加载 -->
+                        <!-- 职业&粉丝套图片将在这里动态加载 -->
                     </div>
                 </div>
             </div>
 
-            <div id="skills-section" class="content-section">
-                <h2>广告招商</h2>
-                <p>广告招商内容将在这里显示</p>
+            <!-- FS单字区域 -->
+            <div id="fs-single-section" class="content-section">
+                <h2>FS单字</h2>
+                <div class="fs-single-content">
+                    <div class="fs-single-image-container">
+                        <img id="fs-single-image" src="" alt="FS单字" class="fs-single-image" 
+                             onerror="handleImageError(this, 'FS单字')" 
+                             onload="handleImageLoad(this, 'FS单字')">
+                    </div>
+                </div>
             </div>
 
+            <!-- 俱乐部区域 -->
+            <div id="club-section" class="content-section">
+                <h2>俱乐部</h2>
+                <div class="club-content">
+                    <div class="club-image-container">
+                        <img id="club-image" src="" alt="俱乐部" class="club-image" 
+                             onerror="handleImageError(this, '俱乐部')" 
+                             onload="handleImageLoad(this, '俱乐部')">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 最新活动区域 -->
             <div id="events-section" class="content-section">
-                <h2>活动</h2>
-                <p>活动内容将在这里显示</p>
+                <h2>最新活动</h2>
+                <div class="events-content">
+                    <p>最新活动内容将在这里显示</p>
+                </div>
             </div>
 
             <div id="account-section" class="content-section">
@@ -564,7 +630,7 @@
                 <h2>欢迎使用FS资料库</h2>
             </div>
             <div class="welcome-body">
-                <p>内含超特角色介绍、动作预览和账号、老非教学等丰富内容，希望能够帮助你快速适应FS</p>
+                <p>内含超特攻略- FS道具-老非教学等丰富内容，希望能够帮助你快速适应FS</p>
             </div>
             <div class="welcome-buttons">
                 <button id="startExploreBtn" class="welcome-btn start-btn">
