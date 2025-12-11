@@ -1568,6 +1568,22 @@ function initializeNavigation() {
     
     for (var i = 0; i < navButtons.length; i++) {
         navButtons[i].addEventListener('click', function(e) {
+            // 优先检查是否是最新活动，如果是则直接跳转
+            var section = this.getAttribute('data-section');
+            console.log('导航按钮点击，section:', section);
+            if (section === 'events') {
+                console.log('检测到最新活动，准备跳转');
+                e.preventDefault();
+                e.stopPropagation();
+                try {
+                    window.location.href = 'https://www.fsjoy.com/news.html?newsTypeStr=894362&id=121524';
+                } catch (error) {
+                    console.error('跳转失败:', error);
+                    window.open('https://www.fsjoy.com/news.html?newsTypeStr=894362&id=121524', '_blank');
+                }
+                return false;
+            }
+            
             // 检查是否有子菜单
             var parent = this.getAttribute('data-parent');
             if (parent) {
@@ -1601,7 +1617,6 @@ function initializeNavigation() {
             this.classList.add('active');
             
             // 切换内容区域
-            var section = this.getAttribute('data-section');
             if (section) {
                 switchSection(section);
             }
@@ -1800,6 +1815,12 @@ function switchSection(sectionName) {
 
 // 全局函数，供HTML中的onclick调用
 function switchToSection(sectionName) {
+    // 如果是最新活动，直接跳转到外部链接
+    if (sectionName === 'events') {
+        window.location.href = 'https://www.fsjoy.com/news.html?newsTypeStr=894362&id=121524';
+        return;
+    }
+    
     // 先确定这个section属于哪个父级菜单
     let parentId = null;
     
@@ -1962,9 +1983,24 @@ function initializeMobileNavigation() {
     const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
     mobileNavItems.forEach(item => {
         item.addEventListener('click', function(e) {
+            // 优先检查是否是最新活动，如果是则直接跳转
+            const section = this.getAttribute('data-section');
+            console.log('移动端导航按钮点击，section:', section);
+            if (section === 'events') {
+                console.log('检测到最新活动，准备跳转');
+                e.preventDefault();
+                e.stopPropagation();
+                try {
+                    window.location.href = 'https://www.fsjoy.com/news.html?newsTypeStr=894362&id=121524';
+                } catch (error) {
+                    console.error('跳转失败:', error);
+                    window.open('https://www.fsjoy.com/news.html?newsTypeStr=894362&id=121524', '_blank');
+                }
+                return false;
+            }
+            
             e.stopPropagation();
             const parent = this.getAttribute('data-parent');
-            const section = this.getAttribute('data-section');
             
             if (parent) {
                 // 有父级菜单，在下方显示子导航，不跳转页面
@@ -3255,7 +3291,7 @@ function loadClubImage() {
     const clubImage = document.getElementById('club-image');
     if (!clubImage) return;
     
-    const imagePath = 'club/club.jpg';
+    const imagePath = 'club/club1.jpg';
     const imageUrl = buildImageUrl(imagePath);
     const imageUrlWithTimestamp = `${imageUrl}?v=${COS_CONFIG.Version}`;
     
@@ -4022,7 +4058,7 @@ function handleTouchEnd(e) {
 function openFSPLActivity() {
     try {
         // 最新活动页面URL
-        const fsplUrl = 'https://hd.t2cn.com/t2cnevent/unmgnt/TracySignUp.shtml';
+        const fsplUrl = 'https://www.fsjoy.com/news.html?newsTypeStr=894362&id=121524';
         
         // 检测设备类型
         const isMobile = /Mobile|Android|iPhone|iPad/.test(navigator.userAgent);
@@ -4042,7 +4078,7 @@ function openFSPLActivity() {
     } catch (error) {
         console.error('最新活动跳转失败:', error);
         // 备用跳转方案
-        window.location.href = 'https://hd.t2cn.com/t2cnevent/unmgnt/TracySignUp.shtml';
+        window.location.href = 'https://www.fsjoy.com/news.html?newsTypeStr=894362&id=121524';
     }
 }
 

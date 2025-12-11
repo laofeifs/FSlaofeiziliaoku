@@ -571,14 +571,19 @@ html {
     margin-bottom: 30px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     display: none; /* 默认隐藏筛选按钮 */
+    width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
 }
 
 .filter-buttons {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 20px;
-    max-width: 100%;
-    margin: 0 auto;
+    display: grid !important;
+    grid-template-columns: repeat(5, 1fr) !important;
+    gap: 20px !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
 }
 
 .filter-btn {
@@ -593,7 +598,6 @@ html {
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
-    gap: 8px;
     justify-content: center;
 }
 
@@ -2135,13 +2139,14 @@ html {
     }
     
     .filter-buttons {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 15px;
+        display: grid !important;
+        grid-template-columns: repeat(5, 1fr) !important;
+        gap: 15px !important;
     }
     
     .filter-btn {
-        padding: 10px 16px;
-        font-size: 0.85rem;
+        padding: 12px 16px;
+        font-size: 0.9rem;
         min-width: 0;
     }
     
@@ -2249,13 +2254,14 @@ html {
     }
     
     .filter-buttons {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 12px;
+        display: grid !important;
+        grid-template-columns: repeat(5, 1fr) !important;
+        gap: 12px !important;
     }
     
     .filter-btn {
-        padding: 8px 12px;
-        font-size: 0.8rem;
+        padding: 10px 12px;
+        font-size: 0.85rem;
         min-width: 0;
     }
     
