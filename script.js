@@ -11,7 +11,7 @@ var COS_CONFIG = {
     // CDN访问域名（推荐使用，减少流量费用）
     CDNDomain: 'https://cdn.laofeifs.com',
     // 当前版本号，用于缓存控制
-    Version: '202510038901'
+    Version: '202510038902'
 };
 
 // 当前选中的代次
@@ -3194,42 +3194,42 @@ var courseData = [
     {
         id: 'course_1',
         title: 'PG跑位课',
-        image: 'class/PG跑位课.jpg'
+        image: 'class/PG跑位课v1.jpg'
     },
     {
         id: 'course_2',
         title: 'TT综合打法课',
-        image: 'class/TT综合打法课.jpg'
+        image: 'class/TT综合打法课v1.jpg'
     },
     {
         id: 'course_3',
         title: '盖帽课',
-        image: 'class/盖帽课.jpg'
+        image: 'class/盖帽课v1.jpg'
     },
     {
         id: 'course_4',
         title: '碎步合集课',
-        image: 'class/碎步合集课.jpg'
+        image: 'class/碎步合集课v1.jpg'
     },
     {
         id: 'course_5',
         title: '篮板课',
-        image: 'class/篮板课.jpg'
+        image: 'class/篮板课v1.jpg'
     },
     {
         id: 'course_6',
         title: '精准传球课',
-        image: 'class/精准传球课.jpg'
+        image: 'class/精准传球课v1.jpg'
     },
     {
         id: 'course_7',
         title: '跑扣课',
-        image: 'class/跑扣课.jpg'
+        image: 'class/跑扣课v1.jpg'
     },
     {
         id: 'course_8',
         title: '躲吸与牵制课',
-        image: 'class/躲吸与牵制课.jpg'
+        image: 'class/躲吸与牵制课v1.jpg'
     }
 ];
 
@@ -3291,7 +3291,7 @@ function loadClubImage() {
     const clubImage = document.getElementById('club-image');
     if (!clubImage) return;
     
-    const imagePath = 'club/club1.jpg';
+    const imagePath = 'club/club1.png';
     const imageUrl = buildImageUrl(imagePath);
     const imageUrlWithTimestamp = `${imageUrl}?v=${COS_CONFIG.Version}`;
     
