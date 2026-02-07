@@ -912,6 +912,62 @@ var charactersData = {
             ]
         }
     ],
+    "10": [
+        {
+            "id": "10_1",
+            "name": "沃尔肯",
+            "generation": "10代超特",
+            "description": "10代超特角色",
+            "image": "characters/10代超特/沃尔肯.png",
+            "actions": [
+                {"name": "倒地救球", "gif": "gifs/10代超特/沃尔肯/倒地救球.gif"},
+                {"name": "三分球", "gif": "gifs/10代超特/沃尔肯/三分球.gif"},
+                {"name": "不看人传球", "gif": "gifs/10代超特/沃尔肯/不看人传球.gif"},
+                {"name": "中手冒", "gif": "gifs/10代超特/沃尔肯/中手冒.gif"},
+                {"name": "中投", "gif": "gifs/10代超特/沃尔肯/中投.gif"},
+                {"name": "分球", "gif": "gifs/10代超特/沃尔肯/分球.gif"},
+                {"name": "基本运球", "gif": "gifs/10代超特/沃尔肯/基本运球.gif"},
+                {"name": "大手冒", "gif": "gifs/10代超特/沃尔肯/大手冒.gif"},
+                {"name": "小手冒", "gif": "gifs/10代超特/沃尔肯/小手冒.gif"},
+                {"name": "快速回防", "gif": "gifs/10代超特/沃尔肯/快速回防.gif"},
+                {"name": "抢断", "gif": "gifs/10代超特/沃尔肯/抢断.gif"},
+                {"name": "篮板", "gif": "gifs/10代超特/沃尔肯/篮板.gif"},
+                {"name": "近上", "gif": "gifs/10代超特/沃尔肯/近上.gif"},
+                {"name": "近扣", "gif": "gifs/10代超特/沃尔肯/近扣.gif"},
+                {"name": "近投", "gif": "gifs/10代超特/沃尔肯/近投.gif"},
+                {"name": "远上", "gif": "gifs/10代超特/沃尔肯/远上.gif"},
+                {"name": "远扣", "gif": "gifs/10代超特/沃尔肯/远扣.gif"},
+                {"name": "间接进攻手突破", "gif": "gifs/10代超特/沃尔肯/间接进攻手突破.gif"}
+            ]
+        },
+        {
+            "id": "10_2",
+            "name": "海琳",
+            "generation": "10代超特",
+            "description": "10代超特角色",
+            "image": "characters/10代超特/海琳.png",
+            "actions": [
+                {"name": "三分球", "gif": "gifs/10代超特/海琳/三分球.gif"},
+                {"name": "不看人传球", "gif": "gifs/10代超特/海琳/不看人传球.gif"},
+                {"name": "中手冒", "gif": "gifs/10代超特/海琳/中手冒.gif"},
+                {"name": "中投", "gif": "gifs/10代超特/海琳/中投.gif"},
+                {"name": "倒地救球", "gif": "gifs/10代超特/海琳/倒地救球.gif"},
+                {"name": "分球", "gif": "gifs/10代超特/海琳/分球.gif"},
+                {"name": "基本运球", "gif": "gifs/10代超特/海琳/基本运球.gif"},
+                {"name": "大手冒", "gif": "gifs/10代超特/海琳/大手冒.gif"},
+                {"name": "小手冒", "gif": "gifs/10代超特/海琳/小手冒.gif"},
+                {"name": "快速回防", "gif": "gifs/10代超特/海琳/快速回防.gif"},
+                {"name": "抢断", "gif": "gifs/10代超特/海琳/抢断.gif"},
+                {"name": "篮板", "gif": "gifs/10代超特/海琳/篮板.gif"},
+                {"name": "近上", "gif": "gifs/10代超特/海琳/近上.gif"},
+                {"name": "近扣", "gif": "gifs/10代超特/海琳/近扣.gif"},
+                {"name": "近投", "gif": "gifs/10代超特/海琳/近投.gif"},
+                {"name": "远上", "gif": "gifs/10代超特/海琳/远上.gif"},
+                {"name": "远扣", "gif": "gifs/10代超特/海琳/远扣.gif"},
+                {"name": "间接进攻手突破", "gif": "gifs/10代超特/海琳/间接进攻手突破.gif"}
+            ]
+        }
+    ],
     "3_5": [
         {
             "id": "3_5_1",
