@@ -44,6 +44,81 @@ function buildImageUrlWithVersion(imagePath) {
     return COS_CONFIG.CDNDomain + '/' + imagePath + '?v=' + COS_CONFIG.Version;
 }
 
+// 特殊鞋子：COS 路径 shoes/ 下的 GIF
+var SPECIAL_SHOES_ITEMS = [
+    { name: '兔兔鞋', path: 'shoes/兔兔鞋.gif' },
+    { name: '影豹鞋', path: 'shoes/影豹鞋.gif' },
+    { name: '末世鞋', path: 'shoes/末世鞋.gif' },
+    { name: '武者鞋', path: 'shoes/武者鞋.gif' },
+    { name: '滑板鞋', path: 'shoes/滑板鞋.gif' },
+    { name: '重力鞋', path: 'shoes/重力鞋.gif' }
+];
+
+function initSpecialShoesSection() {
+    var root = document.getElementById('special-shoes-grid');
+    if (!root || root.getAttribute('data-initialized') === '1') {
+        return;
+    }
+    root.setAttribute('data-initialized', '1');
+    root.innerHTML = '';
+
+    var picker = document.createElement('div');
+    picker.className = 'special-shoes-picker';
+
+    var viewWrap = document.createElement('div');
+    viewWrap.className = 'special-shoes-view-wrap';
+
+    var placeholder = document.createElement('p');
+    placeholder.className = 'special-shoes-placeholder';
+    placeholder.textContent = '请点击上方按钮查看对应鞋子动图';
+
+    var img = document.createElement('img');
+    img.className = 'special-shoe-gif';
+    img.id = 'special-shoe-display';
+    img.alt = '';
+    img.style.display = 'none';
+
+    var tabButtons = [];
+
+    function setActiveTab(index) {
+        for (var t = 0; t < tabButtons.length; t++) {
+            tabButtons[t].classList.toggle('active', t === index);
+        }
+    }
+
+    function showShoe(index) {
+        var item = SPECIAL_SHOES_ITEMS[index];
+        if (!item) {
+            return;
+        }
+        setActiveTab(index);
+        placeholder.style.display = 'none';
+        img.style.display = 'block';
+        img.alt = item.name;
+        img.src = buildImageUrlWithVersion(item.path);
+        img.onerror = function() {
+            handleImageError(this, item.name);
+        };
+    }
+
+    SPECIAL_SHOES_ITEMS.forEach(function(item, index) {
+        var tab = document.createElement('button');
+        tab.type = 'button';
+        tab.className = 'special-shoe-tab';
+        tab.textContent = item.name;
+        tab.addEventListener('click', function() {
+            showShoe(index);
+        });
+        tabButtons.push(tab);
+        picker.appendChild(tab);
+    });
+
+    viewWrap.appendChild(placeholder);
+    viewWrap.appendChild(img);
+    root.appendChild(picker);
+    root.appendChild(viewWrap);
+}
+
 // 图鉴数据 - 所有代数共用一张图片
 var galleryData = {
     image: 'gallery/超特图鉴.png',
@@ -1198,118 +1273,9 @@ function checkVersion() {
 
 
 
-// 欢迎弹窗功能
-function initWelcomeModal() {
-    const welcomeModal = document.getElementById('welcomeModal');
-    const startExploreBtn = document.getElementById('startExploreBtn');
-    const contactBtn = document.getElementById('contactBtn');
-    const wechatInfo = document.getElementById('wechatInfo');
-    const wechatNumber = document.getElementById('wechatNumber');
-    
-    // 检查是否已经显示过弹窗（使用sessionStorage）
-    const hasShownWelcome = sessionStorage.getItem('hasShownWelcome');
-    
-    if (!hasShownWelcome) {
-        // 显示弹窗
-        welcomeModal.style.display = 'flex';
-        document.body.style.overflow = 'hidden'; // 禁止背景滚动
-        
-        // 记录已显示
-        sessionStorage.setItem('hasShownWelcome', 'true');
-    }
-    
-    // 开始探索按钮点击事件
-    startExploreBtn.addEventListener('click', function() {
-        welcomeModal.style.display = 'none';
-        document.body.style.overflow = 'auto'; // 恢复背景滚动
-        wechatInfo.style.display = 'none'; // 隐藏微信号信息
-    });
-    
-    // 联系老非按钮点击事件
-    contactBtn.addEventListener('click', function() {
-        if (wechatInfo.style.display === 'none' || wechatInfo.style.display === '') {
-            wechatInfo.style.display = 'block';
-        } else {
-            wechatInfo.style.display = 'none';
-        }
-    });
-    
-    // 微信号点击复制功能
-    wechatNumber.addEventListener('click', function() {
-        // 始终复制原始微信号，而不是当前显示的文本
-        const originalText = 'laofei90186';
-        
-        // 使用现代浏览器的Clipboard API
-        if (navigator.clipboard && window.isSecureContext) {
-            navigator.clipboard.writeText(originalText).then(function() {
-                showCopySuccess();
-            }).catch(function() {
-                fallbackCopyTextToClipboard(originalText);
-            });
-        } else {
-            // 降级方案
-            fallbackCopyTextToClipboard(originalText);
-        }
-    });
-    
-    // 降级复制方案
-    function fallbackCopyTextToClipboard(text) {
-        const textArea = document.createElement("textarea");
-        textArea.value = text;
-        textArea.style.top = "0";
-        textArea.style.left = "0";
-        textArea.style.position = "fixed";
-        textArea.style.opacity = "0";
-        
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
-        
-        try {
-            const successful = document.execCommand('copy');
-            if (successful) {
-                showCopySuccess();
-            } else {
-                showCopyError();
-            }
-        } catch (err) {
-            showCopyError();
-        }
-        
-        document.body.removeChild(textArea);
-    }
-    
-    // 显示复制成功提示
-    function showCopySuccess() {
-        const originalText = wechatNumber.textContent;
-        wechatNumber.textContent = '已复制！';
-        wechatNumber.style.background = 'rgba(76, 175, 80, 0.3)';
-        
-        setTimeout(function() {
-            wechatNumber.textContent = originalText;
-            wechatNumber.style.background = 'rgba(255, 255, 255, 0.2)';
-        }, 1500);
-    }
-    
-    // 显示复制失败提示
-    function showCopyError() {
-        const originalText = wechatNumber.textContent;
-        wechatNumber.textContent = '复制失败';
-        wechatNumber.style.background = 'rgba(244, 67, 54, 0.3)';
-        
-        setTimeout(function() {
-            wechatNumber.textContent = originalText;
-            wechatNumber.style.background = 'rgba(255, 255, 255, 0.2)';
-        }, 1500);
-    }
-}
-
 // 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM加载完成');
-    
-    // 初始化欢迎弹窗
-    initWelcomeModal();
     
     // 检查CDN可用性
     checkCDNAvailability().then(isAvailable => {
@@ -1590,6 +1556,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('7. 初始化全屏显示');
         // 初始化全屏显示功能
         initializeFullscreen();
+        ensureBodyScrollUnlocked();
         
         console.log('8. 初始化分享功能');
         // 初始化分享功能
@@ -1856,6 +1823,10 @@ function switchSection(sectionName) {
         setTimeout(function() {
             loadClubImage();
         }, 200);
+    } else if (sectionName === 'special-shoes') {
+        setTimeout(function() {
+            initSpecialShoesSection();
+        }, 0);
     }
     
     // 控制筛选按钮的显示/隐藏
@@ -3629,6 +3600,22 @@ function showFullscreenImageNoRotate(src, alt) {
     }
 }
 
+// 全屏未打开时确保页面可滚动（避免 overflow:hidden 残留或从缓存恢复页面时锁住）
+function ensureBodyScrollUnlocked() {
+    var overlay = document.getElementById('fullscreen-overlay');
+    if (!overlay) {
+        document.body.style.removeProperty('overflow');
+        return;
+    }
+    if (window.getComputedStyle(overlay).display === 'none') {
+        document.body.style.removeProperty('overflow');
+    }
+}
+
+window.addEventListener('pageshow', function() {
+    ensureBodyScrollUnlocked();
+});
+
 // 关闭全屏显示
 function closeFullscreen() {
     const overlay = document.getElementById('fullscreen-overlay');
@@ -3636,8 +3623,8 @@ function closeFullscreen() {
     
     if (overlay) {
         overlay.style.display = 'none';
-        // 恢复页面滚动
-        document.body.style.overflow = 'auto';
+        // 恢复页面滚动（去掉内联 overflow，交给 CSS）
+        document.body.style.removeProperty('overflow');
         
         // 重置图片状态
         if (fullscreenImg) {

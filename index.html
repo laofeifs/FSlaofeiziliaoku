@@ -110,6 +110,10 @@
                 <i class="fas fa-book"></i>
                 <span>超特攻略</span>
             </button>
+            <button class="mobile-nav-item" data-section="special-shoes">
+                <i class="fas fa-shoe-prints"></i>
+                <span>特殊鞋子</span>
+            </button>
             <button class="mobile-nav-item" onclick="window.location.href='https://weidian.com/?userid=1730103600'; return false;">
                 <i class="fas fa-user-circle"></i>
                 <span>FS账号</span>
@@ -180,6 +184,10 @@
                 <button class="nav-btn" data-parent="strategy">
                     <i class="fas fa-book"></i>
                     <span>超特攻略</span>
+                </button>
+                <button class="nav-btn" data-section="special-shoes">
+                    <i class="fas fa-shoe-prints"></i>
+                    <span>特殊鞋子</span>
                 </button>
                 <button class="nav-btn" onclick="window.location.href='https://weidian.com/?userid=1730103600'; return false;">
                     <i class="fas fa-user-circle"></i>
@@ -377,6 +385,14 @@
                     <div class="comparison-grid" id="comparison-grid">
                         <!-- 对比图片将在这里动态加载 -->
                     </div>
+                </div>
+            </div>
+
+            <!-- 特殊鞋子（COS shoes 目录 GIF） -->
+            <div id="special-shoes-section" class="content-section">
+                <h2><i class="fas fa-shoe-prints"></i> 特殊鞋子</h2>
+                <div class="special-shoes-content">
+                    <div class="special-shoes-layout" id="special-shoes-grid"></div>
                 </div>
             </div>
 
@@ -590,32 +606,6 @@
         </div>
     </div>
 
-    <!-- 欢迎弹窗 -->
-    <div id="welcomeModal" class="welcome-modal">
-        <div class="welcome-modal-content">
-            <div class="welcome-header">
-                <h2>欢迎使用FS资料库</h2>
-            </div>
-            <div class="welcome-body">
-                <p>内含超特攻略- FS道具-老非教学等丰富内容，希望能够帮助你快速适应FS</p>
-            </div>
-            <div class="welcome-buttons">
-                <button id="startExploreBtn" class="welcome-btn start-btn">
-                    <i class="fas fa-rocket"></i>
-                    开始探索
-                </button>
-                <button id="contactBtn" class="welcome-btn contact-btn">
-                    <i class="fas fa-comments"></i>
-                    联系老非
-                </button>
-            </div>
-            <div class="wechat-info" id="wechatInfo" style="display: none;">
-                <p>微信号：<span id="wechatNumber" class="wechat-number">laofei90186</span></p>
-                <p class="copy-tip">点击微信号可复制</p>
-            </div>
-        </div>
-    </div>
-
     <!-- 网站备案信息 -->
     <footer class="website-footer">
         <div class="footer-content">
@@ -780,12 +770,7 @@
                     }
                 }
                 
-                // 性能优化
-                if (isMobile) {
-                    // 移动端性能优化
-                    document.body.style.willChange = 'auto';
-                    document.body.style.transform = 'translateZ(0)';
-                }
+                // 移动端不再对 body 设置 transform（部分 WebView 会导致整页无法上下滑动）
             }
             
             // 桌面端功能增强

@@ -9,9 +9,10 @@
 
 /* 设备特定样式类 */
 .wechat-browser {
-    /* 微信浏览器特殊样式 */
+    /* 微信浏览器特殊样式：竖向保留滚动，避免整页无法滑动 */
     -webkit-overflow-scrolling: touch;
-    overscroll-behavior: none;
+    overscroll-behavior-x: none;
+    overscroll-behavior-y: auto;
 }
 
 .ios-device {
@@ -255,28 +256,28 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     background-color: #f5f5f5;
     line-height: 1.6;
-    /* 禁用下拉刷新和微信误触 */
-    overscroll-behavior: none;
-    overscroll-behavior-y: contain;
+    /* 仅限制横向过度滚动；纵向用 auto，避免笔记本触控板/鼠标滚轮在部分浏览器无法滚动整页 */
+    overscroll-behavior-x: none;
+    overscroll-behavior-y: auto;
     -webkit-overflow-scrolling: touch;
-    /* 防止水平滚动 */
     overflow-x: hidden;
+    overflow-y: auto;
     width: 100%;
     max-width: 100%;
+    min-height: 100%;
 }
 
-/* 禁用下拉刷新 */
 html {
-    overscroll-behavior: none;
-    /* 防止水平滚动 */
     overflow-x: hidden;
+    overscroll-behavior-x: none;
+    overscroll-behavior-y: auto;
     width: 100%;
     max-width: 100%;
+    height: auto;
+    min-height: 100%;
 }
 
-/* 防止页面滚动时的意外刷新 */
 .main-content {
-    overscroll-behavior: none;
     -webkit-overflow-scrolling: touch;
 }
 
@@ -1584,6 +1585,83 @@ html {
     transform: scale(1.02);
 }
 
+/* 特殊鞋子 */
+#special-shoes-section h2 i {
+    margin-right: 0.45em;
+}
+
+.special-shoes-content {
+    width: 100%;
+}
+
+.special-shoes-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 0 10px;
+}
+
+.special-shoes-picker {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.special-shoe-tab {
+    padding: 10px 18px;
+    border: 2px solid #e0e0e0;
+    border-radius: 25px;
+    background: #fff;
+    color: #555;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.special-shoe-tab:hover {
+    border-color: #667eea;
+    color: #667eea;
+}
+
+.special-shoe-tab.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-color: transparent;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.35);
+}
+
+.special-shoes-view-wrap {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 640px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.special-shoes-placeholder {
+    margin: 24px 16px;
+    text-align: center;
+    color: #64748b;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.special-shoe-gif {
+    width: 100%;
+    height: auto;
+    display: block;
+    background: #f8fafc;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
 /* 移动端全屏显示优化 */
 @media (max-width: 768px) {
     .fullscreen-image {
@@ -1627,6 +1705,22 @@ html {
         font-size: 13px;
     }
     
+    .special-shoes-layout {
+        padding: 0;
+        gap: 16px;
+    }
+
+    .special-shoe-tab {
+        flex: 1 1 calc(50% - 10px);
+        min-width: 0;
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+
+    .special-shoes-view-wrap {
+        padding: 12px;
+    }
+
     /* 移动端账号推荐样式 */
     .recommend-grid {
         grid-template-columns: 1fr;
@@ -2784,200 +2878,6 @@ html {
     
     .header {
         padding: 15px 0;
-    }
-}
-
-
-/* 欢迎弹窗样式 */
-.welcome-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10000;
-    backdrop-filter: blur(5px);
-}
-
-.welcome-modal-content {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 20px;
-    padding: 40px;
-    max-width: 500px;
-    width: 90%;
-    text-align: center;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-    animation: modalSlideIn 0.5s ease-out;
-    position: relative;
-    overflow: hidden;
-}
-
-.welcome-modal-content::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-    pointer-events: none;
-}
-
-@keyframes modalSlideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-50px) scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-.welcome-header {
-    margin-bottom: 20px;
-    position: relative;
-    z-index: 1;
-}
-
-.welcome-header h2 {
-    color: #ffffff;
-    font-size: 28px;
-    font-weight: bold;
-    margin: 0;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.welcome-body {
-    margin-bottom: 30px;
-    position: relative;
-    z-index: 1;
-}
-
-.welcome-body p {
-    color: #ffffff;
-    font-size: 16px;
-    line-height: 1.6;
-    margin: 0;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-.welcome-buttons {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    margin-bottom: 20px;
-    position: relative;
-    z-index: 1;
-}
-
-.welcome-btn {
-    padding: 12px 24px;
-    border: none;
-    border-radius: 25px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    min-width: 120px;
-    justify-content: center;
-}
-
-.start-btn {
-    background: linear-gradient(45deg, #4CAF50, #45a049);
-    color: white;
-    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
-}
-
-.start-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
-}
-
-.contact-btn {
-    background: linear-gradient(45deg, #2196F3, #1976D2);
-    color: white;
-    box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
-}
-
-.contact-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
-}
-
-.wechat-info {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 15px;
-    padding: 20px;
-    margin-top: 20px;
-    position: relative;
-    z-index: 1;
-    animation: fadeIn 0.3s ease-in;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-.wechat-info p {
-    color: #ffffff;
-    margin: 5px 0;
-    font-size: 16px;
-}
-
-.wechat-number {
-    background: rgba(255, 255, 255, 0.2);
-    padding: 8px 12px;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: inline-block;
-    margin: 0 5px;
-}
-
-.wechat-number:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: scale(1.05);
-}
-
-.copy-tip {
-    font-size: 14px !important;
-    color: rgba(255, 255, 255, 0.8) !important;
-    font-style: italic;
-}
-
-/* 移动端适配 */
-@media (max-width: 768px) {
-    .welcome-modal-content {
-        padding: 30px 20px;
-        margin: 20px;
-    }
-    
-    .welcome-header h2 {
-        font-size: 24px;
-    }
-    
-    .welcome-body p {
-        font-size: 14px;
-    }
-    
-    .welcome-buttons {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .welcome-btn {
-        width: 100%;
-        padding: 15px 20px;
     }
 }
 
