@@ -3301,13 +3301,13 @@ function loadClubImage() {
     console.log('俱乐部图片已加载:', imageUrlWithTimestamp);
 }
 
-// 加载全国联赛图片（COS：SFSA/线下稀有.jpg + SFSA/代金活动.jpg）
+// 加载全国联赛图片（COS：SFSA/4.7线下稀有.jpg + SFSA/代金活动.jpg）
 function loadEventsLeagueImage() {
     const rareImg = document.getElementById('events-league-image-rare');
     const voucherImg = document.getElementById('events-league-image-voucher');
     if (!rareImg && !voucherImg) return;
 
-    const rareUrl = `${buildImageUrl('SFSA/线下稀有.jpg')}?v=${COS_CONFIG.Version}`;
+    const rareUrl = `${buildImageUrl('SFSA/4.7线下稀有.jpg')}?v=${COS_CONFIG.Version}`;
     const voucherUrl = `${buildImageUrl('SFSA/代金活动.jpg')}?v=${COS_CONFIG.Version}`;
 
     if (rareImg) {
