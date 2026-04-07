@@ -51,7 +51,6 @@ var SPECIAL_SHOES_ITEMS = [
     { name: '末世鞋', path: 'shoes/末世鞋.gif' },
     { name: '武者鞋', path: 'shoes/武者鞋.gif' },
     { name: '滑板鞋', path: 'shoes/滑板鞋.gif' },
-    { name: '滑步鞋', path: 'shoes/滑步鞋.gif' },
     { name: '重力鞋', path: 'shoes/重力鞋.gif' }
 ];
 
@@ -3301,26 +3300,19 @@ function loadClubImage() {
     console.log('俱乐部图片已加载:', imageUrlWithTimestamp);
 }
 
-// 加载全国联赛图片（COS：SFSA/线下稀有.jpg + SFSA/代金活动.jpg）
+// 加载全国联赛宣传图（COS：SFSA/全国联赛.jpg）
 function loadEventsLeagueImage() {
-    const rareImg = document.getElementById('events-league-image-rare');
-    const voucherImg = document.getElementById('events-league-image-voucher');
-    if (!rareImg && !voucherImg) return;
-
-    const rareUrl = `${buildImageUrl('SFSA/线下稀有.jpg')}?v=${COS_CONFIG.Version}`;
-    const voucherUrl = `${buildImageUrl('SFSA/代金活动.jpg')}?v=${COS_CONFIG.Version}`;
-
-    if (rareImg) {
-        rareImg.src = rareUrl;
-        rareImg.alt = '线下稀有';
-    }
-
-    if (voucherImg) {
-        voucherImg.src = voucherUrl;
-        voucherImg.alt = '代金活动';
-    }
-
-    console.log('全国联赛图片已加载:', { rareUrl, voucherUrl });
+    const leagueImg = document.getElementById('events-league-image');
+    if (!leagueImg) return;
+    
+    const imagePath = 'SFSA/全国联赛.jpg';
+    const imageUrl = buildImageUrl(imagePath);
+    const imageUrlWithTimestamp = `${imageUrl}?v=${COS_CONFIG.Version}`;
+    
+    leagueImg.src = imageUrlWithTimestamp;
+    leagueImg.alt = '全国联赛';
+    
+    console.log('全国联赛图片已加载:', imageUrlWithTimestamp);
 }
 
 // 加载FS单字图片

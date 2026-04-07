@@ -1576,17 +1576,9 @@ html {
     margin: 20px 0;
 }
 
-.events-league-grid {
-    width: 100%;
-    max-width: 980px;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 18px;
-}
-
 .events-league-image {
     width: 100%;
-    max-width: 100%;
+    max-width: 560px;
     height: auto;
     border-radius: 12px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
@@ -1596,6 +1588,30 @@ html {
 
 .events-league-image:hover {
     transform: scale(1.02);
+}
+
+.events-league-tip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 10px 16px;
+    max-width: 560px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #64748b;
+    background: #f1f5f9;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.events-league-tip i {
+    color: #0ea5e9;
+    font-size: 15px;
+    flex-shrink: 0;
 }
 
 .events-topic-btn {
@@ -2904,11 +2920,6 @@ html {
         max-width: 100%;
         border-radius: 8px;
     }
-
-    .events-league-grid {
-        grid-template-columns: 1fr;
-        gap: 12px;
-    }
     
     .club-image-container,
     .fs-single-image-container,
@@ -2923,6 +2934,12 @@ html {
         width: 100%;
         max-width: 360px;
         box-sizing: border-box;
+    }
+    
+    .events-league-tip {
+        font-size: 13px;
+        padding: 8px 12px;
+        max-width: 100%;
     }
     
 }
