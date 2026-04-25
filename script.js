@@ -17,6 +17,87 @@ var COS_CONFIG = {
 // 当前选中的代次
 var currentGeneration = '9';
 
+// —— 页面地址（Hash 路由，单页可对应不同地址以便生成二维码，纯静态、无需 Nginx 改写）
+// 子页示例：https://www.laofeifs.com/#/gallery  超特图鉴
+//  https://www.laofeifs.com/#/characters/9  或 #/characters/3_5  超特动作与对应代次
+//  其它：#/ranking 职业排名  #/comparison 超特对比  #/special-shoes  #/images 老非教程  #/computer-config
+//  #/club  #/events  #/fs-single
+// 首页：建议二维码使用 https://www.laofeifs.com/（无 #）；在站内点「首页」会清掉子页 hash
+var appCurrentSection = 'home';
+var _appRouteSyncSuppressed = false;
+var APP_ROUTE_SECTIONS = { 'home': 1, 'gallery': 1, 'characters': 1, 'ranking': 1, 'comparison': 1, 'special-shoes': 1, 'images': 1, 'computer-config': 1, 'club': 1, 'events': 1, 'fs-single': 1, 'account-recommend': 1, 'account': 1, 'admin': 1 };
+
+function appParseHashRoute() {
+    var h = (location.hash || '').replace(/^#/, '');
+    if (!h || h === '/') { return { section: 'home' }; }
+    var parts = h.replace(/^\//, '').split('/').filter(function (p) { return p; });
+    if (parts.length === 0) { return { section: 'home' }; }
+    if (parts[0] === 'characters' && parts[1] !== undefined && String(parts[1]) !== '') {
+        return { section: 'characters', generation: String(parts[1]) };
+    }
+    return { section: parts[0] };
+}
+
+function appUpdateUrlHash() {
+    if (_appRouteSyncSuppressed) { return; }
+    if (appCurrentSection === 'home') {
+        if (location.hash) {
+            try {
+                history.replaceState(null, '', location.pathname + location.search);
+            } catch (e) { /* 忽略 */ }
+        }
+        return;
+    }
+    var p = '/' + appCurrentSection;
+    if (appCurrentSection === 'characters') {
+        p += '/' + String(currentGeneration);
+    }
+    var newHash = '#' + p;
+    if (location.hash !== newHash) {
+        try {
+            history.replaceState(null, '', location.pathname + location.search + newHash);
+        } catch (e) { /* 忽略 */ }
+    }
+}
+
+function appApplyRouteFromHash() {
+    var r = appParseHashRoute();
+    if (!r || !r.section) { return; }
+    var sec = r.section;
+    if (!APP_ROUTE_SECTIONS[sec]) {
+        sec = 'home';
+    }
+    _appRouteSyncSuppressed = true;
+    try {
+        if (sec === 'characters' && r.generation) {
+            currentGeneration = r.generation;
+            var fbs = document.querySelectorAll('.filter-btn');
+            for (var fi = 0; fi < fbs.length; fi++) {
+                fbs[fi].classList.toggle('active', fbs[fi].getAttribute('data-generation') === r.generation);
+            }
+            if (typeof loadCharacters === 'function') {
+                loadCharacters(currentGeneration);
+            }
+            if (typeof loadGallery === 'function') {
+                loadGallery(currentGeneration);
+            }
+        }
+        if (sec === 'home') {
+            appCurrentSection = 'home';
+            switchSection('home');
+        } else if (typeof switchToSection === 'function') {
+            switchToSection(sec);
+        } else {
+            appCurrentSection = sec;
+            switchSection(sec);
+        }
+    } catch (err) {
+        console.error('appApplyRouteFromHash', err);
+    } finally {
+        _appRouteSyncSuppressed = false;
+    }
+}
+
 // 图片URL构建函数（优先使用CDN域名，减少流量费用）
 function buildImageUrl(imagePath) {
     return COS_CONFIG.CDNDomain + '/' + imagePath;
@@ -1521,15 +1602,22 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('4. 加载图鉴');
         loadGallery(currentGeneration);
         
-        // 默认显示首页
-        console.log('5. 设置默认页面为首页');
-        switchSection('home');
-        
-        // 默认隐藏筛选按钮（因为默认是home页面）
+        // 默认页面：无 hash 时首页；有 #/... 时按地址打开（便于各页单独做二维码）
+        console.log('5. 根据地址栏或默认首页');
         var filterContainer = document.querySelector('.filter-container');
-        if (filterContainer) {
-            filterContainer.style.display = 'none';
+        if (location.hash && String(location.hash).length > 1) {
+            appApplyRouteFromHash();
+        } else {
+            appCurrentSection = 'home';
+            switchSection('home');
+            if (filterContainer) {
+                filterContainer.style.display = 'none';
+            }
         }
+        
+        window.addEventListener('hashchange', function() {
+            appApplyRouteFromHash();
+        });
         
         console.log('5. 初始化排名');
         // 初始化职业排名功能
@@ -1771,6 +1859,9 @@ function initializeFilters() {
             currentGeneration = this.getAttribute('data-generation');
             loadCharacters(currentGeneration);
             loadGallery(currentGeneration);
+            if (appCurrentSection === 'characters' && typeof appUpdateUrlHash === 'function') {
+                appUpdateUrlHash();
+            }
         });
     }
 }
@@ -1829,6 +1920,11 @@ function switchSection(sectionName) {
     } else {
         // 其他页面隐藏筛选按钮
         filterContainer.style.display = 'none';
+    }
+
+    appCurrentSection = sectionName;
+    if (typeof appUpdateUrlHash === 'function') {
+        appUpdateUrlHash();
     }
 }
 
